@@ -1,0 +1,135 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { mobileTiresBrand } from "../../../brands";
+import servicesData from "../../../data/services.json";
+
+export async function getStaticPaths() {
+    const paths = [];
+    servicesData.forEach((category) => {
+        category.services.forEach((service) => {
+            paths.push({
+                params: { category: category.slug, service: service.slug },
+                props: { category, service },
+            });
+        });
+    });
+    return paths;
+}
+
+const { category, service } = Astro.props;
+const title = `${service.title} | Queens Mobile Tires`;
+const description = `Professional ${service.title} services in the Chicago area. We come to you for all your ${category.title.toLowerCase()} needs.`;
+---
+
+<BaseLayout brand={mobileTiresBrand} title={title}>
+    <div class="relative bg-white dark:bg-slate-900 py-24 sm:py-32">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-2xl lg:mx-0">
+                <p
+                    class="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400"
+                >
+                    <a href="/services/" class="hover:underline">Services</a> &rarr;
+                    <a
+                        href={`/services/${category.slug}/`}
+                        class="hover:underline">{category.title}</a
+                    >
+                </p>
+                <h1
+                    class="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
+                >
+                    {service.title}
+                </h1>
+                <p
+                    class="mt-6 text-xl leading-8 text-gray-700 dark:text-gray-300"
+                >
+                    Looking for {service.title}? Queens Mobile Tires brings the
+                    shop to you. access our professional {
+                        category.title.toLowerCase()
+                    } without leaving your home or office.
+                </p>
+            </div>
+
+            <div
+                class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:mt-10 lg:max-w-none lg:grid-cols-12"
+            >
+                <div class="relative lg:col-span-12">
+                    <div
+                        class="bg-gray-50 dark:bg-slate-800 rounded-2xl p-8 mb-8 border border-gray-200 dark:border-gray-700"
+                    >
+                        <h2
+                            class="text-2xl font-bold text-gray-900 dark:text-white mb-4"
+                        >
+                            Why Choose Our Mobile Service?
+                        </h2>
+                        <ul class="space-y-3 text-gray-600 dark:text-gray-300">
+                            <li class="flex gap-x-3">
+                                <svg
+                                    class="h-6 w-5 flex-none text-indigo-600"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.052l-4.5-6a.75.75 0 011.128-.968L8.14 13.809l7.512-9.656a.75.75 0 011.052-.143z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span
+                                    ><strong>Convenience:</strong> We come to your
+                                    location.</span
+                                >
+                            </li>
+                            <li class="flex gap-x-3">
+                                <svg
+                                    class="h-6 w-5 flex-none text-indigo-600"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.052l-4.5-6a.75.75 0 011.128-.968L8.14 13.809l7.512-9.656a.75.75 0 011.052-.143z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span
+                                    ><strong>Quality:</strong> Certified technicians
+                                    and professional equipment.</span
+                                >
+                            </li>
+                            <li class="flex gap-x-3">
+                                <svg
+                                    class="h-6 w-5 flex-none text-indigo-600"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.052l-4.5-6a.75.75 0 011.128-.968L8.14 13.809l7.512-9.656a.75.75 0 011.052-.143z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span
+                                    ><strong>Speed:</strong> Faster than waiting at
+                                    a traditional shop.</span
+                                >
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-10 flex items-center gap-x-6">
+                        <a
+                            href="/contact"
+                            class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            >Request Appointment</a
+                        >
+                        <a
+                            href="tel:847-925-1100"
+                            class="text-sm font-semibold leading-6 text-gray-900 dark:text-white"
+                            >Call Us <span aria-hidden="true">&rarr;</span></a
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</BaseLayout>

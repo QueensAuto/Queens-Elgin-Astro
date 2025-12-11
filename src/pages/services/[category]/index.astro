@@ -1,0 +1,68 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { mobileTiresBrand } from "../../../brands";
+import servicesData from "../../../data/services.json";
+
+export async function getStaticPaths() {
+    return servicesData.map((category) => ({
+        params: { category: category.slug },
+        props: { category },
+    }));
+}
+
+const { category } = Astro.props;
+const title = `${category.title} | Queens Mobile Tires`;
+const description = category.description;
+---
+
+<BaseLayout brand={mobileTiresBrand} title={title}>
+    <div class="bg-gray-50 dark:bg-slate-900 py-24 sm:py-32">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-2xl text-center">
+                <p
+                    class="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400"
+                >
+                    Services
+                </p>
+                <h2
+                    class="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
+                >
+                    {category.title}
+                </h2>
+                <p
+                    class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300"
+                >
+                    {description}
+                </p>
+            </div>
+            <div
+                class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 sm:mt-20 lg:max-w-none lg:grid-cols-3"
+            >
+                {
+                    category.services.map((service) => (
+                        <a
+                            href={`/services/${category.slug}/${service.slug}/`}
+                            class="flex flex-col gap-y-4 rounded-2xl bg-white dark:bg-slate-800 p-6 shadow-lg hover:shadow-xl transition-shadow ring-1 ring-gray-200 dark:ring-gray-700"
+                        >
+                            <h3 class="text-xl font-semibold leading-7 tracking-tight text-gray-900 dark:text-white">
+                                {service.title}
+                            </h3>
+                            <div class="text-sm font-semibold leading-6 text-indigo-600 dark:text-indigo-400 mt-auto">
+                                Learn More{" "}
+                                <span aria-hidden="true">&rarr;</span>
+                            </div>
+                        </a>
+                    ))
+                }
+            </div>
+            <div class="mt-10 flex justify-center">
+                <a
+                    href="/services/"
+                    class="text-sm font-semibold leading-6 text-gray-900 dark:text-white"
+                >
+                    <span aria-hidden="true">&larr;</span> Back to all services
+                </a>
+            </div>
+        </div>
+    </div>
+</BaseLayout>

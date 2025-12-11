@@ -456,10 +456,16 @@ html {
     /* Match header height (h-20) */
 }
 
+@media (min-width: 1024px) {
+    html {
+        font-size: 18px;
+    }
+}
+
 /* Skip to Content Link */
 .skip-to-content-link {
     position: absolute;
-    top: -40px;
+    top: -100px;
     left: 0;
     background-color: var(--color-queens-primary);
     color: white;

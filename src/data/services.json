@@ -1,0 +1,262 @@
+[
+    {
+        "id": "tire-services",
+        "slug": "tire-services",
+        "title": "Tire Services",
+        "description": "Complete tire care including sales, installation, and repair.",
+        "services": [
+            {
+                "slug": "new-tire-sales-installation",
+                "title": "New Tire Sales & Installation"
+            },
+            {
+                "slug": "flat-tire-repair",
+                "title": "Flat Tire Repair"
+            },
+            {
+                "slug": "tpms-service",
+                "title": "TPMS Service"
+            },
+            {
+                "slug": "tire-rotation",
+                "title": "Tire Rotation"
+            },
+            {
+                "slug": "tire-balancing",
+                "title": "Tire Balancing"
+            }
+        ]
+    },
+    {
+        "id": "brake-services",
+        "slug": "brake-services",
+        "title": "Brake Services",
+        "description": "Professional brake inspections, pad replacements, and fluid services.",
+        "services": [
+            {
+                "slug": "brake-system-inspection",
+                "title": "Brake System Inspection"
+            },
+            {
+                "slug": "brake-line-repair",
+                "title": "Brake Line Repair"
+            },
+            {
+                "slug": "brake-pad-replacement",
+                "title": "Brake Pad Replacement"
+            },
+            {
+                "slug": "abs-system-repair",
+                "title": "ABS System Repair"
+            },
+            {
+                "slug": "brake-fluid-service",
+                "title": "Brake Fluid Service"
+            }
+        ]
+    },
+    {
+        "id": "engine-services",
+        "slug": "engine-services",
+        "title": "Engine Services",
+        "description": "Full engine diagnostics, tune-ups, and repair services.",
+        "services": [
+            {
+                "slug": "engine-diagnostics-repair",
+                "title": "Engine Diagnostics & Repair"
+            },
+            {
+                "slug": "engine-tune-ups",
+                "title": "Engine Tune-Ups"
+            },
+            {
+                "slug": "spark-plug-replacement",
+                "title": "Spark Plug Replacement"
+            },
+            {
+                "slug": "fuel-system-service",
+                "title": "Fuel System Service"
+            },
+            {
+                "slug": "belt-hose-replacement",
+                "title": "Belt & Hose Replacement"
+            },
+            {
+                "slug": "timing-belt-replacement",
+                "title": "Timing Belt Replacement"
+            }
+        ]
+    },
+    {
+        "id": "steering-suspension",
+        "slug": "steering-suspension",
+        "title": "Steering & Suspension",
+        "description": "Comprehensive steering and suspension repairs for a smooth ride.",
+        "services": [
+            {
+                "slug": "tie-rod-end-replacement",
+                "title": "Tie Rod End Replacement"
+            },
+            {
+                "slug": "wheel-alignment",
+                "title": "Wheel Alignment"
+            },
+            {
+                "slug": "shock-strut-replacement",
+                "title": "Shock & Strut Replacement"
+            },
+            {
+                "slug": "power-steering-service",
+                "title": "Power Steering Service"
+            },
+            {
+                "slug": "ball-joint-replacement",
+                "title": "Ball Joint Replacement"
+            },
+            {
+                "slug": "suspension-system-repair",
+                "title": "Suspension System Repair"
+            }
+        ]
+    },
+    {
+        "id": "climate-control",
+        "slug": "climate-control",
+        "title": "Climate Control",
+        "description": "Heating and A/C services for your comfort.",
+        "services": [
+            {
+                "slug": "ac-repair-recharge",
+                "title": "AC Repair & Recharge"
+            },
+            {
+                "slug": "ac-compressor-replacement",
+                "title": "AC Compressor Replacement"
+            },
+            {
+                "slug": "cooling-system-flush",
+                "title": "Cooling System Flush"
+            },
+            {
+                "slug": "car-heating-service",
+                "title": "Car Heating Service"
+            },
+            {
+                "slug": "thermostat-replacement",
+                "title": "Thermostat Replacement"
+            },
+            {
+                "slug": "radiator-service",
+                "title": "Radiator Service"
+            }
+        ]
+    },
+    {
+        "id": "maintenance-services",
+        "slug": "maintenance-services",
+        "title": "Maintenance Services",
+        "description": "Routine maintenance to keep your vehicle running its best.",
+        "services": [
+            {
+                "slug": "engine-oil-change-elgin-il",
+                "title": "Engine Oil Change"
+            },
+            {
+                "slug": "multi-point-inspections",
+                "title": "Multi-Point Inspections"
+            },
+            {
+                "slug": "filter-replacement",
+                "title": "Filter Replacement"
+            },
+            {
+                "slug": "fluid-level-checks-top-offs",
+                "title": "Fluid Level Checks & Top-Offs"
+            }
+        ]
+    },
+    {
+        "id": "electrical-systems",
+        "slug": "electrical-systems",
+        "title": "Electrical Systems",
+        "description": "Diagnosis and repair of vehicle electrical components.",
+        "services": [
+            {
+                "slug": "battery-service",
+                "title": "Battery Service"
+            },
+            {
+                "slug": "battery-testing-replacement",
+                "title": "Battery Testing & Replacement"
+            },
+            {
+                "slug": "alternator-repair-or-replacement",
+                "title": "Alternator Repair or Replacement"
+            },
+            {
+                "slug": "fuse-relay-service",
+                "title": "Fuse & Relay Service"
+            },
+            {
+                "slug": "electrical-diagnostics",
+                "title": "Electrical Diagnostics"
+            },
+            {
+                "slug": "starter-repair-replacement",
+                "title": "Starter Repair & Replacement"
+            },
+            {
+                "slug": "light-repair-replacement",
+                "title": "Light Repair & Replacement"
+            }
+        ]
+    },
+    {
+        "id": "transmission-services",
+        "slug": "transmission-services",
+        "title": "Transmission Services",
+        "description": "Expert transmission fluid, repair, and replacement services.",
+        "services": [
+            {
+                "slug": "transmission-fluid-service",
+                "title": "Transmission Fluid Service"
+            },
+            {
+                "slug": "transmission-repair-replacement",
+                "title": "Transmission Repair & Replacement"
+            },
+            {
+                "slug": "clutch-repair",
+                "title": "Clutch Repair"
+            },
+            {
+                "slug": "differential-service",
+                "title": "Differential Service"
+            }
+        ]
+    },
+    {
+        "id": "additional-services",
+        "slug": "additional-services",
+        "title": "Additional Services",
+        "description": "Other essential automotive services we offer.",
+        "services": [
+            {
+                "slug": "fleet-services",
+                "title": "Fleet Services"
+            },
+            {
+                "slug": "computer-diagnostics",
+                "title": "Computer Diagnostics"
+            },
+            {
+                "slug": "catalytic-converter-service",
+                "title": "Catalytic Converter Service"
+            },
+            {
+                "slug": "exhaust-system-repair",
+                "title": "Exhaust System Repair"
+            }
+        ]
+    }
+]
