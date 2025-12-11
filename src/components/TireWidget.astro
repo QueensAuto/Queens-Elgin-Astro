@@ -1,0 +1,86 @@
+---
+// src/components/TireWidget.astro
+// This is a UI Shell. Later, we can connect the <form> action to your real search URL.
+---
+
+<section class="relative py-24 overflow-hidden bg-[#020617]">
+  {/* Subtle teal/cyan glow on the right side to match reference */}
+  <div
+    class="absolute top-0 right-0 w-1/2 h-full opacity-30 pointer-events-none"
+    style="background: radial-gradient(ellipse at 80% 50%, rgba(34, 211, 238, 0.15) 0%, transparent 60%);"
+  >
+  </div>
+
+  {/* The "Glow" behind the phone area */}
+  <div
+    class="absolute top-1/2 right-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-cyan-500/10 blur-[100px] rounded-full pointer-events-none"
+  >
+  </div>
+
+  <div class="container mx-auto px-4 max-w-7xl relative z-10">
+    <div class="flex flex-col lg:flex-row items-center gap-16 justify-center">
+      {/* LEFT: The Pitch */}
+      <div class="lg:w-5/12 text-center lg:text-left">
+        <div
+          class="inline-block bg-queens-secondary/10 border border-queens-secondary/20 rounded-full px-4 py-1 text-queens-secondary text-sm font-bold tracking-wider uppercase mb-6"
+        >
+          Mobile Service
+        </div>
+        <h2
+          class="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight"
+        >
+          Don't Go to the Shop.<br />
+          <span class="text-queens-secondary">We Bring the Shop to You.</span>
+        </h2>
+        <p class="text-lg text-gray-400 mb-8 leading-relaxed">
+          Skip the waiting room. Select your vehicle, pick your tires, and we
+          install them in your driveway while you watch Netflix.
+        </p>
+
+        <ul class="space-y-4 text-left inline-block">
+          <li class="flex items-center gap-3 text-white font-medium">
+            <span
+              class="w-8 h-8 rounded-full bg-queens-secondary/20 text-queens-secondary flex items-center justify-center"
+              >✓</span
+            >
+            Order from your phone
+          </li>
+          <li class="flex items-center gap-3 text-white font-medium">
+            <span
+              class="w-8 h-8 rounded-full bg-queens-secondary/20 text-queens-secondary flex items-center justify-center"
+              >✓</span
+            >
+            Installed at Home or Work
+          </li>
+          <li class="flex items-center gap-3 text-white font-medium">
+            <span
+              class="w-8 h-8 rounded-full bg-queens-secondary/20 text-queens-secondary flex items-center justify-center"
+              >✓</span
+            >
+            Competitive Online Pricing
+          </li>
+        </ul>
+      </div>
+
+      {/* RIGHT: The "App" Interface (Static Image) */}
+      <div class="lg:w-5/12 w-full max-w-md flex justify-center">
+        <img
+          src="/images/tireconnect-iphone.webp"
+          alt="TireConnect App on iPhone"
+          class="w-1/2 h-auto drop-shadow-2xl hover:scale-[1.02] transition duration-500"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Hide scrollbar for the phone screen */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

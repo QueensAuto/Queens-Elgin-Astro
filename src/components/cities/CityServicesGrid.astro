@@ -1,0 +1,108 @@
+---
+/**
+ * CityServicesGrid - Reusable component for displaying city services
+ * Matches the premium dark design with icon pairs and card layout
+ */
+
+interface Service {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  cityName: string;
+  services: Service[];
+}
+
+const { cityName, services } = Astro.props;
+
+// Icon pairs for each service card (two icons per card as shown in design)
+const iconPairs = [
+  // Card 1: Tire + Gear (Doorstep Tire Delivery & Fitting)
+  [
+    `<svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"/>
+      <circle cx="12" cy="12" r="5"/>
+      <circle cx="12" cy="12" r="1"/>
+    </svg>`,
+    `<svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M12 1v4M12 19v4M1 12h4M19 12h4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+    </svg>`
+  ],
+  // Card 2: Wrench + Van (Home-Based Flat Tire Repair)
+  [
+    `<svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+    </svg>`,
+    `<svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+      <rect x="1" y="6" width="15" height="10" rx="2"/>
+      <path d="M16 8h3l3 4v4h-6V8z"/>
+      <circle cx="6" cy="18" r="2"/>
+      <circle cx="18" cy="18" r="2"/>
+    </svg>`
+  ],
+  // Card 3: Van + Key (Complete Mobile Garage)
+  [
+    `<svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+      <rect x="1" y="6" width="15" height="10" rx="2"/>
+      <path d="M16 8h3l3 4v4h-6V8z"/>
+      <circle cx="6" cy="18" r="2"/>
+      <circle cx="18" cy="18" r="2"/>
+    </svg>`,
+    `<svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+      <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+    </svg>`
+  ],
+  // Card 4: Checkmark + Droplet (Scheduled Leak Repair)
+  [
+    `<svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M9 12l2 2 4-4"/>
+    </svg>`,
+    `<svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+      <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+    </svg>`
+  ]
+];
+---
+
+<section class="relative py-20 lg:py-28 overflow-hidden bg-gradient-to-br from-[#0a0f1a] via-[#0d1526] to-[#111b2e]">
+  <!-- Subtle glow effects -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-queens-secondary/5 rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-queens-light/5 rounded-full blur-[100px]"></div>
+  </div>
+
+  <div class="container mx-auto px-6 max-w-6xl relative z-10">
+    <!-- Section Header -->
+    <!-- Section Header -->
+    <h2 class="text-3xl md:text-4xl lg:text-5xl font-sans font-bold text-white text-center mb-16 tracking-tight">
+      Services We Offer In <span class="font-serif italic font-normal text-queens-secondary">{cityName}</span>
+    </h2>
+
+    <!-- Services Grid -->
+    <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
+      {services.map((service, index) => (
+        <div class="group relative rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm p-8 lg:p-10 hover:border-white/20 hover:bg-white/[0.04] transition-all duration-500">
+          
+          <!-- Icon Pair -->
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center text-white opacity-80 group-hover:border-queens-secondary/50 group-hover:text-queens-secondary transition-all duration-300">
+              <Fragment set:html={iconPairs[index % iconPairs.length][0]} />
+            </div>
+            <div class="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center text-white opacity-80 group-hover:border-queens-secondary/50 group-hover:text-queens-secondary transition-all duration-300">
+              <Fragment set:html={iconPairs[index % iconPairs.length][1]} />
+            </div>
+          </div>
+
+          <!-- Title -->
+          <h3 class="text-xl lg:text-2xl font-bold text-white mb-4" set:html={service.title} />
+
+          <!-- Description -->
+          <p class="text-white opacity-60 leading-relaxed text-base lg:text-lg" set:html={service.text} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

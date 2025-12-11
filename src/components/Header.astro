@@ -1,0 +1,408 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+import type { BrandConfig } from "../brands";
+
+const { brand } = Astro.props as { brand: BrandConfig };
+
+const nameParts = brand.name.split(" ");
+const firstName = nameParts[0];
+const secondName = nameParts.length > 1 ? nameParts[1] : "";
+const restName = nameParts.length > 2 ? nameParts.slice(2).join(" ") : "";
+---
+
+<header
+  id="main-header"
+  class="sticky top-0 z-50 transition-all duration-300 bg-white border-b border-gray-100 shadow-sm dark:bg-slate-900 dark:border-gray-800"
+>
+  <div
+    class="container mx-auto px-6 max-w-7xl h-20 flex justify-between items-center"
+  >
+    <!-- Logo -->
+    <a href={`/`} class="group flex items-center gap-2">
+      {
+        brand.logoPath && brand.logoPath.includes("New-Logo") ? (
+          <>
+            <img
+              src={brand.logoPath}
+              alt={brand.name}
+              class={`h-10 w-auto object-contain ${brand.logoPathWhite ? "dark:hidden" : ""}`}
+            />
+            {brand.logoPathWhite && (
+              <img
+                src={brand.logoPathWhite}
+                alt={brand.name}
+                class="h-10 w-auto object-contain hidden dark:block"
+              />
+            )}
+          </>
+        ) : (
+          <span class="text-2xl font-black italic tracking-tighter uppercase text-queens-primary dark:text-gray-100 group-hover:text-queens-secondary transition-colors duration-300">
+            {firstName}{" "}
+            <span class="text-queens-secondary group-hover:text-queens-primary transition-colors duration-300">
+              {secondName}
+            </span>
+          </span>
+        )
+      }
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-8">
+      <a
+        href={`/`}
+        data-astro-prefetch="hover"
+        class="text-sm font-medium hover:text-queens-secondary transition-colors uppercase tracking-wide dark:text-gray-300 dark:hover:text-queens-secondary"
+        >Home</a
+      >
+      <a
+        href={`/buy-new-tires`}
+        data-astro-reload
+        class="text-sm font-medium hover:text-queens-secondary transition-colors uppercase tracking-wide dark:text-gray-300 dark:hover:text-queens-secondary"
+        >Find New Tires</a
+      >
+      <a
+        href={`/tire-installation`}
+        data-astro-prefetch="hover"
+        class="text-sm font-medium hover:text-queens-secondary transition-colors uppercase tracking-wide dark:text-gray-300 dark:hover:text-queens-secondary"
+        >Schedule Install</a
+      >
+      <a
+        href={`/about`}
+        data-astro-prefetch="hover"
+        class="text-sm font-medium hover:text-queens-secondary transition-colors uppercase tracking-wide dark:text-gray-300 dark:hover:text-queens-secondary"
+        >About</a
+      >
+      <a
+        href={`/faq`}
+        data-astro-prefetch="hover"
+        class="text-sm font-medium hover:text-queens-secondary transition-colors uppercase tracking-wide dark:text-gray-300 dark:hover:text-queens-secondary"
+        >FAQ</a
+      >
+    </nav>
+
+    <!-- Theme Toggle & Mobile Menu -->
+    <div class="flex items-center gap-4">
+      <ThemeToggle />
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-button"
+        class="md:hidden text-queens-primary hover:text-queens-secondary dark:text-gray-100 dark:hover:text-queens-secondary"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-8 h-8"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Menu Overlay (Outside header to avoid stacking context issues) -->
+<div id="mobile-menu" class="fixed inset-0 z-[100] hidden md:hidden">
+  <!-- Backdrop -->
+  <div
+    id="mobile-menu-backdrop"
+    class="absolute inset-0 bg-black/20 backdrop-blur-sm"
+  >
+  </div>
+
+  <!-- Menu Panel (Floating Popup Style) -->
+  <div
+    class="absolute left-4 top-4 bottom-4 w-[280px] bg-white rounded-3xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] flex flex-col overflow-hidden"
+  >
+    <!-- Close Button -->
+    <button
+      id="mobile-menu-close"
+      class="absolute top-4 left-4 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="2"
+        stroke="currentColor"
+        class="w-5 h-5 text-gray-600"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <!-- Brand Header -->
+    <div class="pt-20 px-6 pb-6 border-b border-gray-100">
+      <div class="flex items-center gap-3">
+        {
+          brand.logoPath && brand.logoPath.includes("New-Logo") ? (
+            <>
+              <img
+                src={brand.logoPath}
+                alt={brand.name}
+                class={`h-10 w-auto object-contain ${brand.logoPathWhite ? "dark:hidden" : ""}`}
+              />
+              {brand.logoPathWhite && (
+                <img
+                  src={brand.logoPathWhite}
+                  alt={brand.name}
+                  class="h-10 w-auto object-contain hidden dark:block"
+                />
+              )}
+            </>
+          ) : (
+            <>
+              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-queens-secondary to-queens-light flex items-center justify-center">
+                <span class="text-white font-black text-lg">
+                  {firstName.charAt(0)}
+                </span>
+              </div>
+              <div>
+                <p class="font-bold text-queens-primary">
+                  {firstName} {secondName}
+                </p>
+              </div>
+            </>
+          )
+        }
+      </div>
+    </div>
+
+    <!-- Menu Items -->
+    <nav class="flex-1 py-4 px-2 overflow-y-auto">
+      <a
+        href={`/`}
+        data-astro-prefetch="hover"
+        class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-queens-secondary transition-colors group"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-5 h-5 text-gray-400 group-hover:text-queens-secondary transition-colors"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+          ></path>
+        </svg>
+        <span class="font-medium">Home</span>
+      </a>
+      <a
+        href={`/buy-new-tires`}
+        data-astro-reload
+        class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-queens-secondary transition-colors group"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-5 h-5 text-gray-400 group-hover:text-queens-secondary transition-colors"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+          ></path>
+        </svg>
+        <span class="font-medium">Find New Tires</span>
+      </a>
+      <a
+        href={`/tire-installation`}
+        data-astro-prefetch="hover"
+        class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-queens-secondary transition-colors group"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-5 h-5 text-gray-400 group-hover:text-queens-secondary transition-colors"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
+          ></path>
+        </svg>
+        <span class="font-medium">Schedule Install</span>
+      </a>
+      <a
+        href={`/faq`}
+        data-astro-prefetch="hover"
+        class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-queens-secondary transition-colors group"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-5 h-5 text-gray-400 group-hover:text-queens-secondary transition-colors"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
+          ></path>
+        </svg>
+        <span class="font-medium">FAQ</span>
+      </a>
+      <a
+        href={`/about`}
+        data-astro-prefetch="hover"
+        class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-queens-secondary transition-colors group"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-5 h-5 text-gray-400 group-hover:text-queens-secondary transition-colors"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
+          ></path>
+        </svg>
+        <span class="font-medium">About Us</span>
+      </a>
+    </nav>
+
+    <!-- CTA Button -->
+    <div class="p-6 border-t border-gray-100">
+      <a
+        href={`/buy-new-tires`}
+        data-astro-reload
+        class="btn-primary w-full text-center shadow-lg"
+      >
+        Shop Tires
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function setupHeader() {
+    const header = document.getElementById("main-header");
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const mobileMenuClose = document.getElementById("mobile-menu-close");
+    const mobileMenuBackdrop = document.getElementById("mobile-menu-backdrop");
+
+    if (!header || !mobileMenuButton || !mobileMenu) {
+      console.error("Header elements not found, aborting setup.");
+      return;
+    }
+
+    // --- Header Style on Scroll ---
+    const updateHeaderStyle = () => {
+      if (window.scrollY > 10) {
+        header.classList.remove(
+          "bg-white",
+          "dark:bg-slate-900",
+          "shadow-sm",
+          "border-gray-100",
+          "dark:border-gray-800",
+        );
+        header.classList.add(
+          "bg-white/80",
+          "dark:bg-slate-900/80",
+          "backdrop-blur-xl",
+          "shadow-md",
+          "border-transparent",
+        );
+      } else {
+        header.classList.add(
+          "bg-white",
+          "dark:bg-slate-900",
+          "shadow-sm",
+          "border-gray-100",
+          "dark:border-gray-800",
+        );
+        header.classList.remove(
+          "bg-white/80",
+          "dark:bg-slate-900/80",
+          "backdrop-blur-xl",
+          "shadow-md",
+          "border-transparent",
+        );
+      }
+    };
+
+    // --- Mobile Menu Functions ---
+    const openMobileMenu = () => {
+      mobileMenu.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    };
+
+    const closeMobileMenu = () => {
+      mobileMenu.classList.add("hidden");
+      document.body.style.overflow = "";
+    };
+
+    // --- Event Listener Cleanup & Setup ---
+    // Remove old listeners
+    window.removeEventListener("scroll", (window as any).__updateHeaderStyle);
+    mobileMenuButton.removeEventListener(
+      "click",
+      (window as any).__openMobileMenu,
+    );
+    mobileMenuClose?.removeEventListener(
+      "click",
+      (window as any).__closeMobileMenu,
+    );
+    mobileMenuBackdrop?.removeEventListener(
+      "click",
+      (window as any).__closeMobileMenu,
+    );
+
+    // Store references
+    (window as any).__updateHeaderStyle = updateHeaderStyle;
+    (window as any).__openMobileMenu = openMobileMenu;
+    (window as any).__closeMobileMenu = closeMobileMenu;
+
+    // Add listeners
+    window.addEventListener("scroll", (window as any).__updateHeaderStyle);
+    mobileMenuButton.addEventListener(
+      "click",
+      (window as any).__openMobileMenu,
+    );
+    mobileMenuClose?.addEventListener(
+      "click",
+      (window as any).__closeMobileMenu,
+    );
+    mobileMenuBackdrop?.addEventListener(
+      "click",
+      (window as any).__closeMobileMenu,
+    );
+
+    // Close menu when clicking a nav link
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closeMobileMenu);
+    });
+
+    // Initial style check
+    updateHeaderStyle();
+  }
+
+  setupHeader();
+  document.addEventListener("astro:page-load", setupHeader);
+</script>

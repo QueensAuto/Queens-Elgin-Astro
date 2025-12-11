@@ -1,0 +1,204 @@
+---
+// src/components/ServicesHome.astro
+import type { BrandConfig } from "../brands";
+import { mobileTiresBrand } from "../brands";
+
+const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
+---
+
+<section class="py-24 bg-white relative overflow-hidden">
+  <div
+    class="absolute -left-20 top-40 w-64 h-64 bg-queens-secondary/5 rounded-full blur-3xl pointer-events-none"
+  >
+  </div>
+
+  <div class="container mx-auto px-4 max-w-7xl">
+    {/* HEADER: Focus on Retail + Convenience */}
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <div
+        class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-gray-600 text-xs font-bold uppercase tracking-widest mb-4"
+      >
+        <span class="w-2 h-2 rounded-full bg-queens-secondary"></span>
+        Online Tire Retailer
+      </div>
+      <h2 class="text-4xl md:text-5xl font-extrabold text-queens-primary mb-6">
+        Buy Online.<br />
+        <span class="text-gray-400">Installed at Your Doorstep.</span>
+      </h2>
+      <p class="text-lg text-gray-600 leading-relaxed">
+        We are a mobile tire store. Browse thousands of brands, pick your set,
+        and our vans arrive ready to mount and balance them on the spot.
+      </p>
+    </div>
+
+    {/* BENTO GRID */}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* CARD 1: THE TIRE INVENTORY (Sales Focus) */}
+      <div
+        class="md:col-span-2 rounded-3xl p-8 shadow-2xl hover:shadow-queens-secondary/20 transition duration-500 group relative overflow-hidden border border-gray-800"
+        style="background: linear-gradient(135deg, #0D1B2A 0%, #0D1B2A 60%, #132F4C 100%);"
+      >
+        <div class="relative z-10">
+          <div
+            class="w-14 h-14 bg-gray-800 rounded-2xl flex items-center justify-center mb-6 text-queens-secondary group-hover:scale-110 transition duration-500"
+          >
+            {/* SHOPPING BAG ICON */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-7 h-7"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-3">
+            Huge Tire Inventory
+          </h3>
+          <p class="text-gray-400 mb-6 max-w-md">
+            We carry every major brand-Michelin, Goodyear, Continental, and
+            budget-friendly options. Our prices are competitive with the big box
+            stores, but our service comes to you.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span
+              class="px-3 py-1 bg-gray-800 rounded-lg text-xs font-bold text-gray-300 border border-gray-700"
+              >All Seasons</span
+            >
+            <span
+              class="px-3 py-1 bg-gray-800 rounded-lg text-xs font-bold text-gray-300 border border-gray-700"
+              >Performance</span
+            >
+            <span
+              class="px-3 py-1 bg-gray-800 rounded-lg text-xs font-bold text-gray-300 border border-gray-700"
+              >Off-Road</span
+            >
+            <span
+              class="px-3 py-1 bg-gray-800 rounded-lg text-xs font-bold text-gray-300 border border-gray-700"
+              >Winter</span
+            >
+          </div>
+        </div>
+        {/* Abstract "Store" Glow */}
+        <div
+          class="absolute right-0 top-0 w-64 h-64 bg-queens-secondary/10 rounded-full blur-3xl pointer-events-none translate-x-1/2 -translate-y-1/2"
+        >
+        </div>
+      </div>
+
+      {/* CARD 2: INSTALLATION */}
+      <div
+        class="bg-gray-50 border border-gray-100 rounded-3xl p-8 shadow-lg hover:shadow-2xl dark:shadow-queens-secondary/5 dark:hover:shadow-queens-secondary/20 transition duration-500 group"
+      >
+        <div
+          class="w-14 h-14 bg-queens-primary rounded-2xl flex items-center justify-center mb-6 text-white group-hover:bg-queens-secondary transition duration-300"
+        >
+          {/* WRENCH/INSTALL ICON */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-7 h-7"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"
+            ></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-queens-primary mb-2">
+          Professional Mounting
+        </h3>
+        <p class="text-gray-500 text-sm leading-relaxed">
+          Touchless tire changers protect your rims. We handle sizes up to 24",
+          including low-profile and run-flats.
+        </p>
+      </div>
+
+      {/* CARD 3: BALANCING */}
+      <div
+        class="bg-gray-50 border border-gray-100 rounded-3xl p-8 shadow-lg hover:shadow-2xl dark:shadow-queens-secondary/5 dark:hover:shadow-queens-secondary/20 transition duration-500 group"
+      >
+        <div
+          class="w-14 h-14 bg-queens-primary rounded-2xl flex items-center justify-center mb-6 text-white group-hover:bg-queens-secondary transition duration-300"
+        >
+          {/* SCALE ICON */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-7 h-7"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0012 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 01-2.031.352 5.988 5.988 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.971zm-16.5.52c.99-.203 1.99-.377 3-.52m0 0l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 01-2.031.352 5.988 5.988 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L5.25 4.971z"
+            ></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-queens-primary mb-2">
+          Laser Balancing
+        </h3>
+        <p class="text-gray-500 text-sm leading-relaxed">
+          State-of-the-art dynamic balancing ensures zero vibration at highway
+          speeds. Included with every install.
+        </p>
+      </div>
+
+      {/* CARD 4: TPMS (Replaces Rotation/Repair) */}
+      <div
+        class="md:col-span-2 bg-gray-50 border border-gray-100 rounded-3xl p-8 shadow-lg hover:shadow-2xl dark:shadow-queens-secondary/5 dark:hover:shadow-queens-secondary/20 transition duration-500 flex flex-col md:flex-row items-center gap-8 group"
+      >
+        <div class="flex-grow">
+          <div
+            class="w-14 h-14 bg-queens-primary rounded-2xl flex items-center justify-center mb-6 text-white group-hover:bg-queens-secondary transition duration-300"
+          >
+            {/* WIFI/SENSOR ICON */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-7 h-7"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-queens-primary mb-3">
+            TPMS & Valve Service
+          </h3>
+          <p class="text-gray-500">
+            We handle Tire Pressure Monitoring Systems (TPMS). Whether you need
+            a reset or a new sensor programmed, we have the tech on board to
+            clear that dashboard light.
+          </p>
+        </div>
+        <div class="flex-shrink-0">
+          <a
+            href={`/buy-new-tires`}
+            data-astro-reload
+            class="btn-primary shadow-lg"
+          >
+            Shop Tires
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

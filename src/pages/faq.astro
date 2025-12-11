@@ -1,0 +1,256 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GlobalCallToAction from "../components/GlobalCallToAction.astro";
+
+// FAQ Data
+const faqs = [
+  {
+    question: "How do I pay for your services?",
+    answer:
+      "For new tires and tire changeover you can pay right on our website. If you need custom work, please let us know by using our contact form or by calling us at (847) 925-1100.",
+  },
+  {
+    question: "What forms of payment do you take?",
+    answer:
+      "We accept credit card or debit card through Stripe, our secure payment gateway.",
+  },
+  {
+    question: "What's the average installation time?",
+    answer:
+      "On average, our technician takes between 15 to 20 minutes per tire. A full set of four tires typically takes about an hour to an hour and a half.",
+  },
+  {
+    question: "Do I need to be present at the time of installation?",
+    answer:
+      "You do not need to be present. Simply make sure to attach a picture of your vehicle for our technician and leave 6 feet of free space on both sides of the vehicle. <strong>Note:</strong> Some vehicles require a wheel lock key to remove the wheels. Without it, we cannot perform the work.",
+  },
+  {
+    question: "What happens if there is inclement weather?",
+    answer:
+      "The safety of our personnel and customers is extremely important to us. Should the weather impede us from doing our job safely, we will reschedule at your convenience at no extra charge.",
+  },
+  {
+    question: "What if you run into a complication and can't finish the job?",
+    answer:
+      "We will schedule a new time and date to finish the job at your complete satisfaction, at no additional cost to you.",
+  },
+  {
+    question: "Are there any hidden fees?",
+    answer:
+      "There are no hidden fees. However, in very rare occasions, a bolt or nut may be too tight and might break during removal. This can carry an extra cost that is out of our control, but we will always inform you before proceeding.",
+  },
+  {
+    question: "What if I need to reschedule my appointment?",
+    answer:
+      "We understand that unforeseen circumstances may occur. In those cases, we would be happy to reschedule or offer you a full refund.",
+  },
+  {
+    question: "Can I cancel my order?",
+    answer:
+      "Yes, if you need to cancel your appointment, please contact us at least 24 hours prior to your scheduled time by calling us at (847) 925-1100.",
+  },
+  {
+    question: "What areas do you serve?",
+    answer:
+      "We proudly serve the northwest Chicago suburbs including Elgin, Barrington, Crystal Lake, Gilberts, Algonquin, Fox River Grove, Carpentersville, and many more. Check our Locations page for the full list of cities we service.",
+  },
+  {
+    question: "What tire brands do you carry?",
+    answer:
+      "We carry all major tire brands including Michelin, Goodyear, Continental, Bridgestone, Pirelli, BFGoodrich, Firestone, and many more. Use our online tire finder to see what's available for your vehicle.",
+  },
+  {
+    question: "Do you offer tire disposal?",
+    answer:
+      "Yes! We take care of your old tires as part of our service. We dispose of them properly and in an environmentally responsible manner.",
+  },
+  {
+    question: "Can you service my business fleet?",
+    answer:
+      "Absolutely! We offer fleet services for businesses. Contact us directly to discuss your fleet needs and we can set up a customized service plan for your company.",
+  },
+];
+
+// Generate FAQ Schema
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer.replace(/<[^>]*>/g, ""), // Strip HTML for schema
+    },
+  })),
+};
+---
+
+<BaseLayout
+  title="FAQ | Queens Mobile Tires"
+  description="Find answers to frequently asked questions about Queens Mobile Tires mobile tire installation service, payments, scheduling, and more."
+>
+  <!-- FAQ Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <!-- Hero Section -->
+  <section class="relative py-20 lg:py-28 overflow-hidden">
+    <!-- Decorative Elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div
+        class="absolute top-1/4 right-1/4 w-96 h-96 bg-queens-secondary/10 rounded-full blur-[120px]"
+      >
+      </div>
+      <div
+        class="absolute bottom-1/4 left-1/4 w-80 h-80 bg-queens-light/10 rounded-full blur-[100px]"
+      >
+      </div>
+    </div>
+
+    <div class="container mx-auto px-6 max-w-4xl relative z-10 text-center">
+      <span
+        class="inline-block px-4 py-2 rounded-full bg-queens-secondary/10 dark:bg-white/10 backdrop-blur-sm text-queens-secondary text-sm font-medium mb-6 border border-queens-primary/10 dark:border-white/20"
+      >
+        Got Questions?
+      </span>
+      <h1
+        class="text-4xl md:text-5xl lg:text-6xl font-bold text-queens-primary dark:text-white leading-tight mb-6"
+      >
+        Frequently Asked<br />
+        <span class="font-serif italic font-normal text-queens-secondary"
+          >Questions</span
+        >
+      </h1>
+      <p
+        class="text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl mx-auto"
+      >
+        Everything you need to know about our mobile tire installation service.
+        Can't find your answer? Give us a call!
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ Accordion Section -->
+  <section class="py-20 lg:py-28 bg-white dark:bg-slate-900">
+    <div class="container mx-auto px-6 max-w-4xl">
+      <div class="space-y-4" id="faq-accordion">
+        {
+          faqs.map((faq, index) => (
+            <details class="group faq-details rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:!bg-transparent dark:!bg-none shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden dark:shadow-none">
+              <summary class="flex items-center justify-between gap-4 p-6 lg:p-8 text-left cursor-pointer list-none focus:outline-none hover:bg-gray-50 dark:hover:bg-white/5 transition-colors dark:!bg-transparent dark:!bg-none">
+                <span class="flex items-center gap-4">
+                  <span class="flex-shrink-0 w-10 h-10 rounded-xl bg-queens-secondary/10 text-queens-secondary font-bold flex items-center justify-center text-sm">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span class="text-lg lg:text-xl font-semibold text-queens-primary dark:text-gray-100 group-hover:text-queens-secondary transition-colors">
+                    {faq.question}
+                  </span>
+                </span>
+                <span class="flex-shrink-0 w-10 h-10 rounded-full bg-gray-100 dark:bg-white/10 group-hover:bg-queens-secondary/10 flex items-center justify-center transition-all duration-300 group-open:bg-queens-secondary group-open:text-white">
+                  <svg
+                    class="w-5 h-5 text-gray-500 dark:text-gray-400 group-hover:text-queens-secondary group-open:text-white transition-all duration-300 transform group-open:rotate-180"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </span>
+              </summary>
+              <div class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out group-open:grid-rows-[1fr]">
+                <div class="overflow-hidden">
+                  <div class="px-6 lg:px-8 pb-6 lg:pb-8">
+                    <div class="pl-14 border-l-2 border-queens-secondary/20 ml-5">
+                      <p
+                        class="text-gray-600 dark:text-gray-300 leading-relaxed text-lg"
+                        set:html={faq.answer}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 lg:py-28 bg-gray-50 dark:bg-slate-900/50">
+    <div class="container mx-auto px-6 max-w-4xl text-center">
+      <h2
+        class="text-3xl md:text-4xl font-bold text-queens-primary dark:text-white mb-6"
+      >
+        Still Have Questions?
+      </h2>
+      <p
+        class="text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto"
+      >
+        Our team is here to help. Give us a call or start shopping for your new
+        tires today.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a
+          href="tel:+18479251100"
+          class="inline-flex items-center gap-3 px-8 py-4 bg-white dark:bg-transparent border-2 border-queens-primary dark:border-queens-secondary text-queens-primary dark:text-queens-secondary font-bold rounded-full hover:bg-queens-primary hover:text-white dark:hover:bg-queens-secondary dark:hover:text-white transition-all duration-300 shadow-lg"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-width="2"
+              stroke-linecap="round"
+              d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+            ></path>
+          </svg>
+          Call (847) 925-1100
+        </a>
+        <GlobalCallToAction />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Removing default marker */
+  details > summary {
+    list-style: none;
+  }
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+</style>
+
+<script>
+  // Optional: Exclusive Accordion behavior (one open at a time)
+  // This uses name attribute if supported, or JS fallback
+  // Since name attribute on details is extremely new, we use simple JS.
+  function initExclusiveAccordion() {
+    const details = document.querySelectorAll(".faq-details");
+
+    details.forEach((targetDetail) => {
+      targetDetail.addEventListener("toggle", () => {
+        // @ts-ignore
+        if (targetDetail.open) {
+          details.forEach((d) => {
+            if (d !== targetDetail) {
+              d.removeAttribute("open");
+            }
+          });
+        }
+      });
+    });
+  }
+
+  initExclusiveAccordion();
+  document.addEventListener("astro:page-load", initExclusiveAccordion);
+</script>

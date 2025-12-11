@@ -1,0 +1,49 @@
+---
+interface Props {
+    badge?: string;
+    title: string;
+    subtitle?: string;
+    theme?: "light" | "dark";
+    size?: "default" | "small";
+}
+
+const {
+    badge,
+    title,
+    subtitle,
+    theme = "light",
+    size = "default",
+} = Astro.props;
+
+const isDark = theme === "dark";
+const isSmall = size === "small";
+---
+
+<div class={`text-center ${isSmall ? "mb-10" : "mb-16"}`}>
+    {
+        badge &&
+            (isDark ? (
+                <span class="inline-block px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-queens-secondary text-sm font-medium mb-6 border border-white/20">
+                    {badge}
+                </span>
+            ) : (
+                <span class="text-queens-secondary font-semibold text-sm uppercase tracking-wider">
+                    {badge}
+                </span>
+            ))
+    }
+    <h2
+        class={`font-bold tracking-tight ${isSmall ? "text-2xl" : "text-4xl md:text-5xl"} ${isDark ? "text-white mb-6" : "text-queens-primary mt-3 mb-6"}`}
+    >
+        <Fragment set:html={title} />
+    </h2>
+    {
+        subtitle && (
+            <p
+                class={`leading-relaxed max-w-3xl mx-auto ${isSmall ? "text-lg" : "text-xl"} ${isDark ? "text-white/70" : "text-gray-600"}`}
+            >
+                <Fragment set:html={subtitle} />
+            </p>
+        )
+    }
+</div>

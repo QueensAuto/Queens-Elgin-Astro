@@ -1,0 +1,938 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Job Details | Queens Mobile Tires">
+  <script type="application/ld+json" slot="head">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Tire Installation",
+      "provider": {
+        "@type": "AutomotiveBusiness",
+        "name": "Queens Mobile Tires"
+      }
+    }
+  </script>
+  <script type="application/ld+json" slot="head">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://queensmobiletires.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tire Installation",
+          "item": "https://queensmobiletires.com/tire-installation"
+        }
+      ]
+    }
+  </script>
+  <style is:global>
+    @keyframes pulse-qty {
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(59, 110, 174, 0.3);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 0 6px rgba(59, 110, 174, 0);
+        transform: scale(1.02);
+      }
+    }
+    .animate-pulse-qty {
+      animation: pulse-qty 0.8s ease-in-out 2;
+    }
+
+    /* Premium Dark Theme Card Styles */
+    .service-card {
+      position: relative;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(248, 250, 252, 0.9) 100%
+      );
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    :where(.dark, .dark *) .service-card,
+    .service-card:where(.dark, .dark *) {
+      background: linear-gradient(
+        135deg,
+        rgba(30, 41, 59, 0.95) 0%,
+        rgba(15, 23, 42, 0.9) 100%
+      ) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      backdrop-filter: blur(10px);
+    }
+
+    .service-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    :where(.dark, .dark *) .service-card:hover,
+    .service-card:hover:where(.dark, .dark *) {
+      box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.4);
+    }
+
+    .service-card.selected {
+      border: 2px solid #3b6eae !important;
+      box-shadow:
+        0 0 20px rgba(59, 110, 174, 0.3),
+        0 0 40px rgba(59, 110, 174, 0.1);
+    }
+
+    :where(.dark, .dark *) .service-card.selected,
+    .service-card.selected:where(.dark, .dark *) {
+      box-shadow:
+        0 0 30px rgba(59, 110, 174, 0.5),
+        0 0 60px rgba(59, 110, 174, 0.3) !important;
+    }
+
+    .service-card.selected::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, #3b6eae 0%, #60a5fa 100%);
+      border-radius: 4px 0 0 4px;
+    }
+
+    .addon-card.selected {
+      border: 2px solid #22c55e !important;
+      box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+    }
+
+    :where(.dark, .dark *) .addon-card.selected,
+    .addon-card.selected:where(.dark, .dark *) {
+      box-shadow:
+        0 0 30px rgba(34, 197, 94, 0.5),
+        0 0 60px rgba(34, 197, 94, 0.3) !important;
+    }
+
+    .addon-card.selected::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, #22c55e 0%, #4ade80 100%);
+      border-radius: 4px 0 0 4px;
+    }
+
+    /* Dark theme text colors */
+    :where(.dark, .dark *) .card-title,
+    .card-title:where(.dark, .dark *) {
+      color: #f1f5f9 !important;
+    }
+
+    :where(.dark, .dark *) .card-price,
+    .card-price:where(.dark, .dark *) {
+      color: #60a5fa !important;
+    }
+
+    :where(.dark, .dark *) .card-description,
+    .card-description:where(.dark, .dark *) {
+      color: #94a3b8 !important;
+    }
+
+    :where(.dark, .dark *) .addon-card .card-price,
+    .addon-card .card-price:where(.dark, .dark *) {
+      color: #4ade80 !important;
+    }
+
+    /* Form field styles for dark mode */
+    .form-field {
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      color: #1f2937;
+      transition: all 0.2s ease;
+    }
+
+    :where(.dark, .dark *) .form-field,
+    .form-field:where(.dark, .dark *) {
+      background: linear-gradient(
+        135deg,
+        rgba(30, 41, 59, 0.95) 0%,
+        rgba(15, 23, 42, 0.9) 100%
+      ) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      color: #f1f5f9 !important;
+    }
+
+    .form-field:focus {
+      border-color: #3b6eae !important;
+      box-shadow: 0 0 0 3px rgba(59, 110, 174, 0.2);
+    }
+
+    :where(.dark, .dark *) .form-field:focus,
+    .form-field:focus:where(.dark, .dark *) {
+      border-color: #3b6eae !important;
+      box-shadow: 0 0 15px rgba(59, 110, 174, 0.3) !important;
+    }
+
+    /* Section title in dark mode */
+    :where(.dark, .dark *) .section-title,
+    .section-title:where(.dark, .dark *) {
+      color: #f1f5f9 !important;
+    }
+
+    :where(.dark, .dark *) .field-label,
+    .field-label:where(.dark, .dark *) {
+      color: #94a3b8 !important;
+    }
+  </style>
+  <div class="min-h-screen bg-gray-100 py-8 font-sans">
+    <!-- Progress Steps -->
+    <div class="container mx-auto max-w-4xl mb-8 px-4">
+      <div
+        class="flex justify-between items-start text-xs font-semibold uppercase tracking-wide"
+      >
+        <!-- Step 1: Current -->
+        <div class="flex flex-col items-center gap-2 text-[#3b6eae]">
+          <div
+            class="w-10 h-10 rounded-full bg-[#3b6eae] text-white font-bold flex items-center justify-center shadow-lg ring-4 ring-[#3b6eae]/30"
+          >
+            1
+          </div>
+          <span class="font-bold">Job Details</span>
+        </div>
+
+        <!-- Connector Line -->
+        <div class="flex-1 h-1 bg-gray-300 self-center mt-[-12px] mx-2 rounded">
+        </div>
+
+        <!-- Step 2: Future -->
+        <div class="flex flex-col items-center gap-2 text-gray-400">
+          <div
+            class="w-10 h-10 rounded-full border-2 border-gray-300 bg-white text-gray-400 font-bold flex items-center justify-center"
+          >
+            2
+          </div>
+          <span>Date & Time</span>
+        </div>
+
+        <!-- Connector Line -->
+        <div class="flex-1 h-1 bg-gray-300 self-center mt-[-12px] mx-2 rounded">
+        </div>
+
+        <!-- Step 3: Future -->
+        <div class="flex flex-col items-center gap-2 text-gray-400">
+          <div
+            class="w-10 h-10 rounded-full border-2 border-gray-300 bg-white text-gray-400 font-bold flex items-center justify-center"
+          >
+            3
+          </div>
+          <span>Your Details</span>
+        </div>
+
+        <!-- Connector Line -->
+        <div class="flex-1 h-1 bg-gray-300 self-center mt-[-12px] mx-2 rounded">
+        </div>
+
+        <!-- Step 4: Future -->
+        <div class="flex flex-col items-center gap-2 text-gray-400">
+          <div
+            class="w-10 h-10 rounded-full border-2 border-gray-300 bg-white text-gray-400 font-bold flex items-center justify-center"
+          >
+            4
+          </div>
+          <span>Review</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Card -->
+    <div
+      class="container mx-auto max-w-3xl bg-white rounded-lg shadow-xl overflow-hidden mb-12"
+    >
+      <!-- Card Header -->
+      <div class="border-b border-gray-200 p-6 flex items-center gap-4">
+        <a href="#" class="text-gray-400 hover:text-gray-600 transition">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path>
+          </svg>
+        </a>
+        <h1 class="text-2xl font-black text-[#1e3a8a] uppercase tracking-wide">
+          Appointment Details
+        </h1>
+      </div>
+
+      <div class="p-8 bg-white">
+        <p class="text-sm text-gray-500 mb-8">
+          Please choose from our services menu below and enter your vehicle
+          information.
+        </p>
+
+        <div class="h-px bg-gray-200 my-8"></div>
+
+        <!-- Services Form -->
+        <form
+          class="space-y-6"
+          x-data="{ 
+          selectedService: 'mount-balance',
+          mountQty: 1,
+          tpmsQty: 1,
+          sensorQty: 1,
+          disposalQty: 1,
+          addonTpms: false,
+          addonSensor: false,
+          addonDisposal: false,
+          vehicleYear: '',
+          vehicleMake: '',
+          vehicleModel: '',
+          vehicleColor: '',
+          vehiclePlate: '',
+          isLoading: false,
+          pulseMountQty: false,
+          pulseTpmsQty: false,
+          pulseSensorQty: false,
+          pulseDisposalQty: false,
+          triggerPulse(target) {
+            this[target] = false;
+            setTimeout(() => { this[target] = true; }, 10);
+            setTimeout(() => { this[target] = false; }, 1300);
+          },
+          get mountPrice() {
+            const prices = {
+              1: '149.99',
+              2: '169.97',
+              3: '204.96',
+              4: '224.95',
+              5: '274.94',
+              6: '309.93'
+            };
+            return prices[this.mountQty] || '0.00';
+          },
+          get tpmsPrice() {
+            return (9.99 * this.tpmsQty).toFixed(2);
+          },
+          get sensorPrice() {
+            return (99.00 * this.sensorQty).toFixed(2);
+          },
+          get disposalPrice() {
+            return (4.95 * this.disposalQty).toFixed(2);
+          },
+          async submitForm() {
+            if (!this.selectedService) return;
+            this.isLoading = true;
+
+            const payload = {
+              service: this.selectedService,
+              vehicle: {
+                year: this.vehicleYear,
+                make: this.vehicleMake,
+                model: this.vehicleModel,
+                color: this.vehicleColor,
+                plate: this.vehiclePlate
+              },
+              quantities: {
+                mount: this.mountQty,
+                tpms: this.addonTpms ? this.tpmsQty : 0,
+                sensor: this.addonSensor ? this.sensorQty : 0,
+                disposal: this.addonDisposal ? this.disposalQty : 0
+              },
+              costs: {
+                mount: this.mountPrice,
+                tpms: this.addonTpms ? this.tpmsPrice : '0.00',
+                sensor: this.addonSensor ? this.sensorPrice : '0.00',
+                disposal: this.addonDisposal ? this.disposalPrice : '0.00'
+              },
+              selections: {
+                tpms: this.addonTpms,
+                sensor: this.addonSensor,
+                disposal: this.addonDisposal
+              }
+            };
+
+            // Save to localStorage for the next steps
+            localStorage.setItem('jobDetails', JSON.stringify(payload));
+
+            try {
+              await fetch('https://n8n.queensautoservices.com/webhook-test/31e8c289-45f1-44f0-abbf-2b47f4bafb69', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload)
+              });
+            } catch (error) {
+              console.error('Webhook error (non-blocking):', error);
+            }
+
+            // Always navigate to the next step
+            window.location.href = '/schedule-datetime';
+          }
+        }"
+        >
+          <!-- Mount & Balance with Quantity -->
+          <label class="group relative block cursor-pointer">
+            <input
+              type="radio"
+              name="service"
+              value="mount-balance"
+              class="peer sr-only"
+              x-model="selectedService"
+              @click="triggerPulse('pulseMountQty')"
+            />
+            <div
+              class="service-card p-5 rounded-xl overflow-hidden"
+              :class="selectedService === 'mount-balance' ? 'selected' : ''"
+            >
+              <div class="flex justify-between items-start mb-2">
+                <span class="card-title font-bold text-gray-800 text-sm"
+                  >Mount, Balance & Installation <span x-text="mountQty"></span> Customer
+                  Supplied Tire<span x-show="mountQty > 1">s</span></span
+                >
+                <span
+                  class="card-price font-bold text-[#3b6eae] text-sm"
+                  x-text="'$' + mountPrice"></span>
+              </div>
+              <p
+                class="card-description text-xs text-gray-500 leading-relaxed mb-4"
+              >
+                A Mobile Certified Tire Technician will perform the proper
+                installation of your supplied tires using the latest equipment.
+                Includes: Touch-less Mounting, Balancing, Installation, Hand
+                Torque Lug Nuts. All Tires set to pressure specifications. TPMS
+                reset. Does NOT include disposal of old tires.
+              </p>
+
+              <!-- Quantity Selector -->
+              <div
+                class="flex items-center gap-3 bg-white p-1.5 rounded border border-gray-200 w-fit shadow-sm"
+                :class="{ 'animate-pulse-qty': pulseMountQty }"
+              >
+                <span
+                  class="text-[10px] font-bold text-gray-400 uppercase tracking-wider px-1"
+                  >Qty</span
+                >
+                <div class="flex items-center gap-2">
+                  <button
+                    type="button"
+                    @click="if(mountQty > 1) mountQty--"
+                    class="w-6 h-6 rounded bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      class="w-4 h-4"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                  </button>
+                  <span
+                    class="font-bold text-[#3b6eae] w-4 text-center text-sm"
+                    x-text="mountQty"></span>
+                  <button
+                    type="button"
+                    @click="if(mountQty < 6) mountQty++"
+                    class="w-6 h-6 rounded bg-[#3b6eae] text-white flex items-center justify-center hover:bg-[#2d5a8a] transition-colors"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      class="w-4 h-4"
+                    >
+                      <path
+                        d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </label>
+
+          <!-- Tire Rotation (rotation of all tires only) -->
+          <label class="group relative block cursor-pointer">
+            <input
+              type="radio"
+              name="service"
+              class="peer sr-only"
+              value="tire-rotation-only"
+              x-model="selectedService"
+            />
+            <div
+              class="service-card p-5 rounded-xl overflow-hidden"
+              :class="selectedService === 'tire-rotation-only' ? 'selected' : ''"
+            >
+              <div class="flex justify-between items-start mb-2">
+                <span class="card-title font-bold text-gray-800 text-sm"
+                  >Tire Rotation (rotation of all tires only)</span
+                >
+                <span class="card-price font-bold text-[#3b6eae] text-sm"
+                  >$119.95</span
+                >
+              </div>
+              <p class="card-description text-xs text-gray-500 leading-relaxed">
+                A Mobile Certified Tire Technician will rotate your vehicle's
+                tires in the recommended pattern. Does NOT include mounting &
+                balancing of new tires.
+              </p>
+            </div>
+          </label>
+
+          <!-- Flat Repair -->
+          <label class="group relative block cursor-pointer">
+            <input
+              type="radio"
+              name="service"
+              class="peer sr-only"
+              value="flat-repair"
+              x-model="selectedService"
+            />
+            <div
+              class="service-card p-5 rounded-xl overflow-hidden"
+              :class="selectedService === 'flat-repair' ? 'selected' : ''"
+            >
+              <div class="flex justify-between items-start mb-2">
+                <span class="card-title font-bold text-gray-800 text-sm"
+                  >Flat Repair</span
+                >
+                <span class="card-price font-bold text-[#3b6eae] text-sm"
+                  >$149.99</span
+                >
+              </div>
+              <p class="card-description text-xs text-gray-500 leading-relaxed">
+                A Mobile Certified Tire Technician will diagnose and determine
+                if a repair is needed or tire replacement. If the issue is
+                sidewall damage, tire is too old for safe repair, or alignment.
+                Price is for repair: only for minor small nail holes, may not
+                include puncture in the sidewall of the tire.
+              </p>
+            </div>
+          </label>
+
+          <!-- Install Spare -->
+          <label class="group relative block cursor-pointer">
+            <input
+              type="radio"
+              name="service"
+              class="peer sr-only"
+              value="install-spare"
+              x-model="selectedService"
+            />
+            <div
+              class="service-card p-5 rounded-xl overflow-hidden"
+              :class="selectedService === 'install-spare' ? 'selected' : ''"
+            >
+              <div class="flex justify-between items-start mb-2">
+                <span class="card-title font-bold text-gray-800 text-sm"
+                  >Install Spare</span
+                >
+                <span class="card-price font-bold text-[#3b6eae] text-sm"
+                  >$149.99</span
+                >
+              </div>
+              <p class="card-description text-xs text-gray-500 leading-relaxed">
+                A Mobile Certified Tire Technician will install the spare tire
+                for your vehicle. (Does NOT include the spare) or the actual
+                tire change, just the install so your vehicle is roadworthy.
+                Used on the location you specify. This is an emergency-only
+                installation; not required to be disposed of properly.
+              </p>
+            </div>
+          </label>
+
+          <div class="h-px bg-gray-200 my-6"></div>
+
+          <!-- Add-Ons Section -->
+          <h3 class="text-md font-bold text-gray-700 mb-3">Add-On Services</h3>
+
+          <!-- TPMS Seal Kit -->
+          <label
+            class="group relative block transition-opacity"
+            :class="{'opacity-50 cursor-not-allowed': !selectedService, 'cursor-pointer': selectedService}"
+          >
+            <input
+              type="checkbox"
+              name="addon_tpms"
+              class="peer sr-only"
+              :disabled="!selectedService"
+              x-model="addonTpms"
+              @click="if(!addonTpms) triggerPulse('pulseTpmsQty')"
+            />
+            <div
+              class="service-card addon-card p-5 rounded-xl overflow-hidden"
+              :class="addonTpms ? 'selected' : ''"
+            >
+              <div class="flex justify-between items-start mb-2">
+                <span class="card-title font-bold text-gray-800 text-sm"
+                  >Tire Pressure Monitoring System Seal Kit</span
+                >
+                <span
+                  class="card-price font-bold text-[#22c55e] text-sm"
+                  x-text="'$' + tpmsPrice"></span>
+              </div>
+              <p
+                class="card-description text-xs text-gray-500 leading-relaxed mb-4"
+              >
+                A Mobile Certified Tire Technician will replace TPMS valve stem
+                or sensor on your vehicle. (Bring your own sensor or we can
+                order one.) *This does not include mounting & balancing or new
+                TPMS sensor.*
+              </p>
+
+              <!-- TPMS Quantity Selector -->
+              <div
+                class="flex items-center gap-3 bg-white p-1.5 rounded border border-gray-200 w-fit shadow-sm"
+                :class="{ 'animate-pulse-qty': pulseTpmsQty }"
+              >
+                <span
+                  class="text-[10px] font-bold text-gray-400 uppercase tracking-wider px-1"
+                  >Qty</span
+                >
+                <div class="flex items-center gap-2">
+                  <button
+                    type="button"
+                    @click.prevent="if(tpmsQty > 1) tpmsQty--"
+                    :disabled="!selectedService || !addonTpms"
+                    class="w-6 h-6 rounded bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-gray-200 transition-colors disabled:opacity-50"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      class="w-4 h-4"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                  </button>
+                  <span
+                    class="font-bold text-[#3b6eae] w-4 text-center text-sm"
+                    x-text="tpmsQty"></span>
+                  <button
+                    type="button"
+                    @click.prevent="if(tpmsQty < 10) tpmsQty++"
+                    :disabled="!selectedService || !addonTpms"
+                    class="w-6 h-6 rounded bg-[#3b6eae] text-white flex items-center justify-center hover:bg-[#2d5a8a] transition-colors disabled:opacity-50"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      class="w-4 h-4"
+                    >
+                      <path
+                        d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </label>
+
+          <!-- Tire Disposal -->
+          <label
+            class="group relative block transition-opacity"
+            :class="{'opacity-50 cursor-not-allowed': !selectedService, 'cursor-pointer': selectedService}"
+          >
+            <input
+              type="checkbox"
+              name="addon_disposal"
+              class="peer sr-only"
+              :disabled="!selectedService"
+              x-model="addonDisposal"
+              @click="if(!addonDisposal) triggerPulse('pulseDisposalQty')"
+            />
+            <div
+              class="service-card addon-card p-5 rounded-xl overflow-hidden"
+              :class="addonDisposal ? 'selected' : ''"
+            >
+              <div class="flex justify-between items-start mb-2">
+                <span class="card-title font-bold text-gray-800 text-sm"
+                  >Tire Disposal</span
+                >
+                <span
+                  class="card-price font-bold text-[#22c55e] text-sm"
+                  x-text="'$' + disposalPrice"></span>
+              </div>
+              <p
+                class="card-description text-xs text-gray-500 leading-relaxed mb-4"
+              >
+                Queen My Way will dispose of your used tires in an
+                environmentally-friendly manner. (Fee is for each tire that is
+                being picked up. This is a requirement; made of rubber required
+                to be disposed of properly.)
+              </p>
+
+              <!-- Disposal Quantity Selector -->
+              <div
+                class="flex items-center gap-3 bg-white p-1.5 rounded border border-gray-200 w-fit shadow-sm"
+                :class="{ 'animate-pulse-qty': pulseDisposalQty }"
+              >
+                <span
+                  class="text-[10px] font-bold text-gray-400 uppercase tracking-wider px-1"
+                  >Qty</span
+                >
+                <div class="flex items-center gap-2">
+                  <button
+                    type="button"
+                    @click.prevent="if(disposalQty > 1) disposalQty--"
+                    :disabled="!selectedService || !addonDisposal"
+                    class="w-6 h-6 rounded bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-gray-200 transition-colors disabled:opacity-50"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      class="w-4 h-4"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                  </button>
+                  <span
+                    class="font-bold text-[#3b6eae] w-4 text-center text-sm"
+                    x-text="disposalQty"></span>
+                  <button
+                    type="button"
+                    @click.prevent="if(disposalQty < 10) disposalQty++"
+                    :disabled="!selectedService || !addonDisposal"
+                    class="w-6 h-6 rounded bg-[#3b6eae] text-white flex items-center justify-center hover:bg-[#2d5a8a] transition-colors disabled:opacity-50"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      class="w-4 h-4"
+                    >
+                      <path
+                        d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </label>
+
+          <!-- TPMS Sensor Replacement Service -->
+          <label
+            class="group relative block transition-opacity"
+            :class="{'opacity-50 cursor-not-allowed': !selectedService, 'cursor-pointer': selectedService}"
+          >
+            <input
+              type="checkbox"
+              name="addon_sensor"
+              class="peer sr-only"
+              :disabled="!selectedService"
+              x-model="addonSensor"
+              @click="if(!addonSensor) triggerPulse('pulseSensorQty')"
+            />
+            <div
+              class="service-card addon-card p-5 rounded-xl overflow-hidden"
+              :class="addonSensor ? 'selected' : ''"
+            >
+              <div class="flex justify-between items-start mb-2">
+                <span class="card-title font-bold text-gray-800 text-sm"
+                  >Tire pressure monitoring system (TPMS) sensor replacement
+                  service</span
+                >
+                <span
+                  class="card-price font-bold text-[#22c55e] text-sm"
+                  x-text="'$' + sensorPrice"></span>
+              </div>
+              <p
+                class="card-description text-xs text-gray-500 leading-relaxed mb-4"
+              >
+                Replace your faulty TPMS sensors with new ones. Price is per
+                unit. Includes programming.
+              </p>
+
+              <!-- Sensor Quantity Selector -->
+              <div
+                class="flex items-center gap-3 bg-white p-1.5 rounded border border-gray-200 w-fit shadow-sm"
+                :class="{ 'animate-pulse-qty': pulseSensorQty }"
+              >
+                <span
+                  class="text-[10px] font-bold text-gray-400 uppercase tracking-wider px-1"
+                  >Qty</span
+                >
+                <div class="flex items-center gap-2">
+                  <button
+                    type="button"
+                    @click.prevent="if(sensorQty > 1) sensorQty--"
+                    :disabled="!selectedService || !addonSensor"
+                    class="w-6 h-6 rounded bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-gray-200 transition-colors disabled:opacity-50"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      class="w-4 h-4"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                  </button>
+                  <span
+                    class="font-bold text-[#3b6eae] w-4 text-center text-sm"
+                    x-text="sensorQty"></span>
+                  <button
+                    type="button"
+                    @click.prevent="if(sensorQty < 10) sensorQty++"
+                    :disabled="!selectedService || !addonSensor"
+                    class="w-6 h-6 rounded bg-[#3b6eae] text-white flex items-center justify-center hover:bg-[#2d5a8a] transition-colors disabled:opacity-50"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      class="w-4 h-4"
+                    >
+                      <path
+                        d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </label>
+
+          <div class="h-px bg-gray-200 my-8"></div>
+
+          <!-- Vehicle Details inputs -->
+          <h3 class="section-title text-lg font-bold text-gray-800 mb-4">
+            Vehicle Details
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="flex flex-col gap-1">
+              <label
+                class="field-label text-xs font-bold text-gray-500 uppercase"
+                >Year</label
+              >
+              <select
+                class="form-field rounded-lg px-4 py-3 w-full text-sm focus:outline-none"
+                x-model="vehicleYear"
+                autocomplete="cc-exp-year"
+              >
+                <option>Select Year</option>
+                {
+                  Array.from(
+                    { length: new Date().getFullYear() - 1980 + 1 },
+                    (_, i) => new Date().getFullYear() - i,
+                  ).map((year) => <option value={year}>{year}</option>)
+                }
+              </select>
+            </div>
+
+            <div class="flex flex-col gap-1">
+              <label
+                class="field-label text-xs font-bold text-gray-500 uppercase"
+                >Make</label
+              >
+              <input
+                type="text"
+                class="form-field rounded-lg px-4 py-3 w-full text-sm focus:outline-none"
+                placeholder=""
+                x-model="vehicleMake"
+                autocomplete="cc-name"
+              />
+            </div>
+
+            <div class="flex flex-col gap-1">
+              <label
+                class="field-label text-xs font-bold text-gray-500 uppercase"
+                >Model</label
+              >
+              <input
+                type="text"
+                class="form-field rounded-lg px-4 py-3 w-full text-sm focus:outline-none"
+                placeholder=""
+                x-model="vehicleModel"
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="flex flex-col gap-1">
+              <label
+                class="field-label text-xs font-bold text-gray-500 uppercase"
+                >Color</label
+              >
+              <input
+                type="text"
+                class="form-field rounded-lg px-4 py-3 w-full text-sm focus:outline-none"
+                placeholder=""
+                x-model="vehicleColor"
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="col-span-1 md:col-span-2 flex flex-col gap-1">
+              <label
+                class="field-label text-xs font-bold text-gray-500 uppercase"
+                >Plate Number</label
+              >
+              <input
+                type="text"
+                class="form-field rounded-lg px-4 py-3 w-full text-sm focus:outline-none"
+                placeholder=""
+                x-model="vehiclePlate"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <!-- Continue Button -->
+          <div class="mt-10 pt-6 border-t border-gray-100 flex justify-center">
+            <button
+              type="button"
+              @click="submitForm"
+              :disabled="!selectedService || isLoading"
+              class="btn-primary w-full md:w-auto text-center flex items-center justify-center gap-2 shadow-lg"
+            >
+              <span x-text="isLoading ? 'Processing...' : 'Continue'"></span>
+              <span x-show="!isLoading">›</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import Alpine from "alpinejs";
+
+    if (!window.Alpine) {
+      window.Alpine = Alpine;
+      Alpine.start();
+    }
+  </script>
+</BaseLayout>

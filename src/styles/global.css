@@ -1,0 +1,667 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --color-queens-primary: #0b1121;
+    --color-queens-secondary: #0a79c8;
+    --color-queens-dark: #080c17;
+    --color-queens-light: #1489e1;
+    --color-queens-orange: #f97316;
+    --color-queens-black: #050505;
+
+    --font-sans: "Inter", sans-serif;
+    --font-serif: "Source Serif 4", serif;
+}
+
+/* ========================================
+   BRAND COLOR UTILITIES
+   Override heading color rules for brand colors
+   ======================================== */
+
+.text-queens-secondary,
+h1 .text-queens-secondary,
+h2 .text-queens-secondary,
+h3 .text-queens-secondary,
+span.text-queens-secondary {
+    color: #0a79c8 !important;
+}
+
+.text-queens-primary {
+    color: #0b1121 !important;
+}
+
+/* Hover states for secondary color */
+.hover\:text-queens-secondary:hover,
+a.hover\:text-queens-secondary:hover,
+nav a.hover\:text-queens-secondary:hover {
+    color: #0a79c8 !important;
+}
+
+/* Group hover for icons and nested elements */
+.group:hover .group-hover\:text-queens-secondary {
+    color: #0a79c8 !important;
+}
+
+/* ========================================
+   SEMANTIC THEME VARIABLES
+   These automatically switch based on .dark class
+   ======================================== */
+
+:root {
+    /* Text Colors */
+    --text-primary: #0b1121;
+    --text-secondary: #374151;
+    --text-muted: #6b7280;
+    --text-inverted: #ffffff;
+
+    /* Background Colors */
+    --bg-page: #f9fafb;
+    --bg-surface: #ffffff;
+    --bg-elevated: #ffffff;
+    --bg-muted: #f3f4f6;
+
+    /* Border Colors */
+    --border-default: #e5e7eb;
+    --border-muted: #f3f4f6;
+
+    /* Shadow opacity */
+    --shadow-opacity: 0.1;
+}
+
+.dark {
+    /* Text Colors - inverted for dark mode */
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-muted: #9ca3af;
+    --text-inverted: #0b1121;
+
+    /* Background Colors - dark surfaces */
+    --bg-page: #020617;
+    /* Almost Black (Slate-950) */
+    --bg-surface: #0f172a;
+    /* Dark Blue (Slate-900) */
+    --bg-elevated: #1e293b;
+    /* Slate-800 */
+    --bg-muted: #0f172a;
+    /* Slate-900 */
+
+    /* Border Colors */
+    --border-default: #334155;
+    --border-muted: #1e293b;
+
+    /* Shadow opacity - less visible on dark */
+    --shadow-opacity: 0.3;
+}
+
+/* ========================================
+   THEME ISOLATION (LOCKS)
+   Use these classes to force a specific theme on a section/component
+   regardless of the global site preference.
+   ======================================== */
+
+.theme-light {
+    /* Force Light Mode Variables */
+    --text-primary: #0b1121;
+    --text-secondary: #374151;
+    --text-muted: #6b7280;
+    --text-inverted: #ffffff;
+
+    --bg-page: #f9fafb;
+    --bg-surface: #ffffff;
+    --bg-elevated: #ffffff;
+    --bg-muted: #f3f4f6;
+
+    --border-default: #e5e7eb;
+    --border-muted: #f3f4f6;
+
+    --shadow-opacity: 0.1;
+
+    /* Apply base styles */
+    color: var(--text-primary);
+    background-color: var(--bg-surface);
+}
+
+.theme-dark {
+    /* Force Dark Mode Variables */
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-muted: #9ca3af;
+    --text-inverted: #0b1121;
+
+    --bg-page: #0f172a;
+    --bg-surface: #1e293b;
+    --bg-elevated: #334155;
+    --bg-muted: #1e293b;
+
+    --border-default: #334155;
+    --border-muted: #1e293b;
+
+    --shadow-opacity: 0.3;
+
+    /* Apply base styles */
+    color: var(--text-primary);
+    background-color: var(--bg-surface);
+}
+
+/* ========================================
+   BASE ELEMENT OVERRIDES
+   Apply semantic colors to common elements
+   ======================================== */
+
+body {
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ========================================
+   GLOBAL TYPOGRAPHY - Theme Aware
+   All headings and body text use semantic colors
+   ======================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-primary);
+}
+
+p,
+li,
+td,
+th,
+label,
+span,
+div {
+    color: inherit;
+}
+
+/* Body text defaults */
+p {
+    color: var(--text-secondary);
+}
+
+/* Links */
+a {
+    color: inherit;
+}
+
+a:not([class]) {
+    color: var(--color-queens-secondary);
+}
+
+a:not([class]):hover {
+    color: var(--color-queens-light);
+}
+
+/* Cards and surfaces */
+.bg-white {
+    background-color: var(--bg-surface) !important;
+}
+
+/* Section backgrounds in Dark Mode - plain color only */
+.dark .bg-white {
+    background-color: var(--bg-surface) !important;
+}
+
+.bg-gray-50 {
+    background-color: var(--bg-page) !important;
+}
+
+/* Blue Shine for Cards in Dark Mode - rounded elements with various bg classes */
+.dark .bg-white[class*="rounded"],
+.dark .bg-gray-50[class*="rounded"],
+.dark [class*="dark:bg-slate-800"][class*="rounded"] {
+    /* Gradient glow from corners fading to center */
+    background:
+        radial-gradient(ellipse at top left, rgba(20, 137, 225, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(20, 137, 225, 0.08) 0%, transparent 50%),
+        var(--bg-surface) !important;
+    /* Subtle glowing border */
+    border: 1px solid rgba(20, 137, 225, 0.25) !important;
+}
+
+.bg-gray-100 {
+    background-color: var(--bg-muted) !important;
+}
+
+/* Dark Mode Shadows - Subtle Blue Shadow on HOVER only */
+.dark .hover\:shadow-lg:hover,
+.dark .hover\:shadow-xl:hover,
+.dark .hover\:shadow-2xl:hover {
+    --tw-shadow-color: rgba(20, 137, 225, 0.15) !important;
+    --tw-shadow: 0 8px 30px -6px var(--tw-shadow-color) !important;
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+}
+
+
+/* Remove gradient glow from Header in Dark Mode */
+.dark #main-header {
+    box-shadow: none !important;
+    border-bottom: 1px solid var(--bg-elevated) !important;
+}
+
+/* Text colors */
+.text-gray-600 {
+    color: var(--text-secondary) !important;
+}
+
+.text-gray-500 {
+    color: var(--text-muted) !important;
+}
+
+.text-gray-400 {
+    color: var(--text-muted) !important;
+}
+
+.text-gray-700 {
+    color: var(--text-secondary) !important;
+}
+
+/* Queens primary text - switch to light in dark mode */
+.text-queens-primary {
+    color: var(--text-primary) !important;
+}
+
+/* Primary text color override (CSS variable syntax) */
+.text-\[var\(--color-queens-primary\)\] {
+    color: var(--text-primary) !important;
+}
+
+/* Primary opacity text colors */
+.text-\[var\(--color-queens-primary\)\]\/60,
+.text-\[var\(--color-queens-primary\)\]\/70 {
+    color: var(--text-muted) !important;
+}
+
+/* Border colors */
+.border-gray-100,
+.border-gray-200,
+.border-gray-800 {
+    border-color: var(--border-default) !important;
+}
+
+/* Hover backgrounds */
+.hover\:bg-gray-50:hover,
+.hover\:bg-gray-100:hover {
+    background-color: var(--bg-elevated) !important;
+}
+
+/* Mobile menu panel */
+#mobile-menu .bg-white {
+    background-color: var(--bg-surface) !important;
+}
+
+#mobile-menu .border-gray-100 {
+    border-color: var(--border-default) !important;
+}
+
+#mobile-menu .text-gray-700 {
+    color: var(--text-primary) !important;
+}
+
+#mobile-menu .text-gray-500 {
+    color: var(--text-muted) !important;
+}
+
+#mobile-menu .bg-gray-100 {
+    background-color: var(--bg-muted) !important;
+}
+
+#mobile-menu .hover\:bg-gray-200:hover {
+    background-color: var(--bg-elevated) !important;
+}
+
+/* Shadows - adjust for dark mode */
+.shadow-lg,
+.shadow-xl {
+    --tw-shadow-color: rgba(0, 0, 0, var(--shadow-opacity));
+}
+
+/* ========================================
+   COMPREHENSIVE DARK MODE TEXT OVERRIDES
+   ======================================== */
+
+/* Queens brand colors - switch in dark mode */
+.text-queens-black {
+    color: var(--text-primary) !important;
+}
+
+/* Black text */
+.text-black {
+    color: var(--text-primary) !important;
+}
+
+/* Additional gray variants */
+.text-gray-800,
+.text-gray-900 {
+    color: var(--text-primary) !important;
+}
+
+.text-gray-300 {
+    color: var(--text-muted) !important;
+}
+
+/* Link colors in content areas */
+.dark a:not(.btn-primary):not(.btn-secondary):not([class*="text-queens-secondary"]):not([class*="text-white"]) {
+    color: var(--color-queens-light);
+}
+
+.dark a:not(.btn-primary):not(.btn-secondary):hover {
+    color: var(--color-queens-secondary);
+}
+
+/* City content area specific overrides */
+.city-content {
+    color: var(--text-secondary) !important;
+}
+
+.city-content h3 {
+    color: var(--text-primary) !important;
+}
+
+.city-content p {
+    color: var(--text-secondary) !important;
+}
+
+.city-content strong {
+    color: var(--text-primary) !important;
+}
+
+.city-content a {
+    color: var(--color-queens-secondary) !important;
+}
+
+.dark .city-content a:hover {
+    color: var(--color-queens-light) !important;
+}
+
+/* Cards with dark backgrounds should keep light text */
+.bg-queens-primary,
+.bg-queens-black,
+.bg-queens-dark {
+    color: white !important;
+}
+
+.bg-queens-primary *,
+.bg-queens-black *,
+.bg-queens-dark * {
+    color: inherit;
+}
+
+/* Ensure white text stays white */
+.text-white {
+    color: white !important;
+}
+
+/* Form inputs and interactive elements */
+.dark input,
+.dark textarea,
+.dark select {
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    border-color: var(--border-default);
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+    color: var(--text-muted);
+}
+
+/* FAQ accordion in dark mode */
+.dark details {
+    background-color: var(--bg-surface) !important;
+    border-color: var(--border-default) !important;
+}
+
+.dark details summary {
+    color: var(--text-primary) !important;
+}
+
+.dark details>div {
+    background-color: var(--bg-elevated) !important;
+    color: var(--text-secondary) !important;
+}
+
+/* Service cards and feature boxes */
+.dark .bg-gray-50 {
+    background-color: var(--bg-muted) !important;
+}
+
+/* Stepper/Progress indicators */
+.dark .border-gray-300 {
+    border-color: var(--border-default) !important;
+}
+
+/* Ensure proper contrast on elevated surfaces */
+.dark .bg-white h1,
+.dark .bg-white h2,
+.dark .bg-white h3,
+.dark .bg-white h4,
+.dark .bg-white h5,
+.dark .bg-white h6 {
+    color: var(--text-primary) !important;
+}
+
+.dark .bg-white p {
+    color: var(--text-secondary) !important;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    /* Match header height (h-20) */
+}
+
+/* Skip to Content Link */
+.skip-to-content-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background-color: var(--color-queens-primary);
+    color: white;
+    padding: 8px 12px;
+    z-index: 10000;
+    border-radius: 0 0 8px 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: top 0.3s ease-in-out;
+}
+
+.skip-to-content-link:focus {
+    top: 0;
+    outline: 2px solid var(--color-queens-secondary);
+    outline-offset: 2px;
+}
+
+
+/* Standardized Primary Button */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #3b6eae;
+    color: white;
+    border: none;
+    border-radius: 9999px;
+    font-size: 1.125rem;
+    font-weight: 700;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 1rem 3rem;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    color: #3b6eae;
+}
+
+.btn-primary::after {
+    content: "";
+    background: white;
+    position: absolute;
+    z-index: -1;
+    left: -20%;
+    right: -20%;
+    top: 0;
+    bottom: 0;
+    transform: skewX(-45deg) scale(0, 1);
+    transition: transform 0.5s ease;
+}
+
+.btn-primary:hover::after {
+    transform: skewX(-45deg) scale(1, 1);
+}
+
+.btn-primary:disabled {
+    background: #d1d5db;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.btn-primary:disabled:hover {
+    color: white;
+}
+
+.btn-primary:disabled::after {
+    display: none;
+}
+
+/* Secondary Button (Gray/Outline) */
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #e5e7eb;
+    color: #374151;
+    border: none;
+    border-radius: 9999px;
+    font-size: 1.125rem;
+    font-weight: 700;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 1rem 3rem;
+    transition: color 0.3s ease, background 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-secondary:hover {
+    background: #d1d5db;
+}
+
+/* ========================================
+   FAQ ACCORDION DARK MODE STYLES
+   ======================================== */
+
+.faq-item {
+    transition: all 0.3s ease;
+}
+
+:where(.dark, .dark *) .faq-item,
+.faq-item:where(.dark, .dark *) {
+    background: rgba(15, 23, 42, 0.6) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+:where(.dark, .dark *) .faq-item:hover,
+.faq-item:hover:where(.dark, .dark *) {
+    border-color: rgba(59, 110, 174, 0.3) !important;
+    box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.4) !important;
+}
+
+:where(.dark, .dark *) .faq-item.active,
+.faq-item.active:where(.dark, .dark *) {
+    border-color: #3b6eae !important;
+    box-shadow: 0 0 30px rgba(59, 110, 174, 0.3), 0 0 60px rgba(59, 110, 174, 0.1) !important;
+}
+
+/* FAQ Question Text */
+:where(.dark, .dark *) .faq-trigger span span:last-child,
+.faq-trigger span span:last-child:where(.dark, .dark *) {
+    color: #f1f5f9 !important;
+}
+
+/* FAQ Answer Text */
+:where(.dark, .dark *) .faq-content p,
+.faq-content p:where(.dark, .dark *) {
+    color: #94a3b8 !important;
+}
+
+/* FAQ Icon Background */
+:where(.dark, .dark *) .faq-icon,
+.faq-icon:where(.dark, .dark *) {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+:where(.dark, .dark *) .faq-icon svg,
+.faq-icon svg:where(.dark, .dark *) {
+    color: #94a3b8 !important;
+}
+
+:where(.dark, .dark *) .faq-item:hover .faq-icon,
+.faq-item:hover .faq-icon:where(.dark, .dark *) {
+    background-color: rgba(59, 110, 174, 0.2) !important;
+}
+
+:where(.dark, .dark *) .faq-item:hover .faq-icon svg,
+.faq-item:hover .faq-icon svg:where(.dark, .dark *) {
+    color: #60a5fa !important;
+}
+
+/* FAQ Number Badge */
+:where(.dark, .dark *) .faq-trigger span span:first-child,
+.faq-trigger span span:first-child:where(.dark, .dark *) {
+    background-color: rgba(59, 110, 174, 0.2) !important;
+    color: #60a5fa !important;
+}
+
+/* FAQ Answer Border */
+:where(.dark, .dark *) .faq-content>div,
+.faq-content>div:where(.dark, .dark *) {
+    border-color: rgba(59, 110, 174, 0.3) !important;
+}
+
+/* City page FAQ styles (details/summary elements) - simplified transparent dark mode */
+:where(.dark, .dark *) details.group,
+details.group:where(.dark, .dark *) {
+    background: transparent !important;
+    background-image: none !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+:where(.dark, .dark *) details.group:hover,
+details.group:hover:where(.dark, .dark *) {
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+:where(.dark, .dark *) details.group[open],
+details.group[open]:where(.dark, .dark *) {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    box-shadow: none !important;
+}
+
+:where(.dark, .dark *) details.group summary,
+details.group summary:where(.dark, .dark *) {
+    color: rgba(255, 255, 255, 0.9) !important;
+    background: transparent !important;
+    background-image: none !important;
+}
+
+:where(.dark, .dark *) details.group>div,
+details.group>div:where(.dark, .dark *) {
+    background: transparent !important;
+    background-image: none !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+}

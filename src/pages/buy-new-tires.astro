@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Buy New Tires | Queens Mobile Tires">
+  <div class="min-h-screen bg-gray-50 py-12">
+    <div class="container mx-auto px-6 max-w-6xl">
+      <div class="text-center mb-12">
+        <h1
+          class="text-5xl font-black italic uppercase text-[var(--color-queens-primary)] mb-4"
+        >
+          Find Your Perfect Tires
+        </h1>
+        <p class="text-xl text-gray-600">
+          Search for tires and schedule mobile installation
+        </p>
+      </div>
+
+      <div class="md:bg-white md:rounded-xl md:shadow-2xl md:p-8">
+        <!-- TireConnect Widget -->
+        <script is:inline src="https://app.tireconnect.ca/js/widget.js"
+        ></script>
+        <div id="tireconnect"></div>
+        <script is:inline>
+          TCWidget.init({
+            apikey: "dc18901bfdfcb8ba529d1eeb0c15c278",
+            container: "tireconnect",
+          });
+        </script>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

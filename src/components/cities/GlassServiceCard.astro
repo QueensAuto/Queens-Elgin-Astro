@@ -1,0 +1,44 @@
+---
+interface Props {
+    icon: string;
+    title: string;
+    description: string;
+}
+
+const { icon, title, description } = Astro.props;
+
+// Icon mapping for SVG paths
+const icons: Record<string, string> = {
+    tire: `<circle cx="12" cy="12" r="10" stroke-width="2"></circle><circle cx="12" cy="12" r="3" stroke-width="2"></circle><path stroke-width="2" d="M12 2v4M12 18v4M2 12h4M18 12h4"></path>`,
+    wrench: `<path stroke-width="2" stroke-linecap="round" d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>`,
+    van: `<rect x="2" y="6" width="20" height="12" rx="2" stroke-width="2"></rect><path stroke-width="2" d="M6 18v2M18 18v2M6 6V4M18 6V4"></path>`,
+    check: `<path stroke-width="2" stroke-linecap="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>`,
+};
+
+const iconPath = icons[icon] || icons.tire;
+---
+
+<div
+    class="group relative bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-500 hover:shadow-2xl"
+>
+    <div class="flex items-start gap-6">
+        <div
+            class="w-16 h-16 bg-gradient-to-br from-queens-secondary to-queens-secondary/60 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0"
+        >
+            <svg
+                class="w-8 h-8 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+            >
+                <Fragment set:html={iconPath} />
+            </svg>
+        </div>
+        <div>
+            <h4 class="text-xl font-bold text-white mb-3">{title}</h4>
+            <p class="text-white/70 leading-relaxed">
+                <Fragment set:html={description} />
+            </p>
+        </div>
+    </div>
+</div>

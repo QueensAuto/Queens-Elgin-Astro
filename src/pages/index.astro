@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import ThreeSteps from "../components/ThreeSteps.astro";
+import BentoGrid from "../components/BentoGrid.astro";
+import FeaturedCities from "../components/FeaturedCities.astro";
+import Testimonials from "../components/Testimonials.astro";
+import TireWidget from "../components/TireWidget.astro";
+import ServicesHome from "../components/ServicesHome.astro";
+import TrustAnchor from "../components/TrustAnchor.astro";
+import { mobileTiresBrand } from "../brands";
+---
+
+<BaseLayout
+  brand={mobileTiresBrand}
+  title="Queens Mobile Tires | We Come To You"
+>
+  <script type="application/ld+json" slot="head">
+    {
+      "@context": "https://schema.org",
+      "@type": "AutomotiveBusiness",
+      "name": "Queens Mobile Tires",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Mobile Service",
+        "addressLocality": "Chicago",
+        "addressRegion": "IL",
+        "postalCode": "60007",
+        "addressCountry": "US"
+      },
+      "telephone": "+1-847-925-1100",
+      "url": "https://queensmobiletires.com/"
+    }
+  </script>
+  <Hero brand={mobileTiresBrand} />
+  <ThreeSteps />
+  <BentoGrid brand={mobileTiresBrand} />
+  <FeaturedCities brand={mobileTiresBrand} />
+  <Testimonials />
+  <TireWidget />
+  <ServicesHome brand={mobileTiresBrand} />
+  <TrustAnchor />
+</BaseLayout>

@@ -1,0 +1,28 @@
+---
+import type { BrandConfig } from "../brands";
+import { mobileTiresBrand } from "../brands";
+
+interface Props {
+    className?: string;
+    isFullWidth?: boolean;
+    brand?: BrandConfig;
+}
+
+const {
+    className = "",
+    isFullWidth = false,
+    brand = mobileTiresBrand,
+} = Astro.props;
+---
+
+<a
+    href={`/buy-new-tires`}
+    data-astro-reload
+    class:list={[
+        "btn-primary shadow-2xl hover:scale-105 transition-transform duration-300 px-10 py-5 text-xl font-bold inline-block text-center",
+        isFullWidth && "w-full block",
+        className,
+    ]}
+>
+    Find New Tires
+</a>

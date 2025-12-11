@@ -1,0 +1,543 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Appointment Confirmed | Queens Mobile Tires">
+    <div class="min-h-screen bg-gray-100 py-8 font-sans">
+        <!-- Progress Steps -->
+        <div class="container mx-auto max-w-4xl mb-8 px-4">
+            <div
+                class="flex justify-between items-start text-xs font-semibold uppercase tracking-wide"
+            >
+                <!-- Step 1: Completed -->
+                <div class="flex flex-col items-center gap-2 text-green-600">
+                    <div
+                        class="w-10 h-10 rounded-full bg-green-500 text-white font-bold flex items-center justify-center shadow-md"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="3"
+                            stroke="currentColor"
+                            class="w-5 h-5"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4.5 12.75l6 6 9-13.5"></path>
+                        </svg>
+                    </div>
+                    <span>Job Details</span>
+                </div>
+
+                <!-- Connector Line -->
+                <div
+                    class="flex-1 h-1 bg-green-500 self-center mt-[-12px] mx-2 rounded"
+                >
+                </div>
+
+                <!-- Step 2: Completed -->
+                <div class="flex flex-col items-center gap-2 text-green-600">
+                    <div
+                        class="w-10 h-10 rounded-full bg-green-500 text-white font-bold flex items-center justify-center shadow-md"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="3"
+                            stroke="currentColor"
+                            class="w-5 h-5"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4.5 12.75l6 6 9-13.5"></path>
+                        </svg>
+                    </div>
+                    <span>Date & Time</span>
+                </div>
+
+                <!-- Connector Line -->
+                <div
+                    class="flex-1 h-1 bg-green-500 self-center mt-[-12px] mx-2 rounded"
+                >
+                </div>
+
+                <!-- Step 3: Completed -->
+                <div class="flex flex-col items-center gap-2 text-green-600">
+                    <div
+                        class="w-10 h-10 rounded-full bg-green-500 text-white font-bold flex items-center justify-center shadow-md"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="3"
+                            stroke="currentColor"
+                            class="w-5 h-5"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4.5 12.75l6 6 9-13.5"></path>
+                        </svg>
+                    </div>
+                    <span>Your Details</span>
+                </div>
+
+                <!-- Connector Line -->
+                <div
+                    class="flex-1 h-1 bg-green-500 self-center mt-[-12px] mx-2 rounded"
+                >
+                </div>
+
+                <!-- Step 4: Current (Confirmation) -->
+                <div class="flex flex-col items-center gap-2 text-green-600">
+                    <div
+                        class="w-10 h-10 rounded-full bg-green-500 text-white font-bold flex items-center justify-center shadow-lg ring-4 ring-green-500/30"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="3"
+                            stroke="currentColor"
+                            class="w-5 h-5"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4.5 12.75l6 6 9-13.5"></path>
+                        </svg>
+                    </div>
+                    <span class="font-bold">Confirmed</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Card -->
+        <div
+            class="container mx-auto max-w-3xl bg-white rounded-lg shadow-xl overflow-hidden mb-12"
+            x-data="{
+                jobDetails: {},
+                dateTimeDetails: {},
+                customerDetails: {},
+                confirmationNumber: '',
+                init() {
+                    this.jobDetails = JSON.parse(localStorage.getItem('jobDetails') || '{}');
+                    this.dateTimeDetails = JSON.parse(localStorage.getItem('dateTimeDetails') || '{}');
+                    this.customerDetails = JSON.parse(localStorage.getItem('customerDetails') || '{}');
+                    this.confirmationNumber = 'QMT-' + new Date().getFullYear() + '-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+                },
+                formatDate(dateStr) {
+                    if (!dateStr) return 'Not selected';
+                    const date = new Date(dateStr);
+                    return date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                },
+                getServiceName() {
+                    const services = {
+                        'mount-balance': 'Mount & Balance',
+                        'tire-rotation-only': 'Tire Rotation',
+                        'mount-my-way': 'Mount My Way (Balance 4)',
+                        'unmount-swap': 'Un-mount Wheel & Tire Swap',
+                        'flat-repair': 'Flat Repair',
+                        'install-spare': 'Install Spare'
+                    };
+                    return services[this.jobDetails?.service] || 'No service selected';
+                }
+            }"
+        >
+            <!-- Success Header -->
+            <div class="bg-green-500 p-8 text-center">
+                <div
+                    class="w-20 h-20 rounded-full bg-white mx-auto mb-4 flex items-center justify-center"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="3"
+                        stroke="currentColor"
+                        class="w-10 h-10 text-green-500"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M4.5 12.75l6 6 9-13.5"></path>
+                    </svg>
+                </div>
+                <h1
+                    class="text-3xl font-black text-white uppercase tracking-wide mb-2"
+                >
+                    Thank You<span x-show="customerDetails.firstName"
+                        >,
+                    </span><span x-text="customerDetails.firstName"></span>!
+                </h1>
+                <p class="text-white/90 text-lg">
+                    Your appointment has been scheduled successfully.
+                </p>
+            </div>
+
+            <div class="p-8 bg-white">
+                <!-- Confirmation Number -->
+                <div class="text-center mb-8 pb-8 border-b border-gray-200">
+                    <p
+                        class="text-sm text-gray-500 uppercase tracking-wider mb-1"
+                    >
+                        Confirmation Number
+                    </p>
+                    <p
+                        class="text-2xl font-bold text-[#1e3a8a]"
+                        x-text="'#' + confirmationNumber"
+                    >
+                    </p>
+                </div>
+
+                <!-- Appointment Details -->
+                <div class="space-y-6">
+                    <h2
+                        class="text-lg font-bold text-gray-800 uppercase tracking-wide"
+                    >
+                        Appointment Details
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Customer Info (New) -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-[#3b6eae]/10 flex items-center justify-center"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="2"
+                                        stroke="currentColor"
+                                        class="w-5 h-5 text-[#3b6eae]"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                                        ></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 uppercase">
+                                        Customer
+                                    </p>
+                                    <p
+                                        class="font-bold text-gray-800"
+                                        x-text="(customerDetails.firstName || '') + ' ' + (customerDetails.lastName || '')"
+                                    >
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Date & Time -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-[#3b6eae]/10 flex items-center justify-center"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="2"
+                                        stroke="currentColor"
+                                        class="w-5 h-5 text-[#3b6eae]"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                                        ></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 uppercase">
+                                        Date & Time
+                                    </p>
+                                    <p
+                                        class="font-bold text-gray-800"
+                                        x-text="formatDate(dateTimeDetails.date)"
+                                    >
+                                    </p>
+                                    <p
+                                        class="text-gray-600"
+                                        x-text="dateTimeDetails.time || 'Not selected'"
+                                    >
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-[#3b6eae]/10 flex items-center justify-center"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="2"
+                                        stroke="currentColor"
+                                        class="w-5 h-5 text-[#3b6eae]"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"
+                                        ></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 uppercase">
+                                        Service
+                                    </p>
+                                    <p
+                                        class="font-bold text-gray-800"
+                                        x-text="getServiceName() + ' (' + (jobDetails.quantities?.mount || 0) + ' Tires)'"
+                                    >
+                                    </p>
+                                    <p
+                                        class="text-gray-600"
+                                        x-text="'$' + (jobDetails.costs?.mount || '0.00')"
+                                    >
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add-on Services (New) -->
+                        <div
+                            class="bg-gray-50 rounded-lg p-4"
+                            x-show="jobDetails.selections?.tpms || jobDetails.selections?.sensor || jobDetails.selections?.disposal"
+                        >
+                            <div class="flex items-center gap-3 mb-2">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-[#3b6eae]/10 flex items-center justify-center"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="2"
+                                        stroke="currentColor"
+                                        class="w-5 h-5 text-[#3b6eae]"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                        ></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 uppercase">
+                                        Add-ons
+                                    </p>
+                                    <ul class="text-sm text-gray-600">
+                                        <template
+                                            x-if="jobDetails.selections?.tpms"
+                                        >
+                                            <li>
+                                                TPMS Seal Kit (<span
+                                                    x-text="jobDetails.quantities?.tpms"
+                                                ></span>) - <span
+                                                    x-text="'$' + jobDetails.costs?.tpms"
+                                                ></span>
+                                            </li>
+                                        </template>
+                                        <template
+                                            x-if="jobDetails.selections?.disposal"
+                                        >
+                                            <li>
+                                                Tire Disposal (<span
+                                                    x-text="jobDetails.quantities?.disposal"
+                                                ></span>) - <span
+                                                    x-text="'$' + jobDetails.costs?.disposal"
+                                                ></span>
+                                            </li>
+                                        </template>
+                                        <template
+                                            x-if="jobDetails.selections?.sensor"
+                                        >
+                                            <li>
+                                                TPMS Sensor (<span
+                                                    x-text="jobDetails.quantities?.sensor"
+                                                ></span>) - <span
+                                                    x-text="'$' + jobDetails.costs?.sensor"
+                                                ></span>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-[#3b6eae]/10 flex items-center justify-center"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="2"
+                                        stroke="currentColor"
+                                        class="w-5 h-5 text-[#3b6eae]"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                                        ></path>
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                                        ></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 uppercase">
+                                        Service Location
+                                    </p>
+                                    <p
+                                        class="font-bold text-gray-800"
+                                        x-text="customerDetails.address?.street || 'Not provided'"
+                                    >
+                                    </p>
+                                    <p
+                                        class="text-gray-600"
+                                        x-text="(customerDetails.address?.city || '') + ', ' + (customerDetails.address?.state || '') + ' ' + (customerDetails.address?.zip || '')"
+                                    >
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Vehicle -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-[#3b6eae]/10 flex items-center justify-center"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="2"
+                                        stroke="currentColor"
+                                        class="w-5 h-5 text-[#3b6eae]"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
+                                        ></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 uppercase">
+                                        Vehicle
+                                    </p>
+                                    <p
+                                        class="font-bold text-gray-800"
+                                        x-text="(jobDetails.vehicle?.year || '') + ' ' + (jobDetails.vehicle?.make || '') + ' ' + (jobDetails.vehicle?.model || '')"
+                                    >
+                                    </p>
+                                    <p
+                                        class="text-gray-600"
+                                        x-text="(jobDetails.vehicle?.color || '') + ' • ' + (jobDetails.vehicle?.plate || '')"
+                                    >
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Important Notes -->
+                    <div
+                        class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-6"
+                    >
+                        <h3
+                            class="font-bold text-yellow-800 mb-2 flex items-center gap-2"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="2"
+                                stroke="currentColor"
+                                class="w-5 h-5"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                                ></path>
+                            </svg>
+                            Important Reminders
+                        </h3>
+                        <ul class="text-sm text-yellow-700 space-y-1">
+                            <li>
+                                • Please have your vehicle accessible at the
+                                scheduled time
+                            </li>
+                            <li>
+                                • Ensure tires are ready for installation (if
+                                customer-supplied)
+                            </li>
+                            <li>
+                                • Our technician will call 30 minutes before
+                                arrival
+                            </li>
+                            <li>
+                                • A confirmation email has been sent to your
+                                email address
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div
+                        class="flex flex-col sm:flex-row gap-4 mt-8 pt-6 border-t border-gray-100"
+                    >
+                        <a
+                            href="/"
+                            class="btn-primary flex-1 text-center shadow-lg"
+                        >
+                            Back to Home
+                        </a>
+                        <button
+                            onclick="window.print()"
+                            class="btn-secondary flex-1 text-center"
+                        >
+                            Print Confirmation
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        import Alpine from "alpinejs";
+
+        if (!window.Alpine) {
+            window.Alpine = Alpine;
+            Alpine.start();
+        }
+    </script>
+</BaseLayout>

@@ -1,0 +1,88 @@
+---
+// src/components/TrustAnchor.astro
+---
+
+<section class="py-24 bg-gray-50 relative overflow-hidden">
+  
+  <div class="container mx-auto px-4 max-w-7xl">
+    <div class="flex flex-col lg:flex-row items-center gap-16">
+      
+      {/* LEFT: The Image Stack (The Physical Proof) */}
+      <div class="lg:w-1/2 relative">
+        {/* Main Shop Image */}
+        <div class="relative z-10 rounded-3xl overflow-hidden shadow-2xl border-4 border-white transform hover:scale-[1.02] transition duration-500">
+          <img 
+            src="https://queensmobiletires.com/wp-content/uploads/2022/12/Queens-Auto-Services-Elgin.webp" 
+            alt="Queens Auto Services Physical Location" 
+            class="w-full h-auto object-cover"
+            loading="lazy"
+          />
+          {/* Badge Overlay */}
+          <div class="absolute bottom-6 left-6 bg-white/90 backdrop-blur-md px-6 py-3 rounded-xl shadow-lg border border-gray-100">
+            <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Established</p>
+            <p class="text-2xl font-extrabold text-queens-primary">Since 2014</p>
+          </div>
+        </div>
+
+        {/* Decorative "Van" Image floating behind */}
+        <div class="absolute -bottom-10 -right-10 w-2/3 rounded-3xl overflow-hidden shadow-xl border-4 border-white z-20 hidden md:block">
+           <img 
+            src="https://queensmobiletires.com/wp-content/uploads/2022/12/Queens-Auto-Service-Algonquin-1536x864.webp" 
+            alt="Queens Mobile Tires mobile service van" 
+            class="w-full h-auto object-cover grayscale hover:grayscale-0 transition duration-500"
+            loading="lazy"
+          />
+        </div>
+
+        {/* Abstract Blob */}
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-queens-secondary/5 rounded-full blur-3xl -z-10"></div>
+      </div>
+
+      {/* RIGHT: The Pitch */}
+      <div class="lg:w-1/2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-queens-primary/10 bg-white text-queens-primary text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-queens-primary"></span>
+          Not Just a Van
+        </div>
+
+        <h2 class="text-4xl md:text-5xl font-sans font-normal text-queens-primary mb-6 leading-tight tracking-tighter">
+          Backed by <br/>
+          <span class="text-queens-secondary font-serif italic">Queens Auto Services.</span>
+        </h2>
+        
+        <div class="prose prose-lg text-gray-600 mb-8">
+          <p>
+            We aren't a gig-economy startup. We are part of <strong>Queens Auto Services</strong>, the top-rated repair shop in Elgin, IL. 
+          </p>
+          <p>
+            For over a decade, we've fixed thousands of cars at our HQ. Now, we use that same expertise (and the same ASE-certified technicians) to service your tires in your driveway.
+          </p>
+        </div>
+
+        {/* Trust Points */}
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+          <div class="flex gap-4 items-start">
+            <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold text-xl">🛡️</div>
+            <div>
+              <h3 class="font-bold text-queens-primary">Fully Insured</h3>
+              <p class="text-sm text-gray-500">Your vehicle is safe in our hands.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xl">👨‍🔧</div>
+            <div>
+              <h3 class="font-bold text-queens-primary">Real Mechanics</h3>
+              <p class="text-sm text-gray-500">Not just tire changers. Pros.</p>
+            </div>
+          </div>
+        </div>
+
+        <a href="/about" class="text-queens-secondary font-bold text-lg hover:text-queens-primary transition flex items-center gap-2 group">
+          Read Our Story 
+          <span class="transform group-hover:translate-x-1 transition">→</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>

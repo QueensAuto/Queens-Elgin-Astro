@@ -1,0 +1,171 @@
+---
+import cities from "../data/cities.json";
+import TrustBadges from "./TrustBadges.astro";
+import type { BrandConfig } from "../brands";
+
+const { brand } = Astro.props as { brand: BrandConfig };
+
+const nameParts = brand.name.split(" ");
+const firstName = nameParts[0];
+const secondName = nameParts.length > 1 ? nameParts[1] : "";
+const restName = nameParts.length > 2 ? nameParts.slice(2).join(" ") : "";
+
+// Clean up titles (e.g. "Mobile Tire Service in Elgin, IL" -> "Elgin, IL")
+const cleanTitle = (title: string) => {
+  return title.replace("Mobile Tire Service in ", "").trim();
+};
+---
+
+<footer class="bg-queens-black text-gray-400 py-12 border-t border-gray-800">
+  <div class="container mx-auto px-6 max-w-7xl">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      {/* Column 1: Brand */}
+      <div>
+        <a href={`/`} class="inline-block group mb-4">
+          {
+            brand.logoPathWhite ? (
+              <img
+                src={brand.logoPathWhite}
+                alt={brand.name}
+                class="h-10 w-auto object-contain mb-2"
+              />
+            ) : (
+              <h3 class="text-white font-black text-xl uppercase tracking-tight group-hover:opacity-80 transition-opacity">
+                {firstName}{" "}
+                <span class="text-queens-secondary">{secondName}</span>{" "}
+                {restName}
+              </h3>
+            )
+          }
+        </a>
+        <p class="text-sm leading-relaxed max-w-xs text-gray-400">
+          {brand.name} brings the tire shop directly to your home or office. We provide
+          professional installation, balancing, and repair services across the Chicago
+          suburbs, saving you time and hassle.
+        </p>
+
+        <address class="not-italic mt-6 text-sm text-gray-500 leading-relaxed">
+          <strong class="text-white block mb-1">{brand.name}</strong>
+          {brand.address}<br />
+          <a
+            href={`tel:${brand.phone.replace(/\D/g, "")}`}
+            class="hover:text-queens-secondary transition-colors"
+          >
+            {brand.phone}
+          </a>
+        </address>
+      </div>
+
+      {/* Column 2: Quick Links */}
+      <div>
+        <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">
+          Quick Links
+        </h4>
+        <ul class="space-y-2">
+          <li>
+            <a
+              href={`/`}
+              data-astro-prefetch="hover"
+              class="text-sm hover:text-queens-secondary transition-colors"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              href={`/about`}
+              data-astro-prefetch="hover"
+              class="text-sm hover:text-queens-secondary transition-colors"
+              >About Us</a
+            >
+          </li>
+          <li>
+            <a
+              href={`/buy-new-tires`}
+              data-astro-reload
+              class="text-sm hover:text-queens-secondary transition-colors"
+              >Find New Tires</a
+            >
+          </li>
+          <li>
+            <a
+              href={`/tire-installation`}
+              data-astro-prefetch="hover"
+              class="text-sm hover:text-queens-secondary transition-colors"
+              >Schedule Install</a
+            >
+          </li>
+          <li>
+            <a
+              href={`/locations`}
+              data-astro-prefetch="hover"
+              class="text-sm hover:text-queens-secondary transition-colors"
+              >Service Areas</a
+            >
+          </li>
+          <li>
+            <a
+              href={`/faq`}
+              data-astro-prefetch="hover"
+              class="text-sm hover:text-queens-secondary transition-colors"
+              >FAQ</a
+            >
+          </li>
+          <li>
+            <a
+              href={`/terms`}
+              data-astro-prefetch="hover"
+              class="text-sm hover:text-queens-secondary transition-colors"
+              >Terms of Use</a
+            >
+          </li>
+          <li>
+            <a
+              href={`/privacy`}
+              data-astro-prefetch="hover"
+              class="text-sm hover:text-queens-secondary transition-colors"
+              >Privacy Policy</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      {/* Column 3: Service Areas */}
+      <div>
+        <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">
+          Service Areas
+        </h4>
+        <ul class="grid grid-cols-2 gap-2 text-sm">
+          {
+            cities.slice(0, 10).map((city) => (
+              <li>
+                <a
+                  href={`/cities/${city.slug}`}
+                  class="hover:text-queens-secondary transition-colors"
+                >
+                  {cleanTitle(city.title)}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <a
+          href={`/locations`}
+          class="inline-block mt-4 text-xs font-semibold text-queens-secondary hover:text-white transition-colors"
+        >
+          View All {cities.length} Locations →
+        </a>
+      </div>
+    </div>
+
+    {/* Bottom Bar */}
+    <div
+      class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm"
+    >
+      <p>
+        &copy; {new Date().getFullYear()}
+        {brand.name}. Serving Northern Illinois.
+      </p>
+      <TrustBadges />
+    </div>
+  </div>
+</footer>

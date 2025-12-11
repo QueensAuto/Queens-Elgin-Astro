@@ -1,0 +1,121 @@
+---
+// src/components/CityReviews.astro
+// Global reviews component for city pages
+// Randomly selects 3 authentic reviews to display
+
+interface Props {
+    cityName: string;
+}
+
+const { cityName } = Astro.props;
+
+// Full pool of real reviews provided
+const allReviews = [
+    {
+        name: "Mark Devino",
+        text: "I got fast, friendly service here for a flat repair. Without any kind of appointment I got the tire fixed while I waited maybe 25 minutes... Great shop I will definitely be back.",
+        stars: 5,
+    },
+    {
+        name: "Bashar Danial",
+        text: "They immediately jumped into action and replaced the bad tire with a new tire and had us back on the road, all of this in under one hour!!!",
+        stars: 5,
+    },
+    {
+        name: "Hannah Kellogg",
+        text: "They told me it would be a 25 minute wait, but the man came out 10 minutes later... fixes the hole and puts it back on. I was on my way so fast and the price was great.",
+        stars: 5,
+    },
+    {
+        name: "Rolando Gonzalez",
+        text: "Needed to stop by for a flat tire, fast service. Person at desk able to work on price of used tire needed.",
+        stars: 5,
+    },
+    {
+        name: "Truth",
+        text: "Had them fix a tire with a nail in it. They did it FAST !, and it was really reasonably priced.",
+        stars: 5,
+    },
+    {
+        name: "Sharon Balog",
+        text: "They showed me how to see the amount of tread left and the year of the tires. They were able to get me new tires the next day and replaced them. They are extremely reasonable and trustworthy!",
+        stars: 5,
+    },
+    {
+        name: "Tim Chapman",
+        text: "Great customer service, went in for a second opinion for tire patch... advised not repairable... wound up buying all 4 new tires speedy service... Would recommend this shop to anyone.",
+        stars: 5,
+    },
+    {
+        name: "Edward Hall",
+        text: "Took my 70 maverick in there to get some new back tires. They hooked me up with a great set of skins and a great price.",
+        stars: 5,
+    },
+    {
+        name: "Nursultan Abeuov",
+        text: "Good place to get your tire, balancing, Alignment and more. Always good quality.",
+        stars: 5,
+    },
+    {
+        name: "Mike",
+        text: "Saved me from having a rim fall off while driving on the highway. I had limited tools and thankfully they had me back on my way within 10 minutes.",
+        stars: 5,
+    },
+    {
+        name: "Christian Abarro",
+        text: "Great customer service, speedy tire change, satisfied with price and outcome. ... These guys are doing gods work and will help you with your car troubles.",
+        stars: 5,
+    },
+    {
+        name: "Theresa Hoge",
+        text: "I also needed to get new tires and they walked me through all the options. I recently ran over a nail and they were able to patch the hole right away.",
+        stars: 5,
+    },
+    {
+        name: "Jeni Slagel",
+        text: "Not only did they fix my tire issue but, they looked over some work another mechanic did and confirmed it was done correctly for my piece of mind.",
+        stars: 5,
+    },
+];
+
+// Randomly shuffle and pick 3 reviews
+const selectedReviews = allReviews.sort(() => 0.5 - Math.random()).slice(0, 3);
+---
+
+<div
+    class="bg-queens-primary text-white p-8 rounded-3xl shadow-xl relative overflow-hidden"
+>
+    <div class="relative z-10">
+        <h3 class="text-2xl font-bold mb-6">What {cityName} Drivers Say</h3>
+        <div class="space-y-6">
+            {
+                selectedReviews.map((review) => (
+                    <div class="pb-6 border-b border-white/10 last:border-0 last:pb-0">
+                        <div class="flex text-yellow-400 mb-2 text-sm">
+                            {"★".repeat(review.stars)}
+                        </div>
+                        <p class="text-gray-200 italic text-sm mb-3">
+                            "{review.text}"
+                        </p>
+                        <p class="font-bold text-sm">- {review.name}</p>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+    <!-- Abstract BG -->
+    <div
+        class="absolute top-0 right-0 p-12 opacity-10 transform translate-x-1/2 -translate-y-1/2 pointer-events-none"
+    >
+        <svg
+            class="w-64 h-64"
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                fill="#ffffff"
+                d="M47.7,-61.8C61.3,-51.1,71.4,-36.8,76.4,-21.2C81.4,-5.6,81.4,11.3,73.4,24.8C65.5,38.3,49.7,48.4,34.4,56.3C19.1,64.2,4.3,69.9,-9.5,68.7C-23.3,67.6,-36.1,59.6,-47.5,49.1C-58.9,38.6,-68.9,25.6,-72.6,10.9C-76.3,-3.8,-73.7,-20.2,-64.3,-33.2C-55,-46.2,-38.9,-55.8,-23.7,-58.5C-8.4,-61.2,6,-57.1,19.9,-53.1L47.7,-61.8Z"
+                transform="translate(100 100)"></path>
+        </svg>
+    </div>
+</div>

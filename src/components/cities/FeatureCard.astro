@@ -1,0 +1,77 @@
+---
+interface Props {
+    icon: string;
+    title: string;
+    description: string;
+    variant?: "large" | "compact";
+    centered?: boolean;
+}
+
+const {
+    icon,
+    title,
+    description,
+    variant = "large",
+    centered = false,
+} = Astro.props;
+
+// Icon mapping for SVG paths
+const icons: Record<string, string> = {
+    lightning: `<path stroke-width="2" stroke-linecap="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path>`,
+    badge: `<path stroke-width="2" stroke-linecap="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>`,
+    home: `<path stroke-width="2" stroke-linecap="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>`,
+    user: `<path stroke-width="2" stroke-linecap="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>`,
+    cube: `<path stroke-width="2" stroke-linecap="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>`,
+    shield: `<path stroke-width="2" stroke-linecap="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>`,
+};
+
+const iconPath = icons[icon] || icons.lightning;
+const isLarge = variant === "large";
+---
+
+{
+    isLarge ? (
+        <div class="group relative bg-white rounded-3xl p-10 shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-queens-secondary to-queens-secondary/50 rounded-t-3xl" />
+            <div
+                class={`w-20 h-20 bg-gradient-to-br from-queens-secondary/20 to-queens-secondary/5 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300 ${centered ? "mx-auto" : ""}`}
+            >
+                <svg
+                    class="w-10 h-10 text-queens-secondary"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <Fragment set:html={iconPath} />
+                </svg>
+            </div>
+            <h3
+                class={`text-2xl font-bold text-queens-primary mb-4 ${centered ? "text-center" : ""}`}
+            >
+                {title}
+            </h3>
+            <p
+                class={`text-gray-600 leading-relaxed text-lg ${centered ? "text-center" : ""}`}
+            >
+                <Fragment set:html={description} />
+            </p>
+        </div>
+    ) : (
+        <div class="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300 text-center">
+            <div class="w-16 h-16 bg-queens-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <svg
+                    class="w-8 h-8 text-queens-secondary"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <Fragment set:html={iconPath} />
+                </svg>
+            </div>
+            <h3 class="text-xl font-bold text-queens-primary mb-3">{title}</h3>
+            <p class="text-gray-600">
+                <Fragment set:html={description} />
+            </p>
+        </div>
+    )
+}

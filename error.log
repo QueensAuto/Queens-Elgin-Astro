@@ -1,0 +1,7 @@
+[2m17:55:44[22m [34m[types][39m Generated [2m1ms[22m
+[2m17:55:44[22m [34m[content][39m Syncing content
+[2m17:55:44[22m [34m[content][39m Synced content
+listen EACCES: permission denied ::1:4321
+  [1mStack trace:[22m
+[2m    at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+    at GetAddrInfoReqWrap.callback (node:net:2206:7)[22m

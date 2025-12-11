@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const lastUpdated = "December 10, 2025";
+---
+
+<BaseLayout
+    title="Privacy Policy | Queens Mobile Tires"
+    description="Privacy Policy for Queens Mobile Tires services and website."
+>
+    <section class="py-20 lg:py-28 bg-white">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <h1 class="text-4xl md:text-5xl font-bold text-queens-primary mb-6">
+                Privacy Policy
+            </h1>
+            <p class="text-gray-500 mb-12 text-lg">
+                Last Updated: {lastUpdated}
+            </p>
+
+            <div class="prose prose-lg prose-blue max-w-none text-gray-600">
+                <p>
+                    At Queens Mobile Tires, we take your privacy seriously. This
+                    Privacy Policy explains how we collect, use, and protect
+                    your personal information when you use our website and
+                    mobile tire services.
+                </p>
+
+                <h2 class="text-2xl font-bold text-queens-primary mt-12 mb-6">
+                    Information We Collect
+                </h2>
+                <p>
+                    We collect information you provide directly to us, such as
+                    when you request a quote, schedule an appointment, or
+                    contact customer support. This may include:
+                </p>
+                <ul class="list-disc pl-6 space-y-2 mb-6">
+                    <li>Name and contact information (email, phone number)</li>
+                    <li>Vehicle information (year, make, model)</li>
+                    <li>Service location address</li>
+                    <li>
+                        Payment information (processed securely via third-party
+                        providers like Stripe)
+                    </li>
+                </ul>
+
+                <h2 class="text-2xl font-bold text-queens-primary mt-12 mb-6">
+                    How We Use Your Information
+                </h2>
+                <p>We use the information we collect to:</p>
+                <ul class="list-disc pl-6 space-y-2 mb-6">
+                    <li>Provide, maintain, and improve our services</li>
+                    <li>Process transactions and send related information</li>
+                    <li>
+                        Communicate with you about appointments, products, and
+                        services
+                    </li>
+                    <li>Monitor and analyze trends and usage</li>
+                </ul>
+
+                <h2 class="text-2xl font-bold text-queens-primary mt-12 mb-6">
+                    Contact Us
+                </h2>
+                <p>
+                    If you have any questions about this Privacy Policy, please
+                    contact us at:
+                </p>
+                <p>
+                    <strong>Queens Mobile Tires</strong><br />
+                    2401 E Algonquin Rd<br />
+                    Lake in the Hills, IL 60102<br />
+                    (847) 925-1100<br />
+                    info@queensmobiletires.com
+                </p>
+            </div>
+        </div>
+    </section>
+</BaseLayout>

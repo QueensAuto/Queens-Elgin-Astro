@@ -1,0 +1,126 @@
+---
+import type { BrandConfig } from "../brands";
+import { mobileTiresBrand } from "../brands";
+
+const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
+---
+
+<section class="py-24 bg-gray-50">
+  <div class="container mx-auto px-6 max-w-7xl">
+    <div
+      class="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[minmax(300px,auto)]"
+    >
+      <!-- Card 1: Text Content -->
+      <div
+        class="md:col-span-5 bg-white rounded-[2.5rem] p-10 flex flex-col justify-center shadow-xl shadow-[var(--color-queens-primary)]/5 border border-[var(--color-queens-primary)]/5 relative overflow-hidden group"
+      >
+        <!-- Decorative blob -->
+        <div
+          class="absolute top-0 right-0 w-64 h-64 bg-[var(--color-queens-secondary)]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-[var(--color-queens-secondary)]/10 transition-colors duration-500"
+        >
+        </div>
+
+        <div class="relative z-10">
+          <h2
+            class="text-4xl md:text-5xl font-sans font-normal tracking-tighter mb-6 leading-[0.9] text-[var(--color-queens-primary)]"
+          >
+            Buying Tires <br />
+            <span class="text-queens-secondary font-serif italic"
+              >Made Easy</span
+            >
+          </h2>
+          <div
+            class="space-y-4 text-lg text-gray-600 font-light leading-relaxed"
+          >
+            <p>
+              The easiest tire installation experience you'll ever have. Order
+              your tires online using our easy-to-use tool, schedule the date,
+              time, and location of your mobile installation.
+            </p>
+            <p>
+              Our technician will come to your home or office and will install
+              your tires in <span
+                class="font-bold text-[var(--color-queens-primary)]"
+                >less than an hour</span
+              >.
+            </p>
+            <p class="font-medium text-[var(--color-queens-primary)] pt-2">
+              Our commitment is to offer you the easiest and smoothest
+              experience on your next set of new tires.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Main Image (Van Side/Roadside) -->
+      <div
+        class="md:col-span-7 bg-gray-200 rounded-[2.5rem] overflow-hidden shadow-lg relative group h-[400px] md:h-auto"
+      >
+        <img
+          src="https://queensmobiletires.com/wp-content/uploads/2022/12/Roadside-mobile-tire-installation.jpg"
+          alt="Mobile Tire Installation Roadside"
+          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-[var(--color-queens-primary)]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8"
+        >
+          <p
+            class="text-white font-bold text-xl translate-y-4 group-hover:translate-y-0 transition-transform duration-500"
+          >
+            Professional Service Anywhere
+          </p>
+        </div>
+      </div>
+
+      <!-- Card 3: Secondary Image (Van Rear) -->
+      <div
+        class="md:col-span-4 bg-gray-200 rounded-[2.5rem] overflow-hidden shadow-lg relative group h-[300px]"
+      >
+        <img
+          src="https://queensmobiletires.com/wp-content/uploads/2022/12/Mobile-tire-installation-roadside.jpg"
+          alt="Fully Equipped Mobile Tire Van"
+          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+        <div
+          class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500"
+        >
+        </div>
+      </div>
+
+      <!-- Card 4: Tertiary Image (Highway) -->
+      <div
+        class="md:col-span-4 bg-gray-200 rounded-[2.5rem] overflow-hidden shadow-lg relative group h-[300px]"
+      >
+        <img
+          src="https://queensmobiletires.com/wp-content/uploads/2022/12/Mobile-tire-installation-highway.webp"
+          alt="Emergency Roadside Assistance"
+          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+      </div>
+
+      <!-- Card 5: Call to Action / Stat -->
+      <div
+        class="md:col-span-4 bg-[var(--color-queens-primary)] rounded-[2.5rem] p-8 flex flex-col justify-center items-center text-center text-white shadow-xl relative overflow-hidden group h-[300px]"
+      >
+        <div
+          class="absolute inset-0 bg-[var(--color-queens-secondary)]/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 rounded-[2.5rem]"
+        >
+        </div>
+        <div class="relative z-10">
+          <span class="text-6xl mb-2 block">⚡</span>
+          <h3 class="text-2xl font-bold uppercase italic tracking-wider mb-2">
+            Fast & Efficient
+          </h3>
+          <p class="text-white/80">Back on the road in no time.</p>
+          <a
+            href={`/buy-new-tires`}
+            data-astro-reload
+            class="btn-primary mt-6 inline-block shadow-lg"
+          >
+            Get Started
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

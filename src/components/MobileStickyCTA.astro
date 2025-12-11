@@ -1,0 +1,129 @@
+---
+import type { BrandConfig } from "../brands";
+import { mobileTiresBrand } from "../brands";
+
+/**
+ * MobileStickyCTA - Floating mobile CTA bar
+ * Conditions:
+ * - Only visible on mobile devices
+ * - Hidden in hero section (top 25% of viewport)
+ * - Fades out near footer
+ * - Excluded from /buy-new-tires page
+ */
+
+const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
+
+// Check if we're on the buy-new-tires or tire-installation page (exclude)
+const currentPath = Astro.url.pathname;
+// We need to check for brand-prefixed exclusion too
+const isExcludedPage = currentPath.includes('/buy-new-tires') || currentPath.includes('/tire-installation');
+---
+
+{!isExcludedPage && (
+  <div 
+    id="mobile-sticky-cta"
+    class="fixed bottom-0 left-0 right-0 z-50 md:hidden transform translate-y-full opacity-0 transition-all duration-300 pointer-events-none"
+  >
+    <div class="mx-4 mb-4 rounded-2xl bg-gradient-to-r from-queens-secondary to-[#00a8e8] p-4 shadow-2xl pointer-events-auto">
+      <div class="flex items-center justify-between gap-4">
+        <!-- Text -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" stroke-width="1.5"/>
+              <circle cx="12" cy="12" r="6" stroke-width="1.5"/>
+              <circle cx="12" cy="12" r="2" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-white font-bold text-sm">Find New Tires</p>
+            <p class="text-white text-xs">Shop online, we install</p>
+          </div>
+        </div>
+        
+        <!-- Buttons -->
+        <div class="flex items-center gap-2">
+          <!-- Shop Button -->
+          <a 
+            href={`/buy-new-tires`}
+            data-astro-reload
+            class="px-4 py-2 font-bold text-sm rounded-full transition-colors shadow-lg"
+            style="background-color: #ffffff !important; color: #0a79c8 !important;"
+          >
+            Shop
+          </a>
+          
+          <!-- Phone Button -->
+          <a 
+            href={`tel:${brand.phone.replace(/\D/g, '')}`}
+            class="w-10 h-10 bg-white/20 dark:bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 dark:hover:bg-white/30 transition-colors"
+            aria-label="Call us"
+          >
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-width="2" stroke-linecap="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+<script>
+  function initMobileStickyCTA() {
+    const cta = document.getElementById('mobile-sticky-cta');
+    if (!cta) return;
+    
+    const footer = document.querySelector('footer');
+    let isVisible = false;
+    
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollPercent = scrollY / (documentHeight - windowHeight);
+      
+      // Calculate trigger point (33% of viewport from top)
+      const triggerPoint = windowHeight * 0.33;
+      
+      // Calculate footer position
+      let nearFooter = false;
+      if (footer) {
+        const footerRect = footer.getBoundingClientRect();
+        nearFooter = footerRect.top < windowHeight + 100;
+      }
+      
+      // Show/hide logic
+      const shouldShow = scrollY > triggerPoint && !nearFooter;
+      
+      if (shouldShow && !isVisible) {
+        cta.classList.remove('translate-y-full', 'opacity-0', 'pointer-events-none');
+        cta.classList.add('translate-y-0', 'opacity-100');
+        isVisible = true;
+      } else if (!shouldShow && isVisible) {
+        cta.classList.add('translate-y-full', 'opacity-0', 'pointer-events-none');
+        cta.classList.remove('translate-y-0', 'opacity-100');
+        isVisible = false;
+      }
+    };
+    
+    // Throttled scroll handler
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+    
+    // Initial check
+    handleScroll();
+  }
+  
+  // Initialize
+  initMobileStickyCTA();
+  document.addEventListener('astro:page-load', initMobileStickyCTA);
+</script>

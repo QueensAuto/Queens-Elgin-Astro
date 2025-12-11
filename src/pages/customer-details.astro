@@ -1,0 +1,373 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Your Details | Queens Mobile Tires">
+    <div class="min-h-screen bg-gray-100 py-8 font-sans">
+        <!-- Progress Steps -->
+        <div class="container mx-auto max-w-4xl mb-8 px-4">
+            <div
+                class="flex justify-between items-start text-xs font-semibold uppercase tracking-wide"
+            >
+                <!-- Step 1: Completed -->
+                <div class="flex flex-col items-center gap-2 text-green-600">
+                    <div
+                        class="w-10 h-10 rounded-full bg-green-500 text-white font-bold flex items-center justify-center shadow-md"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="3"
+                            stroke="currentColor"
+                            class="w-5 h-5"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4.5 12.75l6 6 9-13.5"></path>
+                        </svg>
+                    </div>
+                    <span>Job Details</span>
+                </div>
+
+                <!-- Connector Line -->
+                <div
+                    class="flex-1 h-1 bg-green-500 self-center mt-[-12px] mx-2 rounded"
+                >
+                </div>
+
+                <!-- Step 2: Completed -->
+                <div class="flex flex-col items-center gap-2 text-green-600">
+                    <div
+                        class="w-10 h-10 rounded-full bg-green-500 text-white font-bold flex items-center justify-center shadow-md"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="3"
+                            stroke="currentColor"
+                            class="w-5 h-5"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4.5 12.75l6 6 9-13.5"></path>
+                        </svg>
+                    </div>
+                    <span>Date & Time</span>
+                </div>
+
+                <!-- Connector Line -->
+                <div
+                    class="flex-1 h-1 bg-green-500 self-center mt-[-12px] mx-2 rounded"
+                >
+                </div>
+
+                <!-- Step 3: Current -->
+                <div class="flex flex-col items-center gap-2 text-[#3b6eae]">
+                    <div
+                        class="w-10 h-10 rounded-full bg-[#3b6eae] text-white font-bold flex items-center justify-center shadow-lg ring-4 ring-[#3b6eae]/30"
+                    >
+                        3
+                    </div>
+                    <span class="font-bold">Your Details</span>
+                </div>
+
+                <!-- Connector Line -->
+                <div
+                    class="flex-1 h-1 bg-gray-300 self-center mt-[-12px] mx-2 rounded"
+                >
+                </div>
+
+                <!-- Step 4: Future -->
+                <div class="flex flex-col items-center gap-2 text-gray-400">
+                    <div
+                        class="w-10 h-10 rounded-full border-2 border-gray-300 bg-white text-gray-400 font-bold flex items-center justify-center"
+                    >
+                        4
+                    </div>
+                    <span>Review</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Card -->
+        <div
+            class="container mx-auto max-w-3xl bg-white rounded-lg shadow-xl overflow-hidden mb-12"
+        >
+            <!-- Card Header -->
+            <div class="border-b border-gray-200 p-6 flex items-center gap-4">
+                <a
+                    href="/schedule-datetime"
+                    class="text-gray-400 hover:text-gray-600 transition"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="2.5"
+                        stroke="currentColor"
+                        class="w-6 h-6"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path>
+                    </svg>
+                </a>
+                <h1
+                    class="text-2xl font-black text-[#1e3a8a] uppercase tracking-wide"
+                >
+                    Client Details
+                </h1>
+            </div>
+
+            <div class="p-8 bg-white">
+                <p class="text-sm text-gray-500 mb-8">
+                    Please fill out your contact information and address below.
+                </p>
+
+                <form
+                    class="space-y-8"
+                    x-data="{
+                        firstName: '',
+                        lastName: '',
+                        phone: '',
+                        email: '',
+                        street: '',
+                        city: '',
+                        state: '',
+                        zip: '',
+                        instructions: '',
+                        isLoading: false,
+                        async submitForm() {
+                            this.isLoading = true;
+                            
+                            const customerData = {
+                                firstName: this.firstName,
+                                lastName: this.lastName,
+                                phone: this.phone,
+                                email: this.email,
+                                address: {
+                                    street: this.street,
+                                    city: this.city,
+                                    state: this.state,
+                                    zip: this.zip
+                                },
+                                instructions: this.instructions
+                            };
+                            
+                            localStorage.setItem('customerDetails', JSON.stringify(customerData));
+                            
+                            // Get all stored data and send to webhook
+                            const jobDetails = JSON.parse(localStorage.getItem('jobDetails') || '{}');
+                            const dateTimeDetails = JSON.parse(localStorage.getItem('dateTimeDetails') || '{}');
+                            
+                            const fullPayload = {
+                                job: jobDetails,
+                                dateTime: dateTimeDetails,
+                                customer: customerData
+                            };
+                            
+                            try {
+                                await fetch('https://n8n.queensautoservices.com/webhook-test/31e8c289-45f1-44f0-abbf-2b47f4bafb69', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify(fullPayload)
+                                });
+                            } catch (error) {
+                                console.error('Webhook error (non-blocking):', error);
+                            }
+                            
+                            window.location.href = '/schedule-confirmation';
+                        }
+                    }"
+                >
+                    <!-- Contact Details Section -->
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">
+                            Contact Details
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="flex flex-col gap-1">
+                                <label
+                                    class="text-xs font-bold text-gray-500 uppercase"
+                                >
+                                    <span class="text-red-500">*</span> First Name
+                                </label>
+                                <input
+                                    type="text"
+                                    required
+                                    x-model="firstName"
+                                    autocomplete="given-name"
+                                    class="border border-gray-300 rounded px-3 py-3 w-full text-sm focus:outline-none focus:border-[#3b6eae]"
+                                />
+                            </div>
+
+                            <div class="flex flex-col gap-1">
+                                <label
+                                    class="text-xs font-bold text-gray-500 uppercase"
+                                >
+                                    <span class="text-red-500">*</span> Last Name
+                                </label>
+                                <input
+                                    type="text"
+                                    required
+                                    x-model="lastName"
+                                    autocomplete="family-name"
+                                    class="border border-gray-300 rounded px-3 py-3 w-full text-sm focus:outline-none focus:border-[#3b6eae]"
+                                />
+                            </div>
+
+                            <div class="flex flex-col gap-1">
+                                <label
+                                    class="text-xs font-bold text-gray-500 uppercase"
+                                >
+                                    <span class="text-red-500">*</span> Phone
+                                </label>
+                                <input
+                                    type="tel"
+                                    required
+                                    x-model="phone"
+                                    autocomplete="tel"
+                                    class="border border-gray-300 rounded px-3 py-3 w-full text-sm focus:outline-none focus:border-[#3b6eae]"
+                                />
+                            </div>
+
+                            <div class="flex flex-col gap-1">
+                                <label
+                                    class="text-xs font-bold text-gray-500 uppercase"
+                                >
+                                    <span class="text-red-500">*</span> Email
+                                </label>
+                                <input
+                                    type="email"
+                                    required
+                                    x-model="email"
+                                    autocomplete="email"
+                                    class="border border-gray-300 rounded px-3 py-3 w-full text-sm focus:outline-none focus:border-[#3b6eae]"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Address Section -->
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">
+                            Service Address
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="flex flex-col gap-1">
+                                <label
+                                    class="text-xs font-bold text-gray-500 uppercase"
+                                >
+                                    <span class="text-red-500">*</span> Street Address
+                                </label>
+                                <input
+                                    type="text"
+                                    required
+                                    x-model="street"
+                                    autocomplete="street-address"
+                                    class="border border-gray-300 rounded px-3 py-3 w-full text-sm focus:outline-none focus:border-[#3b6eae]"
+                                />
+                            </div>
+
+                            <div class="flex flex-col gap-1">
+                                <label
+                                    class="text-xs font-bold text-gray-500 uppercase"
+                                >
+                                    <span class="text-red-500">*</span> City
+                                </label>
+                                <input
+                                    type="text"
+                                    required
+                                    x-model="city"
+                                    autocomplete="address-level2"
+                                    class="border border-gray-300 rounded px-3 py-3 w-full text-sm focus:outline-none focus:border-[#3b6eae]"
+                                />
+                            </div>
+
+                            <div class="flex flex-col gap-1">
+                                <label
+                                    class="text-xs font-bold text-gray-500 uppercase"
+                                >
+                                    <span class="text-red-500">*</span> State
+                                </label>
+                                <select
+                                    required
+                                    x-model="state"
+                                    autocomplete="address-level1"
+                                    class="border border-gray-300 rounded px-3 py-3 w-full text-sm focus:outline-none focus:border-[#3b6eae]"
+                                >
+                                    <option value="">Select State</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="IN">Indiana</option>
+                                </select>
+                            </div>
+
+                            <div class="flex flex-col gap-1">
+                                <label
+                                    class="text-xs font-bold text-gray-500 uppercase"
+                                    >Zip Code</label
+                                >
+                                <input
+                                    type="text"
+                                    x-model="zip"
+                                    autocomplete="postal-code"
+                                    class="border border-gray-300 rounded px-3 py-3 w-full text-sm focus:outline-none focus:border-[#3b6eae]"
+                                    placeholder="60010"
+                                />
+                            </div>
+
+                            <div
+                                class="col-span-1 md:col-span-2 flex flex-col gap-1"
+                            >
+                                <label
+                                    class="text-xs font-bold text-gray-500 uppercase"
+                                    >Directions / Special Instructions</label
+                                >
+                                <textarea
+                                    rows="4"
+                                    x-model="instructions"
+                                    class="border border-gray-300 rounded px-3 py-3 w-full text-sm focus:outline-none focus:border-[#3b6eae] resize-none"
+                                    placeholder="e.g., Park in driveway, gate code is 1234, etc."
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Continue Button -->
+                    <div
+                        class="mt-10 pt-6 border-t border-gray-100 flex justify-center"
+                    >
+                        <button
+                            type="button"
+                            @click="submitForm()"
+                            :disabled="isLoading || !firstName || !lastName || !phone || !email || !street || !city || !state"
+                            class="btn-primary w-full md:w-auto text-center shadow-lg"
+                        >
+                            <span
+                                x-text="isLoading ? 'Submitting...' : 'Submit Appointment'"
+                            ></span>
+                            <span x-show="!isLoading" class="ml-2">›</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        import Alpine from "alpinejs";
+
+        if (!window.Alpine) {
+            window.Alpine = Alpine;
+            Alpine.start();
+        }
+    </script>
+</BaseLayout>

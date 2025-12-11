@@ -1,0 +1,460 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Select Date & Time | Queens Mobile Tires">
+    <div class="min-h-screen bg-gray-100 py-8 font-sans">
+        <!-- Progress Steps -->
+        <div class="container mx-auto max-w-4xl mb-8 px-4">
+            <div
+                class="flex justify-between items-start text-xs font-semibold uppercase tracking-wide"
+            >
+                <!-- Step 1: Completed -->
+                <div class="flex flex-col items-center gap-2 text-green-600">
+                    <div
+                        class="w-10 h-10 rounded-full bg-green-500 text-white font-bold flex items-center justify-center shadow-md"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="3"
+                            stroke="currentColor"
+                            class="w-5 h-5"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4.5 12.75l6 6 9-13.5"></path>
+                        </svg>
+                    </div>
+                    <span>Job Details</span>
+                </div>
+
+                <!-- Connector Line -->
+                <div
+                    class="flex-1 h-1 bg-green-500 self-center mt-[-12px] mx-2 rounded"
+                >
+                </div>
+
+                <!-- Step 2: Current (Date & Time) -->
+                <div class="flex flex-col items-center gap-2 text-[#3b6eae]">
+                    <div
+                        class="w-10 h-10 rounded-full bg-[#3b6eae] text-white font-bold flex items-center justify-center shadow-lg ring-4 ring-[#3b6eae]/30"
+                    >
+                        2
+                    </div>
+                    <span class="font-bold">Date & Time</span>
+                </div>
+
+                <!-- Connector Line -->
+                <div
+                    class="flex-1 h-1 bg-gray-300 self-center mt-[-12px] mx-2 rounded"
+                >
+                </div>
+
+                <!-- Step 3: Future -->
+                <div class="flex flex-col items-center gap-2 text-gray-400">
+                    <div
+                        class="w-10 h-10 rounded-full border-2 border-gray-300 bg-white text-gray-400 font-bold flex items-center justify-center"
+                    >
+                        3
+                    </div>
+                    <span>Your Details</span>
+                </div>
+
+                <!-- Connector Line -->
+                <div
+                    class="flex-1 h-1 bg-gray-300 self-center mt-[-12px] mx-2 rounded"
+                >
+                </div>
+
+                <!-- Step 4: Future -->
+                <div class="flex flex-col items-center gap-2 text-gray-400">
+                    <div
+                        class="w-10 h-10 rounded-full border-2 border-gray-300 bg-white text-gray-400 font-bold flex items-center justify-center"
+                    >
+                        4
+                    </div>
+                    <span>Review</span>
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="container mx-auto max-w-4xl bg-white rounded-lg shadow-xl overflow-hidden mb-12"
+        >
+            <!-- Card Header -->
+            <div class="border-b border-gray-200 p-6 flex items-center gap-4">
+                <a
+                    href="/tire-installation"
+                    class="text-gray-400 hover:text-gray-600 transition"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="2.5"
+                        stroke="currentColor"
+                        class="w-6 h-6"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path>
+                    </svg>
+                </a>
+                <h1
+                    class="text-2xl font-black text-[#1e3a8a] uppercase tracking-wide"
+                >
+                    Please Select the Desired Date & Time Slot
+                </h1>
+            </div>
+
+            <div class="p-8 bg-white" x-data="dateTimePicker()">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Calendar Section -->
+                    <div>
+                        <!-- Month Navigation -->
+                        <div class="flex items-center justify-between mb-4">
+                            <button
+                                @click="prevMonth()"
+                                class="p-2 rounded-full bg-[#3b6eae] text-white hover:bg-[#2d5a8a] transition"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2"
+                                    stroke="currentColor"
+                                    class="w-5 h-5"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M15.75 19.5L8.25 12l7.5-7.5"></path>
+                                </svg>
+                            </button>
+                            <h2
+                                class="text-xl font-bold text-gray-800"
+                                x-text="monthYearLabel"
+                            >
+                            </h2>
+                            <button
+                                @click="nextMonth()"
+                                class="p-2 rounded-full bg-[#3b6eae] text-white hover:bg-[#2d5a8a] transition"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2"
+                                    stroke="currentColor"
+                                    class="w-5 h-5"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Day Headers -->
+                        <div
+                            class="grid grid-cols-7 gap-1 text-center text-xs font-bold text-gray-500 uppercase mb-2"
+                        >
+                            <div class="text-red-400">S</div>
+                            <div>M</div>
+                            <div>T</div>
+                            <div>W</div>
+                            <div>T</div>
+                            <div>F</div>
+                            <div>S</div>
+                        </div>
+
+                        <!-- Calendar Days -->
+                        <div class="grid grid-cols-7 gap-1">
+                            <template
+                                x-for="day in calendarDays"
+                                :key="day.date"
+                            >
+                                <button
+                                    :class="{
+                    'bg-[#3b6eae] text-white font-bold': day.isSelected,
+                    'bg-gray-100 text-gray-800 hover:bg-blue-100': day.isAvailable && !day.isSelected,
+                    'text-gray-300 cursor-not-allowed': !day.isAvailable,
+                    'text-red-400': day.isSunday && !day.isSelected,
+                    'ring-2 ring-[#3b6eae]': day.isToday && !day.isSelected
+                  }"
+                                    class="w-10 h-10 rounded-full flex items-center justify-center text-sm transition-all"
+                                    :disabled="!day.isAvailable"
+                                    @click="selectDate(day)"
+                                    x-text="day.dayNum"></button>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Time Slots Section -->
+                    <div>
+                        <div class="mb-4">
+                            <h3
+                                class="text-lg font-bold text-gray-800"
+                                x-text="selectedDateLabel"
+                            >
+                            </h3>
+                        </div>
+
+                        <!-- Morning -->
+                        <div class="mb-6">
+                            <h4
+                                class="text-sm font-semibold text-gray-500 uppercase mb-3"
+                            >
+                                Morning
+                            </h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <template
+                                    x-for="slot in morningSlots"
+                                    :key="slot"
+                                >
+                                    <button
+                                        @click="selectTime(slot)"
+                                        :class="selectedTime === slot ? 'bg-[#3b6eae] text-white border-[#3b6eae]' : 'bg-white text-gray-700 border-gray-300 hover:border-[#3b6eae]'"
+                                        class="py-3 px-4 border-2 rounded-lg text-sm font-medium transition-all"
+                                        x-text="slot"></button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Afternoon -->
+                        <div>
+                            <h4
+                                class="text-sm font-semibold text-gray-500 uppercase mb-3"
+                            >
+                                Afternoon
+                            </h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <template
+                                    x-for="slot in afternoonSlots"
+                                    :key="slot"
+                                >
+                                    <button
+                                        @click="selectTime(slot)"
+                                        :class="selectedTime === slot ? 'bg-[#3b6eae] text-white border-[#3b6eae]' : 'bg-white text-gray-700 border-gray-300 hover:border-[#3b6eae]'"
+                                        class="py-3 px-4 border-2 rounded-lg text-sm font-medium transition-all"
+                                        x-text="slot"></button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Continue Button -->
+                <div
+                    class="mt-10 pt-6 border-t border-gray-100 flex justify-center"
+                >
+                    <button
+                        type="button"
+                        @click="saveAndContinue()"
+                        :disabled="!selectedDate || !selectedTime"
+                        class="btn-primary w-full md:w-auto text-center shadow-lg"
+                    >
+                        Continue <span class="ml-2">›</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</BaseLayout>
+
+<script>
+    import Alpine from "alpinejs";
+
+    document.addEventListener("alpine:init", () => {
+        Alpine.data("dateTimePicker", () => ({
+            currentMonth: new Date().getMonth(),
+            currentYear: new Date().getFullYear(),
+            selectedDate: null,
+            selectedTime: null,
+
+            // US Holidays 2025
+            holidays: [
+                "2025-01-01",
+                "2025-01-20",
+                "2025-02-17",
+                "2025-05-26",
+                "2025-07-04",
+                "2025-09-01",
+                "2025-10-13",
+                "2025-11-11",
+                "2025-11-27",
+                "2025-12-25",
+            ],
+
+            // Morning slots (8am - 12pm)
+            morningSlots: ["8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM"],
+
+            // Afternoon slots (12pm - 6pm)
+            afternoonSlots: [
+                "12:00 PM",
+                "1:00 PM",
+                "2:00 PM",
+                "3:00 PM",
+                "4:00 PM",
+                "5:00 PM",
+            ],
+
+            get monthYearLabel() {
+                const months = [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December",
+                ];
+                return `${months[this.currentMonth]} ${this.currentYear}`;
+            },
+
+            get selectedDateLabel() {
+                if (!this.selectedDate) return "Select a date";
+                const days = [
+                    "Sunday",
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                ];
+                const months = [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
+                    "August",
+                    "September",
+                    "October",
+                    "November",
+                    "December",
+                ];
+                const d = new Date(this.selectedDate);
+                return `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}`;
+            },
+
+            get calendarDays() {
+                const days = [];
+                const firstDay = new Date(
+                    this.currentYear,
+                    this.currentMonth,
+                    1,
+                );
+                const lastDay = new Date(
+                    this.currentYear,
+                    this.currentMonth + 1,
+                    0,
+                );
+                const startPadding = firstDay.getDay();
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                // Add padding for days before the 1st
+                for (let i = 0; i < startPadding; i++) {
+                    days.push({
+                        dayNum: "",
+                        date: null,
+                        isAvailable: false,
+                        isSunday: false,
+                        isToday: false,
+                        isSelected: false,
+                    });
+                }
+
+                // Add actual days
+                for (let d = 1; d <= lastDay.getDate(); d++) {
+                    const date = new Date(
+                        this.currentYear,
+                        this.currentMonth,
+                        d,
+                    );
+                    const dateStr = date.toISOString().split("T")[0];
+                    const dayOfWeek = date.getDay();
+                    const isSunday = dayOfWeek === 0;
+                    const isHoliday = this.holidays.includes(dateStr);
+                    const isPast = date < today;
+                    const isAvailable = !isSunday && !isHoliday && !isPast;
+                    const isToday = date.getTime() === today.getTime();
+                    const isSelected = this.selectedDate === dateStr;
+
+                    days.push({
+                        dayNum: d,
+                        date: dateStr,
+                        isAvailable,
+                        isSunday,
+                        isToday,
+                        isSelected,
+                    });
+                }
+
+                return days;
+            },
+
+            prevMonth() {
+                if (this.currentMonth === 0) {
+                    this.currentMonth = 11;
+                    this.currentYear--;
+                } else {
+                    this.currentMonth--;
+                }
+            },
+
+            nextMonth() {
+                if (this.currentMonth === 11) {
+                    this.currentMonth = 0;
+                    this.currentYear++;
+                } else {
+                    this.currentMonth++;
+                }
+            },
+
+            selectDate(day) {
+                if (day.isAvailable) {
+                    this.selectedDate = day.date;
+                    this.selectedTime = null;
+                }
+            },
+
+            selectTime(slot) {
+                this.selectedTime = slot;
+            },
+
+            saveAndContinue() {
+                if (this.selectedDate && this.selectedTime) {
+                    const dateTimeData = {
+                        date: this.selectedDate,
+                        time: this.selectedTime,
+                    };
+                    localStorage.setItem(
+                        "dateTimeDetails",
+                        JSON.stringify(dateTimeData),
+                    );
+                    window.location.href = "/customer-details";
+                }
+            },
+        }));
+    });
+
+    if (!window.Alpine) {
+        window.Alpine = Alpine;
+        Alpine.start();
+    }
+</script>

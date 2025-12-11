@@ -1,0 +1,66 @@
+---
+import { ViewTransitions } from "astro:transitions";
+import "@fontsource/inter";
+import "@fontsource/source-serif-4";
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import MobileStickyCTA from "../components/MobileStickyCTA.astro";
+import type { BrandConfig } from "../brands";
+import { mobileTiresBrand } from "../brands";
+
+const {
+  title = "Queens Mobile Tires",
+  description = "We come to you.",
+  brand: propBrand,
+} = Astro.props;
+
+// Use provided brand or default to mobile tires brand
+const brand: BrandConfig = propBrand || mobileTiresBrand;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth overflow-x-hidden">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>{title}</title>
+    <ViewTransitions />
+    <script is:inline>
+      const applyTheme = () => {
+        if (
+          localStorage.getItem("color-theme") === "dark" ||
+          (!("color-theme" in localStorage) &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      };
+
+      // Apply on initial load
+      applyTheme();
+
+      // Re-apply after View Transitions swap
+      document.addEventListener("astro:after-swap", applyTheme);
+    </script>
+    <slot name="head" />
+  </head>
+  <body
+    class="bg-gray-50 text-queens-primary flex flex-col min-h-screen w-full overflow-x-hidden dark:bg-slate-900 dark:text-gray-100"
+  >
+    <a href="#main-content" class="skip-to-content-link">Skip to main content</a
+    >
+    <Header brand={brand} />
+
+    <main id="main-content" class="flex-grow">
+      <slot />
+    </main>
+
+    <Footer brand={brand} />
+    <MobileStickyCTA brand={brand} />
+  </body>
+</html>

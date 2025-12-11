@@ -1,0 +1,486 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GlobalCallToAction from "../components/GlobalCallToAction.astro";
+---
+
+<BaseLayout
+    title="About Us | Queens Mobile Tires"
+    description="Learn about Queens Mobile Tires - Chicago's premier mobile tire service. We bring professional tire installation and repair directly to your location."
+>
+    <!-- Hero Section -->
+    <section class="relative min-h-[60vh] flex items-center overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div
+                class="absolute top-1/4 right-1/4 w-96 h-96 bg-queens-secondary/10 rounded-full blur-[120px]"
+            >
+            </div>
+            <div
+                class="absolute bottom-1/4 left-1/4 w-80 h-80 bg-queens-light/10 rounded-full blur-[100px]"
+            >
+            </div>
+        </div>
+
+        <div
+            class="container mx-auto px-6 max-w-7xl relative z-10 py-20 lg:py-28"
+        >
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Text Content -->
+                <div>
+                    <span
+                        class="inline-block px-4 py-2 rounded-full bg-queens-secondary/10 dark:bg-white/10 backdrop-blur-sm text-queens-secondary text-sm font-medium mb-6 border border-queens-primary/10 dark:border-white/20"
+                    >
+                        Our Story
+                    </span>
+                    <h1
+                        class="text-4xl md:text-5xl lg:text-6xl font-bold text-queens-primary dark:text-white leading-tight mb-6"
+                    >
+                        The Tire Shop That<br />
+                        <span
+                            class="font-serif italic font-normal text-queens-secondary"
+                            >Comes to You</span
+                        >
+                    </h1>
+                    <p
+                        class="text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-xl"
+                    >
+                        Queens Mobile Tires is redefining convenience in the
+                        tire industry. We bring professional tire services
+                        directly to your home, office, or wherever you need us
+                        across the Chicago suburbs.
+                    </p>
+                </div>
+
+                <!-- Hero Image -->
+                <div class="relative hidden lg:block">
+                    <div
+                        class="absolute -inset-2 bg-gradient-to-r from-queens-secondary/20 to-queens-primary/20 rounded-3xl blur-xl"
+                    >
+                    </div>
+                    <div
+                        class="relative rounded-3xl overflow-hidden shadow-lg border border-gray-200 dark:border-white/10 transform rotate-2 hover:rotate-0 transition-transform duration-700"
+                    >
+                        <img
+                            src="/images/mobile-tire-installation-highway.webp"
+                            alt="Queens Mobile Tires van on the highway"
+                            class="w-full h-full object-cover"
+                            loading="lazy"
+                        />
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-[#0a0f1a]/60 to-transparent"
+                        >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="py-20 lg:py-28 bg-white">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="text-center mb-12">
+                <span
+                    class="text-queens-secondary font-semibold text-sm uppercase tracking-wider block mb-4"
+                >
+                    Backed by Real Shops
+                </span>
+                <h2
+                    class="text-3xl md:text-4xl font-bold text-queens-primary mb-4"
+                >
+                    Backed by Experience, Built for Convenience
+                </h2>
+                <p
+                    class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed"
+                >
+                    Unlike other mobile services, we aren't just a van and a
+                    website. We proudly operate <strong
+                        >two physical locations</strong
+                    > serving the community. The video below shows our tire shops
+                    in action—the same expertise, inventory, and professional standards
+                    we bring to your driveway.
+                    <br /><br />
+                    We launched <strong>Queens Mobile Tires</strong> to solve one
+                    simple problem: <strong>waiting rooms</strong>. Now you can
+                    buy your tires online, and instead of waiting in line at the
+                    shop, we deliver and install them right at your home or
+                    office.
+                </p>
+            </div>
+
+            <!-- YouTube Video Embed -->
+            <div
+                class="relative aspect-video rounded-3xl overflow-hidden shadow-2xl border border-gray-100"
+            >
+                <iframe
+                    class="absolute inset-0 w-full h-full"
+                    src="https://www.youtube.com/embed/WFIqBH0-qU0?rel=0&modestbranding=1"
+                    title="Queens Mobile Tires - Professional Mobile Tire Service"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Mission Section -->
+    <section class="py-20 lg:py-28 bg-gray-50">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Image -->
+                <div class="relative group order-2 lg:order-1">
+                    <div
+                        class="absolute -inset-4 bg-gradient-to-r from-queens-secondary/20 to-queens-primary/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+                    >
+                    </div>
+                    <div
+                        class="relative rounded-3xl overflow-hidden shadow-2xl"
+                    >
+                        <img
+                            src="/images/mobile-tire-service-barrington-il.webp"
+                            alt="Queens Mobile Tires Service Van"
+                            class="w-full h-auto object-cover"
+                            loading="lazy"
+                        />
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="order-1 lg:order-2">
+                    <span
+                        class="text-queens-secondary font-semibold text-sm uppercase tracking-wider"
+                    >
+                        Our Mission
+                    </span>
+                    <h2
+                        class="text-3xl md:text-4xl font-bold text-queens-primary mt-3 mb-6"
+                    >
+                        Making Tire Service <span
+                            class="font-serif italic font-normal"
+                            >Effortless</span
+                        >
+                    </h2>
+                    <div
+                        class="space-y-6 text-lg text-gray-600 leading-relaxed"
+                    >
+                        <p>
+                            We believe getting new tires or fixing a flat
+                            shouldn't disrupt your entire day. That's why we
+                            created Queens Mobile Tires – a fully equipped
+                            mobile tire shop that brings professional service
+                            directly to you.
+                        </p>
+                        <p>
+                            Whether you're at home, at work, or even at the gym,
+                            our certified technicians arrive with everything
+                            needed to install new tires, repair flats, or swap
+                            your seasonal wheels – all while you continue with
+                            your day.
+                        </p>
+                        <p>
+                            <strong class="text-queens-primary"
+                                >No waiting rooms. No wasted time. Just premium
+                                service at your convenience.</strong
+                            >
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What Sets Us Apart -->
+    <section class="py-20 lg:py-28 bg-white">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="text-center mb-16">
+                <span
+                    class="text-queens-secondary font-semibold text-sm uppercase tracking-wider"
+                >
+                    The Queens Difference
+                </span>
+                <h2
+                    class="text-3xl md:text-4xl font-bold text-queens-primary mt-3 mb-6"
+                >
+                    Why Choose Us?
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div
+                    class="group relative bg-white rounded-3xl p-10 shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+                >
+                    <div
+                        class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-queens-secondary to-queens-secondary/50 rounded-t-3xl"
+                    >
+                    </div>
+                    <div
+                        class="w-20 h-20 bg-gradient-to-br from-queens-secondary/20 to-queens-secondary/5 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300"
+                    >
+                        <svg
+                            class="w-10 h-10 text-queens-secondary"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                            ></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-queens-primary mb-4">
+                        Your Time Matters
+                    </h3>
+                    <p class="text-gray-600 leading-relaxed text-lg">
+                        We come to you – home, office, or anywhere. No more
+                        sitting in waiting rooms or rearranging your schedule
+                        around a tire shop.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div
+                    class="group relative bg-white rounded-3xl p-10 shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+                >
+                    <div
+                        class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-queens-secondary to-queens-secondary/50 rounded-t-3xl"
+                    >
+                    </div>
+                    <div
+                        class="w-20 h-20 bg-gradient-to-br from-queens-secondary/20 to-queens-secondary/5 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300"
+                    >
+                        <svg
+                            class="w-10 h-10 text-queens-secondary"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                            ></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-queens-primary mb-4">
+                        Premium Quality
+                    </h3>
+                    <p class="text-gray-600 leading-relaxed text-lg">
+                        We use the same professional-grade equipment and top
+                        tire brands as traditional shops. Mobile doesn't mean
+                        compromising on quality.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div
+                    class="group relative bg-white rounded-3xl p-10 shadow-lg border border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+                >
+                    <div
+                        class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-queens-secondary to-queens-secondary/50 rounded-t-3xl"
+                    >
+                    </div>
+                    <div
+                        class="w-20 h-20 bg-gradient-to-br from-queens-secondary/20 to-queens-secondary/5 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300"
+                    >
+                        <svg
+                            class="w-10 h-10 text-queens-secondary"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                            ></path>
+                            <path
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-queens-primary mb-4">
+                        Local & Trusted
+                    </h3>
+                    <p class="text-gray-600 leading-relaxed text-lg">
+                        Proudly serving Chicago's northwest suburbs. We're your
+                        neighbors, and we take pride in keeping our community
+                        rolling safely.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Area -->
+    <section
+        class="py-20 lg:py-28 bg-gradient-to-br from-queens-primary via-queens-primary to-[#1a3a5c] relative overflow-hidden"
+    >
+        <!-- Decorative -->
+        <div class="absolute inset-0 opacity-10">
+            <div
+                class="absolute top-20 left-10 w-72 h-72 bg-queens-secondary rounded-full blur-3xl"
+            >
+            </div>
+            <div
+                class="absolute bottom-10 right-20 w-96 h-96 bg-queens-light rounded-full blur-3xl"
+            >
+            </div>
+        </div>
+
+        <div class="container mx-auto px-6 max-w-4xl relative z-10 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+                Serving the Chicago Suburbs
+            </h2>
+            <p class="text-xl text-white/80 mb-10 leading-relaxed">
+                From Elgin to Barrington, Gilberts to Crystal Lake – we bring
+                professional tire service to communities across the northwest
+                suburbs. If you're in our service area, we'll come to you.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                    href="/locations"
+                    class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-queens-primary font-bold rounded-full hover:scale-105 transition-transform shadow-xl"
+                >
+                    View All Locations
+                    <svg
+                        class="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </a>
+                <a
+                    href="/buy-new-tires"
+                    data-astro-reload
+                    class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-queens-secondary text-white font-bold rounded-full hover:scale-105 transition-transform shadow-xl"
+                >
+                    Shop Tires Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact / Hours -->
+    <section class="py-20 lg:py-28 bg-white">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="grid md:grid-cols-2 gap-12 lg:gap-20">
+                <!-- Hours -->
+                <div
+                    class="bg-gray-50 rounded-3xl p-6 md:p-10 border border-gray-100"
+                >
+                    <h3 class="text-2xl font-bold text-queens-primary mb-8">
+                        Hours of Operation
+                    </h3>
+                    <div class="space-y-4">
+                        <div
+                            class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 sm:gap-0 py-3 border-b border-gray-200"
+                        >
+                            <span class="text-gray-700 font-medium"
+                                >Monday - Friday</span
+                            >
+                            <span class="text-queens-primary font-bold"
+                                >8:00 AM - 5:00 PM</span
+                            >
+                        </div>
+                        <div
+                            class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 sm:gap-0 py-3 border-b border-gray-200"
+                        >
+                            <span class="text-gray-700 font-medium"
+                                >Saturday</span
+                            >
+                            <span class="text-queens-primary font-bold"
+                                >8:00 AM - 5:00 PM</span
+                            >
+                        </div>
+                        <div
+                            class="flex flex-col sm:flex-row justify-between sm:items-center gap-1 sm:gap-0 py-3"
+                        >
+                            <span class="text-gray-700 font-medium">Sunday</span
+                            >
+                            <span class="text-gray-500">Closed</span>
+                        </div>
+                    </div>
+                    <p class="mt-6 text-gray-600 text-sm">
+                        * By appointment. Same-day and next-day appointments
+                        often available.
+                    </p>
+                </div>
+
+                <!-- Contact -->
+                <div
+                    class="bg-queens-primary rounded-3xl p-6 md:p-10 text-white"
+                >
+                    <h3 class="text-2xl font-bold mb-8">Get in Touch</h3>
+                    <div class="space-y-6">
+                        <a
+                            href="tel:+18479251100"
+                            class="flex flex-col sm:flex-row items-start sm:items-center gap-4 group"
+                        >
+                            <div
+                                class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors flex-shrink-0"
+                            >
+                                <svg
+                                    class="w-6 h-6"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                                    ></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-white/60 text-sm">Call Us</p>
+                                <p class="text-xl font-bold">(847) 925-1100</p>
+                            </div>
+                        </a>
+                        <a
+                            href="mailto:info@queensmobiletires.com"
+                            class="flex flex-col sm:flex-row items-start sm:items-center gap-4 group"
+                        >
+                            <div
+                                class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors flex-shrink-0"
+                            >
+                                <svg
+                                    class="w-6 h-6"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                    ></path>
+                                </svg>
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-white/60 text-sm">Email</p>
+                                <p
+                                    class="text-xl font-bold break-all sm:break-normal"
+                                >
+                                    info@queensmobiletires.com
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="mt-10 pt-8 border-t border-white/20">
+                        <GlobalCallToAction isFullWidth />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</BaseLayout>
