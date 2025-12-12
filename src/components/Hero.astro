@@ -6,7 +6,10 @@ import { mobileTiresBrand } from "../brands";
 const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
 ---
 
-<section class="relative py-24 bg-white overflow-hidden">
+<!-- NOTE: Extra top padding to account for floating header -->
+<section
+  class="relative pt-36 pb-24 sm:pt-48 sm:pb-32 bg-white overflow-hidden"
+>
   <!-- Background Glow Effect (Subtle) -->
   <div
     class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none z-0"

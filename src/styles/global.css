@@ -10,7 +10,7 @@
     --color-queens-orange: #f97316;
     --color-queens-black: #050505;
 
-    --font-sans: "Inter", sans-serif;
+    --font-sans: "Manrope", sans-serif;
     --font-serif: "Source Serif 4", serif;
 }
 
@@ -166,7 +166,84 @@ h3,
 h4,
 h5,
 h6 {
+    font-family: "Instrument Sans", sans-serif;
     color: var(--text-primary);
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 3.5rem;
+    /* ~56px mobile */
+}
+
+h2 {
+    font-size: 2.5rem;
+    /* ~40px mobile */
+}
+
+h3 {
+    font-size: 2rem;
+    /* ~32px mobile */
+}
+
+h4 {
+    font-size: 1.75rem;
+    /* ~28px mobile */
+}
+
+h5 {
+    font-size: 1.5rem;
+    /* ~24px mobile */
+}
+
+h6 {
+    font-size: 1.25rem;
+    /* ~20px mobile */
+}
+
+@media (min-width: 1024px) {
+    h1 {
+        font-size: 84px;
+    }
+
+    h2 {
+        font-size: 64px;
+    }
+
+    h3 {
+        font-size: 52px;
+    }
+
+    h4 {
+        font-size: 48px;
+    }
+
+    h5 {
+        font-size: 40px;
+    }
+
+    h6 {
+        font-size: 36px;
+    }
+}
+
+.paragraph-1 {
+    /* Usage: Hero description or supporting copy only */
+    font-size: 20px;
+    line-height: 1.5;
+}
+
+.paragraph-2 {
+    /* Usage: Standard body text */
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.paragraph-3 {
+    /* Usage: Fine print or small details */
+    font-size: 14px;
+    line-height: 1.5;
 }
 
 p,
@@ -182,6 +259,56 @@ div {
 /* Body text defaults */
 p {
     color: var(--text-secondary);
+}
+
+/* ========================================
+   RICH TEXT STYLES (Content within articles/blocks)
+   Overrides standard heading sizes for content flow
+   ======================================== */
+
+.rich-text h1 {
+    font-size: 36px;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+
+.rich-text h2 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.rich-text h3 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.rich-text h4 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.rich-text h5 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.rich-text h6 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.rich-text p {
+    margin-bottom: 1.5rem;
 }
 
 /* Links */

@@ -1,0 +1,137 @@
+---
+interface Props {
+    src: string;
+    alt: string;
+    class?: string;
+    className?: string;
+    aspectRatio?: string;
+    loading?: "eager" | "lazy";
+    direction?: "left" | "right" | "top" | "bottom"; // Reveal direction
+}
+
+const {
+    src,
+    alt,
+    class: classStr = "",
+    className = "",
+    aspectRatio = "",
+    loading = "lazy",
+    direction = "right", // Default: reveal expanding from left to right
+} = Astro.props;
+
+// Combine custom classes
+const wrapperClass =
+    `image-reveal-wrapper group relative overflow-hidden block ${aspectRatio} ${classStr} ${className}`.trim();
+
+// Set data attribute for direction so JS can read it
+---
+
+<div class={wrapperClass} data-image-reveal data-reveal-direction={direction}>
+    <img
+        src={src}
+        alt={alt}
+        loading={loading}
+        class="reveal-image block w-full h-full object-cover transition-[clip-path] duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] will-change-[clip-path]"
+        style="clip-path: inset(0 100% 0 0);"
+    />
+</div>
+
+<script>
+    // Intersection Observer for clip-path reveal
+    const setupRevealObserver = () => {
+        const observerOptions = {
+            root: null,
+            rootMargin: "-100px 0px", // Must scroll 100px into viewport before triggering
+            threshold: 0.1,
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const wrapper = entry.target as HTMLElement;
+                    const img = wrapper.querySelector(
+                        ".reveal-image",
+                    ) as HTMLElement;
+                    const direction =
+                        wrapper.dataset.revealDirection || "right";
+
+                    if (img) {
+                        // Set clip-path to fully visible based on direction
+                        // inset(top right bottom left)
+                        switch (direction) {
+                            case "left":
+                                // Reveals from right to left
+                                img.style.clipPath = "inset(0 0 0 0)";
+                                break;
+                            case "right":
+                                // Reveals from left to right (default)
+                                img.style.clipPath = "inset(0 0 0 0)";
+                                break;
+                            case "top":
+                                // Reveals from bottom to top
+                                img.style.clipPath = "inset(0 0 0 0)";
+                                break;
+                            case "bottom":
+                                // Reveals from top to bottom
+                                img.style.clipPath = "inset(0 0 0 0)";
+                                break;
+                            default:
+                                img.style.clipPath = "inset(0 0 0 0)";
+                        }
+                    }
+
+                    observer.unobserve(wrapper);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll("[data-image-reveal]").forEach((el) => {
+            // Set initial clip-path based on direction
+            const wrapper = el as HTMLElement;
+            const img = wrapper.querySelector(".reveal-image") as HTMLElement;
+            const direction = wrapper.dataset.revealDirection || "right";
+
+            if (img) {
+                // inset(top right bottom left)
+                switch (direction) {
+                    case "left":
+                        // Start clipped on left, reveal to left
+                        img.style.clipPath = "inset(0 0 0 100%)";
+                        break;
+                    case "right":
+                        // Start clipped on right, reveal to right
+                        img.style.clipPath = "inset(0 100% 0 0)";
+                        break;
+                    case "top":
+                        // Start clipped on top, reveal upward
+                        img.style.clipPath = "inset(100% 0 0 0)";
+                        break;
+                    case "bottom":
+                        // Start clipped on bottom, reveal downward
+                        img.style.clipPath = "inset(0 0 100% 0)";
+                        break;
+                    default:
+                        img.style.clipPath = "inset(0 100% 0 0)";
+                }
+            }
+
+            observer.observe(el);
+        });
+    };
+
+    // Run on initial load
+    setupRevealObserver();
+
+    // Run on page navigation (View Transitions)
+    document.addEventListener("astro:page-load", setupRevealObserver);
+</script>
+
+<style>
+    /* Fallback for browsers that don't support clip-path well */
+    @supports not (clip-path: inset(0)) {
+        .reveal-image {
+            clip-path: none !important;
+            opacity: 1 !important;
+        }
+    }
+</style>

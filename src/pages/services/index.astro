@@ -10,27 +10,25 @@ const description =
 
 <BaseLayout brand={mobileTiresBrand} title={title}>
     <!-- Hero Section -->
-    <div class="bg-gray-50 dark:bg-slate-900 pt-20 pb-16">
+    <!-- NOTE: Extra top padding to account for floating header -->
+    <div class="bg-gray-50 dark:bg-slate-900 pt-36 pb-24 sm:pt-48 sm:pb-32">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div>
-                    <h1
-                        class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl mb-6"
-                    >
+                    <!-- Recommended heading size for internal page heroes -->
+                    <h3 class="text-gray-900 dark:text-white mb-6">
                         Your <span class="bg-[#0e79c9] text-white px-2 rounded"
                             >One-Stop Shop</span
                         > For All Your Auto Repair Needs
-                    </h1>
+                    </h3>
                     <p
-                        class="text-lg leading-8 text-gray-600 dark:text-gray-300 mb-6"
+                        class="paragraph-1 text-gray-600 dark:text-gray-300 mb-6"
                     >
                         From routine oil changes to complex engine diagnostics,
                         our team offers comprehensive solutions to keep your
                         vehicle running smoothly.
                     </p>
-                    <p
-                        class="text-lg leading-8 text-gray-600 dark:text-gray-300"
-                    >
+                    <p class="paragraph-1 text-gray-600 dark:text-gray-300">
                         We're dedicated to providing honest, reliable service
                         tailored to your vehicle's needs, ensuring you drive
                         away with confidence and peace of mind.
@@ -56,9 +54,7 @@ const description =
                 {
                     servicesData.map((category) => (
                         <div class="flex flex-col rounded-md bg-[#1F2937] p-8 shadow-sm hover:shadow-lg transition-shadow border border-gray-700">
-                            <h3 class="text-lg font-bold uppercase tracking-wider text-white mb-6">
-                                {category.title}
-                            </h3>
+                            <h6 class="text-white mb-6">{category.title}</h6>
                             <ul class="flex-1 space-y-2">
                                 {category.services.map((service) => (
                                     <li>

@@ -1,0 +1,65 @@
+---
+import ImageReveal from "./ui/ImageReveal.astro";
+import { mobileTiresBrand } from "../brands";
+
+const { brand = mobileTiresBrand } = Astro.props;
+---
+
+<section class="py-24 bg-white dark:bg-slate-900 overflow-hidden">
+    <div class="container mx-auto px-6 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <!-- Left Content -->
+            <div class="order-2 lg:order-1">
+                <h2
+                    class="text-4xl md:text-5xl font-sans font-bold text-queens-primary dark:text-white tracking-tight mb-6"
+                >
+                    Buying Tires <br />
+                    <span class="font-serif italic text-queens-secondary"
+                        >Made Easy</span
+                    >
+                </h2>
+
+                <div class="space-y-6 text-lg text-gray-600 dark:text-gray-300">
+                    <p>
+                        The easiest tire installation experience you'll ever
+                        have. Order your tires online using our easy-to-use
+                        tool, schedule the date, time, and location of your
+                        mobile installation.
+                    </p>
+
+                    <p>
+                        Our technician will come to your home or office and will
+                        install your tires in <strong
+                            class="text-queens-primary dark:text-white"
+                            >less than an hour</strong
+                        >.
+                    </p>
+
+                    <p>
+                        Our commitment is to offer you the easiest and smoothest
+                        experience on your next set of new tires.
+                    </p>
+                </div>
+
+                <div class="mt-10">
+                    <a
+                        href="/buy-new-tires"
+                        class="inline-flex items-center justify-center bg-queens-primary hover:bg-queens-secondary text-white text-lg font-bold px-8 py-4 rounded-full transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                    >
+                        Find Your Tires
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Image with Reveal Effect -->
+            <div class="order-1 lg:order-2">
+                <ImageReveal
+                    src="/images/mobile-tire-installation-highway.webp"
+                    alt="Queens Mobile Tire Installation Van"
+                    class="rounded-3xl shadow-2xl aspect-[4/5] object-cover"
+                    position="right"
+                />
+            </div>
+        </div>
+    </div>
+</section>

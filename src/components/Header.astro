@@ -7,36 +7,42 @@ const { brand } = Astro.props as { brand: BrandConfig };
 const nameParts = brand.name.split(" ");
 const firstName = nameParts[0];
 const secondName = nameParts.length > 1 ? nameParts[1] : "";
-const restName = nameParts.length > 2 ? nameParts.slice(2).join(" ") : "";
 ---
 
-<header
-  id="main-header"
-  class="sticky top-0 z-50 transition-all duration-300 bg-white border-b border-gray-100 shadow-sm dark:bg-slate-900 dark:border-gray-800"
+<div
+  class="absolute top-0 left-0 right-0 z-50 flex justify-center md:pt-6 md:px-4 pointer-events-none"
 >
-  <div
-    class="container mx-auto px-6 max-w-7xl h-20 flex justify-between items-center"
+  <header
+    id="main-nav"
+    class="pointer-events-auto relative tracking-tight flex items-center justify-between w-full transition-all duration-500
+    /* Mobile Styles: Full width, clean, no pill */
+    px-6 py-4 bg-white/0 dark:bg-slate-900/0 border-b border-transparent
+    /* Desktop Styles: Floating Pill, Animated */
+    md:bg-white/90 md:backdrop-blur-md md:dark:bg-slate-900/90 md:rounded-full md:px-6 md:py-3 md:shadow-[0_8px_30px_rgb(0,0,0,0.04)] md:dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] md:border md:border-gray-100 md:dark:border-gray-800 md:max-w-6xl md:opacity-0 md:scale-[0.8]"
   >
     <!-- Logo -->
-    <a href={`/`} class="group flex items-center gap-2">
+    <a
+      href={`/`}
+      class="group flex items-center gap-2 mr-auto md:mr-8 shrink-0"
+    >
       {
         brand.logoPath && brand.logoPath.includes("New-Logo") ? (
           <>
             <img
               src={brand.logoPath}
               alt={brand.name}
-              class={`h-10 w-auto object-contain ${brand.logoPathWhite ? "dark:hidden" : ""}`}
+              class={`h-8 w-auto object-contain ${brand.logoPathWhite ? "dark:hidden" : ""}`}
             />
             {brand.logoPathWhite && (
               <img
                 src={brand.logoPathWhite}
                 alt={brand.name}
-                class="h-10 w-auto object-contain hidden dark:block"
+                class="h-8 w-auto object-contain hidden dark:block"
               />
             )}
           </>
         ) : (
-          <span class="text-2xl font-black italic tracking-tighter uppercase text-queens-primary dark:text-gray-100 group-hover:text-queens-secondary transition-colors duration-300">
+          <span class="text-xl font-bold tracking-tighter uppercase text-queens-primary dark:text-white group-hover:text-queens-secondary transition-colors duration-300">
             {firstName}{" "}
             <span class="text-queens-secondary group-hover:text-queens-primary transition-colors duration-300">
               {secondName}
@@ -47,47 +53,54 @@ const restName = nameParts.length > 2 ? nameParts.slice(2).join(" ") : "";
     </a>
 
     <!-- Desktop Navigation -->
-    <nav class="hidden md:flex items-center gap-8">
+    <nav class="hidden md:flex items-center gap-1">
       <a
         href={`/`}
         data-astro-prefetch="hover"
-        class="text-sm font-bold hover:text-queens-secondary transition-colors uppercase tracking-wide text-queens-primary dark:text-gray-300 dark:hover:text-queens-secondary"
+        class="text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full hover:bg-gray-50 dark:hover:bg-slate-800 transition-all text-gray-600 dark:text-gray-300"
         >Home</a
       >
       <a
         href={`/services`}
         data-astro-prefetch="hover"
-        class="text-sm font-bold hover:text-queens-secondary transition-colors uppercase tracking-wide text-queens-primary dark:text-gray-300 dark:hover:text-queens-secondary"
+        class="text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full hover:bg-gray-50 dark:hover:bg-slate-800 transition-all text-gray-600 dark:text-gray-300"
         >Services</a
       >
       <a
         href={`/buy-new-tires`}
         data-astro-reload
-        class="text-sm font-bold hover:text-queens-secondary transition-colors uppercase tracking-wide text-queens-primary dark:text-gray-300 dark:hover:text-queens-secondary"
+        class="text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full hover:bg-gray-50 dark:hover:bg-slate-800 transition-all text-gray-600 dark:text-gray-300"
         >New Tires</a
       >
       <a
         href={`/deals`}
         data-astro-prefetch="hover"
-        class="text-sm font-bold hover:text-queens-secondary transition-colors uppercase tracking-wide text-queens-primary dark:text-gray-300 dark:hover:text-queens-secondary"
+        class="text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full hover:bg-gray-50 dark:hover:bg-slate-800 transition-all text-gray-600 dark:text-gray-300"
         >Deals</a
       >
       <a
         href={`/contact`}
         data-astro-prefetch="hover"
-        class="text-sm font-bold hover:text-queens-secondary transition-colors uppercase tracking-wide text-queens-primary dark:text-gray-300 dark:hover:text-queens-secondary"
+        class="text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full hover:bg-gray-50 dark:hover:bg-slate-800 transition-all text-gray-600 dark:text-gray-300"
         >Contact</a
       >
     </nav>
 
-    <!-- Theme Toggle & Mobile Menu -->
-    <div class="flex items-center gap-4">
+    <!-- Right Side Actions -->
+    <div class="flex items-center gap-3 ml-auto md:ml-0 pl-0 md:pl-0">
       <ThemeToggle />
+
+      <a
+        href={`/request-an-appointment`}
+        class="hidden md:inline-flex items-center justify-center bg-queens-primary hover:bg-queens-secondary text-white text-sm font-bold px-6 py-2.5 rounded-full transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+      >
+        Book Appointment
+      </a>
 
       <!-- Mobile Menu Button -->
       <button
         id="mobile-menu-button"
-        class="md:hidden text-queens-primary hover:text-queens-secondary dark:text-gray-100 dark:hover:text-queens-secondary"
+        class="md:hidden text-queens-primary hover:text-queens-secondary dark:text-white dark:hover:text-queens-secondary p-1"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +108,7 @@ const restName = nameParts.length > 2 ? nameParts.slice(2).join(" ") : "";
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="w-8 h-8"
+          class="w-7 h-7"
         >
           <path
             stroke-linecap="round"
@@ -104,10 +117,10 @@ const restName = nameParts.length > 2 ? nameParts.slice(2).join(" ") : "";
         </svg>
       </button>
     </div>
-  </div>
-</header>
+  </header>
+</div>
 
-<!-- Mobile Menu Overlay (Outside header to avoid stacking context issues) -->
+<!-- Mobile Menu Overlay -->
 <div id="mobile-menu" class="fixed inset-0 z-[100] hidden md:hidden">
   <!-- Backdrop -->
   <div
@@ -116,73 +129,19 @@ const restName = nameParts.length > 2 ? nameParts.slice(2).join(" ") : "";
   >
   </div>
 
-  <!-- Menu Panel (Floating Popup Style) -->
+  <!-- Menu Panel -->
   <div
-    class="absolute left-4 top-4 bottom-4 w-[280px] bg-white rounded-3xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] flex flex-col overflow-hidden"
+    class="absolute top-4 right-4 left-4 bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-4 duration-200"
   >
-    <!-- Close Button -->
-    <button
-      id="mobile-menu-close"
-      class="absolute top-4 left-4 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+    <div
+      class="flex justify-between items-center p-6 border-b border-gray-100 dark:border-gray-800"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="2"
-        stroke="currentColor"
-        class="w-5 h-5 text-gray-600"
+      <span class="font-bold text-lg text-queens-primary dark:text-white"
+        >Menu</span
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </button>
-
-    <!-- Brand Header -->
-    <div class="pt-20 px-6 pb-6 border-b border-gray-100">
-      <div class="flex items-center gap-3">
-        {
-          brand.logoPath && brand.logoPath.includes("New-Logo") ? (
-            <>
-              <img
-                src={brand.logoPath}
-                alt={brand.name}
-                class={`h-10 w-auto object-contain ${brand.logoPathWhite ? "dark:hidden" : ""}`}
-              />
-              {brand.logoPathWhite && (
-                <img
-                  src={brand.logoPathWhite}
-                  alt={brand.name}
-                  class="h-10 w-auto object-contain hidden dark:block"
-                />
-              )}
-            </>
-          ) : (
-            <>
-              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-queens-secondary to-queens-light flex items-center justify-center">
-                <span class="text-white font-black text-lg">
-                  {firstName.charAt(0)}
-                </span>
-              </div>
-              <div>
-                <p class="font-bold text-queens-primary">
-                  {firstName} {secondName}
-                </p>
-              </div>
-            </>
-          )
-        }
-      </div>
-    </div>
-
-    <!-- Menu Items -->
-    <nav class="flex-1 py-4 px-2 overflow-y-auto">
-      <a
-        href={`/`}
-        data-astro-prefetch="hover"
-        class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-queens-secondary transition-colors group"
+      <button
+        id="mobile-menu-close"
+        class="p-2 -mr-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -190,110 +149,56 @@ const restName = nameParts.length > 2 ? nameParts.slice(2).join(" ") : "";
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="w-5 h-5 text-gray-400 group-hover:text-queens-secondary transition-colors"
+          class="w-6 h-6"
         >
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
-            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-          ></path>
+            d="M6 18L18 6M6 6l12 12"></path>
         </svg>
-        <span class="font-medium">Home</span>
+      </button>
+    </div>
+
+    <nav class="p-4 flex flex-col space-y-2">
+      <a
+        href={`/`}
+        class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300 font-medium"
+      >
+        Home
       </a>
       <a
         href={`/services`}
-        data-astro-prefetch="hover"
-        class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-queens-secondary transition-colors group"
+        class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300 font-medium"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-5 h-5 text-gray-400 group-hover:text-queens-secondary transition-colors"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"
-          ></path>
-        </svg>
-        <span class="font-medium">Services</span>
+        Services
       </a>
       <a
         href={`/buy-new-tires`}
         data-astro-reload
-        class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-queens-secondary transition-colors group"
+        class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300 font-medium"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-5 h-5 text-gray-400 group-hover:text-queens-secondary transition-colors"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-          ></path>
-        </svg>
-        <span class="font-medium">New Tires</span>
+        New Tires
       </a>
       <a
         href={`/deals`}
-        data-astro-prefetch="hover"
-        class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-queens-secondary transition-colors group"
+        class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300 font-medium"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-5 h-5 text-gray-400 group-hover:text-queens-secondary transition-colors"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          ></path>
-        </svg>
-        <span class="font-medium">Deals</span>
+        Deals
       </a>
       <a
         href={`/contact`}
-        data-astro-prefetch="hover"
-        class="flex items-center gap-4 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-50 hover:text-queens-secondary transition-colors group"
+        class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300 font-medium"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-5 h-5 text-gray-400 group-hover:text-queens-secondary transition-colors"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
-          ></path>
-        </svg>
-        <span class="font-medium">Contact</span>
+        Contact
       </a>
     </nav>
 
-    <!-- CTA Button -->
-    <div class="p-6 border-t border-gray-100">
+    <div class="p-6 border-t border-gray-100 dark:border-gray-800">
       <a
-        href={`/buy-new-tires`}
-        data-astro-reload
-        class="btn-primary w-full text-center shadow-lg"
+        href={`/request-an-appointment`}
+        class="w-full flex items-center justify-center bg-queens-primary hover:bg-queens-secondary text-white font-bold py-3 rounded-xl transition-colors"
       >
-        Shop Tires
+        Book Appointment
       </a>
     </div>
   </div>
@@ -301,53 +206,30 @@ const restName = nameParts.length > 2 ? nameParts.slice(2).join(" ") : "";
 
 <script>
   function setupHeader() {
-    const header = document.getElementById("main-header");
+    const nav = document.getElementById("main-nav");
     const mobileMenuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
     const mobileMenuClose = document.getElementById("mobile-menu-close");
     const mobileMenuBackdrop = document.getElementById("mobile-menu-backdrop");
 
-    if (!header || !mobileMenuButton || !mobileMenu) {
-      console.error("Header elements not found, aborting setup.");
-      return;
-    }
+    if (!nav) return;
 
-    // --- Header Style on Scroll ---
+    // Trigger animation on load (Desktop only mostly, but safe to run)
+    requestAnimationFrame(() => {
+      // Only apply zoom/fade if existing classes allow (desktop has opacity-0 match)
+      nav.classList.remove("md:opacity-0", "md:scale-[0.8]");
+      nav.classList.add("md:opacity-100", "md:scale-100");
+    });
+
+    // Scroll Logic Removed for Static Header
+    /* 
     const updateHeaderStyle = () => {
-      if (window.scrollY > 10) {
-        header.classList.remove(
-          "bg-white",
-          "dark:bg-slate-900",
-          "shadow-sm",
-          "border-gray-100",
-          "dark:border-gray-800",
-        );
-        header.classList.add(
-          "bg-white/80",
-          "dark:bg-slate-900/80",
-          "backdrop-blur-xl",
-          "shadow-md",
-          "border-transparent",
-        );
-      } else {
-        header.classList.add(
-          "bg-white",
-          "dark:bg-slate-900",
-          "shadow-sm",
-          "border-gray-100",
-          "dark:border-gray-800",
-        );
-        header.classList.remove(
-          "bg-white/80",
-          "dark:bg-slate-900/80",
-          "backdrop-blur-xl",
-          "shadow-md",
-          "border-transparent",
-        );
-      }
-    };
+       // ... Logic removed to keep header static/absolute ...
+    }; 
+    */
 
-    // --- Mobile Menu Functions ---
+    if (!mobileMenuButton || !mobileMenu) return;
+
     const openMobileMenu = () => {
       mobileMenu.classList.remove("hidden");
       document.body.style.overflow = "hidden";
@@ -358,51 +240,34 @@ const restName = nameParts.length > 2 ? nameParts.slice(2).join(" ") : "";
       document.body.style.overflow = "";
     };
 
-    // --- Event Listener Cleanup & Setup ---
-    // Remove old listeners
-    window.removeEventListener("scroll", (window as any).__updateHeaderStyle);
-    mobileMenuButton.removeEventListener(
-      "click",
-      (window as any).__openMobileMenu,
-    );
-    mobileMenuClose?.removeEventListener(
-      "click",
-      (window as any).__closeMobileMenu,
-    );
-    mobileMenuBackdrop?.removeEventListener(
-      "click",
-      (window as any).__closeMobileMenu,
-    );
-
-    // Store references
-    (window as any).__updateHeaderStyle = updateHeaderStyle;
-    (window as any).__openMobileMenu = openMobileMenu;
-    (window as any).__closeMobileMenu = closeMobileMenu;
-
-    // Add listeners
-    window.addEventListener("scroll", (window as any).__updateHeaderStyle);
-    mobileMenuButton.addEventListener(
-      "click",
-      (window as any).__openMobileMenu,
-    );
-    mobileMenuClose?.addEventListener(
-      "click",
-      (window as any).__closeMobileMenu,
-    );
-    mobileMenuBackdrop?.addEventListener(
-      "click",
-      (window as any).__closeMobileMenu,
-    );
+    mobileMenuButton.addEventListener("click", openMobileMenu);
+    mobileMenuClose?.addEventListener("click", closeMobileMenu);
+    mobileMenuBackdrop?.addEventListener("click", closeMobileMenu);
 
     // Close menu when clicking a nav link
     mobileMenu.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", closeMobileMenu);
     });
 
-    // Initial style check
-    updateHeaderStyle();
+    // window.addEventListener("scroll", updateHeaderStyle);
+
+    // Clean up on page swap
+    document.addEventListener(
+      "astro:before-swap",
+      () => {
+        closeMobileMenu();
+        // window.removeEventListener("scroll", updateHeaderStyle);
+      },
+      { once: true },
+    );
+
+    // Initial check
+    // updateHeaderStyle();
   }
 
+  // Run on initial load
   setupHeader();
+
+  // Run on view transitions
   document.addEventListener("astro:page-load", setupHeader);
 </script>
