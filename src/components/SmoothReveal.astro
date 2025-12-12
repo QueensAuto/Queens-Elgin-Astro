@@ -1,12 +1,9 @@
 ---
 /**
- * SmoothReveal - Context-aware animation system
+ * SmoothReveal - Premium scroll-based reveal animations
  *
- * Handles two distinct animation behaviors:
- * 1. Page Load (already scrolled): Animate section as single container
- * 2. Scroll Reveal (normal scrolling): Animate children individually with stagger
- *
- * Eliminates the jerky scroll jump on page refresh.
+ * Features slow, elegant slide-up animations with ease-in timing.
+ * Handles both full page loads AND Astro View Transitions navigation.
  */
 ---
 
@@ -14,207 +11,111 @@
     (function () {
         "use strict";
 
-        // Prevent visible scroll restoration flash
-        if ("scrollRestoration" in history) {
-            history.scrollRestoration = "manual";
-        }
+        function init() {
+            var sections = document.querySelectorAll("[data-reveal]");
+            var viewportHeight = window.innerHeight;
 
-        // Store scroll position before unload
-        window.addEventListener("beforeunload", () => {
-            sessionStorage.setItem("scrollPos", window.scrollY.toString());
-        });
+            // Animate sections already in view (hero area)
+            sections.forEach(function (section) {
+                var rect = section.getBoundingClientRect();
+                if (rect.top < viewportHeight * 0.9) {
+                    // Section is in initial viewport - animate with delay
+                    setTimeout(function () {
+                        section.classList.add("reveal-visible");
 
-        // Hide page content initially to prevent flash
-        document.documentElement.style.visibility = "hidden";
-
-        window.addEventListener("DOMContentLoaded", () => {
-            const savedScrollPos = parseInt(
-                sessionStorage.getItem("scrollPos") || "0",
-                10,
-            );
-
-            // Restore scroll position immediately (before paint)
-            if (savedScrollPos > 0) {
-                window.scrollTo(0, savedScrollPos);
-            }
-
-            // Clear saved position
-            sessionStorage.removeItem("scrollPos");
-
-            // Small delay to ensure scroll position is settled
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    // Now reveal the page
-                    document.documentElement.style.visibility = "";
-
-                    // Initialize the animation system
-                    initSmoothReveal(savedScrollPos > 100);
-                });
-            });
-        });
-
-        function initSmoothReveal(wasScrolled) {
-            const sections = document.querySelectorAll("[data-reveal]");
-            const revealItems = document.querySelectorAll("[data-reveal-item]");
-            const viewportHeight = window.innerHeight;
-
-            // Track which sections are already visible on load
-            const visibleOnLoad = new Set();
-
-            sections.forEach((section) => {
-                const rect = section.getBoundingClientRect();
-                const isVisible = rect.top < viewportHeight && rect.bottom > 0;
-
-                if (isVisible && wasScrolled) {
-                    // Section is already in view on a scrolled refresh
-                    // Animate as a single container (subtle slide-up)
-                    visibleOnLoad.add(section);
-                    section.classList.add("reveal-container-animate");
-
-                    // Don't animate children individually - they inherit parent animation
-                    section
-                        .querySelectorAll("[data-reveal-item]")
-                        .forEach((item) => {
-                            item.classList.add("reveal-skip");
-                            item.classList.remove("reveal-hidden");
+                        var children =
+                            section.querySelectorAll("[data-reveal-item]");
+                        children.forEach(function (child, index) {
+                            // 250ms stagger for relaxed, elegant reveal
+                            setTimeout(function () {
+                                child.classList.add("reveal-item-animate");
+                            }, index * 250);
                         });
-                } else if (!wasScrolled && rect.top < 100) {
-                    // At top of page, hero area - animate normally
-                    section.classList.add("reveal-container-animate");
-                    section
-                        .querySelectorAll("[data-reveal-item]")
-                        .forEach((item) => {
-                            item.classList.add("reveal-skip");
-                            item.classList.remove("reveal-hidden");
-                        });
+                    }, 200); // Initial delay before first animation
                 }
             });
 
-            // Create IntersectionObserver for scroll-based reveals
-            const sectionObserver = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
+            // Create observer for scroll-based reveals
+            var observer = new IntersectionObserver(
+                function (entries) {
+                    entries.forEach(function (entry) {
                         if (
                             entry.isIntersecting &&
-                            !visibleOnLoad.has(entry.target)
+                            !entry.target.classList.contains("reveal-visible")
                         ) {
-                            // Section scrolled into view - animate children individually
-                            const section = entry.target;
+                            var section = entry.target;
                             section.classList.add("reveal-visible");
 
-                            // Animate children with stagger
-                            const children = section.querySelectorAll(
-                                "[data-reveal-item]:not(.reveal-skip)",
+                            // Animate children with generous stagger
+                            var children = section.querySelectorAll(
+                                "[data-reveal-item]:not(.reveal-item-animate)",
                             );
-                            children.forEach((child, index) => {
-                                child.style.animationDelay = `${index * 100}ms`;
-                                child.classList.remove("reveal-hidden");
-                                child.classList.add("reveal-item-animate");
+                            children.forEach(function (child, index) {
+                                // 250ms stagger for relaxed, elegant reveal
+                                setTimeout(function () {
+                                    child.classList.add("reveal-item-animate");
+                                }, index * 250);
                             });
 
-                            sectionObserver.unobserve(entry.target);
-                        }
-                    });
-                },
-                {
-                    threshold: 0.15,
-                    rootMargin: "0px 0px -50px 0px",
-                },
-            );
-
-            // Create IntersectionObserver for individual items (fallback)
-            const itemObserver = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting) {
-                            const item = entry.target;
-                            if (
-                                !item.classList.contains("reveal-skip") &&
-                                !item.classList.contains("reveal-item-animate")
-                            ) {
-                                item.classList.remove("reveal-hidden");
-                                item.classList.add("reveal-item-animate");
-                            }
-                            itemObserver.unobserve(entry.target);
+                            observer.unobserve(entry.target);
                         }
                     });
                 },
                 {
                     threshold: 0.1,
-                    rootMargin: "0px 0px -30px 0px",
+                    rootMargin: "0px 0px -100px 0px",
                 },
             );
 
-            // Observe sections not already visible
-            sections.forEach((section) => {
-                if (!visibleOnLoad.has(section)) {
-                    sectionObserver.observe(section);
-                }
-            });
-
-            // Observe individual items as fallback
-            revealItems.forEach((item) => {
-                if (!item.classList.contains("reveal-skip")) {
-                    itemObserver.observe(item);
+            // Observe all reveal sections
+            sections.forEach(function (section) {
+                if (!section.classList.contains("reveal-visible")) {
+                    observer.observe(section);
                 }
             });
         }
+
+        // Run on initial page load
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", function () {
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(init);
+                });
+            });
+        } else {
+            requestAnimationFrame(function () {
+                requestAnimationFrame(init);
+            });
+        }
+
+        // CRITICAL: Also run after Astro View Transitions navigation
+        // This event fires after client-side page swaps
+        document.addEventListener("astro:page-load", function () {
+            requestAnimationFrame(function () {
+                requestAnimationFrame(init);
+            });
+        });
     })();
 </script>
 
 <style is:global>
-    /* Initial hidden state for reveal items */
-    [data-reveal-item].reveal-hidden {
-        opacity: 0;
-        transform: translateY(24px);
+    /* Items start offset for slide-up effect (no fade) */
+    [data-reveal-item] {
+        opacity: 1;
+        transform: translateY(40px);
     }
 
-    /* Container animation (for page load when already scrolled) */
-    .reveal-container-animate {
-        animation: revealContainer 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    /* Pure slide-up animation - no fade */
+    [data-reveal-item].reveal-item-animate {
+        animation: revealSlideUp 1.2s ease-in-out forwards;
     }
 
-    @keyframes revealContainer {
-        from {
-            opacity: 0.8;
-            transform: translateY(16px);
+    @keyframes revealSlideUp {
+        0% {
+            transform: translateY(40px);
         }
-        to {
-            opacity: 1;
+        100% {
             transform: translateY(0);
         }
-    }
-
-    /* Individual item animation (for scroll reveals) */
-    .reveal-item-animate {
-        animation: revealItem 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-
-    @keyframes revealItem {
-        from {
-            opacity: 0;
-            transform: translateY(24px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Skip state - immediate visibility, no animation */
-    .reveal-skip {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-        animation: none !important;
-    }
-
-    /* Visible section marker */
-    .reveal-visible {
-        /* Section has been revealed */
-    }
-
-    /* Prevent layout shift during initial load */
-    html:not([style*="visibility"]) [data-reveal-item] {
-        opacity: 0;
     }
 </style>

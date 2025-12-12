@@ -49,6 +49,16 @@ const brand: BrandConfig = propBrand || mobileTiresBrand;
       // Re-apply after View Transitions swap
       document.addEventListener("astro:after-swap", applyTheme);
     </script>
+
+    <!-- Always start fresh from top on page load -->
+    <script is:inline>
+      // Disable browser's automatic scroll restoration - always start at top
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+      // Scroll to top immediately
+      window.scrollTo(0, 0);
+    </script>
     <slot name="head" />
   </head>
   <body
