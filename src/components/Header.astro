@@ -246,11 +246,11 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
         // Phase 2: After zoom completes, trigger elastic bounce
         setTimeout(() => {
           nav.style.transition = "none";
-          nav.style.animation = "elasticBounce 500ms ease-out forwards";
+          nav.classList.add("animate-elastic-bounce");
           
           // Clean up after animation
           setTimeout(() => {
-            nav.style.animation = "";
+            nav.classList.remove("animate-elastic-bounce");
             nav.style.transition = "";
           }, 500);
         }, 800);
@@ -314,24 +314,6 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
   @media (min-width: 768px) {
     #main-nav {
       transform: scale(0.8);
-    }
-  }
-
-  @keyframes elasticBounce {
-    0% {
-      transform: scale(1);
-    }
-    30% {
-      transform: scale(1.06);
-    }
-    50% {
-      transform: scale(0.97);
-    }
-    70% {
-      transform: scale(1.02);
-    }
-    100% {
-      transform: scale(1);
     }
   }
 </style>

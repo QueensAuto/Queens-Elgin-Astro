@@ -98,24 +98,3 @@
     })();
 </script>
 
-<style is:global>
-    /* Items start offset for slide-up effect (no fade) */
-    [data-reveal-item] {
-        opacity: 1;
-        transform: translateY(40px);
-    }
-
-    /* Pure slide-up animation - no fade */
-    [data-reveal-item].reveal-item-animate {
-        animation: revealSlideUp 1.2s ease-in-out forwards;
-    }
-
-    @keyframes revealSlideUp {
-        0% {
-            transform: translateY(40px);
-        }
-        100% {
-            transform: translateY(0);
-        }
-    }
-</style>

@@ -856,3 +856,13 @@ details.group>div:where(.dark, .dark *) {
 .animate-reveal-slide-up {
     animation: revealSlideUp 1.2s ease-in-out forwards;
 }
+
+/* SmoothReveal Global Selectors */
+[data-reveal-item] {
+    opacity: 1;
+    transform: translateY(40px);
+}
+
+[data-reveal-item].reveal-item-animate {
+    animation: revealSlideUp 1.2s ease-in-out forwards;
+}
