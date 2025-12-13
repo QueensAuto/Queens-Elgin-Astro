@@ -1,0 +1,36 @@
+---
+interface Props {
+  href?: string;
+  text?: string;
+  class?: string;
+}
+
+const { 
+  href = "/request-an-appointment", 
+  text = "Schedule Service",
+  class: className = ""
+} = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    "group inline-flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-6 py-3 rounded-full font-semibold text-base hover:bg-gray-800 dark:hover:bg-gray-100 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl",
+    className
+  ]}
+>
+  {text}
+  <svg
+    class="w-5 h-5 transition-transform duration-300 group-hover:rotate-45"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M7 17L17 7M17 7H7M17 7V17"
+    ></path>
+  </svg>
+</a>

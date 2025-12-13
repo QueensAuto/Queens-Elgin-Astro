@@ -3,6 +3,7 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { mobileTiresBrand } from "../../../brands";
 import servicesData from "../../../data/services.json";
 import SmoothReveal from "../../../components/SmoothReveal.astro";
+import CtaButtonSecondary from "../../../components/CtaButtonSecondary.astro";
 
 export async function getStaticPaths() {
     const paths: any[] = [];
@@ -528,24 +529,11 @@ const description = `Professional ${service.title} services in the Chicago area.
 
             <!-- CTA Button -->
             <div class="cta-button-reveal">
-                <a
-                    href="/request-an-appointment/"
-                    class="inline-flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
-                >
-                    Schedule Service
-                    <svg
-                        class="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M7 17L17 7M17 7H7M17 7V17"></path>
-                    </svg>
-                </a>
+                <CtaButtonSecondary 
+                    href="/request-an-appointment/" 
+                    text="Schedule Service" 
+                    class="px-8 py-4 text-lg"
+                />
             </div>
         </div>
     </section>
