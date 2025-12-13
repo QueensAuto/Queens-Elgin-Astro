@@ -799,4 +799,60 @@ details.group>div:where(.dark, .dark *) {
     color: rgba(255, 255, 255, 0.7) !important;
 }
 
+
 /* Force HMR Rebuild */
+
+/* ========================================
+   GLOBAL ANIMATIONS
+   ======================================== */
+
+/* Elastic Bounce (Header) */
+@keyframes elasticBounce {
+    0% {
+        transform: scale(1);
+    }
+    30% {
+        transform: scale(1.06);
+    }
+    50% {
+        transform: scale(0.97);
+    }
+    70% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.animate-elastic-bounce {
+    animation: elasticBounce 500ms ease-out forwards;
+}
+
+/* Rotate Beam (Hero Audio Player) */
+@keyframes rotate-beam {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-rotate-beam {
+    animation: rotate-beam 4s linear infinite;
+}
+
+/* Reveal Slide Up (SmoothReveal) */
+@keyframes revealSlideUp {
+    0% {
+        transform: translateY(40px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.animate-reveal-slide-up {
+    animation: revealSlideUp 1.2s ease-in-out forwards;
+}

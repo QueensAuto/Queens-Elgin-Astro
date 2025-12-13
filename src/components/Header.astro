@@ -21,7 +21,7 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
     /* Mobile Styles */
     px-6 py-4 bg-white/0 dark:bg-slate-900/0 border-b border-transparent
     /* Desktop Styles */
-    md:rounded-full md:px-6 md:py-3 md:shadow-[0_8px_30px_rgb(0,0,0,0.04)] md:dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] md:border md:border-gray-100 md:dark:border-gray-800 md:max-w-6xl md:opacity-0 md:scale-[0.8]
+    md:rounded-full md:px-6 md:py-3 md:shadow-[0_8px_30px_rgb(0,0,0,0.04)] md:dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] md:border md:border-gray-100 md:dark:border-gray-800 md:max-w-6xl
     ${brand.logoPathWhite || "text-white"} 
     ${
       // If inverse (transparent on dark), remove desktop white bg/blur default, apply specifically if needed or keep transparent
@@ -231,12 +231,32 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
 
     if (!nav) return;
 
-    // Trigger animation on load (Desktop only mostly, but safe to run)
-    requestAnimationFrame(() => {
-      // Only apply zoom/fade if existing classes allow (desktop has opacity-0 match)
-      nav.classList.remove("md:opacity-0", "md:scale-[0.8]");
-      nav.classList.add("md:opacity-100", "md:scale-100");
-    });
+    // Trigger animation on load (Desktop only - check if on desktop)
+    // Phase 1: Nice and slow zoom in (0.8 → 1.0), then Phase 2: Elastic bounce effect
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+    
+    if (isDesktop) {
+      // CSS already sets initial scale(0.8), now animate to scale(1)
+      // Use RAF to ensure we're in the next paint cycle
+      requestAnimationFrame(() => {
+        // Phase 1: Nice and slow zoom in from 0.8 to 1.0
+        nav.style.transition = "transform 800ms ease-out";
+        nav.style.transform = "scale(1)";
+        
+        // Phase 2: After zoom completes, trigger elastic bounce
+        setTimeout(() => {
+          nav.style.transition = "none";
+          nav.style.animation = "elasticBounce 500ms ease-out forwards";
+          
+          // Clean up after animation
+          setTimeout(() => {
+            nav.style.animation = "";
+            nav.style.transition = "";
+          }, 500);
+        }, 800);
+      });
+    }
+    // Mobile: no animation needed, navbar stays at default scale
 
     // Scroll Logic Removed for Static Header
     /* 
@@ -288,3 +308,30 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
   // Run on view transitions
   document.addEventListener("astro:page-load", setupHeader);
 </script>
+
+<style>
+  /* Desktop: Start navbar at 80% scale - JS will animate to 100% */
+  @media (min-width: 768px) {
+    #main-nav {
+      transform: scale(0.8);
+    }
+  }
+
+  @keyframes elasticBounce {
+    0% {
+      transform: scale(1);
+    }
+    30% {
+      transform: scale(1.06);
+    }
+    50% {
+      transform: scale(0.97);
+    }
+    70% {
+      transform: scale(1.02);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+</style>
