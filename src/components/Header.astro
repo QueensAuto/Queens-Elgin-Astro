@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
+import CtaButton from "./CtaButton.astro";
 import type { BrandConfig } from "../brands";
 
 const { brand, inverse = false } = Astro.props as {
@@ -107,12 +108,11 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
     <div class="flex items-center gap-3 ml-auto md:ml-0 pl-0 md:pl-0">
       <ThemeToggle inverse={inverse} />
 
-      <a
-        href={`/request-an-appointment`}
-        class="hidden md:inline-flex items-center justify-center bg-queens-primary hover:bg-queens-secondary text-white text-sm font-bold px-6 py-2.5 rounded-full transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
-      >
-        Book Appointment
-      </a>
+      <CtaButton 
+        href="/request-an-appointment" 
+        text="Book Appointment" 
+        class="hidden md:inline-flex" 
+      />
 
       <!-- Mobile Menu Button -->
       <button

@@ -1,0 +1,52 @@
+---
+interface Props {
+  href?: string;
+  text?: string;
+  class?: string;
+}
+
+const { 
+  href = "/request-an-appointment", 
+  text = "Get in touch",
+  class: className = ""
+} = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    "group relative inline-flex items-center gap-2 rounded-full bg-queens-secondary p-1 pr-5 transition-all duration-300",
+    className
+  ]}
+>
+  <!-- Expanding dark background (starts as circle, expands to cover pill on hover) -->
+  <span
+    class="absolute left-1 top-1 bottom-1 w-8 rounded-full bg-queens-primary transition-all duration-300 ease-out group-hover:w-[calc(100%-0.5rem)]"
+    aria-hidden="true"
+  ></span>
+
+  <!-- Arrow Icon (above the expanding background) -->
+  <span
+    class="relative z-10 flex h-8 w-8 items-center justify-center text-white"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="2"
+      stroke="currentColor"
+      class="h-4 w-4"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+      ></path>
+    </svg>
+  </span>
+
+  <!-- Text (above the expanding background) -->
+  <span class="relative z-10 text-sm font-bold text-white">
+    {text}
+  </span>
+</a>
