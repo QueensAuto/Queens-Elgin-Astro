@@ -158,7 +158,33 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
     <div class="flex flex-col h-full">
       <!-- Header -->
       <div class="flex justify-between items-center p-6 border-b border-gray-100 dark:border-gray-800">
-        <span class="font-bold text-xl text-queens-primary dark:text-white">Menu</span>
+        <!-- Logo (Dynamic Theme Support) -->
+        <a href="/" class="group flex items-center gap-2">
+          {
+            brand.logoPath && brand.logoPath.includes("New-Logo") ? (
+              <>
+                {/* Standard Logo - Shown in Light Mode */}
+                <img
+                  src={brand.logoPath}
+                  alt={brand.name}
+                  class={`h-8 w-auto object-contain block ${brand.logoPathWhite ? "dark:hidden" : ""}`}
+                />
+                {/* White/Dark Mode Logo - Shown in Dark Mode */}
+                {brand.logoPathWhite && (
+                  <img
+                    src={brand.logoPathWhite}
+                    alt={brand.name}
+                    class="h-8 w-auto object-contain hidden dark:block"
+                  />
+                )}
+              </>
+            ) : (
+              <span class="text-xl font-bold tracking-tighter uppercase text-queens-primary dark:text-white">
+                {firstName} <span class="text-queens-secondary">{secondName}</span>
+              </span>
+            )
+          }
+        </a>
         <button
           id="mobile-menu-close"
           class="p-2 -mr-2 text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors"
@@ -169,34 +195,34 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
         </button>
       </div>
 
-      <!-- Links -->
-      <nav class="flex-1 p-4 flex flex-col space-y-1 overflow-y-auto">
-        <a href={`/`} class="px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-200 font-medium transition-colors">
+      <!-- Links (Centered, Big Text, Animated) -->
+      <nav
+        id="mobile-menu-links"
+        class="flex-1 flex flex-col items-center justify-center space-y-6 opacity-0 translate-y-8 transition-all duration-700 ease-out"
+      >
+        <a href={`/`} class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors">
           Home
         </a>
-        <a href={`/services`} class="px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-200 font-medium transition-colors">
+        <a href={`/services`} class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors">
           Services
         </a>
-        <a href={`/buy-new-tires`} data-astro-reload class="px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-200 font-medium transition-colors">
+        <a href={`/buy-new-tires`} data-astro-reload class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors">
           New Tires
         </a>
-        <a href={`/deals`} class="px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-200 font-medium transition-colors">
+        <a href={`/deals`} class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors">
           Deals
         </a>
-        <a href={`/contact`} class="px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 text-gray-700 dark:text-gray-200 font-medium transition-colors">
+        <a href={`/contact`} class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors">
           Contact
         </a>
+        
+        <div class="pt-8 w-full max-w-xs px-4 flex justify-center">
+           <CtaButton 
+            href="/request-an-appointment" 
+            text="Book Appointment" 
+          />
+        </div>
       </nav>
-
-      <!-- Footer Action -->
-      <div class="p-6 border-t border-gray-100 dark:border-gray-800">
-        <a
-          href={`/request-an-appointment`}
-          class="w-full flex items-center justify-center bg-queens-primary hover:bg-queens-secondary text-white font-bold py-3 rounded-xl transition-colors"
-        >
-          Book Appointment
-        </a>
-      </div>
     </div>
   </div>
 </div>
@@ -208,6 +234,7 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
     const mobileMenu = document.getElementById("mobile-menu");
     const mobileMenuDarkLayer = document.getElementById("mobile-menu-dark-layer");
     const mobileMenuPanel = document.getElementById("mobile-menu-panel");
+    const mobileMenuLinks = document.getElementById("mobile-menu-links"); // New ref
     const mobileMenuBackdrop = document.getElementById("mobile-menu-backdrop");
     const mobileMenuClose = document.getElementById("mobile-menu-close");
 
@@ -246,11 +273,22 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
         // Menu panel slides in with delay
         setTimeout(() => {
           mobileMenuPanel.classList.remove("-translate-x-full");
+          
+          // Trigger Text Fade-In/Slide-Up when menu is almost fully open
+          // Menu anim takes 500ms. We trigger this at 300ms + (internal delay)
+          // Actually, let's trigger it at 400ms so it starts appearing as drawer settles
+          setTimeout(() => {
+            mobileMenuLinks?.classList.remove("opacity-0", "translate-y-8");
+          }, 400);
+
         }, 150);
       });
     };
 
     const closeMobileMenu = () => {
+      // Reset Text Animation (Slide Down/Fade Out) immediately
+      mobileMenuLinks?.classList.add("opacity-0", "translate-y-8");
+
       // Staggered close: Menu panel first, then dark layer
       mobileMenuPanel.classList.add("-translate-x-full");
       
@@ -273,7 +311,24 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
 
     // Close menu when clicking a nav link
     mobileMenu.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", closeMobileMenu);
+      link.addEventListener("click", (e) => {
+        // If already handling close, let default proceed
+        if (link.dataset.isClosing === "true") return;
+
+        // Skip for modifier keys or new tab
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || link.target === "_blank") return;
+
+        e.preventDefault();
+        
+        // Trigger close animation
+        closeMobileMenu();
+
+        // Wait for animation, then navigate
+        setTimeout(() => {
+          link.dataset.isClosing = "true";
+          link.click();
+        }, 450); // 450ms allows most of the 500ms animation to show
+      });
     });
 
     // Clean up on page swap
