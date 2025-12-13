@@ -108,11 +108,12 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
     <div class="flex items-center gap-3 ml-auto md:ml-0 pl-0 md:pl-0">
       <ThemeToggle inverse={inverse} />
 
-      <CtaButton 
-        href="/request-an-appointment" 
-        text="Book Appointment" 
-        class="hidden md:inline-flex" 
-      />
+      <div class="hidden md:block">
+        <CtaButton 
+          href="/request-an-appointment" 
+          text="Book Appointment" 
+        />
+      </div>
 
       <!-- Mobile Menu Button -->
       <button
