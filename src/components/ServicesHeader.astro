@@ -100,20 +100,20 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
       <!-- Mobile Menu Button -->
       <button
         id="mobile-menu-button-services"
-        class="md:hidden p-1 text-white hover:text-queens-secondary"
+        class="md:hidden p-2 rounded-full text-white hover:bg-white/10 transition-colors"
+        aria-label="Open Menu"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-7 h-7"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+        <!-- Premium Grid Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" class="w-5 h-5">
+          <circle cx="5" cy="5" r="1.5" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="12" cy="5" r="1.5" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="19" cy="5" r="1.5" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="5" cy="12" r="1.5" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="12" cy="12" r="1.5" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="19" cy="12" r="1.5" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="5" cy="19" r="1.5" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="12" cy="19" r="1.5" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="19" cy="19" r="1.5" stroke="currentColor" stroke-width="1.5"/>
         </svg>
       </button>
     </div>
@@ -121,85 +121,90 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
 </div>
 
 <!-- Mobile Menu Overlay -->
-<div id="mobile-menu-services" class="fixed inset-0 z-[100] hidden md:hidden">
-  <!-- Backdrop -->
+<div id="mobile-menu-services" class="fixed inset-0 z-[100] hidden md:hidden" aria-hidden="true">
+  <!-- Click-to-close backdrop (invisible) -->
+  <div id="mobile-menu-backdrop-services" class="absolute inset-0"></div>
+
+  <!-- Dark Layer - FULL WIDTH, semi-transparent (slides in FIRST, slides out LAST) -->
   <div
-    id="mobile-menu-backdrop-services"
-    class="absolute inset-0 bg-black/20 backdrop-blur-sm"
+    id="mobile-menu-dark-layer-services"
+    class="absolute inset-0 bg-black/70 backdrop-blur-sm transform -translate-x-full transition-transform duration-500 ease-out"
   >
   </div>
 
-  <!-- Menu Panel -->
+  <!-- Menu Panel (slides in SECOND, slides out FIRST) -->
   <div
-    class="absolute top-4 right-4 left-4 bg-white dark:bg-queens-dark rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-4 duration-200"
+    id="mobile-menu-panel-services"
+    class="absolute top-0 left-0 bottom-0 w-[85%] max-w-sm bg-white dark:bg-queens-dark shadow-2xl transform -translate-x-full transition-transform duration-500 ease-out"
   >
-    <div
-      class="flex justify-between items-center p-6 border-b border-gray-100 dark:border-gray-800"
-    >
-      <span class="font-bold text-lg text-queens-primary dark:text-white"
-        >Menu</span
-      >
-      <button
-        id="mobile-menu-close-services"
-        class="p-2 -mr-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-6 h-6"
+    <div class="flex flex-col h-full">
+      <!-- Header -->
+      <div class="flex justify-between items-center p-6 border-b border-gray-100 dark:border-gray-800">
+        <!-- Logo (Dynamic Theme Support) -->
+        <a href="/" class="group flex items-center gap-2">
+          {
+            brand.logoPath && brand.logoPath.includes("New-Logo") ? (
+              <>
+                {/* Standard Logo - Shown in Light Mode */}
+                <img
+                  src={brand.logoPath}
+                  alt={brand.name}
+                  class={`h-8 w-auto object-contain block ${brand.logoPathWhite ? "dark:hidden" : ""}`}
+                />
+                {/* White/Dark Mode Logo - Shown in Dark Mode */}
+                {brand.logoPathWhite && (
+                  <img
+                    src={brand.logoPathWhite}
+                    alt={brand.name}
+                    class="h-8 w-auto object-contain hidden dark:block"
+                  />
+                )}
+              </>
+            ) : (
+              <span class="text-xl font-bold tracking-tighter uppercase text-queens-primary dark:text-white">
+                {firstName} <span class="text-queens-secondary">{secondName}</span>
+              </span>
+            )
+          }
+        </a>
+        <button
+          id="mobile-menu-close-services"
+          class="p-2 -mr-2 text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
-    </div>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
 
-    <nav class="p-4 flex flex-col space-y-2">
-      <a
-        href={`/`}
-        class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 font-medium"
+      <!-- Links (Centered, Big Text, Animated) -->
+      <nav
+        id="mobile-menu-links-services"
+        class="flex-1 flex flex-col items-center justify-center space-y-6 opacity-0 translate-y-8 transition-all duration-700 ease-out"
       >
-        Home
-      </a>
-      <a
-        href={`/services`}
-        class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 font-medium"
-      >
-        Services
-      </a>
-      <a
-        href={`/buy-new-tires`}
-        data-astro-reload
-        class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 font-medium"
-      >
-        New Tires
-      </a>
-      <a
-        href={`/deals`}
-        class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 font-medium"
-      >
-        Deals
-      </a>
-      <a
-        href={`/contact`}
-        class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 font-medium"
-      >
-        Contact
-      </a>
-    </nav>
-
-    <div class="p-6 border-t border-gray-100 dark:border-gray-800">
-      <a
-        href={`/request-an-appointment`}
-        class="w-full flex items-center justify-center bg-queens-primary hover:bg-queens-secondary text-white font-bold py-3 rounded-xl transition-colors"
-      >
-        Book Appointment
-      </a>
+        <a href={`/`} class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors">
+          Home
+        </a>
+        <a href={`/services`} class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors">
+          Services
+        </a>
+        <a href={`/buy-new-tires`} data-astro-reload class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors">
+          New Tires
+        </a>
+        <a href={`/deals`} class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors">
+          Deals
+        </a>
+        <a href={`/contact`} class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors">
+          Contact
+        </a>
+        
+        <div class="pt-8 w-full max-w-xs px-4 flex justify-center">
+           <CtaButton 
+            href="/request-an-appointment" 
+            text="Book Appointment" 
+          />
+        </div>
+      </nav>
     </div>
   </div>
 </div>
@@ -209,29 +214,26 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
     const nav = document.getElementById("main-nav-services");
     const mobileMenuButton = document.getElementById("mobile-menu-button-services");
     const mobileMenu = document.getElementById("mobile-menu-services");
-    const mobileMenuClose = document.getElementById("mobile-menu-close-services");
+    const mobileMenuDarkLayer = document.getElementById("mobile-menu-dark-layer-services");
+    const mobileMenuPanel = document.getElementById("mobile-menu-panel-services");
+    const mobileMenuLinks = document.getElementById("mobile-menu-links-services");
     const mobileMenuBackdrop = document.getElementById("mobile-menu-backdrop-services");
+    const mobileMenuClose = document.getElementById("mobile-menu-close-services");
 
     if (!nav) return;
 
-    // Trigger animation on load (Desktop only - check if on desktop)
-    // Phase 1: Nice and slow zoom in (0.8 → 1.0), then Phase 2: Elastic bounce effect
+    // Trigger animation on load (Desktop only)
     const isDesktop = window.matchMedia("(min-width: 768px)").matches;
     
     if (isDesktop) {
-      // CSS already sets initial scale(0.8), now animate to scale(1)
-      // Use RAF to ensure we're in the next paint cycle
       requestAnimationFrame(() => {
-        // Phase 1: Nice and slow zoom in from 0.8 to 1.0
         nav.style.transition = "transform 800ms ease-out";
         nav.style.transform = "scale(1)";
         
-        // Phase 2: After zoom completes, trigger elastic bounce
         setTimeout(() => {
           nav.style.transition = "none";
           nav.classList.add("animate-elastic-bounce");
           
-          // Clean up after animation
           setTimeout(() => {
             nav.classList.remove("animate-elastic-bounce");
             nav.style.transition = "";
@@ -239,27 +241,72 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
         }, 800);
       });
     }
-    // Mobile: no animation needed, navbar stays at default scale
 
-    if (!mobileMenuButton || !mobileMenu) return;
+    if (!mobileMenuButton || !mobileMenu || !mobileMenuPanel || !mobileMenuDarkLayer) return;
 
     const openMobileMenu = () => {
       mobileMenu.classList.remove("hidden");
       document.body.style.overflow = "hidden";
+      
+      // Staggered open: Dark layer first, then menu panel
+      requestAnimationFrame(() => {
+        // Dark layer slides in immediately
+        mobileMenuDarkLayer.classList.remove("-translate-x-full");
+        
+        // Menu panel slides in with delay
+        setTimeout(() => {
+          mobileMenuPanel.classList.remove("-translate-x-full");
+          
+          // Trigger Text Fade-In/Slide-Up when menu is almost fully open
+          setTimeout(() => {
+            mobileMenuLinks?.classList.remove("opacity-0", "translate-y-8");
+          }, 400);
+
+        }, 150);
+      });
     };
 
     const closeMobileMenu = () => {
-      mobileMenu.classList.add("hidden");
+      // Reset Text Animation instantly
+      mobileMenuLinks?.classList.add("opacity-0", "translate-y-8");
+
+      // Staggered close: Menu panel first, then dark layer
+      mobileMenuPanel.classList.add("-translate-x-full");
+      
+      // Dark layer slides out with delay
+      setTimeout(() => {
+        mobileMenuDarkLayer.classList.add("-translate-x-full");
+      }, 150);
+      
       document.body.style.overflow = "";
+
+      // Wait for animation to finish before hiding
+      setTimeout(() => {
+        mobileMenu.classList.add("hidden");
+      }, 650); 
     };
 
     mobileMenuButton.addEventListener("click", openMobileMenu);
     mobileMenuClose?.addEventListener("click", closeMobileMenu);
     mobileMenuBackdrop?.addEventListener("click", closeMobileMenu);
 
-    // Close menu when clicking a nav link
+    // Close menu when clicking a nav link - with smooth exit
     mobileMenu.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", closeMobileMenu);
+      link.addEventListener("click", (e) => {
+        if (link.dataset.isClosing === "true") return;
+
+        // Skip modifiers/new tab
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || link.target === "_blank") return;
+
+        e.preventDefault();
+        
+        closeMobileMenu();
+
+        setTimeout(() => {
+          link.dataset.isClosing = "true";
+          link.click();
+        }, 450);
+      });
     });
 
     // Clean up on page swap
