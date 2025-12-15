@@ -29,7 +29,7 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
       // Actually, for Arvora style, the desktop header might still want to be a "pill" or transparent?
       // User asked about "mobile hamburger menu".
       // Let's keep desktop behavior mostly same but allow text override.
-      "md:bg-white md:dark:bg-queens-dark md:shadow-sm md:border md:border-gray-100 md:dark:border-gray-800 transition-colors duration-300"
+      "md:bg-white md:dark:bg-[#141517] md:shadow-sm md:border md:border-gray-100 md:dark:border-gray-800 transition-colors duration-300"
     }`}
   >
     <!-- Logo -->
@@ -75,31 +75,31 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
       <a
         href={`/`}
         data-astro-prefetch="hover"
-        class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full hover:bg-gray-50 dark:hover:bg-white/10 transition-all ${inverse ? "text-white/90 hover:text-white hover:bg-white/10" : "text-gray-600 dark:text-gray-300"}`}
+        class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
         >Home</a
       >
       <a
         href={`/services`}
         data-astro-prefetch="hover"
-        class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full hover:bg-gray-50 dark:hover:bg-white/10 transition-all ${inverse ? "text-white/90 hover:text-white hover:bg-white/10" : "text-gray-600 dark:text-gray-300"}`}
+        class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
         >Services</a
       >
       <a
         href={`/buy-new-tires`}
         data-astro-reload
-        class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full hover:bg-gray-50 dark:hover:bg-white/10 transition-all ${inverse ? "text-white/90 hover:text-white hover:bg-white/10" : "text-gray-600 dark:text-gray-300"}`}
+        class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
         >New Tires</a
       >
       <a
         href={`/deals`}
         data-astro-prefetch="hover"
-        class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full hover:bg-gray-50 dark:hover:bg-white/10 transition-all ${inverse ? "text-white/90 hover:text-white hover:bg-white/10" : "text-gray-600 dark:text-gray-300"}`}
+        class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
         >Deals</a
       >
       <a
         href={`/contact`}
         data-astro-prefetch="hover"
-        class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full hover:bg-gray-50 dark:hover:bg-white/10 transition-all ${inverse ? "text-white/90 hover:text-white hover:bg-white/10" : "text-gray-600 dark:text-gray-300"}`}
+        class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
         >Contact</a
       >
     </nav>
@@ -109,10 +109,7 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
       <ThemeToggle inverse={inverse} />
 
       <div class="hidden md:block">
-        <CtaButton 
-          href="/request-an-appointment" 
-          text="Book Appointment" 
-        />
+        <CtaButton href="/request-an-appointment" text="Book Appointment" />
       </div>
 
       <!-- Mobile Menu Button -->
@@ -122,16 +119,64 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
         aria-label="Open Menu"
       >
         <!-- Grid Icon (smaller dots) -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" class="w-5 h-5">
-          <circle cx="5" cy="5" r="1.5" stroke="currentColor" stroke-width="1.5"/>
-          <circle cx="12" cy="5" r="1.5" stroke="currentColor" stroke-width="1.5"/>
-          <circle cx="19" cy="5" r="1.5" stroke="currentColor" stroke-width="1.5"/>
-          <circle cx="5" cy="12" r="1.5" stroke="currentColor" stroke-width="1.5"/>
-          <circle cx="12" cy="12" r="1.5" stroke="currentColor" stroke-width="1.5"/>
-          <circle cx="19" cy="12" r="1.5" stroke="currentColor" stroke-width="1.5"/>
-          <circle cx="5" cy="19" r="1.5" stroke="currentColor" stroke-width="1.5"/>
-          <circle cx="12" cy="19" r="1.5" stroke="currentColor" stroke-width="1.5"/>
-          <circle cx="19" cy="19" r="1.5" stroke="currentColor" stroke-width="1.5"/>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          class="w-5 h-5"
+        >
+          <circle cx="5" cy="5" r="1.5" stroke="currentColor" stroke-width="1.5"
+          ></circle>
+          <circle
+            cx="12"
+            cy="5"
+            r="1.5"
+            stroke="currentColor"
+            stroke-width="1.5"></circle>
+          <circle
+            cx="19"
+            cy="5"
+            r="1.5"
+            stroke="currentColor"
+            stroke-width="1.5"></circle>
+          <circle
+            cx="5"
+            cy="12"
+            r="1.5"
+            stroke="currentColor"
+            stroke-width="1.5"></circle>
+          <circle
+            cx="12"
+            cy="12"
+            r="1.5"
+            stroke="currentColor"
+            stroke-width="1.5"></circle>
+          <circle
+            cx="19"
+            cy="12"
+            r="1.5"
+            stroke="currentColor"
+            stroke-width="1.5"></circle>
+          <circle
+            cx="5"
+            cy="19"
+            r="1.5"
+            stroke="currentColor"
+            stroke-width="1.5"></circle>
+          <circle
+            cx="12"
+            cy="19"
+            r="1.5"
+            stroke="currentColor"
+            stroke-width="1.5"></circle>
+          <circle
+            cx="19"
+            cy="19"
+            r="1.5"
+            stroke="currentColor"
+            stroke-width="1.5"></circle>
         </svg>
       </button>
     </div>
@@ -139,7 +184,11 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
 </div>
 
 <!-- Mobile Menu Overlay -->
-<div id="mobile-menu" class="fixed inset-0 z-[100] hidden md:hidden" aria-hidden="true">
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-[100] hidden md:hidden"
+  aria-hidden="true"
+>
   <!-- Click-to-close backdrop (invisible, for clicking outside) -->
   <div id="mobile-menu-backdrop" class="absolute inset-0"></div>
 
@@ -157,7 +206,9 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
   >
     <div class="flex flex-col h-full">
       <!-- Header -->
-      <div class="flex justify-between items-center p-6 border-b border-gray-100 dark:border-gray-800">
+      <div
+        class="flex justify-between items-center p-6 border-b border-gray-100 dark:border-gray-800"
+      >
         <!-- Logo (Dynamic Theme Support) -->
         <a href="/" class="group flex items-center gap-2">
           {
@@ -180,7 +231,8 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
               </>
             ) : (
               <span class="text-xl font-bold tracking-tighter uppercase text-queens-primary dark:text-white">
-                {firstName} <span class="text-queens-secondary">{secondName}</span>
+                {firstName}{" "}
+                <span class="text-queens-secondary">{secondName}</span>
               </span>
             )
           }
@@ -189,8 +241,18 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
           id="mobile-menu-close"
           class="p-2 -mr-2 text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button>
       </div>
@@ -200,27 +262,40 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
         id="mobile-menu-links"
         class="flex-1 flex flex-col items-center justify-center space-y-6 opacity-0 translate-y-8 transition-all duration-700 ease-out"
       >
-        <a href={`/`} class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors">
+        <a
+          href={`/`}
+          class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+        >
           Home
         </a>
-        <a href={`/services`} class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors">
+        <a
+          href={`/services`}
+          class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+        >
           Services
         </a>
-        <a href={`/buy-new-tires`} data-astro-reload class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors">
+        <a
+          href={`/buy-new-tires`}
+          data-astro-reload
+          class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+        >
           New Tires
         </a>
-        <a href={`/deals`} class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors">
+        <a
+          href={`/deals`}
+          class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+        >
           Deals
         </a>
-        <a href={`/contact`} class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors">
+        <a
+          href={`/contact`}
+          class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+        >
           Contact
         </a>
-        
+
         <div class="pt-8 w-full max-w-xs px-4 flex justify-center">
-           <CtaButton 
-            href="/request-an-appointment" 
-            text="Book Appointment" 
-          />
+          <CtaButton href="/request-an-appointment" text="Book Appointment" />
         </div>
       </nav>
     </div>
@@ -232,7 +307,9 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
     const nav = document.getElementById("main-nav");
     const mobileMenuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
-    const mobileMenuDarkLayer = document.getElementById("mobile-menu-dark-layer");
+    const mobileMenuDarkLayer = document.getElementById(
+      "mobile-menu-dark-layer",
+    );
     const mobileMenuPanel = document.getElementById("mobile-menu-panel");
     const mobileMenuLinks = document.getElementById("mobile-menu-links"); // New ref
     const mobileMenuBackdrop = document.getElementById("mobile-menu-backdrop");
@@ -242,12 +319,12 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
 
     // Desktop header animation
     const isDesktop = window.matchMedia("(min-width: 768px)").matches;
-    
+
     if (isDesktop) {
       requestAnimationFrame(() => {
         nav.style.transition = "transform 800ms ease-out";
         nav.style.transform = "scale(1)";
-        
+
         setTimeout(() => {
           nav.style.transition = "none";
           nav.classList.add("animate-elastic-bounce");
@@ -259,28 +336,33 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
       });
     }
 
-    if (!mobileMenuButton || !mobileMenu || !mobileMenuPanel || !mobileMenuDarkLayer) return;
+    if (
+      !mobileMenuButton ||
+      !mobileMenu ||
+      !mobileMenuPanel ||
+      !mobileMenuDarkLayer
+    )
+      return;
 
     const openMobileMenu = () => {
       mobileMenu.classList.remove("hidden");
       document.body.style.overflow = "hidden";
-      
+
       // Staggered open: Dark layer first, then menu panel
       requestAnimationFrame(() => {
         // Dark layer slides in immediately
         mobileMenuDarkLayer.classList.remove("-translate-x-full");
-        
+
         // Menu panel slides in with delay
         setTimeout(() => {
           mobileMenuPanel.classList.remove("-translate-x-full");
-          
+
           // Trigger Text Fade-In/Slide-Up when menu is almost fully open
           // Menu anim takes 500ms. We trigger this at 300ms + (internal delay)
           // Actually, let's trigger it at 400ms so it starts appearing as drawer settles
           setTimeout(() => {
             mobileMenuLinks?.classList.remove("opacity-0", "translate-y-8");
           }, 400);
-
         }, 150);
       });
     };
@@ -291,12 +373,12 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
 
       // Staggered close: Menu panel first, then dark layer
       mobileMenuPanel.classList.add("-translate-x-full");
-      
+
       // Dark layer slides out with delay
       setTimeout(() => {
         mobileMenuDarkLayer.classList.add("-translate-x-full");
       }, 150);
-      
+
       document.body.style.overflow = "";
 
       // Wait for both animations to finish before hiding
@@ -316,10 +398,17 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
         if (link.dataset.isClosing === "true") return;
 
         // Skip for modifier keys or new tab
-        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || link.target === "_blank") return;
+        if (
+          e.metaKey ||
+          e.ctrlKey ||
+          e.shiftKey ||
+          e.altKey ||
+          link.target === "_blank"
+        )
+          return;
 
         e.preventDefault();
-        
+
         // Trigger close animation
         closeMobileMenu();
 

@@ -1,6 +1,7 @@
 ---
 import type { BrandConfig } from "../brands";
 import { mobileTiresBrand } from "../brands";
+import CtaButton from "./CtaButton.astro";
 
 const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
 ---
@@ -15,7 +16,7 @@ const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
       <!-- Left Column: Headline -->
       <div class="lg:col-span-7">
         <span
-          class="font-serif italic text-5xl md:text-5xl text-queens-secondary mb-4 block"
+          class="font-serif italic text-xl md:text-xl text-queens-secondary mb-4 block"
           style="font-family: var(--font-serif);"
         >
           Elgin's Trusted Auto Experts
@@ -28,35 +29,16 @@ const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
       </div>
 
       <!-- Right Column: Description + CTA -->
-      <div class="lg:col-span-5 lg:pb-6 lg:pl-8">
+      <div class="lg:col-span-5 lg:pb-6 lg:pl-8 text-center lg:text-right">
         <p
-          class="text-xl md:text-xl text-gray-600 dark:text-gray-400 mb-8 leading-relaxed max-w-lg"
+          class="text-xl md:text-xl text-gray-600 dark:text-gray-400 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0 lg:ml-auto"
         >
           Visit Queens Auto Services in Elgin for professional tire installation
           and comprehensive auto repair. We keep you rolling with trusted
           service and top-tier equipment.
         </p>
-        <div class="flex flex-wrap gap-4">
-          <a
-            href="/buy-new-tires"
-            data-astro-reload
-            class="inline-flex items-center justify-center bg-queens-secondary text-white px-10 py-5 rounded-full font-bold text-xl hover:bg-queens-dark hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(10,121,200,0.3)] hover:shadow-[0_0_30px_rgba(10,121,200,0.4)] hover:scale-105"
-          >
-            Buy New Tires
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 ml-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-            </svg>
-          </a>
+        <div class="flex justify-center lg:justify-end">
+          <CtaButton href="/request-an-appointment" text="Book Appointment" />
         </div>
       </div>
     </div>
@@ -75,7 +57,10 @@ const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
         playsinline
         class="w-full h-auto block"
       >
-        <source src="/video/Website Video Intro.mp4" type="video/mp4" />
+        <source
+          src="/video/Queens Elgin - Website Video Intro.mp4"
+          type="video/mp4"
+        />
       </video>
 
       <!-- Gradient Overlay -->

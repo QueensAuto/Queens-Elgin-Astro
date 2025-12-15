@@ -20,6 +20,7 @@ export default {
         sans: ['Inter', 'sans-serif'],
         serif: ['"Source Serif 4"', 'serif'],
         anton: ['Anton', 'sans-serif'],
+        yellowtail: ['Yellowtail', 'cursive'],
       },
       backgroundImage: {
         'hero-gradient': 'linear-gradient(to right, rgba(17,17,17,0.95), rgba(17,17,17,0.6))',
