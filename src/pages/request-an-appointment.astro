@@ -141,6 +141,21 @@ const description =
             background-image: none !important;
         }
 
+        /* Fix for dark mode dropdown options (prevent white text on white bg) */
+        .dark select option {
+            background-color: #141517;
+            color: white;
+        }
+
+        /* Attempt to hide scrollbar on select (browser support varies for dropdowns) */
+        select {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        select::-webkit-scrollbar {
+            display: none;
+        }
+
         /* ==========================================
            ANIMATED GRADIENT SWOOSH BORDER ON FOCUS
            Creates a sweeping beam effect
