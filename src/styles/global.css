@@ -16,7 +16,7 @@
 @theme {
     --color-queens-primary: #0b1121;
     --color-queens-secondary: #0a79c8;
-    --color-queens-dark: #040613;
+    --color-queens-dark: #141517;
     --color-queens-light: #1489e1;
     --color-queens-orange: #f97316;
     --color-queens-black: #050505;
@@ -95,8 +95,7 @@ nav a.hover\:text-queens-secondary:hover {
     /* Background Colors - dark surfaces */
     --bg-page: var(--color-queens-dark-bg);
     /* Queens Dark */
-    --bg-surface: #040613;
-    /* Queens Dark (Flat) */
+        --bg-surface: #141517;
     --bg-elevated: #0b1121;
     /* Queens Primary */
     --bg-muted: #0b1121;
@@ -150,8 +149,8 @@ nav a.hover\:text-queens-secondary:hover {
     --text-muted: #9ca3af;
     --text-inverted: #0b1121;
 
-    --bg-page: #040613;
-    --bg-surface: #040613;
+    --bg-page: #141517;
+    --bg-surface: #141517;
     --bg-elevated: #0b1121;
     --bg-muted: #0b1121;
 
@@ -906,7 +905,7 @@ details.group>div:where(.dark, .dark *) {
 .dark .service-card-item:nth-child(even) {
     /* In dark mode, keep the navy card but ensure it stands out or blends correctly */
     background-color: #171f32 !important;
-    /* Slightly lighter than page bg #040613 */
+    /* Slightly lighter than page bg #141517 */
     border-color: rgba(255, 255, 255, 0.1);
 }
 

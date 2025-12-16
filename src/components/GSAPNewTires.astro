@@ -1,6 +1,6 @@
 ---
 /**
- * ScrollPromo - GSAP ScrollTrigger with PINNING
+ * GSAPNewTires - GSAP New Tires Section
  * Section pins to viewport, scroll drives animations, then unpins.
  */
 ---
@@ -8,7 +8,8 @@
 <div class="scroll-promo" id="scroll-promo">
     <!-- Main Pinned Section -->
     <section class="promo-section promo-section--main" data-section="main">
-        <!-- Video Background -->
+        <!--
+Video Background -->
         <video
             src="/video/Queens Elgin - Website Video Intro.mp4"
             autoplay
@@ -16,65 +17,61 @@
             muted
             loop
             class="promo-video"></video>
-
-        <!-- Content wrapper -->
+        <!-- Content
+wrapper -->
         <div class="promo-content">
             <!-- Headline 1: Tire Sale -->
             <h2 class="promo-text promo-text--1">
                 <span class="promo-text__tag">Limited Time</span>
                 <span class="promo-text__main">Tire Sale</span>
             </h2>
-
-            <!-- Headline 2: Premium Tires -->
+            <!-- Headline
+2: Free Alignment Offer -->
             <h3 class="promo-text promo-text--2">
-                Premium Tires.<br />Unbeatable Prices.
+                Buy 4 Tires.<br />Free Alignment.
             </h3>
-
             <!-- Text Reveal -->
-            <p class="promo-text promo-text--3">
-                <span>Save big on top tire brands.</span>
-                <span>&nbsp;Free installation with every purchase.</span>
-                <span>&nbsp;We come to you.</span>
-                <span>&nbsp;Book today.</span>
+            <p class="promo-text
+promo-text--3">
+                <span>Shop top brands online.</span>
+                <span>&nbsp;Professional in-shop installation.</span>
+                <span>&nbsp;Purchase a full set of 4.</span>
+                <span>&nbsp;And get a FREE alignment.</span>
             </p>
         </div>
     </section>
-
-    <!-- CTA Section (separate, not pinned) -->
-    <section class="promo-section promo-section--cta" data-section="cta">
+    <!-- CTA
+Section (separate, not pinned) -->
+    <section class="promo-section
+promo-section--cta" data-section="cta">
         <div class="promo-cta">
-            <span class="promo-cta__label">Ready to save?</span>
-            <a href="/buy-new-tires" class="promo-cta__button">Shop Tires Now</a
+            <span class="promo-cta__label">Claim your offer?</span>
+            <a href="/buy-new-tires" class="promo-cta__button"
+                >Shop Tires & Save</a
             >
         </div>
     </section>
 </div>
-
 <style>
     /* Main Container */
     .scroll-promo {
-        background: hsl(220 20% 4%);
-        color: hsl(0 0% 98%);
+        background: #141517;
+        color: #f9fafb;
         position: relative;
-    }
-
-    /* Main section - will be pinned */
+    } /* Main section - will be pinned */
     .promo-section--main {
         position: relative;
         width: 100%;
         height: 100vh;
         overflow: hidden;
     }
-
     .promo-section--cta {
         position: relative;
         height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-
-    /* Video Background */
+    } /* Video Background */
     .promo-video {
         position: absolute;
         inset: 0;
@@ -84,9 +81,7 @@
         z-index: 1;
         filter: saturate(0.2) brightness(0.35);
         opacity: 0;
-    }
-
-    /* Content container - centered */
+    } /* Content container - centered */
     .promo-content {
         position: relative;
         width: 100%;
@@ -95,9 +90,7 @@
         justify-content: center;
         align-items: center;
         z-index: 2;
-    }
-
-    /* All text elements stacked in same position */
+    } /* All text elements stacked in same position */
     .promo-text {
         position: absolute;
         text-align: center;
@@ -108,9 +101,7 @@
         transform-origin: center center;
         padding: 0 1.5rem;
         max-width: 100vw;
-    }
-
-    /* Headline 1 */
+    } /* Headline 1 */
     .promo-text--1 {
         display: grid;
         font-size: clamp(3rem, 12vw + 1rem, 14rem);
@@ -118,7 +109,6 @@
         gap: 0;
         will-change: transform, opacity;
     }
-
     .promo-text__tag {
         display: inline-block;
         color: hsl(200 100% 50%);
@@ -126,15 +116,12 @@
         margin-bottom: -0.2em;
         will-change: opacity;
     }
-
     .promo-text__main {
         display: inline-block;
         color: hsl(0 0% 40%);
         will-change: transform, color;
         transform: scale(0.5);
-    }
-
-    /* Headline 2 */
+    } /* Headline 2 */
     .promo-text--2 {
         font-size: clamp(2rem, 7vw + 1rem, 6rem);
         line-height: 1.15;
@@ -144,9 +131,7 @@
         transform: scale(0.6);
         text-transform: none;
         will-change: transform, opacity, color;
-    }
-
-    /* Text Reveal */
+    } /* Text Reveal */
     .promo-text--3 {
         font-size: clamp(1.5rem, 4vw + 1rem, 4.5rem);
         letter-spacing: -0.01em;
@@ -157,27 +142,23 @@
         opacity: 0;
         color: hsl(0 0% 100%);
     }
-
     .promo-text--3 span {
         opacity: 0.15;
         display: inline;
         color: hsl(0 0% 40%);
-    }
-
-    /* CTA Section */
+    } /*
+CTA Section */
     .promo-cta {
         display: grid;
         place-items: center;
         gap: 2rem;
         text-align: center;
     }
-
     .promo-cta__label {
         font-size: clamp(2rem, 5vw + 1rem, 5rem);
         font-weight: 700;
         color: hsl(200 100% 60%);
     }
-
     .promo-cta__button {
         display: inline-flex;
         align-items: center;
@@ -191,17 +172,14 @@
         text-decoration: none;
         transition: all 0.3s ease;
     }
-
     .promo-cta__button:hover {
         background: hsl(200 100% 60%);
         transform: scale(1.05);
     }
 </style>
-
 <script>
     import gsap from "gsap";
     import { ScrollTrigger } from "gsap/ScrollTrigger";
-
     gsap.registerPlugin(ScrollTrigger);
 
     function initScrollPromo() {
@@ -226,7 +204,7 @@
                 trigger: mainSection,
                 start: "top top",
                 end: "+=4000", // 4000px of scroll while pinned
-                pin: true, // PIN THE SECTION!
+                pin: true,
                 scrub: 2, // Higher value = smoother animation
                 anticipatePin: 1,
             },
@@ -361,7 +339,6 @@
 
     // Initialize
     document.addEventListener("astro:page-load", initScrollPromo);
-
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", initScrollPromo);
     } else {
