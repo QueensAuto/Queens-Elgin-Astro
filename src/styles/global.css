@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+@layer components {
+    .site-canvas {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 1400px;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+
 @variant dark (&:where(.dark, .dark *));
 
 @theme {
@@ -12,6 +23,8 @@
 
     --font-sans: "Manrope", sans-serif;
     --font-serif: "Source Serif 4", serif;
+
+    --max-width-site: 1400px;
 }
 
 /* ========================================

@@ -34,12 +34,12 @@ const description = `Professional ${service.title} services in the Chicago area.
 ---
 
 <BaseLayout brand={mobileTiresBrand} title={title} headerInverse={true}>
-    <!-- Hero Section with "Card" look -->
-    <div class="px-2 pt-1 pb-8 sm:px-4 sm:pt-2">
+    <!-- Hero Section - Full Width Background with slight inset, Contained Content -->
+    <div class="px-1 pt-[3px]">
         <div
-            class="relative w-full h-[60vh] min-h-[500px] rounded-3xl overflow-hidden shadow-2xl"
+            class="relative w-full h-[60vh] min-h-[500px] overflow-hidden rounded-3xl"
         >
-            <!-- Background Image -->
+            <!-- Background Image (Full Width) -->
             <img
                 src="/images/shop/Queens-Auto-Services-Elgin-a-view-from-outside.webp"
                 alt="Shop View"
@@ -51,45 +51,45 @@ const description = `Professional ${service.title} services in the Chicago area.
             >
             </div>
 
-            <!-- Content Overlay -->
-            <div
-                class="absolute inset-0 flex flex-col justify-end p-8 sm:p-12 lg:p-20"
-            >
-                <div
-                    class="max-w-7xl mx-auto w-full flex flex-col lg:flex-row lg:items-end justify-between gap-8"
-                >
-                    <!-- Title Section -->
-                    <div class="max-w-2xl">
-                        <nav
-                            class="flex gap-2 text-sm font-medium text-white/80 mb-4 uppercase tracking-wider items-center animate-fade-up"
-                        >
-                            <a
-                                href="/services/"
-                                class="hover:text-white transition-colors text-white"
-                                >Services</a
-                            >
-                            <span class="text-white/60">/</span>
-                            <a
-                                href={`/services/${category.slug}/`}
-                                class="hover:text-white transition-colors text-white"
-                                >{category.title}</a
-                            >
-                        </nav>
-                        <h3
-                            class="text-4xl md:text-5xl font-bold text-white tracking-tight drop-shadow-md animate-fade-up delay-100"
-                        >
-                            {service.title}
-                        </h3>
-                    </div>
-
-                    <!-- Description Section (Right aligned on desktop) -->
+            <!-- Content Overlay - Respects Site Canvas -->
+            <div class="absolute inset-0 flex flex-col justify-end">
+                <div class="site-canvas w-full pb-12 lg:pb-20">
                     <div
-                        class="max-w-xl text-white text-lg sm:text-xl font-light border-l-4 border-queens-secondary pl-6 drop-shadow-sm animate-fade-up delay-200"
+                        class="flex flex-col lg:flex-row lg:items-end justify-between gap-8"
                     >
-                        Looking for {service.title}? Queens Mobile Tires brings
-                        the shop to you. Access our professional {
-                            category.title.toLowerCase()
-                        } without leaving your home or office.
+                        <!-- Title Section -->
+                        <div class="max-w-2xl">
+                            <nav
+                                class="flex gap-2 text-sm font-medium text-white/80 mb-4 uppercase tracking-wider items-center animate-fade-up"
+                            >
+                                <a
+                                    href="/services/"
+                                    class="hover:text-white transition-colors text-white"
+                                    >Services</a
+                                >
+                                <span class="text-white/60">/</span>
+                                <a
+                                    href={`/services/${category.slug}/`}
+                                    class="hover:text-white transition-colors text-white"
+                                    >{category.title}</a
+                                >
+                            </nav>
+                            <h3
+                                class="text-4xl md:text-5xl font-bold text-white tracking-tight drop-shadow-md animate-fade-up delay-100"
+                            >
+                                {service.title}
+                            </h3>
+                        </div>
+
+                        <!-- Description Section (Right aligned on desktop) -->
+                        <div
+                            class="max-w-xl text-white text-lg sm:text-xl font-light border-l-4 border-queens-secondary pl-6 drop-shadow-sm animate-fade-up delay-200"
+                        >
+                            Looking for {service.title}? Queens Mobile Tires
+                            brings the shop to you. Access our professional {
+                                category.title.toLowerCase()
+                            } without leaving your home or office.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -97,7 +97,7 @@ const description = `Professional ${service.title} services in the Chicago area.
     </div>
 
     <!-- Main Content Below Hero -->
-    <div class="mx-auto max-w-7xl px-6 lg:px-8 py-16 sm:py-24" data-reveal>
+    <div class="site-canvas py-16 sm:py-24" data-reveal>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
             <!-- Left Column: Main Service Content -->
             <div class="lg:col-span-2" data-reveal-item>
@@ -290,7 +290,7 @@ const description = `Professional ${service.title} services in the Chicago area.
         </div>
     </div>
     <!-- Image Grid Section -->
-    <div class="mx-auto max-w-7xl px-6 lg:px-8 pb-16 sm:pb-24" data-reveal>
+    <div class="site-canvas pb-16 sm:pb-24" data-reveal>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Image 1 -->
             <div
@@ -336,7 +336,7 @@ const description = `Professional ${service.title} services in the Chicago area.
 
     <!-- FAQ Section -->
     <div class="py-16 sm:py-24" data-reveal>
-        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="site-canvas">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
                 <!-- FAQ Header (Left Column) -->
                 <div class="lg:col-span-1 reveal-hidden" data-reveal-item>

@@ -12,7 +12,7 @@ const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
   >
   </div>
 
-  <div class="container mx-auto px-4 max-w-7xl">
+  <div class="site-canvas">
     {/* HEADER: Focus on Retail + Convenience */}
     <div class="text-center max-w-3xl mx-auto mb-16">
       <div
@@ -21,7 +21,9 @@ const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
         <span class="w-2 h-2 rounded-full bg-queens-secondary"></span>
         Online Tire Retailer
       </div>
-      <h2 class="text-4xl md:text-5xl font-extrabold text-queens-primary dark:text-white mb-6">
+      <h2
+        class="text-4xl md:text-5xl font-extrabold text-queens-primary dark:text-white mb-6"
+      >
         Buy Online.<br />
         <span class="text-gray-400">Installed at Your Doorstep.</span>
       </h2>
