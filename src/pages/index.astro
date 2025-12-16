@@ -1,15 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
-import ThreeSteps from "../components/ThreeSteps.astro";
-import FeatureSplit from "../components/FeatureSplit.astro";
-import BentoGrid from "../components/BentoGrid.astro";
-import Testimonials from "../components/Testimonials.astro";
-import TireWidget from "../components/TireWidget.astro";
 import ServicesHome from "../components/ServicesHome.astro";
 import ServiceCards from "../components/ServiceCards.astro";
-import TrustAnchor from "../components/TrustAnchor.astro";
 import GSAPNewTires from "../components/GSAPNewTires.astro";
+import Commitment from "../components/Commitment.astro";
+import ProcessSteps from "../components/ProcessSteps.astro";
+import ReviewsVideo from "../components/ReviewsVideo.astro";
 import { mobileTiresBrand } from "../brands";
 ---
 
@@ -37,11 +34,8 @@ import { mobileTiresBrand } from "../brands";
   <Hero brand={mobileTiresBrand} />
   <ServiceCards />
   <GSAPNewTires />
-  <ThreeSteps />
-  <FeatureSplit brand={mobileTiresBrand} />
-  <BentoGrid brand={mobileTiresBrand} />
-  <Testimonials />
-  <TireWidget />
+  <Commitment />
+  <ProcessSteps />
+  <ReviewsVideo />
   <ServicesHome brand={mobileTiresBrand} />
-  <TrustAnchor />
 </BaseLayout>

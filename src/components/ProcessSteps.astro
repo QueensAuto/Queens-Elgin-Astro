@@ -1,0 +1,407 @@
+---
+/**
+ * ProcessSteps - Step-by-step workflow section
+ * Left column and progress track stay sticky while right cards scroll
+ */
+---
+
+<section class="process-section" id="process-section">
+    <div class="process-container">
+        <!-- Left Column -->
+        <div class="process-left">
+            <h2 class="process-title">
+                Step-by-<br />Step<br />
+                <span class="title-accent">Workflow</span>
+            </h2>
+            <p class="process-subtitle">
+                Streamlined auto repair process that's efficient, transparent,
+                and tailored for your success.
+            </p>
+            <a href="/request-an-appointment" class="process-cta">
+                Contact Us
+            </a>
+        </div>
+
+        <!-- Middle: Progress Dots -->
+        <div class="progress-track">
+            <div class="progress-line">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="progress-step active" data-step="1">
+                <span class="step-dot"></span>
+                <span class="step-num">01</span>
+            </div>
+            <div class="progress-step" data-step="2">
+                <span class="step-dot"></span>
+                <span class="step-num">02</span>
+            </div>
+            <div class="progress-step" data-step="3">
+                <span class="step-dot"></span>
+                <span class="step-num">03</span>
+            </div>
+            <div class="progress-step" data-step="4">
+                <span class="step-dot"></span>
+                <span class="step-num">04</span>
+            </div>
+        </div>
+
+        <!-- Right Column: Cards -->
+        <div class="process-right">
+            <div class="step-card active" data-step="1">
+                <span class="step-number">01</span>
+                <h3 class="step-title">Schedule Your Service</h3>
+                <p class="step-desc">
+                    Book your appointment <span class="text-accent">online</span
+                    > or give us a call. Choose the service you need and pick a time
+                    that works for your schedule.
+                    <span class="text-accent">Same-day appointments</span> often available.
+                </p>
+            </div>
+
+            <div class="step-card" data-step="2">
+                <span class="step-number">02</span>
+                <h3 class="step-title">Vehicle Inspection</h3>
+                <p class="step-desc">
+                    Our <span class="text-accent">certified technicians</span> perform
+                    a thorough diagnostic of your vehicle. We identify exactly what
+                    needs attention and document everything with <span
+                        class="text-accent">photos and video</span
+                    >.
+                </p>
+            </div>
+
+            <div class="step-card" data-step="3">
+                <span class="step-number">03</span>
+                <h3 class="step-title">Transparent Quote</h3>
+                <p class="step-desc">
+                    Receive a <span class="text-accent">detailed estimate</span> with
+                    no hidden fees. We explain every repair, show you the parts needed,
+                    and get your
+                    <span class="text-accent"
+                        >approval before any work begins</span
+                    >.
+                </p>
+            </div>
+
+            <div class="step-card" data-step="4">
+                <span class="step-number">04</span>
+                <h3 class="step-title">Expert Repair</h3>
+                <p class="step-desc">
+                    Skilled mechanics complete your repairs using <span
+                        class="text-accent">quality parts</span
+                    >. Every job is backed by our <span class="text-accent"
+                        >24-month / 24,000-mile warranty</span
+                    >. Get back on the road with confidence.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .process-section {
+        --section-bg: #fafafa;
+        --card-bg: #ffffff;
+        --card-border: rgba(0, 0, 0, 0.08);
+        --text-primary: #0f172a;
+        --text-secondary: #64748b;
+        --accent: #0a79c8;
+        --accent-light: rgba(10, 121, 200, 0.15);
+
+        background: var(--section-bg);
+        margin-bottom: -30vh; /* Pull next section up to avoid dead space */
+    }
+
+    :global(.dark) .process-section {
+        --section-bg: #0a0a0b;
+        --card-bg: rgba(255, 255, 255, 0.03);
+        --card-border: rgba(255, 255, 255, 0.08);
+        --text-primary: #f8fafc;
+        --text-secondary: #94a3b8;
+        --accent: #22d3ee;
+        --accent-light: rgba(34, 211, 238, 0.15);
+    }
+
+    .process-container {
+        display: grid;
+        grid-template-columns: 1fr 80px 1.3fr;
+        gap: 2rem;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 6rem 1.5rem;
+    }
+
+    /* Left Column - GSAP will pin this */
+    .process-left {
+        height: fit-content;
+    }
+
+    .process-title {
+        font-size: clamp(2rem, 3vw + 0.5rem, 2.75rem);
+        font-weight: 700;
+        color: var(--text-primary);
+        line-height: 1.1;
+        margin: 0;
+        letter-spacing: -0.02em;
+    }
+
+    .title-accent {
+        font-style: italic;
+        font-weight: 400;
+    }
+
+    .process-subtitle {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        line-height: 1.7;
+        margin: 1.25rem 0 0;
+    }
+
+    .process-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--text-primary);
+        color: var(--section-bg);
+        font-size: 0.875rem;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border-radius: 100px;
+        text-decoration: none;
+        margin-top: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    :global(.dark) .process-cta {
+        background: #ffffff;
+        color: #0a0a0b;
+    }
+
+    .process-cta:hover {
+        transform: scale(1.05);
+    }
+
+    /* Middle: Progress Track - GSAP will pin this */
+    .progress-track {
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .progress-line {
+        position: absolute;
+        top: 10px;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        background: var(--card-border);
+        z-index: 0;
+    }
+
+    .progress-fill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 25%;
+        background: var(--accent);
+        transition: height 0.4s ease;
+    }
+
+    .progress-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.375rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .step-dot {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--section-bg);
+        border: 2px solid var(--card-border);
+        transition: all 0.3s ease;
+    }
+
+    .progress-step.active .step-dot {
+        background: var(--accent);
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px var(--accent-light);
+    }
+
+    .step-num {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+    }
+
+    .progress-step.active .step-num {
+        color: var(--text-primary);
+        font-weight: 600;
+    }
+
+    /* Right Column: Cards - Scrollable */
+    .process-right {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        padding-bottom: 35vh; /* Extra scroll space for smooth card 4 transition */
+    }
+
+    .step-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 1.25rem;
+        padding: 2rem 2.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .step-card.active {
+        border-color: rgba(10, 121, 200, 0.25);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    :global(.dark) .step-card.active {
+        border-color: rgba(34, 211, 238, 0.25);
+    }
+
+    .step-number {
+        font-size: 2.5rem;
+        font-weight: 300;
+        color: var(--card-border);
+        line-height: 1;
+        display: block;
+        margin-bottom: 0.75rem;
+    }
+
+    .step-card.active .step-number {
+        color: var(--accent);
+        opacity: 0.5;
+    }
+
+    .step-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0 0 0.5rem;
+    }
+
+    .step-desc {
+        font-size: 0.9375rem;
+        color: var(--text-secondary);
+        line-height: 1.7;
+        margin: 0;
+    }
+
+    .text-accent {
+        color: var(--accent);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+        .process-container {
+            grid-template-columns: 60px 1fr;
+            padding: 4rem 1rem;
+        }
+
+        .process-left {
+            display: none;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .process-container {
+            grid-template-columns: 1fr;
+        }
+
+        .progress-track {
+            display: none;
+        }
+
+        .step-card {
+            padding: 1.5rem;
+        }
+    }
+</style>
+
+<script>
+    import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    gsap.registerPlugin(ScrollTrigger);
+
+    async function initProcessSection() {
+        // Kill existing process triggers
+        ScrollTrigger.getAll().forEach((t) => {
+            if (t.vars?.id?.includes("process")) t.kill();
+        });
+
+        await new Promise((r) => setTimeout(r, 150));
+
+        const section = document.getElementById("process-section");
+        if (!section || window.innerWidth <= 900) return;
+
+        const leftCol = section.querySelector(".process-left");
+        const progressTrack = section.querySelector(".progress-track");
+        const rightCol = section.querySelector(".process-right");
+        const cards = section.querySelectorAll(".step-card");
+        const progressSteps = section.querySelectorAll(".progress-step");
+        const progressFill = document.getElementById("progress-fill");
+
+        if (!leftCol || !progressTrack || !rightCol || cards.length === 0)
+            return;
+
+        // Pin the left column
+        ScrollTrigger.create({
+            trigger: leftCol,
+            start: "top 120px",
+            endTrigger: rightCol,
+            end: "bottom bottom",
+            pin: true,
+            pinSpacing: false,
+            id: "process-pin-left",
+        });
+
+        // Pin the progress track
+        ScrollTrigger.create({
+            trigger: progressTrack,
+            start: "top 120px",
+            endTrigger: rightCol,
+            end: "bottom bottom",
+            pin: true,
+            pinSpacing: false,
+            id: "process-pin-progress",
+        });
+
+        // Update active card based on scroll
+        cards.forEach((card, index) => {
+            ScrollTrigger.create({
+                trigger: card,
+                start: "top 55%",
+                end: "bottom 45%",
+                id: `process-card-${index}`,
+                onEnter: () => updateActiveStep(index),
+                onEnterBack: () => updateActiveStep(index),
+            });
+        });
+
+        function updateActiveStep(index: number) {
+            cards.forEach((c, i) => c.classList.toggle("active", i === index));
+            progressSteps.forEach((s, i) =>
+                s.classList.toggle("active", i <= index),
+            );
+            if (progressFill) {
+                progressFill.style.height = `${((index + 1) / cards.length) * 100}%`;
+            }
+        }
+
+        ScrollTrigger.refresh();
+    }
+
+    document.addEventListener("astro:page-load", initProcessSection);
+</script>
