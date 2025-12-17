@@ -180,180 +180,189 @@ CTA Section */
 <script>
     import gsap from "gsap";
     import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    // Register globally once
     gsap.registerPlugin(ScrollTrigger);
 
+    let ctx: any; // Using any to avoid type issues if GSAP types aren't perfectly inferred
+
     async function initScrollPromo() {
-        // CLEANUP: Kill ALL existing ScrollTriggers to prevent conflicts from previous page navigations
-        // This is critical for Astro View Transitions to avoid pinning issues/overlapping text
-        ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-
-        // Wait for layout to settle (critical for View Transitions)
-        await new Promise((resolve) => setTimeout(resolve, 100));
-
         const container = document.getElementById("scroll-promo");
-        // Remove the dataset check or reset it because on navigation we get a new container
-        // but we still want to ensure we don't double-init if called multiple times on same page
-        if (!container) return;
+        
+        // If we navigated to a page without this component, clean up and exit
+        if (!container) {
+            if (ctx) ctx.revert();
+            return;
+        }
 
-        // If we already initialized this SPECIFIC container, stop.
-        if (container.dataset.initialized === "true") return;
-        container.dataset.initialized = "true";
+        // Clean up any existing context for this component
+        if (ctx) ctx.revert();
 
-        const mainSection = container.querySelector('[data-section="main"]');
-        const text1 = container.querySelector(".promo-text--1");
-        const textMain = container.querySelector(".promo-text__main");
-        const textTag = container.querySelector(".promo-text__tag");
-        const text2 = container.querySelector(".promo-text--2");
-        const text3 = container.querySelector(".promo-text--3");
-        const textSpans = container.querySelectorAll(".promo-text--3 span");
-        const video = container.querySelector(".promo-video");
+        // Wait for next frame to ensure DOM layout is settled
+        await new Promise(requestAnimationFrame);
 
-        if (!mainSection) return;
+        const video = container.querySelector(".promo-video") as HTMLVideoElement;
+        // Ensure video is playing if it was paused by navigation logic
+        if (video) {
+            video.play().catch(() => { /* Auto-play restrictions */ });
+        }
 
-        // Create main timeline with PIN
-        const masterTL = gsap.timeline({
-            scrollTrigger: {
-                trigger: mainSection,
-                start: "top top",
-                end: "+=4000", // 4000px of scroll while pinned
-                pin: true,
-                scrub: 2, // Higher value = smoother animation
-                anticipatePin: 1,
-                // Add invalidateOnRefresh to handle resize/nav better
-                invalidateOnRefresh: true,
-            },
-        });
+        // Create a new GSAP context scoped to the container
+        ctx = gsap.context(() => {
+            const mainSection = container.querySelector('[data-section="main"]');
+            const text1 = container.querySelector(".promo-text--1");
+            const textMain = container.querySelector(".promo-text__main");
+            const textTag = container.querySelector(".promo-text__tag");
+            const text2 = container.querySelector(".promo-text--2");
+            const text3 = container.querySelector(".promo-text--3");
+            const textSpans = container.querySelectorAll(".promo-text--3 span");
+            
+            if (!mainSection) return;
 
-        // ==========================================
-        // PHASE 1: Text 1 "Tire Sale"
-        // Starts small/gray, grows, turns white, fades
-        // ==========================================
-        masterTL
-            // Text 1: Grow and turn white (linear for smooth scroll)
-            .fromTo(
-                textMain,
-                { scale: 0.5, color: "hsl(0, 0%, 40%)" },
-                {
-                    scale: 1.3,
-                    color: "hsl(0, 0%, 100%)",
-                    duration: 1,
-                    ease: "none",
+            // Create main timeline with PIN
+            const masterTL = gsap.timeline({
+                scrollTrigger: {
+                    trigger: mainSection,
+                    start: "top top",
+                    end: "+=4000", // 4000px of scroll while pinned
+                    pin: true,
+                    scrub: 1, // Reduced scrub for snappier feel
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true,
                 },
-                0,
-            )
-            // Tag fades
-            .to(textTag, { opacity: 0, duration: 0.5, ease: "power2.in" }, 0.3)
-            // Text 1: Fade out
-            .to(
-                text1,
-                { opacity: 0, scale: 1.5, duration: 0.5, ease: "power2.in" },
-                1,
-            )
+            });
 
             // ==========================================
-            // PHASE 2: Text 2 "Premium Tires"
-            // Appears small/gray, grows, turns white, fades
-            // (Starts AFTER text1 fully fades at 1.5)
+            // PHASE 1: Text 1 "Tire Sale"
             // ==========================================
-            // First: fade in
-            .to(
-                text2,
-                {
-                    opacity: 1,
-                    duration: 0.2,
-                    ease: "none",
-                },
-                1.6,
-            )
-            // Then: grow from 0.6 to 1 and turn white (single smooth animation)
-            .fromTo(
-                text2,
-                { scale: 0.6, color: "hsl(0, 0%, 50%)" },
-                {
-                    scale: 1,
-                    color: "hsl(0, 0%, 100%)",
-                    duration: 0.8,
-                    ease: "none",
-                },
-                1.7,
-            )
-            // Fade out
-            .to(
-                text2,
-                { opacity: 0, scale: 1.1, duration: 0.5, ease: "none" },
-                2.6,
-            )
+            masterTL
+                .fromTo(
+                    textMain,
+                    { scale: 0.5, color: "hsl(0, 0%, 40%)" },
+                    {
+                        scale: 1.3,
+                        color: "hsl(0, 0%, 100%)",
+                        duration: 1,
+                        ease: "none",
+                    },
+                    0
+                )
+                .to(textTag, { opacity: 0, duration: 0.5, ease: "power2.in" }, 0.3)
+                .to(
+                    text1,
+                    { opacity: 0, scale: 1.5, duration: 0.5, ease: "power2.in" },
+                    1
+                )
 
-            // ==========================================
-            // PHASE 3: Video fades in
-            // ==========================================
-            .to(video, { opacity: 1, duration: 0.5, ease: "power2.out" }, 2.8)
-
-            // ==========================================
-            // PHASE 4: Text 3 reveal
-            // ==========================================
-            .to(text3, { opacity: 1, duration: 0.3, ease: "power2.out" }, 3);
-
-        // Add span reveals - animate opacity AND color to white
-        if (textSpans.length) {
-            textSpans.forEach((span, i) => {
-                masterTL.to(
-                    span,
+                // ==========================================
+                // PHASE 2: Text 2 "Premium Tires"
+                // ==========================================
+                .to(
+                    text2,
                     {
                         opacity: 1,
-                        color: "hsl(0, 0%, 100%)",
-                        duration: 0.4,
-                        ease: "power2.inOut",
+                        duration: 0.2,
+                        ease: "none",
                     },
-                    3.2 + i * 0.3,
-                );
-            });
-        }
+                    1.6
+                )
+                .fromTo(
+                    text2,
+                    { scale: 0.6, color: "hsl(0, 0%, 50%)" },
+                    {
+                        scale: 1,
+                        color: "hsl(0, 0%, 100%)",
+                        duration: 0.8,
+                        ease: "none",
+                    },
+                    1.7
+                )
+                .to(
+                    text2,
+                    { opacity: 0, scale: 1.1, duration: 0.5, ease: "none" },
+                    2.6
+                )
 
-        // Fade everything out at end
-        masterTL
-            .to(text3, { opacity: 0, duration: 0.3, ease: "power2.in" }, 4.5)
-            .to(video, { opacity: 0, duration: 0.3, ease: "power2.in" }, 4.5);
+                // ==========================================
+                // PHASE 3: Video fades in
+                // ==========================================
+                .to(video, { opacity: 1, duration: 0.5, ease: "power2.out" }, 2.8)
 
-        // ==========================================
-        // CTA SECTION (separate, not part of pin)
-        // ==========================================
-        const ctaSection = container.querySelector('[data-section="cta"]');
-        const ctaLabel = container.querySelector(".promo-cta__label");
-        const ctaButton = container.querySelector(".promo-cta__button");
+                // ==========================================
+                // PHASE 4: Text 3 reveal
+                // ==========================================
+                .to(text3, { opacity: 1, duration: 0.3, ease: "power2.out" }, 3);
 
-        if (ctaSection && ctaLabel) {
-            gsap.from(ctaLabel, {
-                y: 50,
-                opacity: 0,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: ctaSection,
-                    start: "top 80%",
-                    end: "30% center",
-                    scrub: 1,
-                },
-            });
-        }
+            // Add span reveals
+            if (textSpans.length) {
+                textSpans.forEach((span, i) => {
+                    masterTL.to(
+                        span,
+                        {
+                            opacity: 1,
+                            color: "hsl(0, 0%, 100%)",
+                            duration: 0.4,
+                            ease: "power2.inOut",
+                        },
+                        3.2 + i * 0.3
+                    );
+                });
+            }
 
-        if (ctaSection && ctaButton) {
-            gsap.from(ctaButton, {
-                y: 30,
-                opacity: 0,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: ctaSection,
-                    start: "20% 80%",
-                    end: "40% center",
-                    scrub: 1,
-                },
-            });
-        }
+            // Fade everything out at end
+            masterTL
+                .to(text3, { opacity: 0, duration: 0.3, ease: "power2.in" }, 4.5)
+                .to(video, { opacity: 0, duration: 0.3, ease: "power2.in" }, 4.5);
 
-        // Force refresh to ensure start/end positions are calculated correctly after layout settles
-        ScrollTrigger.refresh();
+            // ==========================================
+            // CTA SECTION
+            // ==========================================
+            const ctaSection = container.querySelector('[data-section="cta"]');
+            const ctaLabel = container.querySelector(".promo-cta__label");
+            const ctaButton = container.querySelector(".promo-cta__button");
+
+            if (ctaSection) {
+                if (ctaLabel) {
+                    gsap.from(ctaLabel, {
+                        y: 50,
+                        opacity: 0,
+                        duration: 1,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: ctaSection,
+                            start: "top 80%",
+                            end: "30% center",
+                            scrub: 1,
+                        },
+                    });
+                }
+
+                if (ctaButton) {
+                    gsap.from(ctaButton, {
+                        y: 30,
+                        opacity: 0,
+                        duration: 1,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: ctaSection,
+                            start: "20% 80%",
+                            end: "40% center",
+                            scrub: 1,
+                        },
+                    });
+                }
+            }
+        }, container); // Scope matches container
+
+        // Refresh ScrollTrigger after a slight delay to account for any layout shifts
+        setTimeout(() => ScrollTrigger.refresh(), 500);
     }
 
     // Initialize on page load (covers initial load and view transitions)
     document.addEventListener("astro:page-load", initScrollPromo);
+    
+    // Cleanup on component unmount/page swap
+    document.addEventListener("astro:before-swap", () => {
+        if (ctx) ctx.revert();
+    });
 </script>

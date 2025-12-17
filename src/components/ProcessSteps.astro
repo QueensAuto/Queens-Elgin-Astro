@@ -333,75 +333,90 @@
 <script>
     import gsap from "gsap";
     import { ScrollTrigger } from "gsap/ScrollTrigger";
+    
+    // Register globally once
     gsap.registerPlugin(ScrollTrigger);
 
+    let ctx: any; // Keep track of GSAP context
+
     async function initProcessSection() {
-        // Kill existing process triggers
-        ScrollTrigger.getAll().forEach((t) => {
-            if (t.vars?.id?.includes("process")) t.kill();
-        });
-
-        await new Promise((r) => setTimeout(r, 150));
-
         const section = document.getElementById("process-section");
-        if (!section || window.innerWidth <= 900) return;
-
-        const leftCol = section.querySelector(".process-left");
-        const progressTrack = section.querySelector(".progress-track");
-        const rightCol = section.querySelector(".process-right");
-        const cards = section.querySelectorAll(".step-card");
-        const progressSteps = section.querySelectorAll(".progress-step");
-        const progressFill = document.getElementById("progress-fill");
-
-        if (!leftCol || !progressTrack || !rightCol || cards.length === 0)
+        
+        // Navigation cleanup if component is missing
+        if (!section) {
+            if (ctx) ctx.revert();
             return;
-
-        // Pin the left column
-        ScrollTrigger.create({
-            trigger: leftCol,
-            start: "top 120px",
-            endTrigger: rightCol,
-            end: "bottom bottom",
-            pin: true,
-            pinSpacing: false,
-            id: "process-pin-left",
-        });
-
-        // Pin the progress track
-        ScrollTrigger.create({
-            trigger: progressTrack,
-            start: "top 120px",
-            endTrigger: rightCol,
-            end: "bottom bottom",
-            pin: true,
-            pinSpacing: false,
-            id: "process-pin-progress",
-        });
-
-        // Update active card based on scroll
-        cards.forEach((card, index) => {
-            ScrollTrigger.create({
-                trigger: card,
-                start: "top 55%",
-                end: "bottom 45%",
-                id: `process-card-${index}`,
-                onEnter: () => updateActiveStep(index),
-                onEnterBack: () => updateActiveStep(index),
-            });
-        });
-
-        function updateActiveStep(index: number) {
-            cards.forEach((c, i) => c.classList.toggle("active", i === index));
-            progressSteps.forEach((s, i) =>
-                s.classList.toggle("active", i <= index),
-            );
-            if (progressFill) {
-                progressFill.style.height = `${((index + 1) / cards.length) * 100}%`;
-            }
         }
 
-        ScrollTrigger.refresh();
+        // Revert existing context
+        if (ctx) ctx.revert();
+
+        // Wait for next frame for layout stability
+        await new Promise(requestAnimationFrame);
+
+        if (window.innerWidth <= 900) return;
+
+        ctx = gsap.context(() => {
+            const leftCol = section.querySelector(".process-left");
+            const progressTrack = section.querySelector(".progress-track");
+            const rightCol = section.querySelector(".process-right");
+            const cards = section.querySelectorAll(".step-card");
+            const progressSteps = section.querySelectorAll(".progress-step");
+            const progressFill = document.getElementById("progress-fill");
+
+            if (!leftCol || !progressTrack || !rightCol || cards.length === 0)
+                return;
+
+            // Pin the left column
+            ScrollTrigger.create({
+                trigger: leftCol,
+                start: "top 120px",
+                endTrigger: rightCol,
+                end: "bottom bottom",
+                pin: true,
+                pinSpacing: false,
+            });
+
+            // Pin the progress track
+            ScrollTrigger.create({
+                trigger: progressTrack,
+                start: "top 120px",
+                endTrigger: rightCol,
+                end: "bottom bottom",
+                pin: true,
+                pinSpacing: false,
+            });
+
+            // Update active card based on scroll
+            cards.forEach((card, index) => {
+                ScrollTrigger.create({
+                    trigger: card,
+                    start: "top 55%",
+                    end: "bottom 45%",
+                    onEnter: () => updateActiveStep(index),
+                    onEnterBack: () => updateActiveStep(index),
+                });
+            });
+
+            function updateActiveStep(index: number) {
+                cards.forEach((c, i) => c.classList.toggle("active", i === index));
+                progressSteps.forEach((s, i) =>
+                    s.classList.toggle("active", i <= index),
+                );
+                if (progressFill) {
+                    progressFill.style.height = `${((index + 1) / cards.length) * 100}%`;
+                }
+            }
+        }, section); // Scope triggers to the section
+
+        // Refresh after a short delay to account for dynamic content/fonts
+        setTimeout(() => ScrollTrigger.refresh(), 500);
     }
 
     document.addEventListener("astro:page-load", initProcessSection);
+    
+    // Cleanup on unmount
+    document.addEventListener("astro:before-swap", () => {
+        if (ctx) ctx.revert();
+    });
 </script>
