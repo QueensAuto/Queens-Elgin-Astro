@@ -90,5 +90,31 @@ const isServiceSubPage =
 
     <Footer brand={brand} />
     {/* <MobileStickyCTA brand={brand} /> */}
+
+    <!-- Global video autoplay fallback for Edge/browser compatibility -->
+    <script is:inline>
+      function forceAllVideosToPlay() {
+        document.querySelectorAll("video").forEach(function (video) {
+          if (video.paused && video.muted) {
+            video.play().catch(function () {
+              // Silent fail - browser policy blocks autoplay
+            });
+          }
+        });
+      }
+
+      // Run on initial load
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", forceAllVideosToPlay);
+      } else {
+        forceAllVideosToPlay();
+      }
+
+      // Run after Astro view transitions
+      document.addEventListener("astro:page-load", forceAllVideosToPlay);
+
+      // Also run after a short delay in case videos load late
+      setTimeout(forceAllVideosToPlay, 500);
+    </script>
   </body>
 </html>

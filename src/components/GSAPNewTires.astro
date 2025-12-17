@@ -11,12 +11,19 @@
         <!--
 Video Background -->
         <video
-            src="/video/Queens Elgin - Website Video Intro.mp4"
             autoplay
             playsinline
             muted
             loop
-            class="promo-video"></video>
+            preload="auto"
+            class="promo-video"
+        >
+            <source
+                src="/video/Queens Elgin - Website Video Intro.mp4"
+                type="video/mp4"
+            />
+            Your browser does not support the video tag.
+        </video>
         <!-- Content
 wrapper -->
         <div class="promo-content">
@@ -188,7 +195,7 @@ CTA Section */
 
     async function initScrollPromo() {
         const container = document.getElementById("scroll-promo");
-        
+
         // If we navigated to a page without this component, clean up and exit
         if (!container) {
             if (ctx) ctx.revert();
@@ -201,22 +208,28 @@ CTA Section */
         // Wait for next frame to ensure DOM layout is settled
         await new Promise(requestAnimationFrame);
 
-        const video = container.querySelector(".promo-video") as HTMLVideoElement;
+        const video = container.querySelector(
+            ".promo-video",
+        ) as HTMLVideoElement;
         // Ensure video is playing if it was paused by navigation logic
         if (video) {
-            video.play().catch(() => { /* Auto-play restrictions */ });
+            video.play().catch(() => {
+                /* Auto-play restrictions */
+            });
         }
 
         // Create a new GSAP context scoped to the container
         ctx = gsap.context(() => {
-            const mainSection = container.querySelector('[data-section="main"]');
+            const mainSection = container.querySelector(
+                '[data-section="main"]',
+            );
             const text1 = container.querySelector(".promo-text--1");
             const textMain = container.querySelector(".promo-text__main");
             const textTag = container.querySelector(".promo-text__tag");
             const text2 = container.querySelector(".promo-text--2");
             const text3 = container.querySelector(".promo-text--3");
             const textSpans = container.querySelectorAll(".promo-text--3 span");
-            
+
             if (!mainSection) return;
 
             // Create main timeline with PIN
@@ -245,13 +258,22 @@ CTA Section */
                         duration: 1,
                         ease: "none",
                     },
-                    0
+                    0,
                 )
-                .to(textTag, { opacity: 0, duration: 0.5, ease: "power2.in" }, 0.3)
+                .to(
+                    textTag,
+                    { opacity: 0, duration: 0.5, ease: "power2.in" },
+                    0.3,
+                )
                 .to(
                     text1,
-                    { opacity: 0, scale: 1.5, duration: 0.5, ease: "power2.in" },
-                    1
+                    {
+                        opacity: 0,
+                        scale: 1.5,
+                        duration: 0.5,
+                        ease: "power2.in",
+                    },
+                    1,
                 )
 
                 // ==========================================
@@ -264,7 +286,7 @@ CTA Section */
                         duration: 0.2,
                         ease: "none",
                     },
-                    1.6
+                    1.6,
                 )
                 .fromTo(
                     text2,
@@ -275,23 +297,31 @@ CTA Section */
                         duration: 0.8,
                         ease: "none",
                     },
-                    1.7
+                    1.7,
                 )
                 .to(
                     text2,
                     { opacity: 0, scale: 1.1, duration: 0.5, ease: "none" },
-                    2.6
+                    2.6,
                 )
 
                 // ==========================================
                 // PHASE 3: Video fades in
                 // ==========================================
-                .to(video, { opacity: 1, duration: 0.5, ease: "power2.out" }, 2.8)
+                .to(
+                    video,
+                    { opacity: 1, duration: 0.5, ease: "power2.out" },
+                    2.8,
+                )
 
                 // ==========================================
                 // PHASE 4: Text 3 reveal
                 // ==========================================
-                .to(text3, { opacity: 1, duration: 0.3, ease: "power2.out" }, 3);
+                .to(
+                    text3,
+                    { opacity: 1, duration: 0.3, ease: "power2.out" },
+                    3,
+                );
 
             // Add span reveals
             if (textSpans.length) {
@@ -304,15 +334,23 @@ CTA Section */
                             duration: 0.4,
                             ease: "power2.inOut",
                         },
-                        3.2 + i * 0.3
+                        3.2 + i * 0.3,
                     );
                 });
             }
 
             // Fade everything out at end
             masterTL
-                .to(text3, { opacity: 0, duration: 0.3, ease: "power2.in" }, 4.5)
-                .to(video, { opacity: 0, duration: 0.3, ease: "power2.in" }, 4.5);
+                .to(
+                    text3,
+                    { opacity: 0, duration: 0.3, ease: "power2.in" },
+                    4.5,
+                )
+                .to(
+                    video,
+                    { opacity: 0, duration: 0.3, ease: "power2.in" },
+                    4.5,
+                );
 
             // ==========================================
             // CTA SECTION
@@ -360,7 +398,7 @@ CTA Section */
 
     // Initialize on page load (covers initial load and view transitions)
     document.addEventListener("astro:page-load", initScrollPromo);
-    
+
     // Cleanup on component unmount/page swap
     document.addEventListener("astro:before-swap", () => {
         if (ctx) ctx.revert();
