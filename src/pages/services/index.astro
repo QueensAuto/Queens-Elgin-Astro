@@ -17,18 +17,35 @@ const description =
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div data-reveal-item>
-                    <!-- Recommended heading size for internal page heroes -->
-                    <h3 class="text-gray-900 dark:text-white mb-6">
-                        Your One-Stop Shop For All Your Auto Repair Needs
-                    </h3>
+                    <!-- Pulsing Badge -->
+                    <div
+                        class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-queens-secondary-ultra-light dark:bg-queens-secondary-darker border border-queens-secondary-light dark:border-queens-secondary-dark text-queens-secondary-darker dark:text-queens-secondary-ultra-light text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mb-8"
+                    >
+                        <span class="relative flex h-2 w-2">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-queens-secondary dark:bg-queens-secondary-ultra-light opacity-75"
+                            ></span>
+                            <span
+                                class="relative inline-flex rounded-full h-2 w-2 bg-queens-secondary dark:bg-queens-secondary-ultra-light"
+                            ></span>
+                        </span>
+                        Expert Auto Services
+                    </div>
+
+                    <!-- Premium Heading -->
+                    <h1 class="text-4xl md:text-6xl font-anton text-queens-primary dark:text-white mb-8 leading-[0.95] tracking-tight uppercase">
+                        One-Stop Shop <br />
+                        <span class="text-queens-secondary">Expert Auto Repair</span>
+                    </h1>
+
                     <p
-                        class="paragraph-1 text-gray-600 dark:text-gray-300 mb-6"
+                        class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed"
                     >
                         From routine oil changes to complex engine diagnostics,
                         our team offers comprehensive solutions to keep your
                         vehicle running smoothly.
                     </p>
-                    <p class="paragraph-1 text-gray-600 dark:text-gray-300">
+                    <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
                         We're dedicated to providing honest, reliable service
                         tailored to your vehicle's needs, ensuring you drive
                         away with confidence and peace of mind.

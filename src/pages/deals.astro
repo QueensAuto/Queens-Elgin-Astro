@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { mobileTiresBrand } from "../brands";
+import FinancingSection from "../components/FinancingSection.astro";
 
 const title = "Deals & Specials | Queens Mobile Tires";
 const description =
@@ -81,6 +82,8 @@ const deals = [
                     Save on your next service with our exclusive offers.
                 </p>
             </div>
+
+            <FinancingSection className="mt-16" />
 
             <div
                 class="service-card-section mx-auto mt-16 max-w-7xl sm:mt-20 lg:mt-24 -mx-4 px-4 sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12 xl:-mx-[calc((100vw-80rem)/2)] xl:px-[calc((100vw-80rem)/2)]"

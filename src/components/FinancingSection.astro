@@ -1,0 +1,326 @@
+---
+import CtaButton from "./CtaButton.astro";
+
+interface Props {
+    className?: string;
+}
+
+const { className = "" } = Astro.props;
+const snapLink =
+    "https://snapfinance.com/find-stores?latitude=42.0643274&longitude=-88.3174671&state=IL&city=Elgin&search=Queens+Auto+Service+-+Aap+Technet&merchantId=490273034&dbaName=Queens-Auto-Service---Aap-Technet";
+---
+
+<section class={`financing-section ${className}`} id="financing">
+    <div class="financing-container">
+        <div class="financing-content">
+            <div class="financing-text-aside">
+                <span class="financing-badge">
+                    <span class="relative flex h-2 w-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-queens-secondary dark:bg-queens-secondary-ultra-light opacity-75"
+                        ></span>
+                        <span
+                            class="relative inline-flex rounded-full h-2 w-2 bg-queens-secondary dark:bg-queens-secondary-ultra-light"
+                        ></span>
+                    </span>
+                    Smart Financing
+                </span>
+                <h2 class="financing-title">
+                    Get What You Need <br />
+                    <span class="text-queens-secondary">Today.</span>
+                </h2>
+                <p class="financing-description">
+                    No credit needed. Get up to <strong>$5,000</strong> in financing
+                    for your tires and auto repairs. Fast, easy, and secure.
+                </p>
+                <div class="financing-features">
+                    <div class="feature-item">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="feature-icon"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>No Credit Needed</span>
+                    </div>
+                    <div class="feature-item">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="feature-icon"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Instant Approval</span>
+                    </div>
+                    <div class="feature-item">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="feature-icon"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Early Purchase Options</span>
+                    </div>
+                </div>
+
+                <div class="financing-cta-container">
+                    <CtaButton
+                        href={snapLink}
+                        text="Apply with Snap!"
+                        variant="standard"
+                    />
+                </div>
+            </div>
+
+            <div class="financing-visual">
+                <div class="logo-backdrop">
+                    <!-- Light Mode Logo -->
+                    <img
+                        src="/images/logos/Snap Finance Logo.webp"
+                        alt="Snap Finance"
+                        class="snap-logo snap-logo-light"
+                    />
+                    <!-- Dark Mode Logo (White) -->
+                    <img
+                        src="/images/logos/snap-finance-logo-negative-768x453.webp"
+                        alt="Snap Finance"
+                        class="snap-logo snap-logo-dark"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .financing-section {
+        padding: 6rem 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .financing-container {
+        max-width: 80rem;
+        margin: 0 auto;
+        padding: 4rem 1.5rem;
+        position: relative;
+        z-index: 1;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    :global(.dark) .financing-container {
+        border-top-color: rgba(255, 255, 255, 0.05);
+        background: transparent;
+        backdrop-filter: none;
+    }
+
+    .financing-content {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        align-items: center;
+    }
+
+    /* Mobile Reordering Hack */
+    @media (max-width: 1023px) {
+        .financing-content {
+            display: contents;
+        }
+        .financing-text-aside {
+            display: contents;
+        }
+        .financing-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+        /* Ordering */
+        .financing-badge {
+            order: 1;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .financing-title {
+            order: 2;
+        }
+        .financing-visual {
+            order: 3;
+            margin-bottom: 2rem;
+        }
+        .financing-description {
+            order: 4;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .financing-features {
+            order: 5;
+            justify-content: center;
+            text-align: left;
+        }
+        .financing-cta-container {
+            order: 6;
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .financing-content {
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4rem;
+        }
+    }
+
+    .financing-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+        padding: 0.5rem 1.25rem;
+        background: rgba(10, 121, 200, 0.1);
+        color: #0a79c8;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-bottom: 2rem;
+    }
+
+    .financing-title {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        line-height: 1.1;
+        font-weight: 900;
+        color: #0f172a;
+        margin-bottom: 1.5rem;
+    }
+
+    :global(.dark) .financing-title {
+        color: #ffffff;
+    }
+
+    .financing-description {
+        font-size: 1.125rem;
+        line-height: 1.7;
+        color: #475569;
+        margin-bottom: 2rem;
+        max-width: 32rem;
+    }
+
+    :global(.dark) .financing-description {
+        color: #94a3b8;
+    }
+
+    .financing-features {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-bottom: 2.5rem;
+    }
+
+    @media (min-width: 640px) {
+        .financing-features {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: #0f172a;
+        font-weight: 600;
+    }
+
+    :global(.dark) .feature-item {
+        color: #e2e8f0;
+    }
+
+    .feature-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        color: #0a79c8;
+        flex-shrink: 0;
+    }
+
+    .financing-visual {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    .logo-backdrop {
+        width: 100%;
+        aspect-ratio: 1.2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    :global(.dark) .logo-backdrop {
+        box-shadow: none;
+    }
+
+    .snap-logo {
+        width: 100%;
+        height: auto;
+        max-width: 400px;
+        object-fit: contain;
+        position: relative;
+        z-index: 2;
+        transition: opacity 0.3s ease;
+    }
+
+    .snap-logo-dark {
+        display: none;
+    }
+
+    :global(.dark) .snap-logo-light {
+        display: none;
+    }
+
+    :global(.dark) .snap-logo-dark {
+        display: block;
+    }
+
+    .glow-sphere {
+        position: absolute;
+        width: 15rem;
+        height: 15rem;
+        background: radial-gradient(
+            circle,
+            rgba(10, 121, 200, 0.15) 0%,
+            rgba(10, 121, 200, 0) 70%
+        );
+        border-radius: 50%;
+        filter: blur(20px);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+    }
+</style>

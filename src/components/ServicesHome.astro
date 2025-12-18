@@ -16,18 +16,25 @@ const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
 
   <div class="site-canvas">
     {/* HEADER: Focus on Full-Service Auto Shop */}
-    <div class="text-center max-w-3xl mx-auto mb-16">
+    <div class="text-center max-w-4xl mx-auto mb-16">
       <div
-        class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-gray-600 text-xs font-bold uppercase tracking-widest mb-4"
+        class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-queens-secondary-ultra-light dark:bg-queens-secondary-darker border border-queens-secondary-light dark:border-queens-secondary-dark text-queens-secondary-darker dark:text-queens-secondary-ultra-light text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mb-8"
       >
-        <span class="w-2 h-2 rounded-full bg-queens-secondary"></span>
+        <span class="relative flex h-2 w-2">
+          <span
+            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-queens-secondary dark:bg-queens-secondary-ultra-light opacity-75"
+          ></span>
+          <span
+            class="relative inline-flex rounded-full h-2 w-2 bg-queens-secondary dark:bg-queens-secondary-ultra-light"
+          ></span>
+        </span>
         Full Service Auto Shop
       </div>
       <h2
-        class="text-4xl md:text-5xl font-extrabold text-queens-primary dark:text-white mb-6"
+        class="text-5xl md:text-7xl font-anton text-queens-primary dark:text-white mb-8 leading-[0.95] tracking-tight uppercase"
       >
-        Expert Auto Care.<br />
-        <span class="text-gray-400">Right Here in Elgin.</span>
+        Expert Auto Care. <br />
+        <span class="text-queens-secondary">Right Here in Elgin.</span>
       </h2>
       <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
         Queens Auto Services has been the trusted auto repair shop in Elgin, IL
