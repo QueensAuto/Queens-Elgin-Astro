@@ -1,0 +1,60 @@
+---
+/**
+ * SmoothScroll - Premium smooth scrolling using Lenis
+ * Add this to your BaseLayout for site-wide smooth scrolling
+ */
+---
+
+<script>
+    import Lenis from "lenis";
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    let lenis: Lenis | null = null;
+
+    function initSmoothScroll() {
+        // Clean up previous instance
+        if (lenis) {
+            lenis.destroy();
+            lenis = null;
+        }
+
+        // Initialize Lenis with smooth scrolling
+        lenis = new Lenis({
+            duration: 1.2,           // Scroll duration
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Smooth easing
+            orientation: 'vertical',
+            smoothWheel: true,
+            touchMultiplier: 2,
+        });
+
+        // Connect Lenis to GSAP ScrollTrigger
+        lenis.on("scroll", ScrollTrigger.update);
+
+        // Add Lenis to GSAP's ticker for smooth animation
+        gsap.ticker.add((time) => {
+            lenis?.raf(time * 1000);
+        });
+
+        // Disable GSAP's lagSmoothing for better performance with Lenis
+        gsap.ticker.lagSmoothing(0);
+    }
+
+    // Initialize after page load
+    document.addEventListener("astro:page-load", () => {
+        // Small delay to ensure DOM is ready
+        requestAnimationFrame(() => {
+            initSmoothScroll();
+        });
+    });
+
+    // Cleanup before page swap (Astro View Transitions)
+    document.addEventListener("astro:before-swap", () => {
+        if (lenis) {
+            lenis.destroy();
+            lenis = null;
+        }
+    });
+</script>

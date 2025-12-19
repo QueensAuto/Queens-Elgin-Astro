@@ -720,3 +720,113 @@
         transform: translateX(4px);
     }
 </style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    let wcuCtx: gsap.Context | null = null;
+
+    function initWCUAnimations() {
+        // Clean up previous animations
+        if (wcuCtx) {
+            wcuCtx.revert();
+            wcuCtx = null;
+        }
+
+        const section = document.querySelector(".wcu-section");
+        if (!section) return;
+
+        // Create scoped context
+        wcuCtx = gsap.context(() => {
+            // Header elements
+            const badge = section.querySelector(".wcu-badge");
+            const headline = section.querySelector(".wcu-headline");
+            
+            // Left column (images)
+            const images = section.querySelector(".wcu-images");
+            
+            // Right column content
+            const warranty = section.querySelector(".wcu-warranty");
+            const desc = section.querySelector(".wcu-desc");
+            const trustItems = section.querySelectorAll(".wcu-trust-item");
+            const link = section.querySelector(".wcu-link");
+
+            // Animate header (badge and headline)
+            if (badge && headline) {
+                gsap.fromTo([badge, headline],
+                    { y: -30, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        stagger: 0.15,
+                        duration: 0.8,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 50%",
+                            once: true,
+                        }
+                    }
+                );
+            }
+
+            // Animate images column from left
+            if (images) {
+                gsap.fromTo(images,
+                    { x: -60, opacity: 0 },
+                    {
+                        x: 0,
+                        opacity: 1,
+                        duration: 1,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 45%",
+                            once: true,
+                        }
+                    }
+                );
+            }
+
+            // Animate right column content with stagger
+            const rightElements = [warranty, desc, ...Array.from(trustItems), link].filter(Boolean);
+            
+            if (rightElements.length > 0) {
+                gsap.fromTo(rightElements,
+                    { x: 40, opacity: 0 },
+                    {
+                        x: 0,
+                        opacity: 1,
+                        stagger: 0.1,
+                        duration: 0.7,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 40%",
+                            once: true,
+                        }
+                    }
+                );
+            }
+        }, section);
+    }
+
+    // Initialize after page load
+    document.addEventListener("astro:page-load", () => {
+        requestAnimationFrame(() => {
+            setTimeout(initWCUAnimations, 150);
+        });
+    });
+
+    // Cleanup before page swap (Astro View Transitions)
+    document.addEventListener("astro:before-swap", () => {
+        if (wcuCtx) {
+            wcuCtx.revert();
+            wcuCtx = null;
+        }
+    });
+</script>
+

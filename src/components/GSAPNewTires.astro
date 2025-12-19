@@ -224,10 +224,11 @@ promo-text--3">
     }
     .promo-section--cta {
         position: relative;
-        height: 100vh;
+        min-height: auto;
+        padding: 4rem 0 6rem;
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
     } /* Video Background */
     .promo-video {
         position: absolute;
@@ -310,13 +311,13 @@ CTA Section */
     }
     .promo-cta__glow {
         position: absolute;
-        top: 50%;
+        top: 0;
         left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translateX(-50%);
         width: 120%;
-        height: 120%;
+        height: 100%;
         background: radial-gradient(
-            ellipse at center,
+            ellipse at center top,
             rgba(10, 121, 200, 0.15) 0%,
             transparent 60%
         );
@@ -501,7 +502,7 @@ CTA Section */
                 scrollTrigger: {
                     trigger: mainSection,
                     start: "top top",
-                    end: "+=4000", // 4000px of scroll while pinned
+                    end: "+=2000", // Reduced from 4000 to improve scroll speed and responsiveness
                     pin: true,
                     scrub: 1, // Reduced scrub for snappier feel
                     anticipatePin: 1,
@@ -624,34 +625,48 @@ CTA Section */
             const ctaButton = container.querySelector(".promo-cta__button");
 
             if (ctaSection) {
+                // Animate CTA label
                 if (ctaLabel) {
-                    gsap.from(ctaLabel, {
-                        y: 50,
-                        opacity: 0,
-                        duration: 1,
-                        ease: "power2.out",
-                        scrollTrigger: {
-                            trigger: ctaSection,
-                            start: "top 80%",
-                            end: "30% center",
-                            scrub: 1,
-                        },
-                    });
+                    gsap.fromTo(ctaLabel, 
+                        { y: 40, opacity: 0 },
+                        {
+                            y: 0,
+                            opacity: 1,
+                            duration: 0.8,
+                            ease: "power2.out",
+                            scrollTrigger: {
+                                trigger: ctaSection,
+                                start: "top 90%",
+                                once: true,
+                            },
+                        }
+                    );
                 }
 
-                if (ctaButton) {
-                    gsap.from(ctaButton, {
-                        y: 30,
-                        opacity: 0,
-                        duration: 1,
-                        ease: "power2.out",
-                        scrollTrigger: {
-                            trigger: ctaSection,
-                            start: "20% 80%",
-                            end: "40% center",
-                            scrub: 1,
-                        },
-                    });
+                // Animate trust signals, brands, and buttons
+                const ctaTrust = container.querySelector(".promo-cta__trust");
+                const ctaBrands = container.querySelector(".promo-cta__brands");
+                const ctaButtons = container.querySelector(".promo-cta__buttons");
+                const ctaOffer = container.querySelector(".promo-cta__offer");
+                
+                const ctaElements = [ctaTrust, ctaBrands, ctaButtons, ctaOffer].filter(Boolean);
+                
+                if (ctaElements.length > 0) {
+                    gsap.fromTo(ctaElements, 
+                        { y: 30, opacity: 0 },
+                        {
+                            y: 0,
+                            opacity: 1,
+                            stagger: 0.1,
+                            duration: 0.6,
+                            ease: "power2.out",
+                            scrollTrigger: {
+                                trigger: ctaSection,
+                                start: "top 80%",
+                                once: true,
+                            },
+                        }
+                    );
                 }
             }
 

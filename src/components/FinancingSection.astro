@@ -324,3 +324,99 @@ const snapLink =
         z-index: 1;
     }
 </style>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    let financingCtx: gsap.Context | null = null;
+
+    function initFinancingAnimations() {
+        // Clean up previous animations
+        if (financingCtx) {
+            financingCtx.revert();
+            financingCtx = null;
+        }
+
+        const section = document.querySelector("#financing");
+        if (!section) return;
+
+        // Create scoped context
+        financingCtx = gsap.context(() => {
+            // Query elements directly from section to avoid issues with display:contents
+            const badge = section.querySelector(".financing-badge");
+            const title = section.querySelector(".financing-title");
+            const description = section.querySelector(".financing-description");
+            const featureItems = section.querySelectorAll(".feature-item");
+            const ctaContainer = section.querySelector(".financing-cta-container");
+            const visual = section.querySelector(".financing-visual");
+
+            // Build array of left-side elements
+            const leftElements = [badge, title, description, ...Array.from(featureItems), ctaContainer].filter(Boolean);
+
+            // Animate left content with stagger
+            if (leftElements.length > 0) {
+                gsap.fromTo(leftElements,
+                    { 
+                        x: -40, 
+                        opacity: 0 
+                    },
+                    {
+                        x: 0,
+                        opacity: 1,
+                        stagger: 0.12,
+                        duration: 0.8,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 60%",
+                            once: true,
+                        }
+                    }
+                );
+            }
+
+            // Animate right visual (logo)
+            if (visual) {
+                gsap.fromTo(visual,
+                    { 
+                        x: 50, 
+                        opacity: 0, 
+                        scale: 0.9 
+                    },
+                    {
+                        x: 0,
+                        opacity: 1,
+                        scale: 1,
+                        duration: 1,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 60%",
+                            once: true,
+                        }
+                    }
+                );
+            }
+        }, section);
+    }
+
+    // Initialize after page load with a small delay for layout stability
+    document.addEventListener("astro:page-load", () => {
+        requestAnimationFrame(() => {
+            setTimeout(initFinancingAnimations, 100);
+        });
+    });
+
+    // Cleanup before page swap (Astro View Transitions)
+    document.addEventListener("astro:before-swap", () => {
+        if (financingCtx) {
+            financingCtx.revert();
+            financingCtx = null;
+        }
+    });
+</script>
+
+

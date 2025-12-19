@@ -52,19 +52,20 @@ const avatars = [
           Elgin's Trusted Auto Experts Since 2014
         </div>
 
+
         <!-- Headline -->
         <h1
-          class="text-5xl md:text-7xl xl:text-8xl font-anton text-queens-primary dark:text-white mb-8 leading-[0.95] tracking-tight uppercase"
+          class="text-5xl md:text-7xl xl:text-8xl font-anton text-queens-primary dark:text-white mb-8 leading-[0.95] tracking-tight uppercase overflow-hidden"
         >
-          Your Local Expert for <br />
-          <span class="text-queens-secondary block sm:inline pt-2"
+          <span class="hero-headline-line block">Your Local Expert for</span>
+          <span class="hero-headline-line block text-queens-secondary pt-2"
             >Tires & Auto Repair.</span
           >
         </h1>
 
         <!-- Description -->
         <p
-          class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-xl leading-relaxed font-manrope"
+          class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-xl leading-relaxed font-manrope hero-social-item"
         >
           Visit Queens Auto Services in Elgin for professional tire installation
           and comprehensive auto repair. We keep you rolling with trusted
@@ -72,14 +73,14 @@ const avatars = [
         </p>
 
         <!-- Buttons -->
-        <div class="flex flex-wrap gap-5 mb-20">
+        <div class="flex flex-wrap gap-5 mb-20 hero-social-item">
           <CtaButton href="/request-an-appointment" text="Book Appointment" />
           <CtaButtonSecondary href="#homepage-deals" text="See Our Deals" />
         </div>
 
         <!-- Social Proof -->
         <div
-          class="flex flex-wrap items-center gap-12 border-t border-gray-100 dark:border-white/10 pt-12 w-full"
+          class="flex flex-wrap items-center gap-12 border-t border-gray-100 dark:border-white/10 pt-12 w-full hero-social-item"
         >
           <!-- Rated Excellent -->
           <div class="flex flex-col gap-3">
@@ -232,7 +233,7 @@ const avatars = [
         </div>
 
         <!-- Trust Stat (Simplified & Dynamic Counter) -->
-        <div class="animate-fade-in animation-delay-2000 mt-4 sm:mt-6">
+        <div class="animate-fade-in animation-delay-2000 mt-4 sm:mt-6 hero-social-item">
           <div class="flex items-center gap-5 sm:gap-8">
             <!-- The Big Number -->
             <div class="flex items-baseline gap-1">
@@ -336,48 +337,72 @@ const avatars = [
   .animation-delay-4000 {
     animation-delay: 4s;
   }
+
+  .hero-headline-line {
+    clip-path: inset(0 100% 0 0);
+    will-change: clip-path;
+  }
 </style>
 
+
 <script>
-  function initHeroCounter() {
-    const counter = document.getElementById("hero-counter");
-    if (!counter) return;
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-    const target = parseInt(counter.getAttribute("data-target") || "0");
-    const duration = 2000; // 2 seconds
-    let startTime: number | null = null;
-    let hasAnimated = false;
+  gsap.registerPlugin(ScrollTrigger);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !hasAnimated) {
-          hasAnimated = true;
-          requestAnimationFrame(animate);
-        }
-      },
-      { threshold: 0.5 },
-    );
-
-    function animate(currentTime: number) {
-      if (!startTime) startTime = currentTime;
-      const progress = Math.min((currentTime - startTime) / duration, 1);
-      // Easing function for smooth deceleration
-      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-      const currentCount = Math.floor(easeOutQuart * target);
-
-      if (counter) {
-        counter.textContent = currentCount.toLocaleString();
-      }
-
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
+  function initHeroAnimations() {
+    // --- Headline Reveal (Horizontal Mask) ---
+    const headlineLines = document.querySelectorAll(".hero-headline-line");
+    if (headlineLines.length > 0) {
+      gsap.to(headlineLines, {
+        clipPath: "inset(0 0% 0 0)",
+        duration: 1.8,
+        stagger: 0.4,
+        ease: "power2.inOut",
+        delay: 0.5
+      });
     }
 
-    observer.observe(counter);
+    // --- Social Proof Stagger (Using fromTo for reliability) ---
+    const socialItems = document.querySelectorAll(".hero-social-item");
+    if (socialItems.length > 0) {
+      gsap.fromTo(socialItems, 
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          stagger: 0.2,
+          ease: "power3.out",
+          delay: 1.2,
+          overwrite: "auto" // Prevents conflicts if re-run
+        }
+      );
+    }
+
+    // --- Counter Animation ---
+    const counter = document.getElementById("hero-counter");
+    if (counter) {
+      const target = parseInt(counter.getAttribute("data-target") || "0");
+      const animation = { value: 0 };
+      
+      gsap.to(animation, {
+        value: target,
+        duration: 2.5,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: counter,
+          start: "top 90%",
+          once: true,
+        },
+        onUpdate: () => {
+          counter.textContent = Math.floor(animation.value).toLocaleString();
+        },
+      });
+    }
   }
 
-  // Initialize on page load and after Astro view transitions
-  document.addEventListener("DOMContentLoaded", initHeroCounter);
-  document.addEventListener("astro:page-load", initHeroCounter);
+  // Use ONLY astro:page-load as it handles both initial load and transitions correctly
+  document.addEventListener("astro:page-load", initHeroAnimations);
 </script>

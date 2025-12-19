@@ -213,3 +213,100 @@ const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
     </div>
   </div>
 </section>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    let servicesHomeCtx: gsap.Context | null = null;
+
+    function initServicesHomeAnimations() {
+        // Clean up previous animations
+        if (servicesHomeCtx) {
+            servicesHomeCtx.revert();
+            servicesHomeCtx = null;
+        }
+
+        // Find the section by looking for the unique heading text
+        const allSections = document.querySelectorAll("section");
+        let section: Element | null = null;
+        
+        allSections.forEach((sec) => {
+            if (sec.textContent?.includes("Expert Auto Care") && sec.textContent?.includes("Right Here in Elgin")) {
+                section = sec;
+            }
+        });
+
+        if (!section) return;
+
+        // Create scoped context
+        servicesHomeCtx = gsap.context(() => {
+            // Header elements
+            const headerContainer = section!.querySelector(".text-center");
+            const badge = headerContainer?.querySelector(".inline-flex");
+            const headline = headerContainer?.querySelector("h2");
+            const description = headerContainer?.querySelector("p");
+            
+            // Bento grid cards
+            const cards = section!.querySelectorAll(".grid > div");
+
+            // Animate header elements
+            const headerElements = [badge, headline, description].filter(Boolean);
+            
+            if (headerElements.length > 0) {
+                gsap.fromTo(headerElements,
+                    { y: -40, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        stagger: 0.15,
+                        duration: 0.8,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 50%",
+                            once: true,
+                        }
+                    }
+                );
+            }
+
+            // Animate bento grid cards with stagger
+            if (cards.length > 0) {
+                gsap.fromTo(cards,
+                    { y: 60, opacity: 0, scale: 0.95 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        scale: 1,
+                        stagger: 0.12,
+                        duration: 0.8,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 40%",
+                            once: true,
+                        }
+                    }
+                );
+            }
+        }, section);
+    }
+
+    // Initialize after page load
+    document.addEventListener("astro:page-load", () => {
+        requestAnimationFrame(() => {
+            setTimeout(initServicesHomeAnimations, 200);
+        });
+    });
+
+    // Cleanup before page swap (Astro View Transitions)
+    document.addEventListener("astro:before-swap", () => {
+        if (servicesHomeCtx) {
+            servicesHomeCtx.revert();
+            servicesHomeCtx = null;
+        }
+    });
+</script>

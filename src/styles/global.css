@@ -1,5 +1,27 @@
 @import "tailwindcss";
 
+/* Lenis Smooth Scroll Base Styles */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+    pointer-events: none;
+}
+
 @layer components {
     .site-canvas {
         margin-left: auto;
@@ -443,11 +465,18 @@ a:not([class]):hover {
 }
 
 
+
 /* Remove gradient glow from Header in Dark Mode */
-.dark #main-header {
+.dark #main-header,
+.dark #main-nav {
     box-shadow: none !important;
-    border-bottom: 1px solid var(--bg-elevated) !important;
 }
+
+
+
+
+
+
 
 /* Text colors */
 .text-gray-600 {

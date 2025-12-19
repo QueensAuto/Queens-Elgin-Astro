@@ -27,7 +27,7 @@ const services = [
 ];
 ---
 
-<section id="homepage-deals" class="py-20">
+<section id="homepage-deals" class="py-20 overflow-hidden">
   <div class="site-canvas">
     <!-- Header -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16 items-start">
@@ -53,7 +53,7 @@ const services = [
           <img 
             src={service.image} 
             alt={service.alt}
-            class="special-card__image absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            class="special-card__image absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           />
           
           <!-- Gradient Overlay -->
@@ -67,7 +67,7 @@ const services = [
             >
               {service.title}
             </span>
-            <h3 class="special-card__title font-anton text-3xl md:text-4xl text-white uppercase leading-tight transform translate-y-0 group-hover:-translate-y-2 transition-transform duration-500">
+            <h3 class="special-card__title font-anton text-3xl md:text-4xl text-white uppercase leading-tight group-hover:-translate-y-2 transition-transform duration-500">
               {service.subtitle}
             </h3>
           </div>
@@ -76,3 +76,85 @@ const services = [
     </div>
   </div>
 </section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  // Ensure ScrollTrigger is registered only once per page cycle
+  gsap.registerPlugin(ScrollTrigger);
+
+  let serviceCardsCtx;
+
+  function initServiceCardsAnimations() {
+    // Revert existing animations if they exist (crucial for View Transitions)
+    if (serviceCardsCtx) serviceCardsCtx.revert();
+
+    // Create a scoped GSAP context
+    serviceCardsCtx = gsap.context(() => {
+      const section = document.querySelector("#homepage-deals");
+      if (!section) return;
+
+      // Header Animation
+      const header = section.querySelector(".grid");
+      if (header) {
+        gsap.fromTo(header.children, 
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            stagger: 0.1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: header,
+              start: "top 95%",
+              once: true
+            }
+          }
+        );
+      }
+
+      const cards = section.querySelectorAll(".special-card");
+      cards.forEach((card, index) => {
+        let xOffset = 0;
+        let yOffset = 0;
+
+        if (index === 0) xOffset = -50;
+        else if (index === 1) yOffset = 50;
+        else if (index === 2) xOffset = 50;
+
+        gsap.fromTo(card,
+          { x: xOffset, y: yOffset, opacity: 0, scale: 0.95 },
+          {
+            x: 0,
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1.2,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 95%",
+              once: true
+            }
+          }
+        );
+      });
+    });
+  }
+
+  // Handle both initial load and subsequent navigations
+  document.addEventListener("astro:page-load", () => {
+    // Small timeout to allow other pinned sections (like GSAPNewTires) 
+    // to calculate their heights first, avoiding layout shifts
+    setTimeout(initServiceCardsAnimations, 250);
+  });
+
+  // Ensure cleanup when leaving the page
+  document.addEventListener("astro:before-swap", () => {
+    if (serviceCardsCtx) serviceCardsCtx.revert();
+  });
+</script>
+
+

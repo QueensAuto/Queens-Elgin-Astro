@@ -369,7 +369,52 @@ import CtaButton from "./CtaButton.astro";
             if (!leftCol || !progressTrack || !rightCol || cards.length === 0)
                 return;
 
-            // --- ANIMATIONS ---
+            // --- ENTRY ANIMATIONS ---
+
+            // Animate left column elements (title, subtitle, CTA)
+            const title = leftCol.querySelector(".process-title");
+            const subtitle = leftCol.querySelector(".process-subtitle");
+            const ctaContainer = leftCol.querySelector(".process-cta-container");
+            const leftElements = [title, subtitle, ctaContainer].filter(Boolean);
+
+            if (leftElements.length > 0) {
+                gsap.fromTo(leftElements,
+                    { y: -40, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        stagger: 0.12,
+                        duration: 0.8,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 60%",
+                            once: true,
+                        }
+                    }
+                );
+            }
+
+            // Animate step cards with stagger
+            if (cards.length > 0) {
+                gsap.fromTo(cards,
+                    { x: 50, opacity: 0 },
+                    {
+                        x: 0,
+                        opacity: 1,
+                        stagger: 0.15,
+                        duration: 0.7,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 50%",
+                            once: true,
+                        }
+                    }
+                );
+            }
+
+            // --- EXISTING ANIMATIONS ---
 
             // 1. Fade in the whole progress track to prevent FOUC
             gsap.to(progressTrack, {

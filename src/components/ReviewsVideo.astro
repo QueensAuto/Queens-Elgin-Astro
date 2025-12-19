@@ -268,7 +268,83 @@ const reviewCount = reviews.length;
         carousel.addEventListener("mouseleave", () => anim?.resume());
     }
 
-    document.addEventListener("astro:page-load", initCarousel);
+    // Separate function for entry animations
+    function initReviewsEntryAnimations() {
+        const section = document.querySelector(".rv-section");
+        if (!section) return;
+
+        // Import ScrollTrigger if not registered
+        import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Header elements
+            const title = section.querySelector(".rv-title");
+            const subtitle = section.querySelector(".rv-subtitle");
+            const headerElements = [title, subtitle].filter(Boolean);
+
+            if (headerElements.length > 0) {
+                gsap.fromTo(headerElements,
+                    { y: -40, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        stagger: 0.15,
+                        duration: 0.8,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 60%",
+                            once: true,
+                        }
+                    }
+                );
+            }
+
+            // Video card
+            const videoCard = section.querySelector(".rv-video-card");
+            if (videoCard) {
+                gsap.fromTo(videoCard,
+                    { x: -60, opacity: 0, scale: 0.95 },
+                    {
+                        x: 0,
+                        opacity: 1,
+                        scale: 1,
+                        duration: 0.9,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 50%",
+                            once: true,
+                        }
+                    }
+                );
+            }
+
+            // Carousel container (animates whole carousel, not individual cards)
+            const carouselContainer = document.getElementById("rv-carousel");
+            if (carouselContainer) {
+                gsap.fromTo(carouselContainer,
+                    { x: 50, opacity: 0 },
+                    {
+                        x: 0,
+                        opacity: 1,
+                        duration: 0.9,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 50%",
+                            once: true,
+                        }
+                    }
+                );
+            }
+        });
+    }
+
+    document.addEventListener("astro:page-load", () => {
+        initCarousel();
+        setTimeout(initReviewsEntryAnimations, 200);
+    });
 
     if (document.readyState !== "loading") {
         initCarousel();

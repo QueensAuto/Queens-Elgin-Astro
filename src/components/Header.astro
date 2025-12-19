@@ -25,10 +25,6 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
     md:rounded-full md:px-6 md:py-3 md:shadow-[0_8px_30px_rgb(0,0,0,0.04)] md:dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] md:border md:border-white/20 md:dark:border-white/10 md:max-w-6xl
     ${brand.logoPathWhite || "text-white"} 
     ${
-      // If inverse (transparent on dark), remove desktop white bg/blur default, apply specifically if needed or keep transparent
-      // Actually, for Arvora style, the desktop header might still want to be a "pill" or transparent?
-      // User asked about "mobile hamburger menu".
-      // Let's keep desktop behavior mostly same but allow text override.
       "md:bg-white md:dark:bg-[#141517] md:shadow-sm md:border md:border-gray-100 md:dark:border-gray-800 transition-colors duration-300"
     }`}
   >
@@ -303,137 +299,104 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
 </div>
 
 <script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
   function setupHeader() {
     const nav = document.getElementById("main-nav");
     const mobileMenuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
-    const mobileMenuDarkLayer = document.getElementById(
-      "mobile-menu-dark-layer",
-    );
+    const mobileMenuDarkLayer = document.getElementById("mobile-menu-dark-layer");
     const mobileMenuPanel = document.getElementById("mobile-menu-panel");
-    const mobileMenuLinks = document.getElementById("mobile-menu-links"); // New ref
+    const mobileMenuLinks = document.getElementById("mobile-menu-links");
     const mobileMenuBackdrop = document.getElementById("mobile-menu-backdrop");
     const mobileMenuClose = document.getElementById("mobile-menu-close");
 
     if (!nav) return;
 
-    // Desktop header animation
+    // --- Premium GSAP Entrance ---
     const isDesktop = window.matchMedia("(min-width: 768px)").matches;
-
+    
     if (isDesktop) {
-      requestAnimationFrame(() => {
-        nav.style.transition = "transform 800ms ease-out";
-        nav.style.transform = "scale(1)";
+      // Clear initial state
+      gsap.set(nav, { y: -50, opacity: 0, scale: 0.9 });
+      
+      const tl = gsap.timeline({ 
+        delay: 0.2 
+      });
 
-        setTimeout(() => {
-          nav.style.transition = "none";
-          nav.classList.add("animate-elastic-bounce");
-          setTimeout(() => {
-            nav.classList.remove("animate-elastic-bounce");
-            nav.style.transition = "";
-          }, 500);
-        }, 800);
+      tl.to(nav, { 
+        y: 0, 
+        opacity: 1, 
+        scale: 1,
+        duration: 0.8,
+        ease: "power4.out"
+      })
+      .to(nav, {
+        scale: 1.05,
+        duration: 0.2,
+        ease: "power2.out"
+      })
+      .to(nav, {
+        scale: 1,
+        duration: 0.3,
+        ease: "elastic.out(1, 0.3)"
       });
     }
 
-    if (
-      !mobileMenuButton ||
-      !mobileMenu ||
-      !mobileMenuPanel ||
-      !mobileMenuDarkLayer
-    )
-      return;
+    // --- Mobile Menu Logic ---
+    if (!mobileMenuButton || !mobileMenu || !mobileMenuPanel || !mobileMenuDarkLayer) return;
 
     const openMobileMenu = () => {
       mobileMenu.classList.remove("hidden");
       document.body.style.overflow = "hidden";
-
-      // Staggered open: Dark layer first, then menu panel
-      requestAnimationFrame(() => {
-        // Dark layer slides in immediately
-        mobileMenuDarkLayer.classList.remove("-translate-x-full");
-
-        // Menu panel slides in with delay
-        setTimeout(() => {
-          mobileMenuPanel.classList.remove("-translate-x-full");
-
-          // Trigger Text Fade-In/Slide-Up when menu is almost fully open
-          // Menu anim takes 500ms. We trigger this at 300ms + (internal delay)
-          // Actually, let's trigger it at 400ms so it starts appearing as drawer settles
-          setTimeout(() => {
-            mobileMenuLinks?.classList.remove("opacity-0", "translate-y-8");
-          }, 400);
-        }, 150);
+      
+      gsap.to(mobileMenuDarkLayer, { x: "0%", duration: 0.5, ease: "power3.out" });
+      gsap.to(mobileMenuPanel, { x: "0%", duration: 0.5, ease: "power3.out", delay: 0.1 });
+      gsap.to(mobileMenuLinks, { 
+        opacity: 1, 
+        y: 0, 
+        duration: 0.7, 
+        delay: 0.3, 
+        ease: "power3.out" 
       });
     };
 
     const closeMobileMenu = () => {
-      // Reset Text Animation (Slide Down/Fade Out) immediately
-      mobileMenuLinks?.classList.add("opacity-0", "translate-y-8");
-
-      // Staggered close: Menu panel first, then dark layer
-      mobileMenuPanel.classList.add("-translate-x-full");
-
-      // Dark layer slides out with delay
-      setTimeout(() => {
-        mobileMenuDarkLayer.classList.add("-translate-x-full");
-      }, 150);
-
-      document.body.style.overflow = "";
-
-      // Wait for both animations to finish before hiding
-      setTimeout(() => {
-        mobileMenu.classList.add("hidden");
-      }, 650); // 500ms + 150ms delay
+      gsap.to(mobileMenuLinks, { opacity: 0, y: 30, duration: 0.3 });
+      gsap.to(mobileMenuPanel, { x: "-100%", duration: 0.5, ease: "power3.in" });
+      gsap.to(mobileMenuDarkLayer, { x: "-100%", duration: 0.5, ease: "power3.in", delay: 0.1, 
+        onComplete: () => {
+          mobileMenu.classList.add("hidden");
+          document.body.style.overflow = "";
+        }
+      });
     };
 
     mobileMenuButton.addEventListener("click", openMobileMenu);
     mobileMenuClose?.addEventListener("click", closeMobileMenu);
     mobileMenuBackdrop?.addEventListener("click", closeMobileMenu);
 
-    // Close menu when clicking a nav link
     mobileMenu.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", (e) => {
-        // If already handling close, let default proceed
         if (link.dataset.isClosing === "true") return;
-
-        // Skip for modifier keys or new tab
-        if (
-          e.metaKey ||
-          e.ctrlKey ||
-          e.shiftKey ||
-          e.altKey ||
-          link.target === "_blank"
-        )
-          return;
-
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || (link as HTMLAnchorElement).target === "_blank") return;
+        
         e.preventDefault();
-
-        // Trigger close animation
         closeMobileMenu();
-
-        // Wait for animation, then navigate
         setTimeout(() => {
           link.dataset.isClosing = "true";
           link.click();
-        }, 450); // 450ms allows most of the 500ms animation to show
+        }, 500);
       });
     });
 
-    // Clean up on page swap
-    document.addEventListener(
-      "astro:before-swap",
-      () => {
-        closeMobileMenu();
-      },
-      { once: true },
-    );
+    document.addEventListener("astro:before-swap", () => closeMobileMenu(), { once: true });
   }
 
-  // Run on initial load
-  setupHeader();
-
-  // Run on view transitions
+  // Use ONLY astro:page-load for consistent cross-page behavior
   document.addEventListener("astro:page-load", setupHeader);
 </script>
 
