@@ -53,31 +53,28 @@ const avatars = [
         </div>
 
         <!-- Headline -->
-        <h1
-          class="display-xl text-queens-primary dark:text-white mb-8 overflow-hidden"
-        >
-          <span class="hero-headline-line block">Your Local Expert for</span>
-          <span class="hero-headline-line block text-queens-secondary pt-2"
+        <h1 class="display-xl text-queens-primary dark:text-white mb-8">
+          <span class="block">Your Local Expert for</span>
+          <span class="block text-queens-secondary pt-2"
             >Tires & Auto Repair.</span
           >
         </h1>
 
-        <!-- Description -->
         <p
-          class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-xl leading-relaxed hero-social-item"
+          class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-xl leading-relaxed"
         >
           Visit Queens Auto Services in Elgin for professional tire installation
           and comprehensive auto repair. We keep you rolling with trusted
           service and top-tier equipment.
         </p>
 
-        <div class="flex flex-wrap gap-5 mb-20 hero-social-item">
+        <div class="flex flex-wrap gap-5 mb-20">
           <CtaButton href="/request-an-appointment" text="Book Appointment" />
           <CtaButtonSecondary href="#homepage-deals" text="See Our Deals" />
         </div>
 
         <div
-          class="flex flex-wrap items-center gap-12 border-t border-gray-100 dark:border-white/10 pt-12 w-full hero-social-item"
+          class="flex flex-wrap items-center gap-12 border-t border-gray-100 dark:border-white/10 pt-12 w-full"
         >
           <!-- Rated Excellent -->
           <div class="flex flex-col gap-3">
@@ -231,7 +228,7 @@ const avatars = [
         </div>
 
         <!-- Trust Stat (Simplified & Dynamic Counter) -->
-        <div class="mt-4 sm:mt-6 hero-social-item">
+        <div class="mt-4 sm:mt-6">
           <div class="flex items-center gap-5 sm:gap-8">
             <!-- The Big Number -->
             <div class="flex items-baseline gap-1">
@@ -294,17 +291,16 @@ const avatars = [
 </section>
 
 <style>
-  .hero-social-item,
+  /* Only these elements should have delayed entrance animations */
   .hero-eyebrow,
-  .hero-notification-card,
-  .hero-video-gradient,
-  .hero-video-ring {
+  .hero-notification-card {
     opacity: 0;
   }
 
-  .hero-headline-line {
-    clip-path: inset(0 100% 0 0);
-    will-change: clip-path;
+  /* Video overlays start hidden until video reveals */
+  .hero-video-gradient,
+  .hero-video-ring {
+    opacity: 0;
   }
 
   @keyframes blob {
@@ -354,35 +350,7 @@ const avatars = [
       });
     }
 
-    // --- Headline Reveal (Horizontal Mask) ---
-    const headlineLines = document.querySelectorAll(".hero-headline-line");
-    if (headlineLines.length > 0) {
-      gsap.to(headlineLines, {
-        clipPath: "inset(0 0% 0 0)",
-        duration: 1.8,
-        stagger: 0.4,
-        ease: "power2.inOut",
-        delay: 0.5,
-      });
-    }
-
-    // --- Social Proof Stagger (Using fromTo for reliability) ---
-    const socialItems = document.querySelectorAll(".hero-social-item");
-    if (socialItems.length > 0) {
-      gsap.fromTo(
-        socialItems,
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          stagger: 0.2,
-          ease: "power3.out",
-          delay: 1.2,
-          overwrite: "auto", // Prevents conflicts if re-run
-        },
-      );
-    }
+    // Headline and social items now appear immediately (no animation delay)
 
     // --- Counter Animation ---
     const counter = document.getElementById("hero-counter");
@@ -461,45 +429,45 @@ const avatars = [
           });
         }
       } else {
-        // Desktop: Use time-based delay
+        // Desktop: Quick video reveal
         gsap.to(heroVideo, {
           clipPath: "inset(0 0 0% 0)",
-          duration: 1.4,
+          duration: 1.0,
           ease: "power2.out",
-          delay: 0.8,
+          delay: 0.3,
         });
 
-        // Fade in the gradient overlay after video reveal completes
+        // Fade in the gradient overlay shortly after video starts
         if (heroGradient) {
           gsap.to(heroGradient, {
             opacity: 0.8,
             duration: 0.6,
             ease: "power2.out",
-            delay: 2.0,
+            delay: 0.8,
           });
         }
 
-        // Add shadow to container after reveal completes
+        // Add shadow to container
         if (heroContainer) {
           gsap.to(heroContainer, {
             boxShadow: "0 32px 64px -16px rgba(0,0,0,0.3)",
             duration: 0.8,
             ease: "power2.out",
-            delay: 2.0,
+            delay: 0.8,
           });
         }
 
-        // Fade in the ring overlay after video reveal
+        // Fade in the ring overlay
         if (heroRing) {
           gsap.to(heroRing, {
             opacity: 1,
             duration: 0.6,
             ease: "power2.out",
-            delay: 2.0,
+            delay: 0.8,
           });
         }
 
-        // Fade in the notification card with 2 second delay
+        // Fade in the notification card with 2 second delay (intentionally delayed)
         if (notificationCard) {
           gsap.to(notificationCard, {
             opacity: 1,
