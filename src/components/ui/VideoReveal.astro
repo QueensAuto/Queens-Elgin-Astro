@@ -1,0 +1,143 @@
+---
+interface Props {
+    src?: string;
+    poster?: string;
+    posterStyle?: string;
+    class?: string;
+    className?: string;
+    aspectRatio?: string;
+    direction?: "left" | "right" | "top" | "bottom";
+    delay?: number; // Delay in ms before animation starts
+}
+
+const {
+    src,
+    poster = "",
+    posterStyle = "",
+    class: classStr = "",
+    className = "",
+    aspectRatio = "",
+    direction = "bottom",
+    delay = 0,
+} = Astro.props;
+
+const wrapperClass =
+    `video-reveal-wrapper group relative overflow-hidden block ${aspectRatio} ${classStr} ${className}`.trim();
+
+// Calculate initial clip-path based on direction
+let initialClipPath = "inset(0 0 100% 0)"; // Default: bottom (reveals top to bottom)
+
+switch (direction) {
+    case "left":
+        initialClipPath = "inset(0 0 0 100%)";
+        break;
+    case "right":
+        initialClipPath = "inset(0 100% 0 0)";
+        break;
+    case "top":
+        initialClipPath = "inset(100% 0 0 0)";
+        break;
+    case "bottom":
+        initialClipPath = "inset(0 0 100% 0)";
+        break;
+}
+---
+
+<div 
+    class={wrapperClass} 
+    data-video-reveal 
+    data-reveal-direction={direction}
+    data-reveal-delay={delay}
+>
+    <video
+        autoplay
+        loop
+        muted
+        playsinline
+        poster={poster}
+        style={`clip-path: ${initialClipPath}; ${posterStyle}`}
+        class="reveal-video block w-full h-full object-cover video-reveal-transition"
+    >
+        {src && <source src={src} type="video/mp4" />}
+        <slot />
+    </video>
+    <slot name="overlay" />
+</div>
+
+<script>
+    import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    function setupVideoReveal() {
+        const videos = document.querySelectorAll("[data-video-reveal]");
+
+        videos.forEach((wrapper) => {
+            const video = wrapper.querySelector(".reveal-video") as HTMLElement;
+            const direction = (wrapper as HTMLElement).dataset.revealDirection || "bottom";
+            const delay = parseInt((wrapper as HTMLElement).dataset.revealDelay || "0", 10);
+
+            if (!video) return;
+
+            // Set initial clip-path
+            let initialClip = "inset(0 0 100% 0)";
+            switch (direction) {
+                case "left":
+                    initialClip = "inset(0 0 0 100%)";
+                    break;
+                case "right":
+                    initialClip = "inset(0 100% 0 0)";
+                    break;
+                case "top":
+                    initialClip = "inset(100% 0 0 0)";
+                    break;
+                case "bottom":
+                    initialClip = "inset(0 0 100% 0)";
+                    break;
+            }
+
+            gsap.set(video, { clipPath: initialClip });
+
+            // Animate to fully visible
+            gsap.to(video, {
+                clipPath: "inset(0 0 0 0)",
+                duration: 1.2,
+                delay: delay / 1000,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: wrapper,
+                    start: "top 80%",
+                    once: true,
+                }
+            });
+        });
+    }
+
+    // Run on page load
+    document.addEventListener("astro:page-load", () => {
+        requestAnimationFrame(() => {
+            setTimeout(setupVideoReveal, 100);
+        });
+    });
+
+    // Also run on DOMContentLoaded for initial load
+    if (document.readyState !== "loading") {
+        setupVideoReveal();
+    } else {
+        document.addEventListener("DOMContentLoaded", setupVideoReveal);
+    }
+</script>
+
+<style>
+    .video-reveal-transition {
+        will-change: clip-path;
+    }
+
+    /* Fallback for browsers that don't support clip-path well */
+    @supports not (clip-path: inset(0)) {
+        .reveal-video {
+            clip-path: none !important;
+        }
+    }
+</style>
