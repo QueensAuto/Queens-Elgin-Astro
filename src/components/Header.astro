@@ -316,36 +316,6 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
 
     if (!nav) return;
 
-    // --- Premium GSAP Entrance ---
-    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
-    
-    if (isDesktop) {
-      // Clear initial state
-      gsap.set(nav, { y: -50, opacity: 0, scale: 0.9 });
-      
-      const tl = gsap.timeline({ 
-        delay: 0.2 
-      });
-
-      tl.to(nav, { 
-        y: 0, 
-        opacity: 1, 
-        scale: 1,
-        duration: 0.8,
-        ease: "power4.out"
-      })
-      .to(nav, {
-        scale: 1.05,
-        duration: 0.2,
-        ease: "power2.out"
-      })
-      .to(nav, {
-        scale: 1,
-        duration: 0.3,
-        ease: "elastic.out(1, 0.3)"
-      });
-    }
-
     // --- Mobile Menu Logic ---
     if (!mobileMenuButton || !mobileMenu || !mobileMenuPanel || !mobileMenuDarkLayer) return;
 
@@ -400,11 +370,4 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
   document.addEventListener("astro:page-load", setupHeader);
 </script>
 
-<style>
-  /* Desktop: Start navbar at 80% scale - JS will animate to 100% */
-  @media (min-width: 768px) {
-    #main-nav {
-      transform: scale(0.8);
-    }
-  }
-</style>
+
