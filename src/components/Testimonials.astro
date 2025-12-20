@@ -4,37 +4,43 @@ const testimonials = [
     name: "Luis Subias",
     stars: 5,
     text: "Came in to patch up a flat tire with a nail. They took me in as a walk in and fixed it super fast. Exceptional customer service, they took care of everything from fixing it to putting it back on the car.",
-    source: "Google Reviews"
+    source: "Google Reviews",
+    image: "/images/reviewers/Andres Rivera.webp"
   },
   {
     name: "Sendy Ruiz",
     stars: 5,
     text: "Great prices and great ppl. Needed 4 tires. Went in was done in less than hr!",
-    source: "Google Reviews"
+    source: "Google Reviews",
+    image: "/images/reviewers/Aleksanadra Blaszczyk.webp"
   },
   {
     name: "Daniel Schmidt",
     stars: 5,
     text: "Fast friendly help when I needed it really bad, pulled in with a totally ruined tire, they put a new one on in just a few minutes",
-    source: "Google Reviews"
+    source: "Google Reviews",
+    image: "/images/reviewers/Danny Thomas.webp"
   },
   {
     name: "Mike Abene III",
     stars: 5,
     text: "Brought my 30ft RV to have 6 tires mounted... Great hospitable group of people working there from top to bottom.",
-    source: "Google Reviews"
+    source: "Google Reviews",
+    image: "/images/reviewers/Ed Mungai.webp"
   },
   {
     name: "Lynette Flores",
     stars: 5,
     text: "Best place for new and used tires. Honest, fast and good priced.",
-    source: "Google Reviews"
+    source: "Google Reviews",
+    image: "/images/reviewers/Ana Marie De La Cruz.webp"
   },
   {
     name: "Syed Ahmed",
     stars: 5,
     text: "Quick service, got 2 used tires for my 2002 Honda accord.",
-    source: "Google Reviews"
+    source: "Google Reviews",
+    image: "/images/reviewers/Devin Mistry.webp"
   }
 ];
 
@@ -89,9 +95,17 @@ const getInitials = (name: string) => {
 
           <!-- User Info -->
           <div class="flex items-center gap-4 mt-auto pt-6 border-t border-gray-200/60 dark:border-white/10">
-            <div class="w-12 h-12 rounded-full bg-[var(--color-queens-primary)] text-white flex items-center justify-center font-bold text-sm tracking-wider shadow-md group-hover:bg-queens-secondary transition-colors duration-300">
-              {getInitials(review.name)}
-            </div>
+            {review.image ? (
+              <img 
+                src={review.image} 
+                alt={review.name}
+                class="w-12 h-12 rounded-full object-cover shadow-md transition-transform duration-300 group-hover:scale-110"
+              />
+            ) : (
+              <div class="w-12 h-12 rounded-full bg-[var(--color-queens-primary)] text-white flex items-center justify-center font-bold text-sm tracking-wider shadow-md group-hover:bg-queens-secondary transition-colors duration-300">
+                {getInitials(review.name)}
+              </div>
+            )}
             <div>
               <div class="font-bold text-[var(--color-queens-primary)] dark:text-white">{review.name}</div>
               <div class="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1">

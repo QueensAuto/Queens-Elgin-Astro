@@ -10,12 +10,14 @@ const reviews = [
         role: "Verified Customer",
         stars: 5,
         text: "Came in to patch up a flat tire with a nail. They took me in as a walk in and fixed it super fast. Exceptional customer service!",
+        image: "/images/reviewers/Kevin Moncada.webp",
     },
     {
         name: "Mike Abene III",
         role: "Verified Customer",
         stars: 5,
         text: "Brought my 30ft RV to have 6 tires mounted... Great hospitable group of people working there from top to bottom.",
+        image: "/images/reviewers/Chris Muller.webp",
     },
 ];
 
@@ -114,9 +116,17 @@ const reviewCount = reviews.length;
                                         "{review.text}"
                                     </blockquote>
                                     <div class="flex items-center gap-3">
-                                        <div class="rv-avatar w-11 h-11 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                                            {getInitials(review.name)}
-                                        </div>
+                                        {review.image ? (
+                                            <img
+                                                src={review.image}
+                                                alt={review.name}
+                                                class="w-11 h-11 rounded-full object-cover shadow-md"
+                                            />
+                                        ) : (
+                                            <div class="rv-avatar w-11 h-11 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                                                {getInitials(review.name)}
+                                            </div>
+                                        )}
                                         <div>
                                             <div class="rv-name font-semibold">
                                                 {review.name}
