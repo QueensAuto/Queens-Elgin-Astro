@@ -1013,7 +1013,6 @@ details.group>div:where(.dark, .dark *) {
 
 .service-card-item:nth-child(even) a:hover {
     color: white !important;
-    text-decoration: underline;
 }
 
 /* Adjust beam effect for Navy Cards (Make it clearer/white) */

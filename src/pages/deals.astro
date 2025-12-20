@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { mobileTiresBrand } from "../brands";
-import FinancingSection from "../components/FinancingSection.astro";
+
 
 const title = "Deals & Specials | Queens Mobile Tires";
 const description =
@@ -83,7 +83,7 @@ const deals = [
                 </p>
             </div>
 
-            <FinancingSection className="mt-16" />
+
 
             <div
                 class="service-card-section mx-auto mt-16 max-w-7xl sm:mt-20 lg:mt-24 -mx-4 px-4 sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12 xl:-mx-[calc((100vw-80rem)/2)] xl:px-[calc((100vw-80rem)/2)]"
@@ -94,31 +94,31 @@ const deals = [
                 >
                     {
                         deals.map((deal, index) => (
-                        <div class="service-card-item rich-text glow-beam-hover flex flex-col rounded-3xl p-8 shadow-xl dark:shadow-black/20 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] text-center h-full">
-                                <h2 class="text-gray-900 dark:text-white !mb-0">
+                        <div class="service-card-item glow-beam-hover flex flex-col rounded-[2.5rem] p-10 shadow-xl dark:shadow-black/40 backdrop-blur-sm transition-all duration-500 hover:shadow-2xl hover:shadow-queens-secondary/20 hover:scale-[1.02] text-center h-full bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 group">
+                                <p class="font-serif italic text-2xl text-queens-secondary mb-2 tracking-tight">
+                                    {deal.subtitle}
+                                </p>
+                                <h2 class="display-md text-queens-primary dark:text-white mb-6 group-hover:scale-105 transition-transform duration-500">
                                     {deal.title}
                                 </h2>
-                                <h3 class="text-gray-600 dark:text-gray-300 !mt-1 !mb-2">
-                                    {deal.subtitle}
-                                </h3>
                                 
                                 <!-- Glowing Beam Effect -->
-                                <div class="relative w-full h-5 mb-4 flex justify-center">
-                                    <div class="glow-beam-sm"></div>
+                                <div class="relative w-full h-8 mb-8 flex justify-center">
+                                    <div class="glow-beam-sm opacity-60 group-hover:opacity-100 transition-opacity"></div>
                                 </div>
                                 
-                                <p class="paragraph-2 text-gray-600 dark:text-gray-300 flex-grow mb-6">
+                                <p class="paragraph-1 text-gray-700 dark:text-gray-200 flex-grow mb-6 leading-relaxed">
                                     {deal.description}
                                 </p>
-                                <p class="paragraph-3 text-gray-500 dark:text-gray-400 mb-6 px-2">
-                                    {deal.details}
+                                <p class="paragraph-3 text-gray-500 dark:text-gray-400 mb-8 italic opacity-80">
+                                    * {deal.details}
                                 </p>
                                 <div class={`border-t pt-6 mt-auto ${ (index + 1) % 2 === 0 ? 'border-white/10' : 'border-gray-200 dark:border-gray-700' }`}>
                                     <a
                                         href={deal.link}
-                                        class={`inline-block w-full rounded-full px-6 py-3 text-center text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-300 ${
+                                        class={`inline-block w-full rounded-full px-6 py-4 text-center text-sm font-bold shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${
                                             (index + 1) % 2 === 0 
-                                            ? 'bg-white text-queens-primary hover:bg-gray-100' 
+                                            ? 'bg-white !text-queens-primary hover:bg-gray-100' 
                                             : 'bg-queens-secondary text-white hover:bg-queens-light'
                                         }`}
                                     >
