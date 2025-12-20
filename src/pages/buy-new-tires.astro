@@ -1,34 +1,401 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import CtaButton from "../components/CtaButton.astro";
 ---
 
-<BaseLayout title="Buy New Tires | Queens Mobile Tires">
-  <!-- NOTE: Extra top padding to account for floating header -->
-  <div class="min-h-screen bg-gray-50 dark:bg-transparent pt-36 pb-12">
-    <div class="container mx-auto px-6 max-w-6xl">
+<BaseLayout title="Buy New Tires | Queens Auto Services">
+  <!-- Hero Section -->
+  <section
+    class="tire-hero pt-32 pb-16 md:pt-40 md:pb-20 lg:pb-24 overflow-hidden"
+  >
+    <div class="site-canvas">
+      <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <!-- Left: Content -->
+        <div class="hero-content">
+          <h1 class="display-lg text-queens-primary dark:text-white mb-6">
+            Find Great <span class="text-queens-secondary">Deals On Tires</span
+            >.<br />
+            Shop Local!
+          </h1>
+          <p
+            class="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-lg leading-relaxed"
+          >
+            Buy tires online and get them installed at our <strong
+              >local tire shop</strong
+            >. We have a great selection of new tires from the most popular
+            brands.
+          </p>
+          <CtaButton href="#tire-search" text="Shop For Tires Now" />
+        </div>
+
+        <!-- Right: Video -->
+        <div class="relative reveal delay-200">
+          <div class="video-container rounded-2xl overflow-hidden shadow-2xl">
+            <script is:inline src="https://fast.wistia.com/player.js" async
+            ></script>
+            <script
+              is:inline
+              src="https://fast.wistia.com/embed/zx3wmw2c10.js"
+              async
+              type="module"></script>
+            <style>
+              wistia-player[media-id="zx3wmw2c10"]:not(:defined) {
+                background: center / contain no-repeat
+                  url("https://fast.wistia.com/embed/medias/zx3wmw2c10/swatch");
+                display: block;
+                filter: blur(5px);
+                padding-top: 56.25%;
+              }
+            </style>
+            <wistia-player media-id="zx3wmw2c10" aspect="1.7777777777777777"
+            ></wistia-player>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Promo Banner -->
+  <section class="promo-banner bg-queens-secondary py-6 md:py-8 reveal">
+    <div class="site-canvas">
+      <div
+        class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 text-center md:text-left"
+      >
+        <div class="promo-icon float-animation">
+          <svg
+            class="w-10 h-10 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+            ></path>
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-xl md:text-2xl font-bold text-white">
+            Get a <span class="line-through opacity-70">FREE</span> Wheel Alignment
+          </h2>
+          <p class="text-white/80 text-sm md:text-base">
+            when you buy a set of 4 new tires. <span class="text-xs opacity-60"
+              >(Online Offer Only)</span
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tire Search Section -->
+  <section id="tire-search" class="tire-search-section py-16 md:py-24">
+    <div class="site-canvas">
       <div class="text-center mb-12">
-        <h1
-          class="text-5xl font-black italic uppercase text-[var(--color-queens-primary)] dark:text-white mb-4"
+        <h2 class="display-md text-queens-primary dark:text-white mb-4 reveal">
+          Search by Brand<br />or Tire Size
+        </h2>
+      </div>
+
+      <div class="max-w-xl mx-auto reveal">
+        <div
+          class="tire-widget-wrapper bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-6 md:p-8 border border-gray-100 dark:border-white/10"
         >
-          Find Your Perfect Tires
-        </h1>
-        <p class="text-xl text-gray-600 dark:text-gray-300">
-          Search for tires and schedule mobile installation
+          <!-- TireFlow Widget -->
+          <script
+            is:inline
+            src="https://tireflow.ezytire.com/6057/1/Script/Client.js"></script>
+          <div id="tire-flow-responsive-container"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section class="process-section py-16 md:py-24 bg-gray-50 dark:bg-white/5">
+    <div class="site-canvas">
+      <div class="text-center mb-14">
+        <h2 class="display-md text-queens-primary dark:text-white mb-3 reveal">
+          Finding Great Tire Deals
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400 text-lg reveal">
+          Has Never Been Easier
         </p>
       </div>
 
-      <div class="md:bg-white md:rounded-xl md:shadow-2xl md:p-8">
-        <!-- TireConnect Widget -->
-        <script is:inline src="https://app.tireconnect.ca/js/widget.js"
-        ></script>
-        <div id="tireconnect"></div>
-        <script is:inline>
-          TCWidget.init({
-            apikey: "dc18901bfdfcb8ba529d1eeb0c15c278",
-            container: "tireconnect",
-          });
-        </script>
+      <div class="process-cards-wrapper">
+        <!-- Step 1 -->
+        <div class="process-card reveal stagger-item">
+          <div
+            class="process-icon bg-queens-secondary/10 text-queens-secondary"
+          >
+            <svg
+              class="w-7 h-7"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="process-title">Select a local tire shop</h3>
+          <p class="process-desc">
+            Choose a tire shop from our network of dealers.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="process-card reveal stagger-item">
+          <div
+            class="process-icon bg-queens-secondary/10 text-queens-secondary"
+          >
+            <svg
+              class="w-7 h-7"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="process-title">Find The Right Tires</h3>
+          <p class="process-desc">
+            Easily search for new tires online and select a store to see price
+            and install.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="process-card reveal stagger-item">
+          <div
+            class="process-icon bg-queens-secondary/10 text-queens-secondary"
+          >
+            <svg
+              class="w-7 h-7"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="process-title">Order your tires Online</h3>
+          <p class="process-desc">
+            Quickly and simply order your tires and schedule your out-the-door
+            pricing.
+          </p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="process-card reveal stagger-item">
+          <div
+            class="process-icon bg-queens-secondary/10 text-queens-secondary"
+          >
+            <svg
+              class="w-7 h-7"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="process-title">Installation At Queens Auto</h3>
+          <p class="process-desc">
+            Tires installed the right way every time by our expert mechanics in
+            Elgin.
+          </p>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
+
+  <script>
+    import gsap from "gsap";
+    import ScrollTrigger from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    function initAnimations() {
+      // Set initial states IMMEDIATELY to prevent flash
+      gsap.set(".hero-content > *", { opacity: 1, x: 0 });
+      gsap.set(".reveal", { opacity: 1, y: 0 });
+      gsap.set(".stagger-item", { opacity: 1, scale: 1 });
+
+      // Simple scroll-triggered fade for process cards
+      ScrollTrigger.batch(".stagger-item", {
+        start: "top 85%",
+        onEnter: (elements) => {
+          gsap.fromTo(
+            elements,
+            { y: 30, opacity: 0.5 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.6,
+              stagger: 0.15,
+              ease: "power2.out",
+            },
+          );
+        },
+        once: true,
+      });
+    }
+
+    document.addEventListener("astro:page-load", initAnimations);
+  </script>
 </BaseLayout>
+
+<style>
+  .tire-hero {
+    background: var(--bg-page);
+  }
+
+  .video-container {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  .promo-banner {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .promo-banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 50%
+    );
+    pointer-events: none;
+  }
+
+  .promo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 1rem;
+    flex-shrink: 0;
+  }
+
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .tire-search-section {
+    background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  }
+
+  :global(.dark) .tire-search-section {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+  }
+
+  .tire-widget-wrapper {
+    box-shadow:
+      0 25px 50px -12px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(0, 0, 0, 0.05);
+  }
+
+  .process-cards-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .process-card {
+    flex: 0 1 280px;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background: #ffffff;
+    border-radius: 1rem;
+    border: 1px solid #e5e7eb;
+    transition: all 0.3s ease;
+  }
+
+  :global(.dark) .process-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .process-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+    border-color: #0a79c8;
+  }
+
+  .process-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .process-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .process-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+</style>
