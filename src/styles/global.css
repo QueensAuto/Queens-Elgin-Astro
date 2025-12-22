@@ -807,7 +807,7 @@ a:not([class]):hover {
 }
 
 html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
     scroll-padding-top: 5rem;
     /* Match header height (h-20) */
 }

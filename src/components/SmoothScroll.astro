@@ -15,42 +15,45 @@
     let lenis: Lenis | null = null;
 
     function initSmoothScroll() {
-        // Clean up previous instance
+        // Firefox specific check - Firefox often has issues with wheel interception
+        const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+        
         if (lenis) {
             lenis.destroy();
-            lenis = null;
         }
 
-        // Initialize Lenis with smooth scrolling
+        // Initialize Lenis
         lenis = new Lenis({
-            duration: 1.2,           // Scroll duration
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Smooth easing
-            orientation: 'vertical',
-            smoothWheel: true,
-            touchMultiplier: 2,
+            autoRaf: true, // Let Lenis handle its own animation loop for better reliability
+            lerp: 0.1,
+            smoothWheel: !isFirefox, // Disable Lenis smoothing on Firefox to use native wheel scroll
+            syncTouch: true,
         });
 
-        // Connect Lenis to GSAP ScrollTrigger
-        lenis.on("scroll", ScrollTrigger.update);
+        // Sync ScrollTrigger with Lenis
+        lenis.on('scroll', ScrollTrigger.update);
 
-        // Add Lenis to GSAP's ticker for smooth animation
-        gsap.ticker.add((time) => {
-            lenis?.raf(time * 1000);
-        });
-
-        // Disable GSAP's lagSmoothing for better performance with Lenis
         gsap.ticker.lagSmoothing(0);
+        
+        // Ensure ScrollTrigger uses the scroll container
+        ScrollTrigger.scrollerProxy(document.body, {
+            scrollTop(value) {
+                return arguments.length ? lenis?.scrollTo(value ?? 0) : lenis?.scroll;
+            },
+            getBoundingClientRect() {
+                return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
+            },
+        });
     }
 
     // Initialize after page load
     document.addEventListener("astro:page-load", () => {
-        // Small delay to ensure DOM is ready
-        requestAnimationFrame(() => {
-            initSmoothScroll();
-        });
+        initSmoothScroll();
+        // Refresh ScrollTrigger after a short delay
+        setTimeout(() => ScrollTrigger.refresh(), 100);
     });
 
-    // Cleanup before page swap (Astro View Transitions)
+    // Cleanup before page swap
     document.addEventListener("astro:before-swap", () => {
         if (lenis) {
             lenis.destroy();
