@@ -3,8 +3,12 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { mobileTiresBrand } from "../../../brands";
 import servicesData from "../../../data/services.json";
 import SmoothReveal from "../../../components/SmoothReveal.astro";
+import CtaButton from "../../../components/CtaButton.astro";
 import CtaButtonSecondary from "../../../components/CtaButtonSecondary.astro";
 import SpeedometerCTA from "../../../components/SpeedometerCTA.astro";
+import FaqAccordion from "../../../components/FaqAccordion.astro";
+
+import { marked } from "marked";
 
 export async function getStaticPaths() {
     const paths: any[] = [];
@@ -28,9 +32,49 @@ export async function getStaticPaths() {
     return paths;
 }
 
-const { category, service } = Astro.props;
-const title = `${service.title} | Queens Mobile Tires`;
-const description = `Professional ${service.title} services in the Chicago area. We come to you for all your ${category.title.toLowerCase()} needs.`;
+const { category, service } = Astro.props as { category: any; service: any };
+const title = `${service.title} | Queens Auto Service`;
+const description = `Professional ${service.title} services in Elgin, IL. Quality care and expert technicians for all your ${category.title.toLowerCase()} needs.`;
+
+const parsedContent = service.fullContent
+    ? marked.parse(service.fullContent)
+    : null;
+const parsedCloser = service.closer ? marked.parse(service.closer) : null;
+
+const serviceFaqs = [
+    {
+        question: "Do I need an appointment, or can I just walk in?",
+        answer: "Appointments are recommended, especially for mechanical work and diagnostics, to help us get you in faster. However, we do accept walk-ins whenever our schedule allows.",
+    },
+    {
+        question: "How long will my service take?",
+        answer: "Basics like tire installation and alignments are often completed the same day. For diagnostics or larger repairs, we'll give you a clear time estimate before we start any work.",
+    },
+    {
+        question: "Do you provide a quote before starting?",
+        answer: "Absolutely. We never perform repairs without your approval. We'll explain what's needed, why it's needed, and exactly what it costs—no surprises.",
+    },
+    {
+        question: "Can I bring my own parts or tires?",
+        answer: "In some cases, yes, but we highly recommend using the parts we supply. Our parts are specifically matched to your vehicle and come with our full warranty and testing.",
+    },
+    {
+        question: "Do you offer warranties on your work?",
+        answer: "Yes. Most repairs and parts come with a warranty. We'll explain your specific coverage clearly before the work begins so you have total peace of mind.",
+    },
+    {
+        question: "How do I know if I really need the recommended repair?",
+        answer: "We believe in education, not pressure. We’ll show you what we found, explain the risks of waiting, and let you decide. If a repair can wait, we’ll tell you.",
+    },
+    {
+        question: "Is labor taxable?",
+        answer: "No. In Illinois, labor is not taxable—only parts and goods are. Your invoice will always clearly reflect this according to state law.",
+    },
+    {
+        question: "Why choose Queens Auto instead of a dealership?",
+        answer: "You get dealership-level expertise and equipment, but with honest communication, fair pricing, and zero high-pressure sales tactics.",
+    },
+];
 ---
 
 <BaseLayout brand={mobileTiresBrand} title={title} headerInverse={true}>
@@ -77,18 +121,18 @@ const description = `Professional ${service.title} services in the Chicago area.
                             <h3
                                 class="text-4xl md:text-5xl font-bold text-white tracking-tight drop-shadow-md animate-fade-up delay-100"
                             >
-                                {service.title}
+                                {service.shortTitle || service.title}
                             </h3>
                         </div>
 
                         <!-- Description Section (Right aligned on desktop) -->
                         <div
-                            class="max-w-xl text-white text-lg sm:text-xl font-light border-l-4 border-queens-secondary pl-6 drop-shadow-sm animate-fade-up delay-200"
+                            class="max-w-xl text-white text-lg sm:text-lg border-l-4 border-queens-secondary pl-6 drop-shadow-sm animate-fade-up delay-200"
                         >
-                            Looking for {service.title}? Queens Mobile Tires
-                            brings the shop to you. Access our professional {
-                                category.title.toLowerCase()
-                            } without leaving your home or office.
+                            {
+                                service.pitch ||
+                                    `Professional ${service.title} services at Queens Auto Service. Our expert technicians ensure your vehicle remains safe and reliable on the Elgin roads.`
+                            }
                         </div>
                     </div>
                 </div>
@@ -101,119 +145,46 @@ const description = `Professional ${service.title} services in the Chicago area.
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
             <!-- Left Column: Main Service Content -->
             <div class="lg:col-span-2" data-reveal-item>
-                <div
-                    class="prose prose-lg prose-slate dark:prose-invert max-w-none mb-12"
-                >
-                    <p class="lead text-xl text-gray-600 dark:text-gray-300">
-                        Experience the ultimate convenience with our
-                        professional {service.title} service. We bring the tire shop
-                        directly to your driveway or parking spot, saving you hours
-                        of time.
-                    </p>
-                </div>
+                {
+                    parsedContent && (
+                        <div
+                            class="prose prose-lg prose-slate dark:prose-invert max-w-none mb-12"
+                            set:html={parsedContent}
+                        />
+                    )
+                }
 
-                <div
-                    class="bg-gray-50 dark:bg-white/5 rounded-2xl p-8 border border-gray-100 dark:border-white/10 mb-10"
-                >
-                    <h2
-                        class="text-2xl font-bold text-gray-900 dark:text-white mb-6"
-                    >
-                        Why Choose Mobile Service?
-                    </h2>
-                    <ul class="space-y-6">
-                        <li class="flex gap-x-4">
-                            <div
-                                class="flex-none rounded-full bg-queens-secondary/10 p-1 text-queens-secondary"
-                            >
-                                <svg
-                                    class="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                                    ></path>
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                                    ></path>
-                                </svg>
-                            </div>
-                            <span class="text-gray-600 dark:text-gray-300"
-                                ><strong
-                                    class="font-semibold text-gray-900 dark:text-white"
-                                    >We Come To You:</strong
-                                > Skip the shop waiting room. We service your vehicle
-                                at your home or office.</span
-                            >
-                        </li>
-                        <li class="flex gap-x-4">
-                            <div
-                                class="flex-none rounded-full bg-queens-secondary/10 p-1 text-queens-secondary"
-                            >
-                                <svg
-                                    class="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M9 12.75 11.25 15 15 9.75M21 12c0 5.523-4.477 10-10 10S1 17.523 1 12 5.477 2 11 2s10 4.477 10 10Z"
-                                    ></path>
-                                </svg>
-                            </div>
-                            <span class="text-gray-600 dark:text-gray-300"
-                                ><strong
-                                    class="font-semibold text-gray-900 dark:text-white"
-                                    >Certified Technicians:</strong
-                                > Our team is fully trained and equipped with professional-grade
-                                tools.</span
-                            >
-                        </li>
-                        <li class="flex gap-x-4">
-                            <div
-                                class="flex-none rounded-full bg-queens-secondary/10 p-1 text-queens-secondary"
-                            >
-                                <svg
-                                    class="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                                    ></path>
-                                </svg>
-                            </div>
-                            <span class="text-gray-600 dark:text-gray-300"
-                                ><strong
-                                    class="font-semibold text-gray-900 dark:text-white"
-                                    >Save Time:</strong
-                                > Our process is faster and more convenient than traditional
-                                tire shops.</span
-                            >
-                        </li>
-                    </ul>
-                </div>
+                {
+                    parsedCloser && (
+                        <div
+                            class="prose prose-lg prose-slate dark:prose-invert max-w-none mb-12 border-t border-gray-100 dark:border-white/10 pt-12"
+                            set:html={parsedCloser}
+                        />
+                    )
+                }
 
-                <div class="flex flex-wrap gap-4">
-                    <a href="/contact" class="btn-primary"
-                        >Request Appointment</a
-                    >
-                    <a href="tel:847-925-1100" class="btn-secondary"
-                        >Call (847) 925-1100</a
-                    >
+                {
+                    !parsedContent && !parsedCloser && (
+                        <div class="prose prose-lg prose-slate dark:prose-invert max-w-none mb-12">
+                            <p class="lead text-xl text-gray-600 dark:text-gray-300">
+                                Experience quality automotive care with our
+                                professional {service.title} service. Our expert
+                                technicians are dedicated to providing the best
+                                service in Elgin.
+                            </p>
+                        </div>
+                    )
+                }
+
+                <div class="flex flex-wrap gap-5 mt-10">
+                    <CtaButton
+                        href="/request-an-appointment"
+                        text="Book Appointment"
+                    />
+                    <CtaButtonSecondary
+                        href={`tel:${mobileTiresBrand.phone.replace(/\D/g, "")}`}
+                        text={`Call ${mobileTiresBrand.phone}`}
+                    />
                 </div>
             </div>
 
@@ -289,6 +260,7 @@ const description = `Professional ${service.title} services in the Chicago area.
             </div>
         </div>
     </div>
+
     <!-- Image Grid Section -->
     <div class="site-canvas pb-16 sm:pb-24" data-reveal>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -354,154 +326,8 @@ const description = `Professional ${service.title} services in the Chicago area.
                 </div>
 
                 <!-- FAQ Items (Right Column) -->
-                <div class="lg:col-span-2 space-y-4">
-                    <!-- Q1 -->
-                    <details
-                        class="group bg-white dark:bg-white/5 dark:border dark:border-white/10 rounded-2xl px-8 py-4 [&_summary::-webkit-details-marker]:hidden shadow-sm reveal-hidden"
-                        data-reveal-item
-                    >
-                        <summary
-                            class="rich-text flex items-center justify-between cursor-pointer list-none text-gray-900 dark:text-white font-semibold"
-                        >
-                            <h5
-                                class="inline-block !m-0 text-gray-900 dark:text-white"
-                            >
-                                How long does the service take?
-                            </h5>
-                            <span class="transition group-open:rotate-180">
-                                <svg
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="w-6 h-6"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
-                                </svg>
-                            </span>
-                        </summary>
-                        <div
-                            class="text-gray-600 dark:text-gray-300 mt-3 leading-relaxed"
-                        >
-                            Most services are completed within 45-60 minutes.
-                            Our technician will provide a more accurate estimate
-                            upon arrival.
-                        </div>
-                    </details>
-
-                    <!-- Q2 -->
-                    <details
-                        class="group bg-white dark:bg-slate-800 rounded-2xl px-8 py-4 [&_summary::-webkit-details-marker]:hidden shadow-sm reveal-hidden"
-                        data-reveal-item
-                    >
-                        <summary
-                            class="rich-text flex items-center justify-between cursor-pointer list-none text-gray-900 dark:text-white font-semibold"
-                        >
-                            <h5
-                                class="inline-block !m-0 text-gray-900 dark:text-white"
-                            >
-                                Do I need to be present?
-                            </h5>
-                            <span class="transition group-open:rotate-180">
-                                <svg
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="w-6 h-6"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
-                                </svg>
-                            </span>
-                        </summary>
-                        <div
-                            class="text-gray-600 dark:text-gray-300 mt-3 leading-relaxed"
-                        >
-                            You only need to be present to unlock the vehicle
-                            (if needed) and hand over the keys. You can relax
-                            inside while we work.
-                        </div>
-                    </details>
-
-                    <!-- Q3 -->
-                    <details
-                        class="group bg-white dark:bg-slate-800 rounded-2xl px-8 py-4 [&_summary::-webkit-details-marker]:hidden shadow-sm reveal-hidden"
-                        data-reveal-item
-                    >
-                        <summary
-                            class="rich-text flex items-center justify-between cursor-pointer list-none text-gray-900 dark:text-white font-semibold"
-                        >
-                            <h5
-                                class="inline-block !m-0 text-gray-900 dark:text-white"
-                            >
-                                Is there a warranty?
-                            </h5>
-                            <span class="transition group-open:rotate-180">
-                                <svg
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="w-6 h-6"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
-                                </svg>
-                            </span>
-                        </summary>
-                        <div
-                            class="text-gray-600 dark:text-gray-300 mt-3 leading-relaxed"
-                        >
-                            Yes, we offer a warranty on both parts and labor.
-                            Please ask your service advisor for specific details
-                            regarding your service.
-                        </div>
-                    </details>
-
-                    <!-- Q4 -->
-                    <details
-                        class="group bg-white dark:bg-slate-800 rounded-2xl px-8 py-4 [&_summary::-webkit-details-marker]:hidden shadow-sm reveal-hidden"
-                        data-reveal-item
-                    >
-                        <summary
-                            class="rich-text flex items-center justify-between cursor-pointer list-none text-gray-900 dark:text-white font-semibold"
-                        >
-                            <h5
-                                class="inline-block !m-0 text-gray-900 dark:text-white"
-                            >
-                                Do you service all makes and models?
-                            </h5>
-                            <span class="transition group-open:rotate-180">
-                                <svg
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="w-6 h-6"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
-                                </svg>
-                            </span>
-                        </summary>
-                        <div
-                            class="text-gray-600 dark:text-gray-300 mt-3 leading-relaxed"
-                        >
-                            We service most domestic and foreign vehicles. If
-                            you have a specialty or exotic vehicle, please call
-                            us to confirm.
-                        </div>
-                    </details>
+                <div class="lg:col-span-2" data-reveal-item>
+                    <FaqAccordion faqs={serviceFaqs} />
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { mobileTiresBrand } from "../brands";
 import CtaButton from "../components/CtaButton.astro";
+import FaqAccordion from "../components/FaqAccordion.astro";
 
 const title = "Contact Us | Queens Auto Services";
 const description =
@@ -44,7 +45,7 @@ const faqs = [
                         Contact Us
                     </span>
                     <h1
-                        class="display-lg text-queens-primary dark:text-white mb-6"
+                        class="display-hero-page text-queens-primary dark:text-white mb-6"
                     >
                         Get in touch<br />with us.
                     </h1>
@@ -289,32 +290,8 @@ const faqs = [
                 </div>
 
                 <!-- Right: Accordion -->
-                <div class="lg:col-span-3 space-y-4">
-                    {
-                        faqs.map((faq, index) => (
-                            <details class="faq-item group" open={index === 0}>
-                                <summary class="faq-summary">
-                                    <span>{faq.question}</span>
-                                    <svg
-                                        class="faq-chevron"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M19 9l-7 7-7-7"
-                                        />
-                                    </svg>
-                                </summary>
-                                <div class="faq-answer">
-                                    <p>{faq.answer}</p>
-                                </div>
-                            </details>
-                        ))
-                    }
+                <div class="lg:col-span-3">
+                    <FaqAccordion faqs={faqs} />
                 </div>
             </div>
 
@@ -401,58 +378,6 @@ const faqs = [
     :global(.dark) .contact-input::placeholder {
         color: #6b7280;
     }
-
-    .faq-item {
-        background: #ffffff;
-        border-radius: 1rem;
-        border: 1px solid #e5e7eb;
-        overflow: hidden;
-        transition: all 0.3s;
-    }
-
-    :global(.dark) .faq-item {
-        background: rgba(255, 255, 255, 0.03);
-        border-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .faq-item:hover {
-        border-color: #0a79c8;
-    }
-
-    .faq-summary {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1.25rem 1.5rem;
-        font-weight: 600;
-        color: var(--text-primary);
-        cursor: pointer;
-        list-style: none;
-    }
-
-    .faq-summary::-webkit-details-marker {
-        display: none;
-    }
-
-    .faq-chevron {
-        width: 1.25rem;
-        height: 1.25rem;
-        color: #9ca3af;
-        transition: transform 0.3s;
-        flex-shrink: 0;
-    }
-
-    .faq-item[open] .faq-chevron {
-        transform: rotate(180deg);
-        color: #0a79c8;
-    }
-
-    .faq-answer {
-        padding: 0 1.5rem 1.25rem;
-        color: var(--text-secondary);
-        line-height: 1.6;
-    }
-
     .still-questions-card {
         box-shadow: 0 25px 50px -12px rgba(11, 17, 33, 0.25);
     }

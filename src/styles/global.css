@@ -270,6 +270,29 @@ h6,
     text-transform: uppercase;
 }
 
+/* ========================================
+   REFINED HERO UTILITIES
+   Consistent Big Shoulders control across the site
+   ======================================== */
+
+.display-hero-home {
+    font-family: var(--font-display) !important;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(3rem, 10vw, 90px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+}
+
+.display-hero-page {
+    font-family: var(--font-display) !important;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(2.25rem, 7vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+}
+
 
 /* Custom Header Utilities */
 .main-header-h1 {
@@ -304,70 +327,70 @@ h6,
 
 h1,
 .h1 {
-    font-size: 3.5rem;
-    /* ~56px mobile */
+    font-size: 3rem;
+    line-height: 1.1;
 }
 
 h2,
 .h2 {
-    font-size: 2.5rem;
-    /* ~40px mobile */
+    font-size: 2.25rem;
+    line-height: 1.2;
 }
 
 h3,
 .h3 {
-    font-size: 2rem;
-    /* ~32px mobile */
+    font-size: 1.75rem;
+    line-height: 1.2;
 }
 
 h4,
 .h4 {
-    font-size: 1.75rem;
-    /* ~28px mobile */
+    font-size: 1.5rem;
+    line-height: 1.3;
 }
 
 h5,
 .h5 {
-    font-size: 1.5rem;
-    /* ~24px mobile */
+    font-size: 1.25rem;
+    line-height: 1.4;
 }
 
 h6,
 .h6 {
-    font-size: 1.25rem;
-    /* ~20px mobile */
+    font-size: 1.125rem;
+    line-height: 1.4;
 }
 
 @media (min-width: 1024px) {
 
     h1,
     .h1 {
-        font-size: 84px;
+        font-size: 64px;
     }
 
     h2,
     .h2 {
-        font-size: 64px;
+        font-size: 48px;
     }
 
     h3,
     .h3 {
-        font-size: 52px;
+        font-size: 36px;
     }
 
     h4,
     .h4 {
-        font-size: 48px;
+        font-size: 28px;
     }
 
     h5,
     .h5 {
-        font-size: 40px;
+        font-size: 24px;
     }
 
     h6,
     .h6 {
-        font-size: 36px;
+        font-size: 20px;
     }
 }
 
@@ -414,6 +437,28 @@ div {
 /* Body text defaults */
 p {
     color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+p:last-child {
+    margin-bottom: 0;
+}
+
+/* Add spacing around headings globally for body content flow */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 2.5rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.2;
+}
+
+/* Prevent double spacing at top of containers */
+:first-child {
+    margin-top: 0 !important;
 }
 
 /* ========================================
@@ -464,6 +509,37 @@ p {
 
 .rich-text p {
     margin-bottom: 1.5rem;
+}
+
+/* Specific overrides for Tailwind Typography 'prose' to ensure breathability */
+.prose p {
+    margin-bottom: 1.6em !important;
+    line-height: 1.75 !important;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+    margin-top: 2.25em !important;
+    margin-bottom: 1em !important;
+}
+
+.prose ul,
+.prose ol {
+    margin-top: 1.5em !important;
+    margin-bottom: 1.5em !important;
+}
+
+.prose li {
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
+}
+
+/* Ensure the John-style closer inherits these spacing rules */
+.font-serif p {
+    margin-bottom: 1.75rem;
+    line-height: 1.8;
 }
 
 /* Links */

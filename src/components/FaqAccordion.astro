@@ -1,0 +1,99 @@
+---
+/**
+ * FaqAccordion.astro
+ * A reusable, premium FAQ accordion component with smooth transitions
+ * and exclusive opening behavior.
+ *
+ * @param {Array} faqs - Array of objects with { question, answer }
+ */
+
+interface Props {
+    faqs: {
+        question: string;
+        answer: string;
+    }[];
+    className?: string;
+}
+
+const { faqs, className = "" } = Astro.props;
+---
+
+<div class={`space-y-4 ${className}`} id="faq-accordion">
+    {
+        faqs.map((faq, index) => (
+            <details class="group faq-details rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden dark:shadow-none">
+                <summary class="flex items-center justify-between gap-4 p-6 lg:p-8 text-left cursor-pointer list-none focus:outline-none hover:bg-gray-50 dark:hover:bg-white/5 transition-colors dark:!bg-transparent dark:!bg-none">
+                    <span class="flex items-center gap-4">
+                        <span class="flex-shrink-0 w-10 h-10 rounded-xl bg-queens-secondary/10 text-queens-secondary font-bold flex items-center justify-center text-sm">
+                            {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span class="text-lg lg:text-xl font-semibold text-queens-primary dark:text-gray-100 group-hover:text-queens-secondary transition-colors">
+                            {faq.question}
+                        </span>
+                    </span>
+                    <span class="flex-shrink-0 w-10 h-10 rounded-full bg-gray-100 dark:bg-white/10 group-hover:bg-queens-secondary/10 flex items-center justify-center transition-all duration-300 group-open:bg-queens-secondary group-open:text-white">
+                        <svg
+                            class="w-5 h-5 text-gray-500 dark:text-gray-400 group-hover:text-queens-secondary group-open:text-white transition-all duration-300 transform group-open:rotate-180"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M19 9l-7 7-7-7"
+                            />
+                        </svg>
+                    </span>
+                </summary>
+                <div class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out group-open:grid-rows-[1fr]">
+                    <div class="overflow-hidden">
+                        <div class="px-6 lg:px-8 pb-6 lg:pb-8">
+                            <div class="pl-14 border-l-2 border-queens-secondary/20 ml-5">
+                                <p
+                                    class="text-gray-600 dark:text-gray-300 leading-relaxed text-lg"
+                                    set:html={faq.answer}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        ))
+    }
+</div>
+
+<script>
+    function initExclusiveAccordion() {
+        const details = document.querySelectorAll(".faq-details");
+
+        details.forEach((targetDetail) => {
+            targetDetail.addEventListener("toggle", () => {
+                // @ts-ignore
+                if (targetDetail.open) {
+                    details.forEach((d) => {
+                        if (d !== targetDetail) {
+                            d.removeAttribute("open");
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    // Run on initial load
+    initExclusiveAccordion();
+    // Support Astro View Transitions
+    document.addEventListener("astro:page-load", initExclusiveAccordion);
+</script>
+
+<style>
+    /* Removing default marker across all browsers */
+    details > summary {
+        list-style: none;
+    }
+    details > summary::-webkit-details-marker {
+        display: none;
+    }
+</style>

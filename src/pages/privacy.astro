@@ -1,83 +1,291 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const lastUpdated = "December 10, 2025";
+const lastUpdated = "December 22, 2025";
 ---
 
 <BaseLayout
-    title="Privacy Policy | Queens Mobile Tires"
-    description="Privacy Policy for Queens Mobile Tires services and website."
+    title="Privacy Policy | Queens Auto Service"
+    description="Privacy Policy for Queens Auto Service in Elgin, IL. Learn how we collect, use, and safeguard your personal data."
 >
     <section class="py-20 lg:py-28 bg-white dark:bg-transparent">
         <div class="container mx-auto px-6 max-w-4xl">
-            <h1 class="display-xl text-queens-primary dark:text-white mb-6">
+            <h1
+                class="display-hero-page text-queens-primary dark:text-white mb-6"
+            >
                 Privacy Policy
             </h1>
             <p class="text-gray-500 dark:text-gray-400 mb-12 text-lg">
-                Last Updated: {lastUpdated}
+                Last Revised: {lastUpdated}
             </p>
 
             <div
-                class="prose prose-lg prose-blue max-w-none text-gray-600 dark:text-gray-300"
+                class="prose prose-lg prose-blue max-w-none text-gray-600 dark:text-gray-300 dark:prose-invert"
             >
+                <div>
+                    <p><strong>Effective Date: {lastUpdated}</strong></p>
+                </div>
+
+                <h2
+                    class="text-2xl font-bold text-queens-primary dark:text-white mt-12 mb-6"
+                >
+                    Who We Are
+                </h2>
                 <p>
-                    At Queens Mobile Tires, we take your privacy seriously. This
-                    Privacy Policy explains how we collect, use, and protect
-                    your personal information when you use our website and
-                    mobile tire services.
+                    Our website address is: <a
+                        href="https://queensautoserviceselgin.com"
+                        class="text-queens-primary dark:text-blue-400 underline"
+                        >https://queensautoserviceselgin.com</a
+                    >. Queens Auto is a full-service auto repair shop based in
+                    Elgin, IL. This privacy policy outlines how we collect, use,
+                    and safeguard your personal data.
                 </p>
 
                 <h2
                     class="text-2xl font-bold text-queens-primary dark:text-white mt-12 mb-6"
                 >
-                    Information We Collect
+                    What Personal Data We Collect and Why We Collect It
                 </h2>
+
+                <h3 class="text-xl font-bold mt-8 mb-4">Comments</h3>
                 <p>
-                    We collect information you provide directly to us, such as
-                    when you request a quote, schedule an appointment, or
-                    contact customer support. This may include:
+                    When visitors leave comments on the site, we collect the
+                    data shown in the comments form, along with the visitor’s IP
+                    address and browser user agent string to assist with spam
+                    detection.
                 </p>
-                <ul class="list-disc pl-6 space-y-2 mb-6">
-                    <li>Name and contact information (email, phone number)</li>
-                    <li>Vehicle information (year, make, model)</li>
-                    <li>Service location address</li>
-                    <li>
-                        Payment information (processed securely via third-party
-                        providers like Stripe)
-                    </li>
-                </ul>
+                <p>
+                    An anonymized string created from your email address (a
+                    hash) may be provided to the Gravatar service to check for
+                    use. Gravatar’s privacy policy is available at Gravatar
+                    Privacy Policy. Once your comment is approved, your profile
+                    picture becomes visible publicly next to your comment.
+                </p>
+
+                <h3 class="text-xl font-bold mt-8 mb-4">Media</h3>
+                <p>
+                    If you upload images to the website, you should avoid
+                    uploading images with embedded location data (EXIF GPS)
+                    included. Visitors can download and extract location data
+                    from such images.
+                </p>
+
+                <h3 class="text-xl font-bold mt-8 mb-4">SMS Communication</h3>
+                <p>
+                    By providing your phone number and opting in, you consent to
+                    receive SMS messages from Queens Auto for purposes such as
+                    appointment reminders, service updates, and limited-time
+                    offers. Message frequency may vary.
+                </p>
+                <p>
+                    Standard message and data rates may apply. You can opt out
+                    at any time by replying STOP, and receive assistance by
+                    replying HELP or contacting us directly at <a
+                        href="mailto:contact@queensautoserviceselgin.com"
+                        class="text-queens-primary dark:text-blue-400 underline"
+                        >contact@queensautoserviceselgin.com</a
+                    >.
+                </p>
+                <p>
+                    We do not share, rent, or sell your phone number to third
+                    parties. Your information is stored securely and used only
+                    for the purposes outlined above.
+                </p>
+                <p>Consent is not a condition of purchase.</p>
+                <p>
+                    Carriers are not liable for delayed or undelivered messages.
+                </p>
+
+                <h3 class="text-xl font-bold mt-8 mb-4">Contact Forms</h3>
+                <p>
+                    When you fill out a contact form, we collect your name,
+                    email address, phone number, and any additional information
+                    you choose to provide. This information is used strictly to
+                    respond to your inquiry or provide services requested. We do
+                    not use this information for unsolicited marketing.
+                </p>
+
+                <h3 class="text-xl font-bold mt-8 mb-4">Cookies</h3>
+                <p>
+                    If you leave a comment on our site, you may opt-in to saving
+                    your name, email, and website in cookies. These are for your
+                    convenience, so you don’t have to re-enter your details when
+                    leaving another comment. These cookies last one year.
+                </p>
+                <p>
+                    If you visit our login page, we set a temporary cookie to
+                    check if your browser accepts cookies. This cookie contains
+                    no personal data and is discarded when you close your
+                    browser.
+                </p>
+                <p>
+                    When you log in, we set up cookies to save your login
+                    details and screen preferences. Login cookies last two days,
+                    and screen option cookies last one year. Selecting “Remember
+                    Me” extends login cookies to two weeks. Logging out removes
+                    login cookies.
+                </p>
+                <p>
+                    If you edit or publish an article, a cookie with the post ID
+                    will be saved in your browser. This expires after one day.
+                </p>
 
                 <h2
                     class="text-2xl font-bold text-queens-primary dark:text-white mt-12 mb-6"
                 >
-                    How We Use Your Information
+                    Embedded Content from Other Websites
                 </h2>
-                <p>We use the information we collect to:</p>
-                <ul class="list-disc pl-6 space-y-2 mb-6">
-                    <li>Provide, maintain, and improve our services</li>
-                    <li>Process transactions and send related information</li>
-                    <li>
-                        Communicate with you about appointments, products, and
-                        services
-                    </li>
-                    <li>Monitor and analyze trends and usage</li>
-                </ul>
+                <p>
+                    Articles may include embedded content (e.g., videos, images,
+                    articles). Embedded content from other websites behaves as
+                    if you visited that website directly. These sites may
+                    collect your data, use cookies, embed third-party tracking,
+                    and monitor your interaction with their content.
+                </p>
 
                 <h2
                     class="text-2xl font-bold text-queens-primary dark:text-white mt-12 mb-6"
                 >
-                    Contact Us
+                    Analytics
                 </h2>
                 <p>
-                    If you have any questions about this Privacy Policy, please
-                    contact us at:
+                    We use Google Analytics and similar tools to understand how
+                    visitors interact with our website. These services may
+                    collect IP addresses, device information, browser types, and
+                    pages visited. This data helps us improve user experience
+                    and website performance.
+                </p>
+
+                <h2
+                    class="text-2xl font-bold text-queens-primary dark:text-white mt-12 mb-6"
+                >
+                    Who We Share Your Data With
+                </h2>
+                <p>
+                    We do not sell or rent your personal information. Data may
+                    be shared with trusted third-party service providers who
+                    assist with operations such as hosting, analytics, SMS
+                    delivery, and email communication — only to the extent
+                    necessary for service delivery and under strict
+                    confidentiality agreements.
+                </p>
+
+                <h2
+                    class="text-2xl font-bold text-queens-primary dark:text-white mt-12 mb-6"
+                >
+                    How Long We Retain Your Data
+                </h2>
+                <p>
+                    If you leave a comment, the comment and its metadata are
+                    retained indefinitely. For registered users (if any), we
+                    store personal information in user profiles, which users can
+                    access, edit, or delete at any time (except usernames).
+                    Admins may also access and manage this data.
+                </p>
+
+                <h2
+                    class="text-2xl font-bold text-queens-primary dark:text-white mt-12 mb-6"
+                >
+                    What Rights You Have Over Your Data
+                </h2>
+                <p>
+                    If you have an account or have left comments, you can
+                    request an exported file of the personal data we hold about
+                    you. You can also request deletion of your personal data,
+                    except where we are required to retain it for legal,
+                    administrative, or security purposes.
+                </p>
+
+                <h2
+                    class="text-2xl font-bold text-queens-primary dark:text-white mt-12 mb-6"
+                >
+                    Where We Send Your Data
+                </h2>
+                <p>
+                    Visitor comments may be checked through an automated spam
+                    detection service.
+                </p>
+
+                <h2
+                    class="text-2xl font-bold text-queens-primary dark:text-white mt-12 mb-6"
+                >
+                    Your Contact Information
+                </h2>
+                <p>
+                    To request access, updates, or deletion of your personal
+                    data, contact us at:
                 </p>
                 <p>
-                    <strong>Queens Mobile Tires</strong><br />
-                    2401 E Algonquin Rd<br />
-                    Lake in the Hills, IL 60102<br />
-                    (847) 925-1100<br />
-                    info@queensmobiletires.com
+                    <strong>Queens Auto Service</strong><br />
+                    1303 Dundee Ave<br />
+                    Elgin, IL 60120<br />
+                    Email: <a
+                        href="mailto:contact@queensautoserviceselgin.com"
+                        class="text-queens-primary dark:text-blue-400 underline"
+                        >contact@queensautoserviceselgin.com</a
+                    ><br />
+                    Phone: <a
+                        href="tel:2243653000"
+                        class="text-queens-primary dark:text-blue-400 underline"
+                        >(224) 365-3000</a
+                    >
+                </p>
+
+                <h2
+                    class="text-2xl font-bold text-queens-primary dark:text-white mt-12 mb-6"
+                >
+                    Additional Information
+                </h2>
+                <h3 class="text-xl font-bold mt-8 mb-4">
+                    How We Protect Your Data
+                </h3>
+                <p>
+                    We implement technical and organizational security measures
+                    including secure servers, encrypted connections (HTTPS),
+                    firewall protection, access controls, and employee training
+                    to safeguard your information.
+                </p>
+
+                <h3 class="text-xl font-bold mt-8 mb-4">
+                    What Data Breach Procedures We Have in Place
+                </h3>
+                <p>
+                    In the event of a data breach, we will notify affected
+                    individuals and relevant authorities as required by law, and
+                    take immediate steps to contain and remedy the breach.
+                </p>
+
+                <h3 class="text-xl font-bold mt-8 mb-4">
+                    What Third Parties We Receive Data From
+                </h3>
+                <p>
+                    We may receive limited data from third-party platforms such
+                    as scheduling tools or payment processors strictly for
+                    operational purposes.
+                </p>
+
+                <h3 class="text-xl font-bold mt-8 mb-4">
+                    What Automated Decision Making and/or Profiling We Do With
+                    User Data
+                </h3>
+                <p>
+                    We do not use automated decision-making or profiling based
+                    on your data.
+                </p>
+
+                <h3 class="text-xl font-bold mt-8 mb-4">
+                    Industry Regulatory Disclosure Requirements
+                </h3>
+                <p>
+                    We comply with all applicable consumer protection, privacy,
+                    and data security regulations under U.S. and Illinois law.
+                </p>
+
+                <p
+                    class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 italic"
+                >
+                    If you have any questions or concerns about this policy,
+                    please contact us.
                 </p>
             </div>
         </div>
