@@ -16,11 +16,13 @@ const getInitials = (name: string) =>
 
 const allReviews = [...reviews, ...reviews, ...reviews];
 const reviewCount = reviews.length;
+const visibleCount = 2; // Number of cards visible at a time
 ---
 
 <section
     class="rv-section pt-[45vh] pb-32 px-6"
-    data-review-count={reviewCount}
+    data-visible-count={visibleCount}
+    data-total-count={reviewCount}
 >
     <div class="rv-container max-w-6xl mx-auto">
         <!-- Header -->
@@ -233,8 +235,12 @@ const reviewCount = reviews.length;
 
         if (!section || !carousel || !track) return;
 
-        const count = parseInt(
-            section.getAttribute("data-review-count") || "2",
+        const visibleCount = parseInt(
+            section.getAttribute("data-visible-count") || "2",
+            10,
+        );
+        const totalCount = parseInt(
+            section.getAttribute("data-total-count") || "6",
             10,
         );
         const cards = track.querySelectorAll(".rv-card");
@@ -243,17 +249,22 @@ const reviewCount = reviews.length;
         const card = cards[0] as HTMLElement;
         const cardH = card.offsetHeight;
         const gap = parseFloat(getComputedStyle(track).gap) || 24;
-        const setH = cardH * count + gap * (count - 1);
+        // Calculate visible height based on visibleCount (2 cards)
+        const setH = cardH * visibleCount + gap * (visibleCount - 1);
+        // Calculate the full scroll distance for the animation loop
+        const scrollDistance = cardH * totalCount + gap * (totalCount - 1);
 
         carousel.style.height = `${setH}px`;
 
         anim = gsap.to(track, {
-            y: -(setH + gap),
+            y: -(scrollDistance + gap),
             duration: 15,
             ease: "none",
             repeat: -1,
             modifiers: {
-                y: gsap.utils.unitize(gsap.utils.wrap(0, -(setH + gap))),
+                y: gsap.utils.unitize(
+                    gsap.utils.wrap(0, -(scrollDistance + gap)),
+                ),
             },
         });
 
