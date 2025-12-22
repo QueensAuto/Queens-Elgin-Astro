@@ -198,10 +198,27 @@ nav a.hover\:text-queens-secondary:hover {
 }
 
 /* ========================================
+   THEME LOCKED / PURE BACKGROUND MODE
+   Used for promotional landing pages
+   ======================================== */
+.theme-locked-bg {
+    background-color: #141517 !important;
+    background-attachment: fixed !important;
+}
+
+.theme-locked-bg main,
+.theme-locked-bg section,
+.theme-locked-bg .site-footer {
+    background-color: transparent !important;
+    background-image: none !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+
+/* ========================================
    BASE ELEMENT OVERRIDES
    Apply semantic colors to common elements
    ======================================== */
-
 body {
     font-family: var(--font-sans);
     background-color: var(--bg-page);

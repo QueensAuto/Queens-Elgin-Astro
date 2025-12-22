@@ -1,0 +1,1162 @@
+---
+import { mobileTiresBrand } from "../brands";
+
+interface Props {
+    webhookUrl?: string;
+    promoCode?: string;
+    fullDark?: boolean;
+    thankYouUrl?: string;
+    step1TitlePrefix?: string;
+    step1TitleHighlight?: string;
+    step1Description?: string;
+}
+
+const {
+    webhookUrl = "https://n8n.queensautoservices.com/webhook-test/5be99bf2-b19b-49f7-82b3-431fb1748b27",
+    promoCode = "standard_booking",
+    fullDark = false,
+    thankYouUrl = "/thank-you",
+    step1TitlePrefix = "",
+    step1TitleHighlight = "Secure Your Spot",
+    step1Description = "Step 1 of 2 — Your contact and vehicle details.",
+} = Astro.props;
+---
+
+<!-- Custom Form CSS -->
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style is:inline>
+    .cta-button {
+        background: linear-gradient(to right, #22d3ee, #3b82f6 60%);
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+    .cta-button:hover:not(:disabled) {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px -5px rgba(34, 197, 222, 0.3);
+    }
+    .form-step.hidden {
+        display: none;
+    }
+    .calendar-day {
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9999px;
+        cursor: pointer;
+        font-size: 0.875rem;
+        color: #1f2937; /* gray-800 for light mode */
+        transition:
+            background-color 0.2s,
+            color 0.2s;
+    }
+    .dark .calendar-day {
+        color: #e2e8f0; /* slate-200 for dark mode */
+    }
+    .calendar-day:hover:not(.disabled):not(.selected) {
+        background-color: #e5e7eb; /* gray-200 for light mode */
+    }
+    .dark .calendar-day:hover:not(.disabled):not(.selected) {
+        background-color: #334155; /* slate-700 for dark mode */
+    }
+    .calendar-day.selected {
+        background-color: #22d3ee;
+        color: white;
+        font-weight: bold;
+    }
+    .calendar-day.today {
+        background-color: rgba(37, 99, 235, 0.2);
+    }
+    .dark .calendar-day.today {
+        background-color: rgba(37, 99, 235, 0.3);
+    }
+    .calendar-day.disabled {
+        color: #9ca3af; /* gray-400 for light mode */
+        cursor: not-allowed;
+    }
+    .dark .calendar-day.disabled {
+        color: #475569; /* slate-600 for dark mode */
+    }
+    .time-slot {
+        color: #374151; /* gray-700 for light mode */
+        border-color: #d1d5db; /* gray-300 for light mode */
+        background-color: #f9fafb; /* gray-50 for light mode */
+    }
+    .dark .time-slot {
+        color: #e2e8f0; /* slate-200 for dark mode */
+        border-color: #475569; /* slate-600 for dark mode */
+        background-color: #1e293b; /* slate-800 for dark mode */
+    }
+    .time-slot:hover:not(.selected) {
+        background-color: #e5e7eb; /* gray-200 for light mode */
+    }
+    .dark .time-slot:hover:not(.selected) {
+        background-color: #334155; /* slate-700 for dark mode */
+    }
+    .time-slot.selected {
+        background-color: #22d3ee;
+        color: white;
+        border-color: #22d3ee;
+    }
+
+    /* Calendar weekday headers */
+    #calendar-grid-header > span {
+        color: #6b7280; /* gray-500 for light mode */
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+    .dark #calendar-grid-header > span {
+        color: #94a3b8; /* slate-400 for dark mode */
+    }
+
+    .input-wrapper .validation-icon {
+        display: none;
+    }
+    .input-wrapper.is-valid .icon-valid {
+        display: block;
+        color: #22c55e;
+    }
+    .input-wrapper.is-invalid .icon-invalid {
+        display: block;
+        color: #ef4444;
+    }
+    .input-field.is-valid {
+        border-color: #22c55e !important;
+        padding-right: 2.5rem !important;
+    }
+    .input-field.is-invalid {
+        border-color: #ef4444 !important;
+        padding-right: 2.5rem !important;
+    }
+    .input-field {
+        transition:
+            padding-right 0.2s ease-in-out,
+            border-color 0.2s ease-in-out;
+    }
+    .input-field.is-valid:focus {
+        --tw-ring-color: #22c55e;
+    }
+    .input-field.is-invalid:focus {
+        --tw-ring-color: #ef4444;
+    }
+
+    /* Dark mode input field overrides - ensure solid colors, no gradient */
+    .dark .input-field,
+    .dark select {
+        background-color: #1e293b !important; /* slate-800 solid */
+        border-color: #475569 !important; /* slate-600 solid */
+        background-image: none !important;
+    }
+
+    /* Fix for dark mode dropdown options (prevent white text on white bg) */
+    .dark select option {
+        background-color: #141517;
+        color: white;
+    }
+
+    /* Attempt to hide scrollbar on select (browser support varies for dropdowns) */
+    select {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    select::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* ==========================================
+       ANIMATED GRADIENT SWOOSH BORDER ON FOCUS
+       Creates a sweeping beam effect
+       ========================================== */
+
+    /* The swoosh border wrapper */
+    .input-wrapper .relative {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Ensure input is above the swoosh border */
+    .input-wrapper .relative .input-field {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Create the shimmer beam border */
+    .input-wrapper .relative::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        border-radius: 8px;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+
+        /* The shimmer gradient - 295deg diagonal, narrow beam with transparent ends */
+        background: linear-gradient(
+                295deg,
+                transparent 0%,
+                transparent 45%,
+                #22d3ee 47%,
+                #3b82f6 50%,
+                #0a79c8 53%,
+                transparent 55%,
+                transparent 100%
+            )
+            0 0 / 300% 100% no-repeat;
+
+        /* Mask to show only the border */
+        -webkit-mask:
+            linear-gradient(#0000, #0000) padding-box,
+            linear-gradient(#fff, #fff) border-box;
+        mask:
+            linear-gradient(#0000, #0000) padding-box,
+            linear-gradient(#fff, #fff) border-box;
+        -webkit-mask-composite: destination-out;
+        mask-composite: exclude;
+        padding: 2px;
+    }
+
+    /* Show and animate the beam on focus */
+    .input-wrapper .relative:focus-within::before {
+        opacity: 1;
+        animation: shimmer 4s ease-in-out infinite;
+    }
+
+    /* The shimmer animation - sweeps from right to left */
+    @keyframes shimmer {
+        0% {
+            background-position: 100% 0;
+        }
+        50%,
+        100% {
+            background-position: 0% 0;
+        }
+    }
+
+    /* Hide default focus ring when swoosh is active */
+    .input-wrapper .relative:focus-within .input-field {
+        border-color: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    /* Keep input background solid in dark mode */
+    .dark .input-wrapper .relative:focus-within .input-field {
+        background-color: #1e293b !important;
+        background-image: none !important;
+        color: #e2e8f0 !important;
+    }
+
+    /* Keep input background solid in light mode */
+    .input-wrapper .relative:focus-within .input-field {
+        background-color: #f9fafb !important;
+        background-image: none !important;
+        color: #1f2937 !important;
+    }
+
+    /* Dark mode override must come after */
+    .dark .input-wrapper .relative:focus-within .input-field {
+        background-color: #1e293b !important;
+        background-image: none !important;
+        color: #e2e8f0 !important;
+    }
+
+    /* Keep placeholder visible */
+    .input-field:focus::placeholder {
+        color: #9ca3af !important;
+        opacity: 0.7;
+    }
+</style>
+
+<div
+    id="book-appointment-form"
+    class="py-12 px-4"
+    data-webhook={webhookUrl}
+    data-promo={promoCode}
+    data-thankyou={thankYouUrl}
+>
+    <div id="form-container-wrapper" class="max-w-2xl mx-auto">
+        <div
+            class={`bg-white dark:bg-slate-800/50 border border-gray-100 dark:border-white/10 shadow-xl dark:shadow-black/20 rounded-3xl p-6 sm:p-8 md:p-12 backdrop-blur-sm transition-all duration-300 ${fullDark ? "dark" : ""}`}
+        >
+            <div id="form-content">
+                <div class="text-center">
+                    <h5
+                        class="text-xl md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+                    >
+                        {step1TitlePrefix}
+                        <span
+                            class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
+                            >{step1TitleHighlight}</span
+                        >
+                    </h5>
+
+                    <!-- Glowing Beam Effect (uses global .glow-beam class) -->
+                    <div class="relative w-full h-8 mb-2 flex justify-center">
+                        <div class="glow-beam"></div>
+                    </div>
+                    <p
+                        id="form-instruction"
+                        class="mt-2 text-lg text-gray-600 dark:text-slate-300"
+                    >
+                        {step1Description}
+                    </p>
+                </div>
+                <form id="booking-form" class="mt-8 relative min-h-[500px]">
+                    <input type="hidden" name="utm_source" />
+                    <input type="hidden" name="utm_medium" />
+                    <input type="hidden" name="utm_campaign" />
+                    <input type="hidden" name="utm_term" />
+                    <input type="hidden" name="utm_content" />
+                    <input type="hidden" name="ga_client_id" />
+                    <input type="hidden" name="gclid" />
+                    <input type="hidden" name="fbc" />
+                    <input type="hidden" name="fbclid" />
+                    <input type="hidden" name="msclkid" />
+                    <input type="hidden" name="referrer" />
+                    <input type="hidden" name="event_id" />
+                    <div id="form-step-1" class="form-step visible">
+                        <div class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="input-wrapper">
+                                    <label
+                                        for="first-name"
+                                        class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1"
+                                        data-translate-key="firstName"
+                                        >First Name</label
+                                    >
+                                    <div class="relative mt-1">
+                                        <input
+                                            type="text"
+                                            id="first-name"
+                                            name="first-name"
+                                            required
+                                            placeholder="Enter first name"
+                                            class="input-field block w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-slate-600 rounded-md shadow-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-300 dark:focus:ring-sky-500 focus:border-sky-300 dark:focus:border-sky-500 sm:text-sm"
+                                        />
+                                        <div
+                                            class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
+                                        >
+                                            <svg
+                                                class="validation-icon icon-valid h-5 w-5"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                            <svg
+                                                class="validation-icon icon-invalid h-5 w-5"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-wrapper">
+                                    <label
+                                        for="last-name"
+                                        class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1"
+                                        data-translate-key="lastName"
+                                        >Last Name</label
+                                    >
+                                    <div class="relative mt-1">
+                                        <input
+                                            type="text"
+                                            id="last-name"
+                                            name="last-name"
+                                            required
+                                            placeholder="Enter last name"
+                                            class="input-field block w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-slate-600 rounded-md shadow-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-300 dark:focus:ring-sky-500 focus:border-sky-300 dark:focus:border-sky-500 sm:text-sm"
+                                        />
+                                        <div
+                                            class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
+                                        >
+                                            <svg
+                                                class="validation-icon icon-valid h-5 w-5"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                            <svg
+                                                class="validation-icon icon-invalid h-5 w-5"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-wrapper">
+                                    <label
+                                        for="email"
+                                        class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1"
+                                        data-translate-key="email">Email</label
+                                    >
+                                    <div class="relative mt-1">
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            required
+                                            placeholder="you@example.com"
+                                            class="input-field block w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-slate-600 rounded-md shadow-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-300 dark:focus:ring-sky-500 focus:border-sky-300 dark:focus:border-sky-500 sm:text-sm"
+                                        />
+                                        <div
+                                            class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
+                                        >
+                                            <svg
+                                                class="validation-icon icon-valid h-5 w-5"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                            <svg
+                                                class="validation-icon icon-invalid h-5 w-5"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-wrapper">
+                                    <label
+                                        for="mobile-number"
+                                        class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1"
+                                        data-translate-key="mobileNumber"
+                                        >Mobile Number</label
+                                    >
+                                    <div class="relative mt-1">
+                                        <input
+                                            type="tel"
+                                            id="mobile-number"
+                                            name="mobile-number"
+                                            required
+                                            placeholder="(###) ###-####"
+                                            class="input-field block w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-slate-600 rounded-md shadow-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-300 dark:focus:ring-sky-500 focus:border-sky-300 dark:focus:border-sky-500 sm:text-sm"
+                                        />
+                                        <div
+                                            class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
+                                        >
+                                            <svg
+                                                class="validation-icon icon-valid h-5 w-5"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                            <svg
+                                                class="validation-icon icon-invalid h-5 w-5"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-2">
+                                <h5
+                                    class="text-xl font-bold text-gray-900 dark:text-white mb-4"
+                                    data-translate-key="vehicleDetails"
+                                >
+                                    Vehicle Details
+                                </h5>
+                                <div
+                                    class="grid grid-cols-1 md:grid-cols-3 gap-6"
+                                >
+                                    <div>
+                                        <label
+                                            for="vehicle-year"
+                                            class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1"
+                                            data-translate-key="carYear"
+                                            >Year</label
+                                        ><select
+                                            id="vehicle-year"
+                                            name="vehicle-year"
+                                            required
+                                            class="mt-1 block w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-slate-600 rounded-md shadow-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-300 dark:focus:ring-sky-500 focus:border-sky-300 dark:focus:border-sky-500 sm:text-sm"
+                                        >
+                                            <option value="" disabled selected
+                                                >Select Year</option
+                                            >
+                                        </select>
+                                    </div>
+                                    <div class="input-wrapper">
+                                        <label
+                                            for="vehicle-make"
+                                            class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1"
+                                            data-translate-key="carMake"
+                                            >Make</label
+                                        >
+                                        <div class="relative mt-1">
+                                            <input
+                                                type="text"
+                                                id="vehicle-make"
+                                                name="vehicle-make"
+                                                required
+                                                placeholder="e.g., Ford"
+                                                class="input-field block w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-slate-600 rounded-md shadow-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-300 dark:focus:ring-sky-500 focus:border-sky-300 dark:focus:border-sky-500 sm:text-sm"
+                                            />
+                                            <div
+                                                class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
+                                            >
+                                                <svg
+                                                    class="validation-icon icon-valid h-5 w-5"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                        clip-rule="evenodd"
+                                                    ></path>
+                                                </svg>
+                                                <svg
+                                                    class="validation-icon icon-invalid h-5 w-5"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                                        clip-rule="evenodd"
+                                                    ></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-wrapper">
+                                        <label
+                                            for="vehicle-model"
+                                            class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1"
+                                            data-translate-key="carModel"
+                                            >Model</label
+                                        >
+                                        <div class="relative mt-1">
+                                            <input
+                                                type="text"
+                                                id="vehicle-model"
+                                                name="vehicle-model"
+                                                required
+                                                placeholder="e.g., F-150"
+                                                class="input-field block w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-slate-600 rounded-md shadow-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-300 dark:focus:ring-sky-500 focus:border-sky-300 dark:focus:border-sky-500 sm:text-sm"
+                                            />
+                                            <div
+                                                class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
+                                            >
+                                                <svg
+                                                    class="validation-icon icon-valid h-5 w-5"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                        clip-rule="evenodd"
+                                                    ></path>
+                                                </svg>
+                                                <svg
+                                                    class="validation-icon icon-invalid h-5 w-5"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fill-rule="evenodd"
+                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                                        clip-rule="evenodd"
+                                                    ></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8 text-center">
+                            <button
+                                type="button"
+                                id="next-btn"
+                                class="w-full cta-button inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                                >Next &rarr; Pick a Time</button
+                            >
+                            <p
+                                class="mt-2 text-xs text-gray-500 dark:text-slate-400"
+                                data-translate-key="ctaUrgency"
+                            >
+                                Exclusive Online Offer – Valid This Month Only
+                            </p>
+                        </div>
+                    </div>
+                    <div id="form-step-2" class="form-step hidden">
+                        <div class="space-y-8">
+                            <div>
+                                <h3
+                                    class="text-xl font-bold text-gray-900 dark:text-white mb-4"
+                                    data-translate-key="whenBringIn"
+                                >
+                                    When can you bring it in?
+                                </h3>
+                                <div
+                                    id="calendar-container"
+                                    class="bg-gray-100 dark:bg-white/5 p-6 rounded-lg shadow-lg w-full"
+                                >
+                                    <div
+                                        class="flex items-center justify-between mb-6"
+                                    >
+                                        <button
+                                            type="button"
+                                            id="prev-month-btn"
+                                            class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
+                                            ><i
+                                                data-lucide="chevron-left"
+                                                class="w-6 h-6 text-gray-500 dark:text-slate-400"
+                                            ></i></button
+                                        ><h3
+                                            id="month-year"
+                                            class="text-xl font-semibold text-gray-900 dark:text-white"
+                                        >
+                                        </h3><button
+                                            type="button"
+                                            id="next-month-btn"
+                                            class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
+                                            ><i
+                                                data-lucide="chevron-right"
+                                                class="w-6 h-6 text-gray-500 dark:text-slate-400"
+                                            ></i></button
+                                        >
+                                    </div>
+                                    <div
+                                        class="grid grid-cols-7 gap-1 text-center"
+                                        id="calendar-grid-header"
+                                    >
+                                    </div>
+                                    <div
+                                        class="grid grid-cols-7 gap-2 text-center mt-2"
+                                        id="calendar-grid-body"
+                                    >
+                                    </div>
+                                </div>
+                                <input type="hidden" id="date" name="date" />
+                                <div
+                                    id="time-slot-container"
+                                    class="mt-8 hidden"
+                                >
+                                    <h4
+                                        class="text-lg font-semibold text-gray-900 dark:text-white mb-4"
+                                        data-translate-key="availableTimes"
+                                    >
+                                        Available Times
+                                    </h4><div
+                                        id="time-slots"
+                                        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"
+                                    >
+                                    </div>
+                                </div>
+                                <input type="hidden" id="time" name="time" />
+                            </div>
+                            <div class="mt-8 text-center">
+                                <div
+                                    class="flex flex-col sm:flex-row items-center justify-between gap-4"
+                                >
+                                    <button
+                                        type="button"
+                                        id="back-btn"
+                                        class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-gray-600 dark:text-slate-300 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
+                                        >← Back</button
+                                    >
+                                    <button
+                                        type="submit"
+                                        id="submit-btn"
+                                        class="w-full sm:w-auto cta-button inline-flex items-center justify-center px-8 py-4 text-xl font-bold text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                                        data-translate-key="submitBtn"
+                                        >Book My Service</button
+                                    >
+                                </div>
+                                <p
+                                    class="mt-2 text-xs text-gray-500 dark:text-slate-400"
+                                    data-translate-key="ctaUrgency"
+                                >
+                                    Exclusive Online Offer – Valid This Month
+                                    Only
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script is:inline>
+    (function () {
+        // --- Form Props Extraction ---
+        const formWrapper = document.getElementById("book-appointment-form");
+        const WEBHOOK_URL = formWrapper.dataset.webhook;
+        const PROMO_CODE = formWrapper.dataset.promo;
+        const THANK_YOU_URL = formWrapper.dataset.thankyou;
+
+        const translations = {
+            en: {
+                step1Title: "Book",
+                step1Desc: "Book online to get your savings code.",
+                step2Title: "Show Up",
+                step2Desc: "Bring your car. We’ll handle the rest.",
+                step3Title: "Save",
+                step3Desc: "Show your code to apply your discount.",
+                formInstruction1:
+                    "Step 1 of 2 — Your contact and vehicle details.",
+                formInstruction2: "Step 2 of 2 — When can you bring it in?",
+                firstName: "First Name",
+                lastName: "Last Name",
+                email: "Email",
+                mobileNumber: "Mobile Number",
+                vehicleDetails: "Vehicle Details",
+                carYear: "Year",
+                carMake: "Make",
+                carModel: "Model",
+                noPaymentRequired:
+                    "No payment required — this just saves your spot.",
+                whenBringIn: "When can you bring it in?",
+                availableTimes: "Available Times",
+                submitBtn: "Book My Service",
+                ctaUrgency: "Exclusive Online Offer – Valid This Month Only",
+            },
+            es: {
+                step1Title: "Reserva",
+                step1Desc: "Reserva en línea para obtener tu código de ahorro.",
+                step2Title: "Visítanos",
+                step2Desc: "Trae tu auto. Nosotros nos encargamos.",
+                step3Title: "Ahorra",
+                step3Desc: "Muestra tu código para aplicar tu descuento.",
+                formInstruction1:
+                    "Paso 1 de 2 — Tus datos de contacto y del vehículo.",
+                formInstruction2: "Paso 2 de 2 — ¿Cuándo puedes traerlo?",
+                firstName: "Nombre",
+                lastName: "Apellido",
+                email: "Correo Electrónico",
+                mobileNumber: "Número de Celular",
+                vehicleDetails: "Detalles del Vehículo",
+                carYear: "Año",
+                carMake: "Marca",
+                carModel: "Modelo",
+                noPaymentRequired:
+                    "No se requiere pago — esto solo guarda tu lugar.",
+                whenBringIn: "¿Cuándo puedes traerlo?",
+                availableTimes: "Horas Disponibles",
+                submitBtn: "Reservar Mi Servicio",
+                ctaUrgency: "Oferta Exclusiva en Línea – Válida Solo Este Mes",
+            },
+        };
+
+        const form = document.getElementById("booking-form");
+        if (!form) return;
+
+        const step1 = document.getElementById("form-step-1");
+        const step2 = document.getElementById("form-step-2");
+        const formInstruction = document.getElementById("form-instruction");
+        const nextBtn = document.getElementById("next-btn");
+        const backBtn = document.getElementById("back-btn");
+        const submitBtn = document.getElementById("submit-btn");
+        let calendarDate = new Date();
+        const monthYearEl = document.getElementById("month-year");
+        const calendarGridHeader = document.getElementById(
+            "calendar-grid-header",
+        );
+        const calendarGridBody = document.getElementById("calendar-grid-body");
+        const hiddenDateInput = document.getElementById("date");
+        const hiddenTimeInput = document.getElementById("time");
+        const timeSlotContainer = document.getElementById(
+            "time-slot-container",
+        );
+        const timeSlotsEl = document.getElementById("time-slots");
+
+        if (typeof lucide !== "undefined") lucide.createIcons();
+
+        // --- Form Logic & Validation ---
+        const validationRules = {
+            "first-name": (value) => value.trim().length >= 2,
+            "last-name": (value) => value.trim().length >= 2,
+            email: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+            "mobile-number": (value) => value.replace(/\D/g, "").length >= 10,
+            "vehicle-make": (value) => value.trim().length >= 2,
+            "vehicle-model": (value) => value.trim().length >= 1,
+        };
+
+        const validateField = (inputEl) => {
+            const rule = validationRules[inputEl.id];
+            if (!rule) return;
+
+            const wrapper = inputEl.closest(".input-wrapper");
+            const isValid = rule(inputEl.value);
+
+            wrapper.classList.remove("is-valid", "is-invalid");
+            inputEl.classList.remove("is-valid", "is-invalid");
+
+            if (inputEl.value.trim() === "") return;
+
+            if (isValid) {
+                wrapper.classList.add("is-valid");
+                inputEl.classList.add("is-valid");
+            } else {
+                wrapper.classList.add("is-invalid");
+                inputEl.classList.add("is-invalid");
+            }
+        };
+
+        const step1Fields = [
+            "first-name",
+            "last-name",
+            "email",
+            "mobile-number",
+            "vehicle-year",
+            "vehicle-make",
+            "vehicle-model",
+        ];
+        const step2Fields = ["date", "time"];
+
+        const checkStep1Completion = () => {
+            if (nextBtn)
+                nextBtn.disabled = !step1Fields.every(
+                    (id) => document.getElementById(id)?.value.trim() !== "",
+                );
+        };
+        const checkStep2Completion = () => {
+            if (submitBtn)
+                submitBtn.disabled = !step2Fields.every(
+                    (id) => document.getElementById(id)?.value.trim() !== "",
+                );
+        };
+
+        step1Fields.forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener("input", () => {
+                    validateField(el);
+                    checkStep1Completion();
+                });
+            }
+        });
+
+        const smoothScrollToForm = () => {
+            const formElement = document.getElementById(
+                "form-container-wrapper",
+            );
+            const header = document.getElementById("site-header");
+            if (formElement) {
+                const headerHeight = header ? header.offsetHeight : 0;
+                const elementPosition =
+                    formElement.getBoundingClientRect().top +
+                    window.pageYOffset;
+                const offsetPosition = elementPosition - headerHeight - 20; // 20px buffer for spacing
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth",
+                });
+            }
+        };
+
+        if (nextBtn) {
+            nextBtn.addEventListener("click", () => {
+                step1.classList.add("hidden");
+                step2.classList.remove("hidden");
+                formInstruction.textContent =
+                    translations[
+                        localStorage.getItem("preferredLanguage") || "en"
+                    ].formInstruction2;
+                smoothScrollToForm();
+            });
+        }
+
+        if (backBtn) {
+            backBtn.addEventListener("click", () => {
+                step2.classList.add("hidden");
+                step1.classList.remove("hidden");
+                formInstruction.textContent =
+                    translations[
+                        localStorage.getItem("preferredLanguage") || "en"
+                    ].formInstruction1;
+                smoothScrollToForm();
+            });
+        }
+
+        // --- Calendar ---
+        function renderCalendar() {
+            if (!monthYearEl || !calendarGridHeader || !calendarGridBody)
+                return;
+            const month = calendarDate.getMonth();
+            const year = calendarDate.getFullYear();
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            const lang = localStorage.getItem("preferredLanguage") || "en";
+            const daysOfWeek =
+                lang === "es"
+                    ? ["D", "L", "M", "M", "J", "V", "S"]
+                    : ["S", "M", "T", "W", "T", "F", "S"];
+            monthYearEl.textContent = new Intl.DateTimeFormat(lang, {
+                month: "long",
+                year: "numeric",
+            }).format(calendarDate);
+            calendarGridHeader.innerHTML = daysOfWeek
+                .map(
+                    (day) =>
+                        `<div class="font-semibold text-slate-400 text-xs py-2 text-center">${day}</div>`,
+                )
+                .join("");
+            calendarGridBody.innerHTML = "";
+            const firstDayOfMonth = new Date(year, month, 1).getDay();
+            for (let i = 0; i < firstDayOfMonth; i++)
+                calendarGridBody.innerHTML += `<div></div>`;
+
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayDate = new Date(year, month, i);
+                let classes = "calendar-day";
+                const formattedDate = `${year}-${String(month + 1).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
+                if (dayDate < today || dayDate.getDay() === 0)
+                    classes += " disabled";
+                if (dayDate.getTime() === today.getTime()) classes += " today";
+                if (hiddenDateInput.value === formattedDate)
+                    classes += " selected";
+                calendarGridBody.innerHTML += `<div class="${classes}" data-date="${formattedDate}">${i}</div>`;
+            }
+        }
+
+        function renderTimeSlots() {
+            if (!timeSlotContainer || !timeSlotsEl) return;
+            timeSlotContainer.classList.remove("hidden");
+            timeSlotsEl.innerHTML = "";
+            const selectedDate = new Date(
+                hiddenDateInput.value.replace(/-/g, "/"),
+            );
+            const now = new Date();
+            const dayOfWeek = selectedDate.getDay();
+            let availableTimes =
+                dayOfWeek === 6
+                    ? [
+                          "08:00 AM",
+                          "08:30 AM",
+                          "09:00 AM",
+                          "09:30 AM",
+                          "10:00 AM",
+                          "10:30 AM",
+                          "11:00 AM",
+                          "11:30 AM",
+                          "12:00 PM",
+                          "12:30 PM",
+                          "01:00 PM",
+                          "01:30 PM",
+                      ]
+                    : [
+                          "08:00 AM",
+                          "08:30 AM",
+                          "09:00 AM",
+                          "09:30 AM",
+                          "10:00 AM",
+                          "10:30 AM",
+                          "11:00 AM",
+                          "11:30 AM",
+                          "12:00 PM",
+                          "12:30 PM",
+                          "02:00 PM",
+                          "02:30 PM",
+                          "03:00 PM",
+                          "03:30 PM",
+                      ];
+
+            let slotsAdded = 0;
+            availableTimes.forEach((time) => {
+                const [hourStr, minStr, period] = time
+                    .match(/(\d+):(\d+)\s(AM|PM)/)
+                    .slice(1);
+                let hours = parseInt(hourStr);
+                if (period === "PM" && hours < 12) hours += 12;
+                if (period === "AM" && hours === 12) hours = 0;
+
+                const timeSlotDate = new Date(selectedDate);
+                timeSlotDate.setHours(hours, parseInt(minStr), 0, 0);
+
+                if (timeSlotDate > now) {
+                    slotsAdded++;
+                    const timeSlotBtn = document.createElement("button");
+                    timeSlotBtn.type = "button";
+                    timeSlotBtn.textContent = time;
+                    timeSlotBtn.className =
+                        "time-slot p-2 border border-slate-600 rounded-md text-slate-200 transition-colors duration-200 hover:bg-slate-700";
+                    if (hiddenTimeInput.value === time)
+                        timeSlotBtn.classList.add("selected");
+                    timeSlotBtn.addEventListener("click", () => {
+                        document
+                            .querySelectorAll("#time-slots .time-slot")
+                            .forEach((btn) => btn.classList.remove("selected"));
+                        timeSlotBtn.classList.add("selected");
+                        hiddenTimeInput.value = time;
+                        checkStep2Completion();
+                    });
+                    timeSlotsEl.appendChild(timeSlotBtn);
+                }
+            });
+            if (slotsAdded === 0)
+                timeSlotsEl.innerHTML = `<p class="text-slate-400 col-span-full text-center">All appointment times for today have passed.</p>`;
+        }
+
+        if (calendarGridBody) {
+            calendarGridBody.addEventListener("click", (e) => {
+                const dayElement = e.target.closest(
+                    ".calendar-day:not(.disabled)",
+                );
+                if (dayElement) {
+                    document
+                        .querySelectorAll(".calendar-day")
+                        .forEach((day) => day.classList.remove("selected"));
+                    dayElement.classList.add("selected");
+                    hiddenDateInput.value = dayElement.dataset.date;
+                    hiddenTimeInput.value = "";
+                    checkStep2Completion();
+                    renderTimeSlots();
+                }
+            });
+        }
+
+        document
+            .getElementById("prev-month-btn")
+            ?.addEventListener("click", () => {
+                calendarDate.setMonth(calendarDate.getMonth() - 1);
+                renderCalendar();
+            });
+        document
+            .getElementById("next-month-btn")
+            ?.addEventListener("click", () => {
+                calendarDate.setMonth(calendarDate.getMonth() + 1);
+                renderCalendar();
+            });
+
+        const yearSelect = document.getElementById("vehicle-year");
+        const currentYear = new Date().getFullYear() + 1;
+        for (let year = currentYear; year >= 1980; year--) {
+            yearSelect?.appendChild(new Option(year, year.toString()));
+        }
+
+        form?.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span>Booking...</span>`;
+            }
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            const formattedPhone = `+1${(data["mobile-number"] || "").replace(/\D/g, "")}`;
+
+            const webhookData = {
+                ...data,
+                event_name: "generate_lead",
+                phone: formattedPhone,
+                userLanguage: localStorage.getItem("preferredLanguage") || "en",
+                pageVariant: "booking_form_component",
+                promo_code: PROMO_CODE,
+
+                first_name: data["first-name"],
+                last_name: data["last-name"],
+                carYear: data["vehicle-year"],
+                carMake: data["vehicle-make"],
+                carModel: data["vehicle-model"],
+            };
+
+            try {
+                const response = await fetch(WEBHOOK_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(webhookData),
+                });
+                if (response.ok) {
+                    const responseData = await response.json();
+                    if (responseData?.audioUrl)
+                        sessionStorage.setItem(
+                            "customAudioUrl",
+                            responseData.audioUrl,
+                        );
+                    if (responseData?.couponCode)
+                        sessionStorage.setItem(
+                            "userCouponCode",
+                            responseData.couponCode,
+                        );
+                }
+            } catch (error) {
+                console.error("Webhook Fetch Error:", error);
+            } finally {
+                const thankYouFullUrl = new URL(
+                    window.location.origin +
+                        THANK_YOU_URL +
+                        window.location.search,
+                );
+                for (const key in webhookData) {
+                    if (webhookData[key])
+                        thankYouFullUrl.searchParams.append(
+                            key,
+                            webhookData[key].toString(),
+                        );
+                }
+                window.location.href = thankYouFullUrl.toString();
+            }
+        });
+
+        renderCalendar();
+        checkStep1Completion();
+        checkStep2Completion();
+    })();
+</script>

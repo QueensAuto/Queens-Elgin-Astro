@@ -19,6 +19,8 @@ const {
   headerInverse = false,
   serviceData,
   faqData,
+  forceDarkTheme = false,
+  forceDarkHeader = false,
 } = Astro.props;
 
 // Use provided brand or default to mobile tires brand
@@ -70,8 +72,14 @@ const isServiceSubPage =
       faqData={faqData}
     />
     <ViewTransitions />
-    <script is:inline>
+    <script is:inline define:vars={{ forceDarkTheme }}>
       const applyTheme = () => {
+        if (forceDarkTheme) {
+          document.documentElement.classList.add("dark");
+          document.documentElement.setAttribute("data-theme", "dark");
+          return;
+        }
+
         if (
           localStorage.getItem("color-theme") === "dark" ||
           (!("color-theme" in localStorage) &&
@@ -103,13 +111,17 @@ const isServiceSubPage =
   </head>
   <body
     class="bg-page text-queens-primary flex flex-col min-h-screen w-full overflow-x-hidden dark:text-gray-100"
+    class:list={[{ "theme-locked-bg": forceDarkTheme }]}
   >
     <a href="#main-content" class="skip-to-content-link">Skip to main content</a
     >
 
     {
-      isServiceSubPage ? (
-        <ServicesHeader brand={brand} inverse={headerInverse} />
+      isServiceSubPage || forceDarkHeader ? (
+        <ServicesHeader
+          brand={brand}
+          inverse={headerInverse || forceDarkHeader}
+        />
       ) : (
         <Header brand={brand} inverse={headerInverse} />
       )
