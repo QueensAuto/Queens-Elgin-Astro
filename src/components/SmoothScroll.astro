@@ -16,8 +16,9 @@
 
     function initSmoothScroll() {
         // Firefox specific check - Firefox often has issues with wheel interception
-        const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-        
+        const isFirefox =
+            navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
+
         if (lenis) {
             lenis.destroy();
         }
@@ -31,17 +32,27 @@
         });
 
         // Sync ScrollTrigger with Lenis
-        lenis.on('scroll', ScrollTrigger.update);
+        lenis.on("scroll", ScrollTrigger.update);
+
+        // Expose Lenis on window for programmatic scrolling from other components
+        (window as any).lenis = lenis;
 
         gsap.ticker.lagSmoothing(0);
-        
+
         // Ensure ScrollTrigger uses the scroll container
         ScrollTrigger.scrollerProxy(document.body, {
             scrollTop(value) {
-                return arguments.length ? lenis?.scrollTo(value ?? 0) : lenis?.scroll;
+                return arguments.length
+                    ? lenis?.scrollTo(value ?? 0)
+                    : lenis?.scroll;
             },
             getBoundingClientRect() {
-                return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
+                return {
+                    top: 0,
+                    left: 0,
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                };
             },
         });
     }

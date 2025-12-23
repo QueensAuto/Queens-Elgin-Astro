@@ -1396,18 +1396,25 @@ const {
             const formElement = document.getElementById(
                 "form-container-wrapper",
             );
-            const header = document.getElementById("site-header");
             if (formElement) {
-                const headerHeight = header ? header.offsetHeight : 0;
-                const elementPosition =
-                    formElement.getBoundingClientRect().top +
-                    window.pageYOffset;
-                const offsetPosition = elementPosition - headerHeight - 20; // 20px buffer for spacing
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth",
-                });
+                // Check if Lenis is available on window (set by SmoothScroll component)
+                if (
+                    window.lenis &&
+                    typeof window.lenis.scrollTo === "function"
+                ) {
+                    window.lenis.scrollTo(formElement, {
+                        offset: -80, // Account for header
+                        duration: 1.2,
+                        easing: (t) =>
+                            Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Smooth easing
+                    });
+                } else {
+                    // Fallback to native smooth scroll
+                    formElement.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                    });
+                }
             }
         };
 
@@ -1480,7 +1487,10 @@ const {
                         "Step 1 of 3 — Your contact and vehicle details.";
                 }
                 updateProgressStepper(1);
-                smoothScrollToForm();
+                // Use requestAnimationFrame for proper timing with DOM update
+                requestAnimationFrame(() => {
+                    setTimeout(() => smoothScrollToForm(), 100);
+                });
             });
         }
 
