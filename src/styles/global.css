@@ -1409,7 +1409,7 @@ details.group>div:where(.dark, .dark *) {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    cursor: pointer !important;
+    cursor: default !important;
     transition: border-color 0.3s ease, background-color 0.3s ease !important;
 }
 
@@ -1444,6 +1444,7 @@ details.group>div:where(.dark, .dark *) {
 .progress-steps .step.completed {
     border-color: var(--color-queens-secondary, #0a79c8) !important;
     background-color: var(--color-queens-secondary, #0a79c8) !important;
+    cursor: pointer !important;
 }
 
 .progress-steps .step.completed span {

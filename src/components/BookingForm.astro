@@ -270,9 +270,9 @@ const {
         color: #e2e8f0 !important;
     }
 
-    /* Keep input background solid in light mode */
+    /* Keep input background solid in light mode - slightly darker on focus */
     .input-wrapper .relative:focus-within .input-field {
-        background-color: #f9fafb !important;
+        background-color: #e5e7eb !important; /* gray-200 for visible focus state */
         background-image: none !important;
         color: #1f2937 !important;
     }
@@ -1304,6 +1304,59 @@ const {
 
         // Initialize stepper to step 1
         updateProgressStepper(1);
+
+        // --- Stepper Click Navigation ---
+        // Track current step for stepper navigation
+        let currentFormStep = 1;
+
+        // Function to navigate to a specific step
+        const navigateToStep = (targetStep) => {
+            // Hide all steps
+            step1.classList.add("hidden");
+            step2.classList.add("hidden");
+            step3.classList.add("hidden");
+
+            // Show target step
+            if (targetStep === 1) {
+                step1.classList.remove("hidden");
+                if (formInstruction) {
+                    formInstruction.textContent =
+                        formWrapper.dataset.step1desc ||
+                        "Step 1 of 3 — Your contact and vehicle details.";
+                }
+            } else if (targetStep === 2) {
+                step2.classList.remove("hidden");
+                if (formInstruction) {
+                    formInstruction.textContent =
+                        formWrapper.dataset.step2desc ||
+                        "Step 2 of 3 — What service does your vehicle need?";
+                }
+            } else if (targetStep === 3) {
+                step3.classList.remove("hidden");
+                if (formInstruction) {
+                    formInstruction.textContent =
+                        formWrapper.dataset.step3desc ||
+                        "Step 3 of 3 — When can you bring it in?";
+                }
+            }
+
+            currentFormStep = targetStep;
+            updateProgressStepper(targetStep);
+            requestAnimationFrame(() => {
+                setTimeout(() => smoothScrollToForm(), 100);
+            });
+        };
+
+        // Add click handlers to stepper circles
+        stepElements.forEach((stepEl, index) => {
+            const stepNum = index + 1;
+            stepEl.addEventListener("click", () => {
+                // Only allow clicking on completed steps (navigate back)
+                if (stepEl.classList.contains("completed")) {
+                    navigateToStep(stepNum);
+                }
+            });
+        });
         const submitBtn = document.getElementById("submit-btn");
         let calendarDate = new Date();
         const monthYearEl = document.getElementById("month-year");
