@@ -461,16 +461,18 @@ p:last-child {
     margin-bottom: 0;
 }
 
-/* Add spacing around headings globally for body content flow */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    margin-top: 2.5rem;
-    margin-bottom: 1.25rem;
-    line-height: 1.2;
+@layer base {
+    /* Add spacing around headings globally for body content flow */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin-top: 2.5rem;
+        margin-bottom: 1.25rem;
+        line-height: 1.2;
+    }
 }
 
 /* Prevent double spacing at top of containers */
