@@ -370,7 +370,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             localStorage.setItem('jobDetails', JSON.stringify(payload));
 
             try {
-              await fetch('https://n8n.queensautoservices.com/webhook-test/31e8c289-45f1-44f0-abbf-2b47f4bafb69', {
+              await fetch('https://n8n.queensautoservices.com/webhook/31e8c289-45f1-44f0-abbf-2b47f4bafb69', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
