@@ -112,9 +112,15 @@ import CtaButton from "./CtaButton.astro";
 
         background: var(--section-bg);
         overflow: hidden;
-        margin-bottom: -35vh; /* Pulls the section below up into this one */
+        margin-bottom: 0; 
         position: relative;
         z-index: 10;
+    }
+
+    @media (min-width: 1024px) {
+        .process-section {
+            margin-bottom: -35vh; /* Pulls the section below up into this one on desktop */
+        }
     }
 
     :global(.dark) .process-section {

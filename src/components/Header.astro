@@ -15,17 +15,17 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
 
 <div
   id="header-wrapper"
-  class="fixed top-0 left-0 right-0 z-50 flex justify-center md:pt-6 md:px-4 pointer-events-none transition-transform duration-300"
+  class="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-4 pointer-events-none transition-transform duration-300"
 >
   <header
     id="main-nav"
     class={`pointer-events-auto relative tracking-tight flex items-center justify-between w-full transition-all duration-500
-    /* Mobile Styles */
-    px-6 py-4 bg-white/0 dark:bg-slate-900/0 border-b border-transparent
-    /* Desktop Styles */
-    md:rounded-full md:px-6 md:py-3 md:shadow-[0_8px_30px_rgb(0,0,0,0.04)] md:dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] md:border md:border-white/20 md:dark:border-white/10 md:max-w-6xl
+    /* Mobile/Universal Pill Styles */
+    px-6 py-3 bg-white/80 dark:bg-[#141517]/80 backdrop-blur-lg rounded-full shadow-lg border border-gray-100 dark:border-gray-800
+    /* Desktop Sizing */
+    md:px-6 md:py-3 md:max-w-6xl
     ${brand.logoPathWhite || "text-white"} 
-    ${"md:bg-white md:dark:bg-[#141517] md:shadow-sm md:border md:border-gray-100 md:dark:border-gray-800 transition-colors duration-300"}`}
+    transition-colors duration-300`}
   >
     <!-- Logo -->
     <a
@@ -109,7 +109,7 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
     <div class="flex items-center gap-3 ml-auto md:ml-0 pl-0 md:pl-0">
       <ThemeToggle inverse={inverse} />
 
-      <div class="hidden md:block">
+      <div class="hidden lg:block">
         <CtaButton href="/request-an-appointment" text="Book Appointment" />
       </div>
 

@@ -15,17 +15,17 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
 
 <div
   id="header-wrapper-services"
-  class="fixed top-0 left-0 right-0 z-50 flex justify-center md:pt-6 md:px-4 pointer-events-none transition-transform duration-300"
+  class="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-4 pointer-events-none transition-transform duration-300"
 >
   <header
     id="main-nav-services"
     class={`pointer-events-auto relative tracking-tight flex items-center justify-between w-full transition-all duration-500
-    /* Mobile Styles */
-    px-6 py-4 bg-transparent border-none
-    /* Desktop Styles */
-    md:rounded-full md:px-6 md:py-3 md:shadow-[0_8px_30px_rgb(0,0,0,0.3)] md:border md:border-white/10 md:max-w-6xl
+    /* Mobile/Universal Pill Styles */
+    px-6 py-3 bg-black/60 backdrop-blur-lg rounded-full shadow-lg border border-white/10
+    /* Desktop Sizing */
+    md:px-6 md:py-3 md:max-w-6xl
     text-white 
-    md:bg-black/60 md:backdrop-blur-md transition-colors duration-300`}
+    transition-colors duration-300`}
   >
     <!-- Logo -->
     <a
@@ -95,7 +95,7 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
     <div class="flex items-center gap-3 ml-auto md:ml-0 pl-0 md:pl-0">
       <ThemeToggle inverse={true} />
 
-      <div class="hidden md:block">
+      <div class="hidden lg:block">
         <CtaButton href="/request-an-appointment" text="Book Appointment" />
       </div>
 
