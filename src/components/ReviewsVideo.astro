@@ -23,7 +23,7 @@ const visibleCount = 2; // Number of cards visible at a time
 ---
 
 <section
-    class="rv-section pb-24 lg:pb-32 px-6 relative"
+    class="rv-section px-6 relative"
     data-visible-count={visibleCount}
     data-total-count={reviewCount}
 >
@@ -122,14 +122,14 @@ const visibleCount = 2; // Number of cards visible at a time
                                     Vanessa Roberts
                                 </div>
                                 <div
-                                    class="text-xs text-white/70 uppercase tracking-widest font-semibold"
+                                    class="text-xs text-white/90 uppercase tracking-widest font-semibold"
                                 >
                                     Elgin, IL
                                 </div>
                             </div>
                         </div>
                         <p
-                            class="text-sm text-white/90 italic leading-relaxed max-w-xs"
+                            class="text-sm text-white italic leading-relaxed max-w-xs"
                         >
                             "The fastest service I've ever had in Elgin. They
                             really care about their customers."
@@ -218,8 +218,8 @@ const visibleCount = 2; // Number of cards visible at a time
                                                 <div class="rv-name font-bold text-base">
                                                     {review.name}
                                                 </div>
-                                                <div class="rv-role text-xs uppercase tracking-widest font-semibold opacity-60">
-                                                    {review.role}
+                                                <div class="rv-role text-[10px] font-bold uppercase tracking-widest opacity-80">
+                                                    Verified Customer
                                                 </div>
                                             </div>
                                             <div class="ml-auto">
@@ -263,13 +263,15 @@ const visibleCount = 2; // Number of cards visible at a time
     /* Light mode defaults */
     .rv-section {
         background-color: #f5f5f5;
-        padding-top: 6rem; /* Reduced from excessive padding - no sticky section above */
-        isolation: isolate; /* Ensures proper stacking context */
+        padding-top: 2rem; /* Significantly reduced for mobile */
+        padding-bottom: 2rem;
+        isolation: isolate;
     }
 
     @media (min-width: 1024px) {
         .rv-section {
-            padding-top: 8rem; /* Normal spacing for desktop */
+            padding-top: 8rem;
+            padding-bottom: 8rem;
         }
     }
 
