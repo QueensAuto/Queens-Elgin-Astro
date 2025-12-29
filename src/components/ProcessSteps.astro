@@ -112,14 +112,14 @@ import CtaButton from "./CtaButton.astro";
 
         background: var(--section-bg);
         overflow: hidden;
-        margin-bottom: 0; 
+        margin-bottom: 0;
         position: relative;
         z-index: 10;
     }
 
     @media (min-width: 1024px) {
         .process-section {
-            margin-bottom: -35vh; /* Pulls the section below up into this one on desktop */
+            margin-bottom: 0; /* Removed negative margin that caused overlaps */
         }
     }
 
@@ -142,9 +142,12 @@ import CtaButton from "./CtaButton.astro";
         padding: 6rem 1.5rem;
     }
 
-    /* Left Column - GSAP will pin this */
+    /* Left Column - CSS Sticky */
     .process-left {
         height: fit-content;
+        position: sticky;
+        top: 120px;
+        z-index: 2;
     }
 
     .process-title {
@@ -174,13 +177,16 @@ import CtaButton from "./CtaButton.astro";
         }
     }
 
-    /* Middle: Progress Track - GSAP will pin this */
+    /* Middle: Progress Track - CSS Sticky */
     .progress-track {
         height: fit-content;
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 2rem;
+        position: sticky;
+        top: 120px;
+        z-index: 2;
         visibility: hidden; /* Hide until GSAP is ready */
     }
 
@@ -432,25 +438,7 @@ import CtaButton from "./CtaButton.astro";
             // 2. Set initial progress fill height
             gsap.set(progressFill, { height: "25%" });
 
-            // 3. Pin the left column
-            ScrollTrigger.create({
-                trigger: leftCol,
-                start: "top 120px",
-                endTrigger: rightCol,
-                end: "bottom bottom",
-                pin: true,
-                pinSpacing: false,
-            });
-
-            // 4. Pin the progress track
-            ScrollTrigger.create({
-                trigger: progressTrack,
-                start: "top 120px",
-                endTrigger: rightCol,
-                end: "bottom bottom",
-                pin: true,
-                pinSpacing: false,
-            });
+            /* Pinned logic removed - replaced with CSS sticky for better stability */
 
             // 5. Update active card based on scroll
             cards.forEach((card, index) => {
