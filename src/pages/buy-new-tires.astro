@@ -106,7 +106,8 @@ import CtaButton from "../components/CtaButton.astro";
       </div>
 
       <div class="search-anim w-full">
-        <div class="tire-widget-wrapper p-0">
+        <!-- Force light mode on third-party widget to prevent dark text on dark bg -->
+        <div class="tire-widget-wrapper theme-light p-4 md:p-6 rounded-2xl">
           <!-- TireFlow Widget -->
           <script
             is:inline
@@ -386,6 +387,37 @@ import CtaButton from "../components/CtaButton.astro";
       rgba(255, 255, 255, 0.02) 0%,
       rgba(255, 255, 255, 0.05) 100%
     );
+  }
+
+  /* Force light mode on third-party TireFlow widget */
+  .tire-widget-wrapper {
+    background-color: #ffffff !important;
+    color: #0b1121 !important;
+  }
+
+  .tire-widget-wrapper * {
+    color: inherit;
+  }
+
+  /* Override any dark mode form input styles for the widget */
+  :global(.dark) .tire-widget-wrapper input,
+  :global(.dark) .tire-widget-wrapper select,
+  :global(.dark) .tire-widget-wrapper textarea,
+  :global(.dark) .tire-widget-wrapper option {
+    background-color: #ffffff !important;
+    color: #0b1121 !important;
+    border-color: #e5e7eb !important;
+  }
+
+  :global(.dark) .tire-widget-wrapper button {
+    color: inherit;
+  }
+
+  :global(.dark) .tire-widget-wrapper label,
+  :global(.dark) .tire-widget-wrapper span,
+  :global(.dark) .tire-widget-wrapper p,
+  :global(.dark) .tire-widget-wrapper div {
+    color: #0b1121 !important;
   }
 
   .process-cards-wrapper {
