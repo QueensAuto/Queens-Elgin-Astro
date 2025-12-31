@@ -2,6 +2,7 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { mobileTiresBrand } from "../../../brands";
 import servicesData from "../../../data/services.json";
+import FlowFieldCTA from "../../../components/FlowFieldCTA.astro";
 
 export async function getStaticPaths() {
     return servicesData.map((category) => ({
@@ -89,4 +90,7 @@ const description = category.description;
             </a>
         </div>
     </div>
+
+    <!-- Orbital Energy Turbine CTA -->
+    <FlowFieldCTA />
 </BaseLayout>
