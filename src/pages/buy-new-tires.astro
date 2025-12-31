@@ -97,17 +97,20 @@ import CtaButton from "../components/CtaButton.astro";
   </section>
 
   <!-- Tire Search Section -->
-  <section id="tire-search" class="tire-search-section py-16 md:py-24">
+  <section
+    id="tire-search"
+    class="tire-search-section theme-light py-16 md:py-24"
+  >
     <div class="px-4 md:px-8">
       <div class="text-center mb-12">
-        <h2 class="display-md text-queens-primary dark:text-white mb-4">
+        <h2 class="display-md text-queens-primary mb-4">
           Search by Brand<br />or Tire Size
         </h2>
       </div>
 
       <div class="search-anim w-full">
         <!-- Force light mode on third-party widget to prevent dark text on dark bg -->
-        <div class="tire-widget-wrapper theme-light p-4 md:p-6 rounded-2xl">
+        <div class="tire-widget-wrapper">
           <!-- TireFlow Widget -->
           <script
             is:inline
@@ -378,46 +381,17 @@ import CtaButton from "../components/CtaButton.astro";
   }
 
   .tire-search-section {
-    background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+    background: #f9fafc;
   }
 
+  /* Force light mode on section even in dark mode */
   :global(.dark) .tire-search-section {
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.02) 0%,
-      rgba(255, 255, 255, 0.05) 100%
-    );
+    background: #f9fafc;
   }
 
-  /* Force light mode on third-party TireFlow widget */
+  /* Widget wrapper - no shadows or borders */
   .tire-widget-wrapper {
-    background-color: #ffffff !important;
-    color: #0b1121 !important;
-  }
-
-  .tire-widget-wrapper * {
-    color: inherit;
-  }
-
-  /* Override any dark mode form input styles for the widget */
-  :global(.dark) .tire-widget-wrapper input,
-  :global(.dark) .tire-widget-wrapper select,
-  :global(.dark) .tire-widget-wrapper textarea,
-  :global(.dark) .tire-widget-wrapper option {
-    background-color: #ffffff !important;
-    color: #0b1121 !important;
-    border-color: #e5e7eb !important;
-  }
-
-  :global(.dark) .tire-widget-wrapper button {
-    color: inherit;
-  }
-
-  :global(.dark) .tire-widget-wrapper label,
-  :global(.dark) .tire-widget-wrapper span,
-  :global(.dark) .tire-widget-wrapper p,
-  :global(.dark) .tire-widget-wrapper div {
-    color: #0b1121 !important;
+    background-color: transparent;
   }
 
   .process-cards-wrapper {
