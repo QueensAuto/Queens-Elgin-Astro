@@ -1,0 +1,291 @@
+---
+import CtaButtonSecondary from "./CtaButtonSecondary.astro";
+---
+
+<section
+    class="relative w-full bg-black overflow-hidden py-32 flex flex-col items-center justify-center text-center"
+>
+    <!-- Background Canvas -->
+    <canvas
+        id="flowfield-canvas"
+        class="absolute inset-0 w-full h-full opacity-60"></canvas>
+
+    <!-- Gradient Overlay for legibility -->
+    <div
+        class="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/10 pointer-events-none"
+    >
+    </div>
+
+    <!-- Content Container -->
+    <div class="relative z-20 max-w-4xl px-6 lg:px-8">
+        <h2
+            class="display-xl text-white mb-6 uppercase italic font-black tracking-tighter"
+        >
+            Fast & Reliable <span class="text-queens-secondary">Service</span>
+        </h2>
+        <p
+            class="text-white/80 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-medium"
+        >
+            Don't let car troubles slow you down. We bring expert tire and auto
+            repair directly to you, getting you back on the road in record time.
+        </p>
+        <div class="flex justify-center">
+            <CtaButtonSecondary
+                href="/request-an-appointment"
+                text="Schedule Now"
+                class="!bg-white !text-gray-900 hover:!bg-gray-100 shadow-2xl"
+            />
+        </div>
+    </div>
+</section>
+
+<style>
+    .display-xl {
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 8vw, 6rem);
+        line-height: 0.9;
+    }
+</style>
+
+<script>
+    // Simplified Perlin Noise Implementation (Noise.js style)
+    class Noise {
+        p: Uint8Array;
+        permutation: Uint8Array;
+        constructor(seed = Math.random()) {
+            this.p = new Uint8Array(256);
+            this.permutation = new Uint8Array(512);
+            this.seed(seed);
+        }
+
+        seed(seed: number) {
+            for (let i = 0; i < 256; i++) this.p[i] = i;
+            // Shuffle
+            for (let i = 255; i > 0; i--) {
+                const r = Math.floor(seed * (i + 1));
+                const tmp = this.p[i];
+                this.p[i] = this.p[r];
+                this.p[r] = tmp;
+            }
+            for (let i = 0; i < 512; i++) this.permutation[i] = this.p[i & 255];
+        }
+
+        fade(t: number) {
+            return t * t * t * (t * (t * 6 - 15) + 10);
+        }
+        lerp(t: number, a: number, b: number) {
+            return a + t * (b - a);
+        }
+        grad(hash: number, x: number, y: number, z: number) {
+            const h = hash & 15;
+            const u = h < 8 ? x : y;
+            const v = h < 4 ? y : h === 12 || h === 14 ? x : z;
+            return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v);
+        }
+
+        perlin3(x: number, y: number, z: number) {
+            const X = Math.floor(x) & 255;
+            const Y = Math.floor(y) & 255;
+            const Z = Math.floor(z) & 255;
+            x -= Math.floor(x);
+            y -= Math.floor(y);
+            z -= Math.floor(z);
+            const u = this.fade(x);
+            const v = this.fade(y);
+            const w = this.fade(z);
+            const A = this.permutation[X] + Y,
+                AA = this.permutation[A] + Z,
+                AB = this.permutation[A + 1] + Z;
+            const B = this.permutation[X + 1] + Y,
+                BA = this.permutation[B] + Z,
+                BB = this.permutation[B + 1] + Z;
+
+            return this.lerp(
+                w,
+                this.lerp(
+                    v,
+                    this.lerp(
+                        u,
+                        this.grad(this.permutation[AA], x, y, z),
+                        this.grad(this.permutation[BA], x - 1, y, z),
+                    ),
+                    this.lerp(
+                        u,
+                        this.grad(this.permutation[AB], x, y - 1, z),
+                        this.grad(this.permutation[BB], x - 1, y - 1, z),
+                    ),
+                ),
+                this.lerp(
+                    v,
+                    this.lerp(
+                        u,
+                        this.grad(this.permutation[AA + 1], x, y, z - 1),
+                        this.grad(this.permutation[BA + 1], x - 1, y, z - 1),
+                    ),
+                    this.lerp(
+                        u,
+                        this.grad(this.permutation[AB + 1], x, y - 1, z - 1),
+                        this.grad(
+                            this.permutation[BB + 1],
+                            x - 1,
+                            y - 1,
+                            z - 1,
+                        ),
+                    ),
+                ),
+            );
+        }
+    }
+
+    function initFlowField() {
+        const section = document.querySelector("section.relative.bg-black");
+        const canvas = document.getElementById(
+            "flowfield-canvas",
+        ) as HTMLCanvasElement;
+        if (!canvas || !section) return;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+
+        const noise = new Noise(Math.random());
+        const PI2 = Math.PI * 2;
+        const FF = PI2 / 8;
+
+        let width: number,
+            height: number,
+            widthHalf: number,
+            heightHalf: number;
+        let phase = 0;
+        let trails: any[] = [];
+        const trailWidth = 1.5;
+
+        const getAngle = () => {
+            const angle = PI2 * Math.random();
+            return angle - (angle % FF);
+        };
+
+        const createExplosion = () => {
+            trails = [];
+            let num = 350; // Increased for a more dramatic explosion
+            while (num--) {
+                // Start everything from the center
+                trails.push({
+                    dead: false,
+                    x: widthHalf,
+                    y: heightHalf,
+                    width: trailWidth,
+                    vel: 2 + Math.random() * 4, // Faster initial speed for explosion
+                    angle: PI2 * Math.random(),
+                });
+            }
+        };
+
+        const reset = (isExplosion = false) => {
+            const container = canvas.parentElement;
+            if (!container) return;
+            width = container.clientWidth;
+            height = container.clientHeight;
+            widthHalf = width * 0.5;
+            heightHalf = height * 0.5;
+
+            canvas.width = width;
+            canvas.height = height;
+
+            if (isExplosion) {
+                createExplosion();
+            } else {
+                // Initial fill if not exploded yet
+                trails = [];
+                let num = 250;
+                while (num--) {
+                    trails.push({
+                        dead: false,
+                        x: Math.random() * width,
+                        y: Math.random() * height,
+                        width: trailWidth,
+                        vel: 0.5 + Math.random() * 1.5,
+                        angle: getAngle(),
+                    });
+                }
+            }
+        };
+
+        const update = (trail: any, right: number, bottom: number) => {
+            const shouldChange = Math.random() > 0.97;
+            const incAngle = Math.random() > 0.5;
+
+            if (trail.x < 0) trail.x = right;
+            else if (trail.x > right) trail.x = 0;
+
+            if (trail.y < 0) trail.y = bottom;
+            else if (trail.y > bottom) trail.y = 0;
+
+            if (shouldChange) {
+                if (incAngle) trail.angle += FF;
+                else trail.angle -= FF;
+            }
+        };
+
+        const render = (
+            trail: any,
+            ctx: CanvasRenderingContext2D,
+            phase: number,
+        ) => {
+            const { x, y, vel, angle } = trail;
+            const scale = 0.0006;
+            const n = noise.perlin3(x * scale, y * scale, phase);
+
+            const h = 205 + 25 * n;
+            const s = 80 + 20 * n;
+            const l = 50 + 10 * n;
+
+            ctx.beginPath();
+            ctx.lineWidth = trail.width;
+            ctx.strokeStyle = `hsla(${h}, ${s}%, ${l}%, 0.5)`;
+
+            ctx.moveTo(trail.x, trail.y);
+
+            trail.x += Math.cos(angle) * vel;
+            trail.y += Math.sin(angle) * vel;
+
+            ctx.lineTo(trail.x, trail.y);
+            ctx.stroke();
+            ctx.closePath();
+        };
+
+        const clear = () => {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, width, height);
+        };
+
+        function loop() {
+            clear();
+            trails.forEach((t) => {
+                update(t, width, height);
+                render(t, ctx, phase);
+            });
+            phase += 0.003;
+            requestAnimationFrame(loop);
+        }
+
+        // --- Viewport Observer for Explosion ---
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        reset(true); // Trigger explosion
+                    }
+                });
+            },
+            { threshold: 0.2 },
+        );
+
+        observer.observe(section);
+
+        reset(false);
+        loop();
+
+        window.addEventListener("resize", () => reset(false));
+    }
+
+    document.addEventListener("astro:page-load", initFlowField);
+</script>

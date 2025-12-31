@@ -5,7 +5,7 @@ import servicesData from "../../../data/services.json";
 import SmoothReveal from "../../../components/SmoothReveal.astro";
 import CtaButton from "../../../components/CtaButton.astro";
 import CtaButtonSecondary from "../../../components/CtaButtonSecondary.astro";
-import SpeedometerCTA from "../../../components/SpeedometerCTA.astro";
+import FlowFieldCTA from "../../../components/FlowFieldCTA.astro";
 import FaqAccordion from "../../../components/FaqAccordion.astro";
 
 import { marked } from "marked";
@@ -339,134 +339,11 @@ const serviceFaqs = [
             </div>
         </div>
     </div>
-
-    <!-- CTA Section with CSS-Only Scroll Reveal (Kevin Powell technique) -->
-    <!-- CTA Section with Speedometer Visual -->
-    <SpeedometerCTA />
+    <!-- CTA Section with Perlin Noise Flow Field Visual -->
+    <FlowFieldCTA />
 
     <!-- Include the SmoothReveal animation system -->
     <SmoothReveal />
-
-    <!-- JavaScript Scroll-Driven Animation (works in all browsers) -->
-    <script is:inline>
-        (function () {
-            function initScrollReveal() {
-                var section = document.querySelector(".scroll-reveal");
-                if (!section || section.getAttribute("data-scroll-init"))
-                    return;
-                section.setAttribute("data-scroll-init", "true");
-
-                var spans = section.querySelectorAll("span");
-                var button = section.querySelector(".cta-button-reveal");
-
-                function updateOnScroll() {
-                    var rect = section.getBoundingClientRect();
-                    var windowHeight = window.innerHeight;
-
-                    // Calculate progress (0 to 1) based on element position
-                    // Start when top is at 80% of viewport, end when top is at 20%
-                    var start = windowHeight * 0.8;
-                    var end = windowHeight * 0.2;
-                    var progress = (start - rect.top) / (start - end);
-                    progress = Math.min(1, Math.max(0, progress));
-
-                    // Update each span's background-size
-                    spans.forEach(function (span, index) {
-                        // Stagger: each span starts slightly later
-                        var staggeredProgress = (progress - index * 0.1) / 0.6;
-                        staggeredProgress = Math.min(
-                            1,
-                            Math.max(0, staggeredProgress),
-                        );
-                        var size = staggeredProgress * 100;
-                        span.style.backgroundSize = size + "% 100%";
-                    });
-
-                    // Fade in button
-                    if (button) {
-                        var buttonProgress = (progress - 0.4) / 0.4;
-                        buttonProgress = Math.min(
-                            1,
-                            Math.max(0, buttonProgress),
-                        );
-                        button.style.opacity = buttonProgress;
-                        button.style.transform =
-                            "translateY(" + (20 - buttonProgress * 20) + "px)";
-                    }
-                }
-
-                // Listen to scroll
-                window.addEventListener("scroll", updateOnScroll, {
-                    passive: true,
-                });
-                // Initial call
-                updateOnScroll();
-            }
-
-            // Run on page load and View Transitions
-            document.addEventListener("astro:page-load", initScrollReveal);
-
-            if (document.readyState === "loading") {
-                document.addEventListener("DOMContentLoaded", initScrollReveal);
-            } else {
-                initScrollReveal();
-            }
-        })();
-    </script>
-
-    <style>
-        /* CSS-Only Scroll Reveal Theme Variables */
-        .scroll-reveal {
-            /* Light Mode Default */
-            --reveal-text-dim: hsl(0 0% 50% / 0.25); /* Faint Gray */
-            --reveal-text-bright: #111827; /* Deep Black */
-        }
-
-        /* 
-           Use :global(.dark) because the .dark class is on the <html> element, 
-           outside this component's scope. 
-        */
-        :global(.dark) .scroll-reveal {
-            /* Dark Mode Inverse */
-            --reveal-text-dim: hsl(
-                0 0% 100% / 0.4
-            ); /* Soft White/Gray (Increased visibility) */
-            --reveal-text-bright: #ffffff; /* Pure White */
-        }
-
-        /* Scroll Reveal Effect */
-        .scroll-reveal span {
-            /* Unrevealed state (Dim) */
-            color: var(--reveal-text-dim);
-
-            /* Revealed state (Bright) applied via background gradient */
-            background-image: linear-gradient(
-                90deg,
-                var(--reveal-text-bright),
-                var(--reveal-text-bright)
-            );
-
-            /* Clip background to text shape */
-            background-clip: text;
-            -webkit-background-clip: text;
-
-            /* Initial state - hidden reveal */
-            background-repeat: no-repeat;
-            background-size: 0% 100%;
-
-            /* Smooth transition */
-            transition: background-size 0.1s ease-out;
-        }
-
-        /* CTA button initial state */
-        .cta-button-reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition:
-                opacity 0.1s ease-out,
-                transform 0.1s ease-out;
-        }
-    </style>
 
     <style>
         /* Hero animations - smooth, premium entrance */
