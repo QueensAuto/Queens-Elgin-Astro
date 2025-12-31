@@ -98,17 +98,15 @@ import CtaButton from "../components/CtaButton.astro";
 
   <!-- Tire Search Section -->
   <section id="tire-search" class="tire-search-section py-16 md:py-24">
-    <div class="site-canvas">
+    <div class="px-4 md:px-8">
       <div class="text-center mb-12">
         <h2 class="display-md text-queens-primary dark:text-white mb-4">
           Search by Brand<br />or Tire Size
         </h2>
       </div>
 
-      <div class="max-w-xl mx-auto search-anim">
-        <div
-          class="tire-widget-wrapper bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-6 md:p-8 border border-gray-100 dark:border-white/10"
-        >
+      <div class="search-anim w-full">
+        <div class="tire-widget-wrapper p-0">
           <!-- TireFlow Widget -->
           <script
             is:inline
@@ -388,12 +386,6 @@ import CtaButton from "../components/CtaButton.astro";
       rgba(255, 255, 255, 0.02) 0%,
       rgba(255, 255, 255, 0.05) 100%
     );
-  }
-
-  .tire-widget-wrapper {
-    box-shadow:
-      0 25px 50px -12px rgba(0, 0, 0, 0.15),
-      0 0 0 1px rgba(0, 0, 0, 0.05);
   }
 
   .process-cards-wrapper {
