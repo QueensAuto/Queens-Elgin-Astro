@@ -1,0 +1,129 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { mobileTiresBrand } from "../brands";
+import servicesData from "../data/services.json";
+
+const title = "Sitemap | Queens Auto Service";
+const description =
+    "Complete site map for Queens Auto Service in Elgin, IL. Quickly find our services, deals, and company information.";
+
+const mainLinks = [
+    { title: "Home", href: "/" },
+    { title: "Services", href: "/services/" },
+    { title: "Shop New Tires", href: "/buy-new-tires/" },
+    { title: "Used Tires", href: "/used-tires/" },
+    { title: "Tire Installation", href: "/tire-installation/" },
+    { title: "Current Deals", href: "/deals/" },
+    { title: "About Us", href: "/about/" },
+    { title: "Contact Us", href: "/contact/" },
+    { title: "Book Appointment", href: "/request-an-appointment/" },
+];
+
+const legalLinks = [
+    { title: "Privacy Policy", href: "/privacy/" },
+    { title: "Terms of Service", href: "/terms/" },
+];
+---
+
+<BaseLayout brand={mobileTiresBrand} title={title} description={description}>
+    <div class="site-canvas pt-32 pb-24 sm:pt-48 sm:pb-32">
+        <div class="mb-16 md:mb-24">
+            <h1
+                class="text-6xl md:text-8xl font-black text-queens-primary dark:text-white uppercase mb-6 tracking-tighter leading-[0.9]"
+            >
+                Site <span class="text-queens-secondary">Map</span>
+            </h1>
+            <p
+                class="text-xl md:text-2xl text-gray-500 dark:text-gray-400 italic font-medium max-w-4xl leading-relaxed"
+            >
+                A complete directory of everything we offer at Queens Auto
+                Service.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+            <!-- Main Navigation -->
+            <section>
+                <h2
+                    class="text-2xl font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-8 border-b border-queens-secondary/20 pb-4"
+                >
+                    Main Pages
+                </h2>
+                <ul class="space-y-4">
+                    {
+                        mainLinks.map((link) => (
+                            <li>
+                                <a
+                                    href={link.href}
+                                    class="text-lg text-gray-600 dark:text-gray-300 hover:text-queens-secondary transition-colors font-medium"
+                                >
+                                    {link.title}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
+
+            <!-- Services by Category -->
+            <section class="lg:col-span-2">
+                <h2
+                    class="text-2xl font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-8 border-b border-queens-secondary/20 pb-4"
+                >
+                    Our Services
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-12">
+                    {
+                        servicesData.map((category) => (
+                            <div class="space-y-6">
+                                <h3 class="text-xl font-bold text-queens-primary dark:text-queens-secondary uppercase italic">
+                                    <a
+                                        href={`/services/${category.slug}/`}
+                                        class="hover:underline"
+                                    >
+                                        {category.title}
+                                    </a>
+                                </h3>
+                                <ul class="space-y-3 border-l-2 border-gray-100 dark:border-white/5 pl-4">
+                                    {category.services.map((service) => (
+                                        <li>
+                                            <a
+                                                href={`/services/${category.slug}/${service.slug}/`}
+                                                class="text-gray-600 dark:text-gray-400 hover:text-queens-secondary transition-colors text-sm"
+                                            >
+                                                {service.title}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))
+                    }
+                </div>
+            </section>
+
+            <!-- Legal & Information -->
+            <section>
+                <h2
+                    class="text-2xl font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-8 border-b border-queens-secondary/20 pb-4"
+                >
+                    Legal & Info
+                </h2>
+                <ul class="space-y-4">
+                    {
+                        legalLinks.map((link) => (
+                            <li>
+                                <a
+                                    href={link.href}
+                                    class="text-lg text-gray-600 dark:text-gray-300 hover:text-queens-secondary transition-colors font-medium"
+                                >
+                                    {link.title}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
+        </div>
+    </div>
+</BaseLayout>

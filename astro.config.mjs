@@ -9,7 +9,15 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://queensautoserviceselgin.com',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) =>
+        !page.includes('/customer-details') &&
+        !page.includes('/schedule-') &&
+        !page.includes('/thank-you') &&
+        !page.includes('/404')
+    })
+  ],
   devToolbar: {
     enabled: false
   },
