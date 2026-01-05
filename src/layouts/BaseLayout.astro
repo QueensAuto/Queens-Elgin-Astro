@@ -58,6 +58,37 @@ const isServiceSubPage =
     </script>
     <!-- End Google Tag Manager -->
 
+    <!-- GTM / View Transitions Compatibility Sync -->
+    <script is:inline>
+      document.addEventListener(
+        "astro:page-load",
+        () => {
+          // Initialize DataLayer
+          window.dataLayer = window.dataLayer || [];
+          // --- PART 1: VIRTUAL PAGEVIEW (The "Redirect" Fix) ---
+          // Manually pings GTM that a navigation occurred.
+          // This solves the 'redirect' issue where Tag Assistant loses the connection.
+          window.dataLayer.push({
+            event: "page_view",
+            page_path: window.location.pathname,
+            page_title: document.title,
+          });
+          // --- PART 2: PHONE CLICK EXPOSURE (The "Conversion" Fix) ---
+          // Forces a high-visibility event into the debug sidebar on every phone click.
+          document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
+            link.addEventListener("click", () => {
+              window.dataLayer.push({
+                event: "phone_click",
+                phone_number: link.getAttribute("href").replace("tel:", ""),
+                click_location: document.title,
+              });
+            });
+          });
+        },
+        { once: false },
+      );
+    </script>
+
     <!-- Critical Font Preloads - Load these before CSS parsing -->
     <link
       rel="preload"
