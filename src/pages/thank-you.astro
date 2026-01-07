@@ -8,28 +8,6 @@ const description =
 ---
 
 <BaseLayout title={title} description={description} brand={mobileTiresBrand}>
-    <script slot="head" is:inline>
-        // Google Tag Manager
-        (function (w, d, s, l, i) {
-            w[l] = w[l] || [];
-            w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-            var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s),
-                dl = l != "dataLayer" ? "&l=" + l : "";
-            j.async = true;
-            j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-            f.parentNode.insertBefore(j, f);
-        })(window, document, "script", "dataLayer", "GTM-KMB6CG6B");
-    </script>
-
-    <noscript slot="head">
-        <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-KMB6CG6B"
-            height="0"
-            width="0"
-            style="display:none;visibility:hidden"></iframe>
-    </noscript>
-
     <!-- Confetti Script -->
     <script
         src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"
