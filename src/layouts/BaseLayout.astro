@@ -84,6 +84,22 @@ const isServiceSubPage =
               });
             });
           });
+
+          // --- PART 3: BANNER CLICK TRACKING ---
+          // Tracks clicks on any element with data-banner-name
+          document.querySelectorAll("[data-banner-name]").forEach((banner) => {
+            banner.addEventListener("click", (e) => {
+              const target = e.currentTarget;
+              const bannerName = target.getAttribute("data-banner-name");
+              const bannerUrl = target.href || "no-url";
+
+              window.dataLayer.push({
+                event: "banner_click",
+                banner_name: bannerName,
+                banner_url: bannerUrl,
+              });
+            });
+          });
         },
         { once: false },
       );

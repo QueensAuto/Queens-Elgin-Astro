@@ -6,7 +6,8 @@ const services = [
     image: "/images/services/Changing brakes.webp",
     alt: "Professional Brake System Service",
     accent: "text-queens-secondary",
-    link: "https://brakes.queensautoserviceselgin.com/"
+    link: "https://brakes.queensautoserviceselgin.com/",
+    bannerName: "Home Brake Special"
   },
   {
     title: "Limited Time Offer",
@@ -14,7 +15,8 @@ const services = [
     image: "/images/services/Wheel-Alignment-Elgin-001.webp",
     alt: "Wheel Alignment Special Offer",
     accent: "text-queens-secondary",
-    link: "https://wheel-alignment.queensautoserviceselgin.com/"
+    link: "https://wheel-alignment.queensautoserviceselgin.com/",
+    bannerName: "Home Alignment Special"
   },
   {
     title: "General Repair",
@@ -22,7 +24,8 @@ const services = [
     image: "/images/services/Queens-Auto-Services-Auto-Repair-Slider-007.webp",
     alt: "General Repair Discount",
     accent: "text-queens-secondary",
-    link: "https://offer.queensautoserviceselgin.com/"
+    link: "https://offer.queensautoserviceselgin.com/",
+    bannerName: "Home General Repair Special"
   }
 ];
 ---
@@ -48,6 +51,7 @@ const services = [
         <a 
           href={service.link}
           class="special-card group relative aspect-[3/4] rounded-3xl overflow-hidden cursor-pointer block"
+          data-banner-name={service.bannerName}
         >
           <!-- Background Image -->
           <img 
