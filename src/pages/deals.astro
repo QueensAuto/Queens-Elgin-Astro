@@ -17,7 +17,8 @@ const deals = [
             "Additional parts or services may be required depending on vehicle condition. Some restrictions may apply. Limited time only.",
         cta: "Book Appointment",
         link: "https://brakes.queensautoserviceselgin.com/",
-        bannerName: "Specials Brake Deal"
+        bannerName: "Specials Brake Deal",
+        trackingClass: "brake-banner-link"
     },
     {
         title: "$35 Alignment",
@@ -28,7 +29,8 @@ const deals = [
             "Most vehicles. Additional adjustments or parts may be extra. Some restrictions may apply. Limited time only.",
         cta: "Book Appointment",
         link: "https://wheel-alignment.queensautoserviceselgin.com/",
-        bannerName: "Specials Alignment Deal"
+        bannerName: "Specials Alignment Deal",
+        trackingClass: "alignment-banner-link"
     },
     {
         title: "Up To $45 OFF",
@@ -39,7 +41,8 @@ const deals = [
             "Excludes tires and batteries. One coupon per visit. Some restrictions may apply. Limited time only.",
         cta: "Book Appointment",
         link: "https://offer.queensautoserviceselgin.com/",
-        bannerName: "Specials Auto Repair Deal"
+        bannerName: "Specials Auto Repair Deal",
+        trackingClass: "auto-repair-banner-link"
     },
     {
         title: "FREE Alignment",
@@ -50,7 +53,8 @@ const deals = [
             "Most vehicles. Additional adjustments/parts may be extra (e.g., camber bolts, seized hardware). Some ADAS-equipped vehicles may require calibration after alignment; calibration not included. Must purchase four new tires in a single visit.",
         cta: "Browse New Tires",
         link: "/buy-new-tires",
-        bannerName: "Specials Free Alignment Deal"
+        bannerName: "Specials Free Alignment Deal",
+        trackingClass: "alignment-banner-link"
     },
     {
         title: "FREE Seasonal",
@@ -60,7 +64,8 @@ const deals = [
         details: "No wrench, no charge—just peace of mind. Limited time only.",
         cta: "Book Appointment",
         link: "https://offer.queensautoserviceselgin.com/",
-        bannerName: "Specials Seasonal Safety Check"
+        bannerName: "Specials Seasonal Safety Check",
+        trackingClass: "auto-repair-banner-link"
     },
     {
         title: "FREE Battery",
@@ -71,7 +76,8 @@ const deals = [
             "Further diagnostics or replacements may carry additional charges. Limited time only.",
         cta: "Book Appointment",
         link: "https://offer.queensautoserviceselgin.com/",
-        bannerName: "Specials Battery Test Deal"
+        bannerName: "Specials Battery Test Deal",
+        trackingClass: "auto-repair-banner-link"
     },
 ];
 ---
@@ -121,7 +127,7 @@ const deals = [
                                     <a
                                         href={deal.link}
                                         data-banner-name={deal.bannerName}
-                                        class={`inline-block w-full rounded-full px-6 py-4 text-center text-sm font-bold shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${
+                                        class={`inline-block w-full rounded-full px-6 py-4 text-center text-sm font-bold shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${deal.trackingClass} ${
                                             (index + 1) % 2 === 0 
                                             ? 'bg-white !text-queens-primary hover:bg-gray-100' 
                                             : 'bg-queens-secondary text-white hover:bg-queens-light'
