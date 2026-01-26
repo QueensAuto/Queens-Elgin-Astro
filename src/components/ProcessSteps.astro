@@ -1,67 +1,50 @@
 ---
 /**
- * ProcessSteps - Step-by-step workflow section
- * Left column and progress track stay sticky while right cards scroll
+ * ProcessSteps - Vertical timeline with IntersectionObserver
+ * Replicated from Queens Algonquin to avoid pinning conflicts
  */
 import CtaButton from "./CtaButton.astro";
 ---
 
 <section class="process-section" id="process-section">
-    <div class="process-container">
-        <!-- Left Column -->
-        <div class="process-left">
-            <h2 class="process-title display-lg">
-                STEP BY <br />
-                STEP <br />
-                <span class="title-accent">WORKFLOW</span>
-            </h2>
-            <p class="process-subtitle">
-                Streamlined auto repair process that's efficient, transparent,
-                and tailored for your success.
-            </p>
-            <div class="process-cta-container">
-                <CtaButton
-                    href="/request-an-appointment"
-                    text="Schedule Service"
-                    variant="standard"
-                />
-            </div>
-        </div>
+    <!-- Header -->
+    <div class="process-header site-canvas">
+        <span class="process-badge">— HOW IT WORKS</span>
+        <h2 class="process-title display-xl">
+            YOUR SERVICE<br />
+            <span class="title-accent">EXPERIENCE</span>
+        </h2>
+        <p class="process-subtitle">
+            From the moment you contact us to when you drive away, we make every
+            step simple, transparent, and stress-free.
+        </p>
+    </div>
 
-        <!-- Middle: Progress Dots -->
-        <div class="progress-track">
-            <div class="progress-line">
-                <div class="progress-fill" id="progress-fill"></div>
+    <!-- Timeline Items -->
+    <div class="timeline-container site-canvas">
+        <div class="timeline-item" data-step="1">
+            <div class="timeline-marker">
+                <div class="timeline-dot">01</div>
+                <div class="timeline-line"></div>
             </div>
-            <div class="progress-step active" data-step="1">
-                <span class="step-dot">01</span>
-            </div>
-            <div class="progress-step" data-step="2">
-                <span class="step-dot">02</span>
-            </div>
-            <div class="progress-step" data-step="3">
-                <span class="step-dot">03</span>
-            </div>
-            <div class="progress-step" data-step="4">
-                <span class="step-dot">04</span>
-            </div>
-        </div>
-
-        <!-- Right Column: Cards -->
-        <div class="process-right">
-            <div class="step-card active" data-step="1">
-                <span class="step-number">01</span>
+            <div class="timeline-content">
                 <h3 class="step-title">Schedule Your Service</h3>
                 <p class="step-desc">
                     Book your appointment <span class="text-accent">online</span
-                    > or give us a call. Choose the service you need and pick a time
+                    >
+                    or give us a call. Choose the service you need and pick a time
                     that works for your schedule.
                     <span class="text-accent">Same-day appointments</span> often available.
                 </p>
             </div>
+        </div>
 
-            <div class="step-card" data-step="2">
-                <span class="step-number">02</span>
+        <div class="timeline-item" data-step="2">
+            <div class="timeline-marker">
+                <div class="timeline-dot">02</div>
+                <div class="timeline-line"></div>
+            </div>
+            <div class="timeline-content">
                 <h3 class="step-title">Vehicle Inspection</h3>
                 <p class="step-desc">
                     Our <span class="text-accent">certified technicians</span> perform
@@ -71,9 +54,14 @@ import CtaButton from "./CtaButton.astro";
                     >.
                 </p>
             </div>
+        </div>
 
-            <div class="step-card" data-step="3">
-                <span class="step-number">03</span>
+        <div class="timeline-item" data-step="3">
+            <div class="timeline-marker">
+                <div class="timeline-dot">03</div>
+                <div class="timeline-line"></div>
+            </div>
+            <div class="timeline-content">
                 <h3 class="step-title">Transparent Quote</h3>
                 <p class="step-desc">
                     Receive a <span class="text-accent">detailed estimate</span> with
@@ -84,9 +72,14 @@ import CtaButton from "./CtaButton.astro";
                     >.
                 </p>
             </div>
+        </div>
 
-            <div class="step-card" data-step="4">
-                <span class="step-number">04</span>
+        <div class="timeline-item" data-step="4">
+            <div class="timeline-marker">
+                <div class="timeline-dot">04</div>
+                <div class="timeline-line"></div>
+            </div>
+            <div class="timeline-content">
                 <h3 class="step-title">Expert Repair</h3>
                 <p class="step-desc">
                     Skilled mechanics complete your repairs using <span
@@ -98,58 +91,61 @@ import CtaButton from "./CtaButton.astro";
             </div>
         </div>
     </div>
+
+    <!-- CTA -->
+    <div class="process-cta site-canvas">
+        <CtaButton
+            href="/request-an-appointment"
+            text="Schedule Service"
+            variant="standard"
+        />
+    </div>
 </section>
 
 <style>
     .process-section {
         --section-bg: #fafafa;
-        --card-bg: #ffffff;
-        --card-border: rgba(0, 0, 0, 0.08);
         --text-primary: #0f172a;
         --text-secondary: #64748b;
         --accent: #0a79c8;
         --accent-light: rgba(10, 121, 200, 0.15);
+        --dot-inactive: #e2e8f0;
+        --line-color: #e2e8f0;
 
         background: var(--section-bg);
-        overflow: hidden;
-        margin-bottom: 0; 
+        padding: 6rem 0;
         position: relative;
         z-index: 10;
     }
 
-    @media (min-width: 1024px) {
-        .process-section {
-            margin-bottom: -35vh; /* Pulls the section below up into this one on desktop */
-        }
-    }
-
     :global(.dark) .process-section {
         --section-bg: #0a0a0b;
-        --card-bg: rgba(255, 255, 255, 0.03);
-        --card-border: rgba(255, 255, 255, 0.08);
         --text-primary: #f8fafc;
         --text-secondary: #94a3b8;
-        --accent: #0a79c8;
-        --accent-light: rgba(10, 121, 200, 0.15);
+        --dot-inactive: rgba(255, 255, 255, 0.1);
+        --line-color: rgba(255, 255, 255, 0.1);
     }
 
-    .process-container {
-        display: grid;
-        grid-template-columns: 1fr 80px 1.3fr;
-        gap: 2rem;
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 6rem 1.5rem;
+    /* Header */
+    .process-header {
+        text-align: center;
+        margin-bottom: 4rem;
     }
 
-    /* Left Column - GSAP will pin this */
-    .process-left {
-        height: fit-content;
+    .process-badge {
+        display: inline-block;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        color: var(--accent);
+        margin-bottom: 1rem;
+        text-transform: uppercase;
     }
 
     .process-title {
         color: var(--text-primary);
-        margin: 0;
+        margin: 0 0 1.5rem;
+        line-height: 1;
     }
 
     .title-accent {
@@ -157,133 +153,104 @@ import CtaButton from "./CtaButton.astro";
     }
 
     .process-subtitle {
-        font-size: 1rem;
+        font-size: 1.125rem;
         color: var(--text-secondary);
         line-height: 1.7;
-        margin: 1.25rem 0 0;
+        max-width: 600px;
+        margin: 0 auto;
     }
 
-    .process-cta-container {
-        margin-top: 2rem;
+    /* Timeline Container */
+    .timeline-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
     }
 
-    @media (max-width: 900px) {
-        .process-cta-container {
-            display: flex;
-            justify-content: center;
-        }
-    }
-
-    /* Middle: Progress Track - GSAP will pin this */
-    .progress-track {
-        height: fit-content;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    /* Timeline Item */
+    .timeline-item {
+        display: grid;
+        grid-template-columns: 80px 1fr;
         gap: 2rem;
-        visibility: hidden; /* Hide until GSAP is ready */
+        margin-bottom: 3rem;
+        opacity: 0;
+        transform: translateY(40px);
     }
 
-    .progress-line {
-        position: absolute;
-        top: 10px;
-        bottom: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 2px;
-        background: var(--card-border);
-        z-index: 0;
+    .timeline-item:last-child {
+        margin-bottom: 4rem;
     }
 
-    .progress-fill {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 0%; /* Start at 0, GSAP will animate it */
-        background: var(--accent);
-        transition: height 0.4s ease;
-    }
-
-    .progress-step {
+    /* Timeline Marker */
+    .timeline-marker {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 0.375rem;
         position: relative;
-        z-index: 1;
     }
 
-    .step-dot {
-        width: 44px;
-        height: 44px;
+    .timeline-dot {
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
-        background: var(--section-bg);
-        border: 2px solid var(--card-border);
-        transition: all 0.3s ease;
+        background: var(--dot-inactive);
+        color: var(--text-secondary);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.875rem;
+        font-size: 1.125rem;
         font-weight: 700;
-        color: var(--text-secondary);
+        flex-shrink: 0;
+        transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transform: scale(0.8);
+        opacity: 0;
     }
 
-    .progress-step.active .step-dot {
+    .timeline-dot.active {
         background: var(--accent);
-        border-color: var(--accent);
-        box-shadow: 0 0 0 4px var(--accent-light);
         color: #ffffff;
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 0 8px var(--accent-light);
     }
 
-    /* Right Column: Cards - Scrollable */
-    .process-right {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        padding-bottom: 5vh; /* Minimal buffer for the last card */
-    }
-
-    .step-card {
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: 1.25rem;
-        padding: 2rem 2.5rem;
-        transition: all 0.3s ease;
-    }
-
-    .step-card.active {
-        border-color: rgba(10, 121, 200, 0.25);
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-    }
-
-    :global(.dark) .step-card.active {
-        border-color: rgba(10, 121, 200, 0.25);
-    }
-
-    .step-number {
-        font-size: 2.5rem;
-        font-weight: 300;
-        color: var(--card-border);
-        line-height: 1;
-        display: block;
-        margin-bottom: 0.75rem;
-    }
-
-    .step-card.active .step-number {
-        color: var(--accent);
+    .timeline-line {
+        width: 2px;
+        flex: 1;
+        background: var(--line-color);
+        margin-top: 0.5rem;
         opacity: 0.5;
     }
 
+    .timeline-item:last-child .timeline-line {
+        display: none;
+    }
+
+    /* Timeline Content */
+    .timeline-content {
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        transition: all 0.3s ease;
+    }
+
+    :global(.dark) .timeline-content {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
     .step-title {
-        font-size: 1.125rem;
-        font-weight: 600;
+        font-size: 1.5rem;
+        font-weight: 700;
         color: var(--text-primary);
-        margin: 0 0 0.5rem;
+        margin: 0 0 0.75rem;
     }
 
     .step-desc {
-        font-size: 0.9375rem;
+        font-size: 1rem;
         color: var(--text-secondary);
         line-height: 1.7;
         margin: 0;
@@ -291,205 +258,110 @@ import CtaButton from "./CtaButton.astro";
 
     .text-accent {
         color: var(--accent);
+        font-weight: 600;
     }
 
-    /* Responsive */
-    @media (max-width: 900px) {
-        .process-container {
-            grid-template-columns: 60px 1fr;
-            padding: 4rem 1rem;
-        }
-
-        .process-left {
-            display: none;
-        }
-
-        .progress-track {
-            visibility: visible; /* Make sure it's visible on mobile where GSAP isn't running */
-        }
+    /* CTA */
+    .process-cta {
+        text-align: center;
+        margin-top: 2rem;
     }
 
+    /* Mobile */
     @media (max-width: 640px) {
-        .process-container {
-            grid-template-columns: 1fr;
+        .timeline-container {
+            padding: 0 1rem;
         }
 
-        .progress-track {
-            display: none;
+        .timeline-item {
+            grid-template-columns: 50px 1fr;
+            gap: 1.5rem;
         }
 
-        .step-card {
-            padding: 1.5rem;
+        .timeline-dot {
+            width: 50px;
+            height: 50px;
+            font-size: 1rem;
+        }
+
+        .step-title {
+            font-size: 1.25rem;
+        }
+
+        .step-desc {
+            font-size: 0.9375rem;
         }
     }
 </style>
 
 <script>
     import gsap from "gsap";
-    import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-    // Register globally once
-    gsap.registerPlugin(ScrollTrigger);
+    let observer: IntersectionObserver | null = null;
 
-    let ctx: any = null; // Keep track of GSAP context
+    function initProcessTimeline() {
+        // Cleanup existing observer
+        if (observer) {
+            observer.disconnect();
+        }
 
-    async function initProcessSection() {
         const section = document.getElementById("process-section");
+        if (!section) return;
 
-        // Navigation cleanup if component is missing
-        if (!section) {
-            if (ctx) ctx.revert();
-            return;
-        }
+        const items = section.querySelectorAll(".timeline-item");
+        if (items.length === 0) return;
 
-        // Revert existing context
-        if (ctx) ctx.revert();
+        // IntersectionObserver for timeline items
+        observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const item = entry.target as HTMLElement;
+                        const dot = item.querySelector(".timeline-dot");
 
-        // Wait for next frame for layout stability
-        await new Promise(requestAnimationFrame);
+                        // Animate item
+                        gsap.to(item, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            ease: "power2.out",
+                        });
 
-        // Don't run on mobile
-        if (window.innerWidth <= 900) {
-            // But ensure the progress fill is visible if we bail
-            const progressFill = document.getElementById("progress-fill");
-            if (progressFill) {
-                gsap.set(progressFill, { height: "25%" });
-            }
-            return;
-        }
+                        // Animate dot with bounce
+                        if (dot) {
+                            gsap.to(dot, {
+                                opacity: 1,
+                                scale: 1,
+                                duration: 0.6,
+                                delay: 0.2,
+                                ease: "back.out(1.7)",
+                                onComplete: () => {
+                                    dot.classList.add("active");
+                                },
+                            });
+                        }
 
-        ctx = gsap.context(() => {
-            const leftCol = section.querySelector(".process-left");
-            const progressTrack = section.querySelector(".progress-track");
-            const rightCol = section.querySelector(".process-right");
-            const cards = section.querySelectorAll(".step-card");
-            const progressSteps = section.querySelectorAll(".progress-step");
-            const progressFill = document.getElementById("progress-fill");
-
-            if (!leftCol || !progressTrack || !rightCol || cards.length === 0)
-                return;
-
-            // --- ENTRY ANIMATIONS ---
-
-            // Animate left column elements (title, subtitle, CTA)
-            const title = leftCol.querySelector(".process-title");
-            const subtitle = leftCol.querySelector(".process-subtitle");
-            const ctaContainer = leftCol.querySelector(
-                ".process-cta-container",
-            );
-            const leftElements = [title, subtitle, ctaContainer].filter(
-                Boolean,
-            );
-
-            if (leftElements.length > 0) {
-                gsap.fromTo(
-                    leftElements,
-                    { y: -40, opacity: 0 },
-                    {
-                        y: 0,
-                        opacity: 1,
-                        stagger: 0.12,
-                        duration: 0.8,
-                        ease: "power2.out",
-                        scrollTrigger: {
-                            trigger: section,
-                            start: "top 60%",
-                            once: true,
-                        },
-                    },
-                );
-            }
-
-            // Animate step cards with stagger
-            if (cards.length > 0) {
-                gsap.fromTo(
-                    cards,
-                    { x: 50, opacity: 0 },
-                    {
-                        x: 0,
-                        opacity: 1,
-                        stagger: 0.15,
-                        duration: 0.7,
-                        ease: "power2.out",
-                        scrollTrigger: {
-                            trigger: section,
-                            start: "top 50%",
-                            once: true,
-                        },
-                    },
-                );
-            }
-
-            // --- EXISTING ANIMATIONS ---
-
-            // 1. Fade in the whole progress track to prevent FOUC
-            gsap.to(progressTrack, {
-                visibility: "visible",
-                duration: 0.5,
-                delay: 0.2,
-            });
-
-            // 2. Set initial progress fill height
-            gsap.set(progressFill, { height: "25%" });
-
-            // 3. Pin the left column
-            ScrollTrigger.create({
-                trigger: leftCol,
-                start: "top 120px",
-                endTrigger: rightCol,
-                end: "bottom bottom",
-                pin: true,
-                pinSpacing: false,
-            });
-
-            // 4. Pin the progress track
-            ScrollTrigger.create({
-                trigger: progressTrack,
-                start: "top 120px",
-                endTrigger: rightCol,
-                end: "bottom bottom",
-                pin: true,
-                pinSpacing: false,
-            });
-
-            // 5. Update active card based on scroll
-            cards.forEach((card, index) => {
-                ScrollTrigger.create({
-                    trigger: card,
-                    start: "top 55%",
-                    end: "bottom 45%",
-                    onEnter: () => updateActiveStep(index),
-                    onEnterBack: () => updateActiveStep(index),
+                        // Stop observing this item
+                        observer?.unobserve(entry.target);
+                    }
                 });
-            });
+            },
+            {
+                rootMargin: "0px 0px -25% 0px",
+                threshold: 0.1,
+            },
+        );
 
-            function updateActiveStep(index: number) {
-                cards.forEach((c, i) =>
-                    c.classList.toggle("active", i === index),
-                );
-                // This makes the dots active as you scroll past them
-                progressSteps.forEach((s, i) =>
-                    s.classList.toggle("active", i <= index),
-                );
-                if (progressFill) {
-                    // Animate the fill line
-                    gsap.to(progressFill, {
-                        height: `${((index + 1) / cards.length) * 100}%`,
-                        duration: 0.4,
-                        ease: "power2.inOut",
-                    });
-                }
-            }
-        }, section); // Scope triggers to the section
-
-        // Refresh after a short delay to account for dynamic content/fonts
-        setTimeout(() => ScrollTrigger.refresh(), 500);
+        // Observe all items
+        items.forEach((item) => observer?.observe(item));
     }
 
-    document.addEventListener("astro:page-load", initProcessSection);
+    document.addEventListener("astro:page-load", initProcessTimeline);
 
-    // Cleanup on unmount
     document.addEventListener("astro:before-swap", () => {
-        if (ctx) ctx.revert();
+        if (observer) {
+            observer.disconnect();
+            observer = null;
+        }
     });
 </script>

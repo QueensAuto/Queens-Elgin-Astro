@@ -6,7 +6,9 @@ const services = [
     image: "/images/services/Changing brakes.webp",
     alt: "Professional Brake System Service",
     accent: "text-queens-secondary",
-    link: "https://brakes.queensautoserviceselgin.com/"
+    link: "https://brakes.queensautoserviceselgin.com/",
+    bannerName: "Home Brake Special",
+    trackingClass: "brake-banner-link"
   },
   {
     title: "Limited Time Offer",
@@ -14,7 +16,9 @@ const services = [
     image: "/images/services/Wheel-Alignment-Elgin-001.webp",
     alt: "Wheel Alignment Special Offer",
     accent: "text-queens-secondary",
-    link: "https://queensautoserviceselgin.com/wheel-alignment/special-offer.htm"
+    link: "https://wheel-alignment.queensautoserviceselgin.com/",
+    bannerName: "Home Alignment Special",
+    trackingClass: "alignment-banner-link"
   },
   {
     title: "General Repair",
@@ -22,7 +26,9 @@ const services = [
     image: "/images/services/Queens-Auto-Services-Auto-Repair-Slider-007.webp",
     alt: "General Repair Discount",
     accent: "text-queens-secondary",
-    link: "https://offer.queensautoserviceselgin.com/"
+    link: "https://offer.queensautoserviceselgin.com/",
+    bannerName: "Home General Repair Special",
+    trackingClass: "auto-repair-banner-link"
   }
 ];
 ---
@@ -47,7 +53,8 @@ const services = [
       {services.map((service) => (
         <a 
           href={service.link}
-          class="special-card group relative aspect-[3/4] rounded-3xl overflow-hidden cursor-pointer block"
+          class={`special-card group relative aspect-[3/4] rounded-3xl overflow-hidden cursor-pointer block ${service.trackingClass}`}
+          data-banner-name={service.bannerName}
         >
           <!-- Background Image -->
           <img 

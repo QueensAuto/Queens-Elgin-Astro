@@ -1742,6 +1742,21 @@ const {
 
             const formattedPhone = `+1${(data["mobile-number"] || "").replace(/\D/g, "")}`;
 
+            // GTM Data Layer Push for Lead Generation
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: "generate_lead",
+                generate_lead: true,
+                user_data: {
+                    email: data["email"],
+                    phone_number: formattedPhone,
+                    address: {
+                        first_name: data["first-name"],
+                        last_name: data["last-name"],
+                    },
+                },
+            });
+
             const webhookData = {
                 ...data,
                 event_name: "generate_lead",

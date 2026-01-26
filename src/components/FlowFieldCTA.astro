@@ -1,0 +1,228 @@
+---
+import CtaButtonSecondary from "./CtaButtonSecondary.astro";
+---
+
+<section
+    class="relative w-full bg-black overflow-hidden py-32 flex flex-col items-center justify-center text-center"
+>
+    <!-- Background Canvas -->
+    <canvas
+        id="turbine-canvas"
+        class="absolute inset-0 w-full h-full opacity-70"></canvas>
+
+    <!-- Gradient Overlay for depth -->
+    <div
+        class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/30 pointer-events-none"
+    >
+    </div>
+
+    <!-- Content Container -->
+    <div class="relative z-20 max-w-4xl px-6 lg:px-8">
+        <h2
+            class="display-xl text-white mb-6 uppercase italic font-black tracking-tighter"
+        >
+            Fast & Reliable <span class="text-queens-secondary">Service</span>
+        </h2>
+        <p
+            class="text-white text-lg md:text-xl mb-10 max-w-2xl mx-auto font-medium"
+        >
+            Don't let car troubles slow you down. We bring expert tire and auto
+            repair directly to you, getting you back on the road in record time.
+        </p>
+        <div class="flex justify-center">
+            <CtaButtonSecondary
+                href="/request-an-appointment"
+                text="Schedule Now"
+                class="!bg-white !text-gray-900 hover:!bg-gray-100 shadow-2xl"
+            />
+        </div>
+    </div>
+</section>
+
+<style>
+    .display-xl {
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 8vw, 6rem);
+        line-height: 0.9;
+    }
+</style>
+
+<script>
+    function initTurbineEffect() {
+        const section = document.querySelector("section.relative.bg-black");
+        const canvas = document.getElementById(
+            "turbine-canvas",
+        ) as HTMLCanvasElement;
+        if (!canvas || !section) return;
+
+        const ctx = canvas.getContext("2d", { alpha: false });
+        if (!ctx) return;
+
+        let width: number, height: number, centerX: number, centerY: number;
+        let particles: Particle[] = [];
+        let animationFrame: number;
+        let angle = 0;
+        let orbitRadius = 0;
+        let targetOrbitRadius = 220;
+        let rotationSpeed = 0.007;
+        let targetRotationSpeed = 0.007;
+        let isVisible = false;
+
+        class Particle {
+            x: number;
+            y: number;
+            vx: number;
+            vy: number;
+            size: number;
+            color: string;
+            alpha: number;
+            life: number;
+            maxLife: number;
+
+            constructor(x: number, y: number, angle: number, speed: number) {
+                this.x = x;
+                this.y = y;
+                // Add some randomness to velocity
+                const spread = (Math.random() - 0.5) * 0.5;
+                this.vx = Math.cos(angle + spread) * speed * 0.7; // Slower particles
+                this.vy = Math.sin(angle + spread) * speed * 0.7;
+                this.size = Math.random() * 2 + 1;
+                this.alpha = 1;
+                this.life = 0;
+                this.maxLife = 120 + Math.random() * 120; // Longer life for slower motion
+
+                // Color palette based on Queens Brand Cyan/Blue
+                const colors = ["#ffffff", "#38DFF1", "#0a79c8", "#64A8AF"];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life++;
+                this.alpha = 1 - this.life / this.maxLife;
+                // Add slight gravity/friction
+                this.vx *= 0.99;
+                this.vy *= 0.99;
+            }
+
+            draw(ctx: CanvasRenderingContext2D) {
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const resize = () => {
+            const container = canvas.parentElement;
+            if (!container) return;
+            width = canvas.width = container.clientWidth;
+            height = canvas.height = container.clientHeight;
+            centerX = width / 2;
+            centerY = height / 2;
+
+            // Adjust orbit radius for mobile
+            targetOrbitRadius = Math.min(width * 0.35, 220);
+        };
+
+        const spawnParticles = (x: number, y: number, orbitAngle: number) => {
+            const count = isVisible ? 3 : 1; // Slightly fewer particles for cleaner look at slow speed
+            for (let i = 0; i < count; i++) {
+                // Particles emit "outwards" with a bit of the orbital momentum
+                particles.push(
+                    new Particle(x, y, orbitAngle, Math.random() * 3 + 1),
+                );
+            }
+        };
+
+        const animate = () => {
+            if (!ctx) return;
+            // Slightly more persistent trails for slower movement
+            ctx.globalAlpha = 0.12;
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0, 0, width, height);
+
+            // Update rotation speed (friction/easing)
+            rotationSpeed += (targetRotationSpeed - rotationSpeed) * 0.05;
+            orbitRadius += (targetOrbitRadius - orbitRadius) * 0.05;
+            angle += rotationSpeed;
+
+            // Calculate current orbit dot position
+            const dotX = centerX + Math.cos(angle) * orbitRadius;
+            const dotY = centerY + Math.sin(angle) * orbitRadius;
+
+            // Spawn particles at dot position
+            spawnParticles(dotX, dotY, angle);
+
+            // Draw Central Dot (The Energy Source)
+            ctx.globalAlpha = 1;
+            ctx.shadowBlur = 25;
+            ctx.shadowColor = "#38DFF1";
+            ctx.fillStyle = "#ffffff";
+            ctx.beginPath();
+            ctx.arc(dotX, dotY, 4.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            // Update and draw particles
+            ctx.globalCompositeOperation = "lighter";
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.update();
+                p.draw(ctx as CanvasRenderingContext2D);
+                if (p.alpha <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+            ctx.globalCompositeOperation = "source-over";
+
+            animationFrame = requestAnimationFrame(animate);
+        };
+
+        // --- Viewport Observer for "Rev Up" ---
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        isVisible = true;
+                        targetRotationSpeed = 0.024; // 30% slower than 0.035
+                        // Initial burst
+                        let burst = 30;
+                        while (burst--) {
+                            spawnParticles(
+                                centerX,
+                                centerY,
+                                Math.random() * Math.PI * 2,
+                            );
+                        }
+                    } else {
+                        isVisible = false;
+                        targetRotationSpeed = 0.007; // 30% slower than 0.01
+                    }
+                });
+            },
+            { threshold: 0.1 },
+        );
+
+        observer.observe(section);
+
+        resize();
+        animate();
+        window.addEventListener("resize", resize);
+
+        // Cleanup function for Astro View Transitions
+        return () => {
+            cancelAnimationFrame(animationFrame);
+            window.removeEventListener("resize", resize);
+            observer.disconnect();
+        };
+    }
+
+    document.addEventListener("astro:page-load", () => {
+        const cleanup = initTurbineEffect();
+        // If handling manual cleanup on transition is needed:
+        // document.addEventListener('astro:before-preparation', cleanup, { once: true });
+    });
+</script>
