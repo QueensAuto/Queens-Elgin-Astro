@@ -174,15 +174,21 @@ if (reviewData && reviewData.length > 0) {
 
 {/* Inject Global Schemas on Every Page */}
 <script
+    is:inline
     type="application/ld+json"
     set:html={JSON.stringify(localBusinessSchema)}
 />
-<script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+<script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(websiteSchema)}
+/>
 
 {/* Conditional Schemas */}
 {
     serviceSchema && (
         <script
+            is:inline
             type="application/ld+json"
             set:html={JSON.stringify(serviceSchema)}
         />
@@ -191,6 +197,7 @@ if (reviewData && reviewData.length > 0) {
 {
     faqSchema && (
         <script
+            is:inline
             type="application/ld+json"
             set:html={JSON.stringify(faqSchema)}
         />
@@ -200,6 +207,7 @@ if (reviewData && reviewData.length > 0) {
     reviewSchema &&
         reviewSchema.map((review: any) => (
             <script
+                is:inline
                 type="application/ld+json"
                 set:html={JSON.stringify(review)}
             />

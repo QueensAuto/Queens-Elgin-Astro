@@ -92,7 +92,11 @@ const { brand } = Astro.props as { brand: BrandConfig };
           <li><a href="/contact">Contact Us</a></li>
           <li><a href="/request-an-appointment">Book Appointment</a></li>
           <li>
-            <a href="/buy-new-tires" class="flex items-center gap-2">
+            <a
+              href="/buy-new-tires"
+              data-astro-reload
+              class="flex items-center gap-2"
+            >
               Shop Tires
               <span class="hot-badge">HOT</span>
             </a>

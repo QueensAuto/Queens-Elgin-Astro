@@ -126,6 +126,7 @@ const deals = [
                                 <div class={`border-t pt-6 mt-auto ${ (index + 1) % 2 === 0 ? 'border-white/10' : 'border-gray-200 dark:border-gray-700' }`}>
                                     <a
                                         href={deal.link}
+                                        data-astro-reload={deal.link && deal.link.includes('buy-new-tires') ? "" : undefined}
                                         data-banner-name={deal.bannerName}
                                         class={`inline-block w-full rounded-full px-6 py-4 text-center text-sm font-bold shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${deal.trackingClass} ${
                                             (index + 1) % 2 === 0 

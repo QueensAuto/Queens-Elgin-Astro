@@ -55,6 +55,12 @@ const legalLinks = [
                             <li>
                                 <a
                                     href={link.href}
+                                    data-astro-reload={
+                                        link.href &&
+                                        link.href.includes("buy-new-tires")
+                                            ? ""
+                                            : undefined
+                                    }
                                     class="text-lg text-gray-600 dark:text-gray-300 hover:text-queens-secondary transition-colors font-medium"
                                 >
                                     {link.title}
