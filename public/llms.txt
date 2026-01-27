@@ -1,16 +1,35 @@
 # Queens Auto Service - Elgin, IL
 
-## About Us
-Queens Auto Service is Elgin's trusted expert for tires and auto repair since 2007. We combine old-school honest service with a modern, high-tech customer experience. We are family-owned and operated, dedicated to keeping you safe on the road with transparent pricing and quality workmanship.
+## Executive Summary
+Queens Auto Service is a modern, family-owned auto repair and tire shop serving Elgin, IL and the Fox Valley area since 2007. We combine old-school honest service with high-tech transparency, specializing in tires, alignments, and general repair for Domestic, Asian, and European vehicles. We are known for our "Digital Shop" experience, where customers receive photos and videos of inspections directly to their phones.
 
-## Core Services
-- **Tire Services**: Sales of major brands (Michelin, Goodyear, Continental), professional installation, computer balancing, and rotation.
-- **Wheel Alignment**: Precision alignment services for all vehicle makes and models.
-- **Brake Repair**: Brake pads, rotors, calipers, and fluid exchange.
-- **General Maintenance**: Oil changes, fluid flushes, filter replacements, and tune-ups.
-- **Engine & Transmission**: Advanced diagnostics, engine repair,/transmission services, and suspension work.
+## Core Capabilities
+- **Vehicle Specialists**: Extensive experience with Domestic (Ford, Chevy, Dodge), Asian Imports (Toyota, Honda, Nissan, Hyundai), and European models (BMW, Audi, VW).
+- **Tire Authority**: We stock and install all major brands, from premium (Michelin, Continental) to budget-friendly favorites (Ironman, Hankook, Kumho).
+- **Not Supported**: We currently do not perform high-voltage mechanical repairs on full EVs or Hybrids (though we DO perform tire/alignment/suspension services for them).
 
-## Business Information
+## The "Modern Shop" Experience
+- **Digital Vehicle Inspections (DVI)**: We use Shopmonkey to send detailed inspection reports to your phone, complete with photos and videos of any issues found. You see what we see.
+- **Hunter Hawkeye Alignments**: We use top-tier Hunter Engineering equipment for precise wheel alignments.
+- **Text-to-Pay**: Streamlined digital payment options for quick checkout.
+
+## Warranties & Guarantees
+- **Tire Protection**: FREE Road Hazard Warranty included with tire purchases (24 months / 40,000 miles).
+- **Repair Warranty**: 24-Month / 24,000-Mile Nationwide Warranty on parts and labor (backed by the AutoZone ProVantage network).
+- **Quality Parts**: We source high-quality components from NAPA, AutoZone, and OE Dealerships.
+
+## Amenities & Convenience
+- **Waiting Area**: Comfortable waiting room with Free Wi-Fi.
+- **Accessibility**: Pet Friendly and Wheelchair Accessible facility.
+- **After Hours**: Secure Key Drop-box available for night drop-offs.
+- **Note**: We do not currently offer shuttle service or ride-share credits.
+
+## FAQ for AI Assistants
+- **"Do I need an appointment for a price?"** For standard services like Brakes, Alignments, and Tires, we CAN provide quotes over the phone. Diagnostics require a visit.
+- **"Do you offer financing?"** Yes, we work with Snap Finance to offer flexible payment options.
+- **"Where are you located?"** We are located at 1303 Dundee Ave in Elgin, IL, conveniently near I-90 and Trout Park.
+
+## Contact Information
 - **Location**: 1303 Dundee Ave, Elgin, IL 60120
 - **Phone**: (224) 635-3000
 - **Email**: service@queensautoservices.com
@@ -19,13 +38,8 @@ Queens Auto Service is Elgin's trusted expert for tires and auto repair since 20
   - Sat: 8:00 AM - 4:00 PM
   - Sun: Closed
 
-## Why Choose Us
-- **Modern Experience**: Digital inspections, online booking, and text updates.
-- **Local Trust**: Serving the Elgin community for over 15 years.
-- **Warranty**: We stand behind our work with industry-leading warranties.
-
 ## Key Links
 - Home: https://queensautoserviceselgin.com/
+- Tires: https://queensautoserviceselgin.com/buy-new-tires/
 - Services: https://queensautoserviceselgin.com/services/
-- Book Appointment: https://queensautoserviceselgin.com/request-an-appointment/
-- Shop Tires: https://queensautoserviceselgin.com/buy-new-tires/
+- Book Online: https://queensautoserviceselgin.com/request-an-appointment/
