@@ -14,14 +14,11 @@ const firstName = nameParts[0];
 const secondName = nameParts.length > 1 ? nameParts[1] : "";
 ---
 
-<AnnouncementBar
-  class="fixed top-0 left-0 right-0 z-[60] w-full pointer-events-auto"
-/>
-
 <div
   id="header-wrapper"
   class="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none transition-all duration-300"
 >
+  <AnnouncementBar class="relative z-[60] w-full pointer-events-auto" />
   <div class="pt-4 px-4 w-full flex justify-center">
     <header
       id="main-nav"

@@ -130,6 +130,10 @@ const {
         function updateHeaderPosition(barVisible: boolean) {
             if (!headerWrapper) return;
 
+            // If the bar is INSIDE the header wrapper, do NOT manually set top.
+            // It will naturally push content down in the flex container.
+            if (headerWrapper.contains(wrapper)) return;
+
             if (barVisible) {
                 // Get the actual height of the announcement bar
                 const barElement = wrapper?.querySelector(

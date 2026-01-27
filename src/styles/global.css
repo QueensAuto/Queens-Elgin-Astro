@@ -462,6 +462,7 @@ p:last-child {
 }
 
 @layer base {
+
     /* Add spacing around headings globally for body content flow */
     h1,
     h2,
