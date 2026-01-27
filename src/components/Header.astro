@@ -1,6 +1,7 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
 import CtaButton from "./CtaButton.astro";
+import AnnouncementBar from "./AnnouncementBar.astro";
 import type { BrandConfig } from "../brands";
 
 const { brand, inverse = false } = Astro.props as {
@@ -13,345 +14,369 @@ const firstName = nameParts[0];
 const secondName = nameParts.length > 1 ? nameParts[1] : "";
 ---
 
+<AnnouncementBar
+  class="fixed top-0 left-0 right-0 z-[60] w-full pointer-events-auto"
+/>
+
 <div
   id="header-wrapper"
-  class="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-4 pointer-events-none transition-transform duration-300"
+  class="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none transition-all duration-300"
 >
-  <header
-    id="main-nav"
-    class={`pointer-events-auto relative tracking-tight flex items-center justify-between w-full transition-all duration-500
+  <div class="pt-4 px-4 w-full flex justify-center">
+    <header
+      id="main-nav"
+      class={`pointer-events-auto relative tracking-tight flex items-center justify-between w-full transition-all duration-500
     /* Mobile/Universal Pill Styles */
     px-6 py-3 bg-white/80 dark:bg-[#141517]/80 backdrop-blur-lg rounded-full shadow-lg border border-gray-100 dark:border-gray-800
     /* Desktop Sizing */
     md:px-6 md:py-3 md:max-w-6xl
     ${brand.logoPathWhite || "text-white"} 
     transition-colors duration-300`}
-  >
-    <!-- Logo -->
-    <a
-      href={`/`}
-      class="group flex items-center gap-2 mr-auto md:mr-8 shrink-0"
     >
-      {
-        brand.logoPath && brand.logoPath.includes("New-Logo") ? (
-          <>
-            {/* Standard Logo - Shown in Light Mode */}
-            <img
-              src={brand.logoPath}
-              alt={brand.name}
-              class={`h-8 w-auto object-contain block ${brand.logoPathWhite ? "dark:hidden" : ""}`}
-            />
-            {/* White/Dark Mode Logo - Shown in Dark Mode */}
-            {brand.logoPathWhite && (
-              <img
-                src={brand.logoPathWhite}
-                alt={brand.name}
-                class="h-8 w-auto object-contain hidden dark:block"
-              />
-            )}
-          </>
-        ) : (
-          <span
-            class={`text-xl font-bold tracking-tighter uppercase group-hover:text-queens-secondary transition-colors duration-300 ${inverse ? "text-white" : "text-queens-primary dark:text-white"}`}
-          >
-            {firstName}{" "}
-            <span
-              class={`group-hover:text-queens-primary transition-colors duration-300 ${inverse ? "text-queens-secondary" : "text-queens-secondary"}`}
-            >
-              {secondName}
-            </span>
-          </span>
-        )
-      }
-    </a>
-
-    <!-- Desktop Navigation -->
-    <nav class="hidden md:flex items-center gap-1">
+      <!-- Logo -->
       <a
         href={`/`}
-        data-astro-prefetch="hover"
-        class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
-        >Home</a
+        class="group flex items-center gap-2 mr-auto md:mr-8 shrink-0"
       >
-      <a
-        href={`/services`}
-        data-astro-prefetch="hover"
-        class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
-        >Services</a
-      >
-      <a
-        href={`/buy-new-tires`}
-        data-astro-reload
-        class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
-        >New Tires</a
-      >
-      <a
-        href={`/deals`}
-        data-astro-prefetch="hover"
-        class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
-        >Deals</a
-      >
-      <a
-        href={`/about`}
-        data-astro-prefetch="hover"
-        class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
-        >About</a
-      >
-      <a
-        href={`/contact`}
-        data-astro-prefetch="hover"
-        class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
-        >Contact</a
-      >
-    </nav>
-
-    <!-- Right Side Actions -->
-    <div class="flex items-center gap-3 ml-auto md:ml-0 pl-0 md:pl-0">
-      <ThemeToggle inverse={inverse} />
-
-      <div class="hidden lg:block">
-        <CtaButton href="/buy-new-tires" text="Buy New Tires" reload={true} />
-      </div>
-
-      <!-- Mobile Menu Button -->
-      <button
-        id="mobile-menu-button"
-        class={`md:hidden p-2 rounded-full transition-colors ${inverse ? "text-white hover:bg-white/10" : "text-queens-primary hover:bg-gray-100 dark:text-white dark:hover:bg-white/10"}`}
-        aria-label="Open Menu"
-      >
-        <!-- Grid Icon (smaller dots) -->
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          class="w-5 h-5"
-        >
-          <circle cx="5" cy="5" r="1.5" stroke="currentColor" stroke-width="1.5"
-          ></circle>
-          <circle
-            cx="12"
-            cy="5"
-            r="1.5"
-            stroke="currentColor"
-            stroke-width="1.5"></circle>
-          <circle
-            cx="19"
-            cy="5"
-            r="1.5"
-            stroke="currentColor"
-            stroke-width="1.5"></circle>
-          <circle
-            cx="5"
-            cy="12"
-            r="1.5"
-            stroke="currentColor"
-            stroke-width="1.5"></circle>
-          <circle
-            cx="12"
-            cy="12"
-            r="1.5"
-            stroke="currentColor"
-            stroke-width="1.5"></circle>
-          <circle
-            cx="19"
-            cy="12"
-            r="1.5"
-            stroke="currentColor"
-            stroke-width="1.5"></circle>
-          <circle
-            cx="5"
-            cy="19"
-            r="1.5"
-            stroke="currentColor"
-            stroke-width="1.5"></circle>
-          <circle
-            cx="12"
-            cy="19"
-            r="1.5"
-            stroke="currentColor"
-            stroke-width="1.5"></circle>
-          <circle
-            cx="19"
-            cy="19"
-            r="1.5"
-            stroke="currentColor"
-            stroke-width="1.5"></circle>
-        </svg>
-      </button>
-    </div>
-  </header>
-</div>
-
-<!-- Mobile Menu Overlay -->
-<div
-  id="mobile-menu"
-  class="fixed inset-0 z-[100] hidden md:hidden"
-  aria-hidden="true"
->
-  <!-- Click-to-close backdrop (invisible, for clicking outside) -->
-  <div id="mobile-menu-backdrop" class="absolute inset-0"></div>
-
-  <!-- Dark Layer - FULL WIDTH, semi-transparent (slides in FIRST, slides out LAST) -->
-  <div
-    id="mobile-menu-dark-layer"
-    class="absolute inset-0 bg-black/70 backdrop-blur-sm transform -translate-x-full transition-transform duration-500 ease-out"
-  >
-  </div>
-
-  <!-- Menu Panel (slides in SECOND on open, slides out FIRST on close) -->
-  <div
-    id="mobile-menu-panel"
-    class="absolute top-0 left-0 bottom-0 w-[85%] max-w-sm bg-white dark:bg-slate-900 shadow-2xl transform -translate-x-full transition-transform duration-500 ease-out"
-  >
-    <div class="flex flex-col h-full">
-      <!-- Header -->
-      <div
-        class="flex justify-between items-center p-6 border-b border-gray-100 dark:border-gray-800"
-      >
-        <!-- Logo (Dynamic Theme Support) -->
-        <a href="/" class="group flex items-center gap-2">
-          {
-            brand.logoPath && brand.logoPath.includes("New-Logo") ? (
-              <>
-                {/* Standard Logo - Shown in Light Mode */}
+        {
+          brand.logoPath && brand.logoPath.includes("New-Logo") ? (
+            <>
+              {/* Standard Logo - Shown in Light Mode */}
+              <img
+                src={brand.logoPath}
+                alt={brand.name}
+                class={`h-8 w-auto object-contain block ${brand.logoPathWhite ? "dark:hidden" : ""}`}
+              />
+              {/* White/Dark Mode Logo - Shown in Dark Mode */}
+              {brand.logoPathWhite && (
                 <img
-                  src={brand.logoPath}
+                  src={brand.logoPathWhite}
                   alt={brand.name}
-                  class={`h-8 w-auto object-contain block ${brand.logoPathWhite ? "dark:hidden" : ""}`}
+                  class="h-8 w-auto object-contain hidden dark:block"
                 />
-                {/* White/Dark Mode Logo - Shown in Dark Mode */}
-                {brand.logoPathWhite && (
-                  <img
-                    src={brand.logoPathWhite}
-                    alt={brand.name}
-                    class="h-8 w-auto object-contain hidden dark:block"
-                  />
-                )}
-              </>
-            ) : (
-              <span class="text-xl font-bold tracking-tighter uppercase text-queens-primary dark:text-white">
-                {firstName}{" "}
-                <span class="text-queens-secondary">{secondName}</span>
+              )}
+            </>
+          ) : (
+            <span
+              class={`text-xl font-bold tracking-tighter uppercase group-hover:text-queens-secondary transition-colors duration-300 ${inverse ? "text-white" : "text-queens-primary dark:text-white"}`}
+            >
+              {firstName}{" "}
+              <span
+                class={`group-hover:text-queens-primary transition-colors duration-300 ${inverse ? "text-queens-secondary" : "text-queens-secondary"}`}
+              >
+                {secondName}
               </span>
-            )
-          }
-        </a>
-        <button
-          id="mobile-menu-close"
-          class="p-2 -mr-2 text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-      </div>
+            </span>
+          )
+        }
+      </a>
 
-      <!-- Links (Centered, Big Text, Animated) -->
-      <nav
-        id="mobile-menu-links"
-        class="flex-1 flex flex-col items-center justify-center space-y-6 opacity-0 translate-y-8 transition-all duration-700 ease-out"
-      >
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-1">
         <a
           href={`/`}
-          class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+          data-astro-prefetch="hover"
+          class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
+          >Home</a
         >
-          Home
-        </a>
         <a
           href={`/services`}
-          class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+          data-astro-prefetch="hover"
+          class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
+          >Services</a
         >
-          Services
-        </a>
         <a
           href={`/buy-new-tires`}
           data-astro-reload
-          class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+          class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
+          >New Tires</a
         >
-          New Tires
-        </a>
         <a
           href={`/deals`}
-          class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+          data-astro-prefetch="hover"
+          class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
+          >Deals</a
         >
-          Deals
-        </a>
         <a
           href={`/about`}
-          class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+          data-astro-prefetch="hover"
+          class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
+          >About</a
         >
-          About
-        </a>
         <a
           href={`/contact`}
-          class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+          data-astro-prefetch="hover"
+          class={`text-sm font-medium hover:text-queens-secondary px-4 py-2 rounded-full transition-all ${inverse ? "text-white/90 hover:text-white" : "text-gray-600 dark:text-gray-300"}`}
+          >Contact</a
         >
-          Contact
-        </a>
+      </nav>
 
-        <div class="pt-8 w-full max-w-xs px-4 flex justify-center">
+      <!-- Right Side Actions -->
+      <div class="flex items-center gap-3 ml-auto md:ml-0 pl-0 md:pl-0">
+        <ThemeToggle inverse={inverse} />
+
+        <div class="hidden lg:block">
           <CtaButton href="/buy-new-tires" text="Buy New Tires" reload={true} />
         </div>
-      </nav>
+
+        <!-- Mobile Menu Button -->
+        <button
+          id="mobile-menu-button"
+          class={`md:hidden p-2 rounded-full transition-colors ${inverse ? "text-white hover:bg-white/10" : "text-queens-primary hover:bg-gray-100 dark:text-white dark:hover:bg-white/10"}`}
+          aria-label="Open Menu"
+        >
+          <!-- Grid Icon (smaller dots) -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            class="w-5 h-5"
+          >
+            <circle
+              cx="5"
+              cy="5"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="12"
+              cy="5"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="19"
+              cy="5"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="5"
+              cy="12"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="12"
+              cy="12"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="19"
+              cy="12"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="5"
+              cy="19"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="12"
+              cy="19"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="19"
+              cy="19"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+          </svg>
+        </button>
+      </div>
+    </header>
+  </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 z-[100] hidden md:hidden"
+    aria-hidden="true"
+  >
+    <!-- Click-to-close backdrop (invisible, for clicking outside) -->
+    <div id="mobile-menu-backdrop" class="absolute inset-0"></div>
+
+    <!-- Dark Layer - FULL WIDTH, semi-transparent (slides in FIRST, slides out LAST) -->
+    <div
+      id="mobile-menu-dark-layer"
+      class="absolute inset-0 bg-black/70 backdrop-blur-sm transform -translate-x-full transition-transform duration-500 ease-out"
+    >
+    </div>
+
+    <!-- Menu Panel (slides in SECOND on open, slides out FIRST on close) -->
+    <div
+      id="mobile-menu-panel"
+      class="absolute top-0 left-0 bottom-0 w-[85%] max-w-sm bg-white dark:bg-slate-900 shadow-2xl transform -translate-x-full transition-transform duration-500 ease-out"
+    >
+      <div class="flex flex-col h-full">
+        <!-- Header -->
+        <div
+          class="flex justify-between items-center p-6 border-b border-gray-100 dark:border-gray-800"
+        >
+          <!-- Logo (Dynamic Theme Support) -->
+          <a href="/" class="group flex items-center gap-2">
+            {
+              brand.logoPath && brand.logoPath.includes("New-Logo") ? (
+                <>
+                  {/* Standard Logo - Shown in Light Mode */}
+                  <img
+                    src={brand.logoPath}
+                    alt={brand.name}
+                    class={`h-8 w-auto object-contain block ${brand.logoPathWhite ? "dark:hidden" : ""}`}
+                  />
+                  {/* White/Dark Mode Logo - Shown in Dark Mode */}
+                  {brand.logoPathWhite && (
+                    <img
+                      src={brand.logoPathWhite}
+                      alt={brand.name}
+                      class="h-8 w-auto object-contain hidden dark:block"
+                    />
+                  )}
+                </>
+              ) : (
+                <span class="text-xl font-bold tracking-tighter uppercase text-queens-primary dark:text-white">
+                  {firstName}{" "}
+                  <span class="text-queens-secondary">{secondName}</span>
+                </span>
+              )
+            }
+          </a>
+          <button
+            id="mobile-menu-close"
+            class="p-2 -mr-2 text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Links (Centered, Big Text, Animated) -->
+        <nav
+          id="mobile-menu-links"
+          class="flex-1 flex flex-col items-center justify-center space-y-6 opacity-0 translate-y-8 transition-all duration-700 ease-out"
+        >
+          <a
+            href={`/`}
+            class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+          >
+            Home
+          </a>
+          <a
+            href={`/services`}
+            class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+          >
+            Services
+          </a>
+          <a
+            href={`/buy-new-tires`}
+            data-astro-reload
+            class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+          >
+            New Tires
+          </a>
+          <a
+            href={`/deals`}
+            class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+          >
+            Deals
+          </a>
+          <a
+            href={`/about`}
+            class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+          >
+            About
+          </a>
+          <a
+            href={`/contact`}
+            class="text-2xl font-bold text-gray-900 dark:text-white hover:text-queens-primary transition-colors"
+          >
+            Contact
+          </a>
+
+          <div class="pt-8 w-full max-w-xs px-4 flex justify-center">
+            <CtaButton
+              href="/buy-new-tires"
+              text="Buy New Tires"
+              reload={true}
+            />
+          </div>
+        </nav>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  <script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-  gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger);
 
-  function setupHeader() {
-    const nav = document.getElementById("main-nav");
-    const wrapper = document.getElementById("header-wrapper");
-    const mobileMenuButton = document.getElementById("mobile-menu-button");
-    const mobileMenu = document.getElementById("mobile-menu");
-    const mobileMenuDarkLayer = document.getElementById(
-      "mobile-menu-dark-layer",
-    );
-    const mobileMenuPanel = document.getElementById("mobile-menu-panel");
-    const mobileMenuLinks = document.getElementById("mobile-menu-links");
-    const mobileMenuBackdrop = document.getElementById("mobile-menu-backdrop");
-    const mobileMenuClose = document.getElementById("mobile-menu-close");
+    function setupHeader() {
+      const nav = document.getElementById("main-nav");
+      const wrapper = document.getElementById("header-wrapper");
+      const mobileMenuButton = document.getElementById("mobile-menu-button");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const mobileMenuDarkLayer = document.getElementById(
+        "mobile-menu-dark-layer",
+      );
+      const mobileMenuPanel = document.getElementById("mobile-menu-panel");
+      const mobileMenuLinks = document.getElementById("mobile-menu-links");
+      const mobileMenuBackdrop = document.getElementById(
+        "mobile-menu-backdrop",
+      );
+      const mobileMenuClose = document.getElementById("mobile-menu-close");
 
-    if (!nav || !wrapper) return;
+      if (!nav || !wrapper) return;
 
-    // --- Sticky Scroll Animation ---
-    let lastScrollY = window.scrollY;
-    let isHidden = false;
+      // --- Sticky Scroll Animation ---
+      let lastScrollY = window.scrollY;
+      let isHidden = false;
 
-    ScrollTrigger.create({
-      start: "top top",
-      end: 999999,
-      onUpdate: (self) => {
-        const currentScrollY = self.scroll();
+      ScrollTrigger.create({
+        start: "top top",
+        end: 999999,
+        onUpdate: (self) => {
+          const currentScrollY = self.scroll();
 
-        // Only hide if we've scrolled down more than 100px
-        if (currentScrollY > 100) {
-          if (self.direction === 1 && !isHidden) {
-            // Scrolling down - hide
-            gsap.to(wrapper, {
-              yPercent: -100,
-              duration: 0.4,
-              ease: "power2.inOut",
-            });
-            isHidden = true;
-          } else if (self.direction === -1 && isHidden) {
-            // Scrolling up - show
+          // Only hide if we've scrolled down more than 100px
+          if (currentScrollY > 100) {
+            if (self.direction === 1 && !isHidden) {
+              // Scrolling down - hide
+              gsap.to(wrapper, {
+                yPercent: -100,
+                duration: 0.4,
+                ease: "power2.inOut",
+              });
+              isHidden = true;
+            } else if (self.direction === -1 && isHidden) {
+              // Scrolling up - show
+              gsap.to(wrapper, {
+                yPercent: 0,
+                duration: 0.4,
+                ease: "power2.out",
+              });
+              isHidden = false;
+            }
+          } else {
+            // Always show at top
             gsap.to(wrapper, {
               yPercent: 0,
               duration: 0.4,
@@ -359,102 +384,94 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
             });
             isHidden = false;
           }
-        } else {
-          // Always show at top
-          gsap.to(wrapper, {
-            yPercent: 0,
-            duration: 0.4,
-            ease: "power2.out",
-          });
-          isHidden = false;
-        }
 
-        lastScrollY = currentScrollY;
-      },
-    });
-
-    // --- Mobile Menu Logic ---
-    if (
-      !mobileMenuButton ||
-      !mobileMenu ||
-      !mobileMenuPanel ||
-      !mobileMenuDarkLayer
-    )
-      return;
-
-    const openMobileMenu = () => {
-      mobileMenu.classList.remove("hidden");
-      document.body.style.overflow = "hidden";
-
-      gsap.to(mobileMenuDarkLayer, {
-        x: "0%",
-        duration: 0.5,
-        ease: "power3.out",
-      });
-      gsap.to(mobileMenuPanel, {
-        x: "0%",
-        duration: 0.5,
-        ease: "power3.out",
-        delay: 0.1,
-      });
-      gsap.to(mobileMenuLinks, {
-        opacity: 1,
-        y: 0,
-        duration: 0.7,
-        delay: 0.3,
-        ease: "power3.out",
-      });
-    };
-
-    const closeMobileMenu = () => {
-      gsap.to(mobileMenuLinks, { opacity: 0, y: 30, duration: 0.3 });
-      gsap.to(mobileMenuPanel, {
-        x: "-100%",
-        duration: 0.5,
-        ease: "power3.in",
-      });
-      gsap.to(mobileMenuDarkLayer, {
-        x: "-100%",
-        duration: 0.5,
-        ease: "power3.in",
-        delay: 0.1,
-        onComplete: () => {
-          mobileMenu.classList.add("hidden");
-          document.body.style.overflow = "";
+          lastScrollY = currentScrollY;
         },
       });
-    };
 
-    mobileMenuButton.addEventListener("click", openMobileMenu);
-    mobileMenuClose?.addEventListener("click", closeMobileMenu);
-    mobileMenuBackdrop?.addEventListener("click", closeMobileMenu);
+      // --- Mobile Menu Logic ---
+      if (
+        !mobileMenuButton ||
+        !mobileMenu ||
+        !mobileMenuPanel ||
+        !mobileMenuDarkLayer
+      )
+        return;
 
-    mobileMenu.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", (e) => {
-        if (link.dataset.isClosing === "true") return;
-        if (
-          e.metaKey ||
-          e.ctrlKey ||
-          e.shiftKey ||
-          e.altKey ||
-          (link as HTMLAnchorElement).target === "_blank"
-        )
-          return;
+      const openMobileMenu = () => {
+        mobileMenu.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
 
-        e.preventDefault();
-        closeMobileMenu();
-        setTimeout(() => {
-          link.dataset.isClosing = "true";
-          link.click();
-        }, 500);
+        gsap.to(mobileMenuDarkLayer, {
+          x: "0%",
+          duration: 0.5,
+          ease: "power3.out",
+        });
+        gsap.to(mobileMenuPanel, {
+          x: "0%",
+          duration: 0.5,
+          ease: "power3.out",
+          delay: 0.1,
+        });
+        gsap.to(mobileMenuLinks, {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          delay: 0.3,
+          ease: "power3.out",
+        });
+      };
+
+      const closeMobileMenu = () => {
+        gsap.to(mobileMenuLinks, { opacity: 0, y: 30, duration: 0.3 });
+        gsap.to(mobileMenuPanel, {
+          x: "-100%",
+          duration: 0.5,
+          ease: "power3.in",
+        });
+        gsap.to(mobileMenuDarkLayer, {
+          x: "-100%",
+          duration: 0.5,
+          ease: "power3.in",
+          delay: 0.1,
+          onComplete: () => {
+            mobileMenu.classList.add("hidden");
+            document.body.style.overflow = "";
+          },
+        });
+      };
+
+      mobileMenuButton.addEventListener("click", openMobileMenu);
+      mobileMenuClose?.addEventListener("click", closeMobileMenu);
+      mobileMenuBackdrop?.addEventListener("click", closeMobileMenu);
+
+      mobileMenu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", (e) => {
+          if (link.dataset.isClosing === "true") return;
+          if (
+            e.metaKey ||
+            e.ctrlKey ||
+            e.shiftKey ||
+            e.altKey ||
+            (link as HTMLAnchorElement).target === "_blank"
+          )
+            return;
+
+          e.preventDefault();
+          closeMobileMenu();
+          setTimeout(() => {
+            link.dataset.isClosing = "true";
+            link.click();
+          }, 500);
+        });
       });
-    });
 
-    document.addEventListener("astro:before-swap", () => closeMobileMenu(), {
-      once: true,
-    });
-  }
+      document.addEventListener("astro:before-swap", () => closeMobileMenu(), {
+        once: true,
+      });
+    }
 
-  // Use ONLY astro:page-load for consistent cross-page behavior
-  document.addEventListener("astro:page-load", setupHeader);
-</script>
+    // Use ONLY astro:page-load for consistent cross-page behavior
+    document.addEventListener("astro:page-load", setupHeader);
+  </script>
+</div>

@@ -1,0 +1,189 @@
+---
+const {
+    message = "Get a FREE Wheel Alignment when you buy 4 new tires!",
+    mobileMessage = "FREE Alignment When You Buy 4 Tires",
+    ctaText = "Shop Tires Now",
+    href = "/buy-new-tires",
+    class: className = "",
+} = Astro.props;
+---
+
+<div
+    id="AnnouncementBarWrapper"
+    class:list={["announcement-bar-wrapper w-full", className]}
+    data-state="hidden"
+>
+    <div
+        id="AnnouncementBar"
+        class="relative w-full bg-[#FFFBEB] dark:bg-[#2D2A1F] border-b border-yellow-200/50 dark:border-yellow-900/30 overflow-hidden"
+    >
+        <div class="w-full px-4 py-1 sm:px-6 lg:px-8 relative">
+            <div
+                class="flex flex-row items-center justify-center gap-2 sm:gap-4 text-center pr-8"
+            >
+                <div class="flex items-center gap-2">
+                    <p
+                        class="text-xs sm:text-sm font-medium text-yellow-900 dark:text-yellow-100 tracking-wide"
+                    >
+                        <span class="hidden sm:inline">{message}</span>
+                        <span class="inline sm:hidden">{mobileMessage}</span>
+                    </p>
+                </div>
+
+                <a
+                    href={href}
+                    data-astro-reload
+                    class="group inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-yellow-900 dark:text-yellow-100 hover:text-queens-secondary transition-colors duration-200"
+                >
+                    <span class="hidden sm:inline">
+                        {ctaText}
+                    </span>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-3.5 w-3.5 transform group-hover:translate-x-0.5 transition-transform"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <path d="M5 12h14"></path>
+                        <path d="m12 5 7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+
+            {/* Close Button */}
+            <button
+                id="AnnouncementBarClose"
+                type="button"
+                aria-label="Close announcement"
+                class="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-yellow-800/60 hover:text-yellow-900 hover:bg-yellow-200/50 dark:text-yellow-200/60 dark:hover:text-yellow-100 dark:hover:bg-yellow-800/30 transition-colors duration-200"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path d="M18 6 6 18"></path>
+                    <path d="m6 6 12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        {/* Subtle shine effect */}
+        <div
+            class="absolute inset-0 pointer-events-none bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_3s_infinite]"
+        >
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes shimmer {
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+    .announcement-bar-wrapper {
+        z-index: 100;
+        overflow: hidden;
+        transition:
+            max-height 0.4s ease-out,
+            opacity 0.3s ease-out;
+    }
+
+    .announcement-bar-wrapper[data-state="hidden"] {
+        max-height: 0;
+        opacity: 0;
+    }
+
+    .announcement-bar-wrapper[data-state="visible"] {
+        max-height: 100px;
+        opacity: 1;
+    }
+
+    .announcement-bar-wrapper[data-state="closing"] {
+        max-height: 0;
+        opacity: 0;
+    }
+</style>
+
+<script>
+    function initAnnouncementBar() {
+        const wrapper = document.getElementById("AnnouncementBarWrapper");
+        const closeBtn = document.getElementById("AnnouncementBarClose");
+        const headerWrapper =
+            document.getElementById("header-wrapper") ||
+            document.getElementById("header-wrapper-services");
+
+        if (!wrapper) return;
+
+        // Function to update header position based on announcement bar
+        function updateHeaderPosition(barVisible: boolean) {
+            if (!headerWrapper) return;
+
+            if (barVisible) {
+                // Get the actual height of the announcement bar
+                const barElement = wrapper?.querySelector(
+                    "#AnnouncementBar",
+                ) as HTMLElement | null;
+                const barHeight = barElement?.offsetHeight || 0;
+                headerWrapper.style.top = barHeight + "px";
+            } else {
+                headerWrapper.style.top = "0px";
+            }
+        }
+
+        // Check for cookie
+        const isDismissed = document.cookie
+            .split("; ")
+            .find((row) => row.startsWith("announcement-dismissed="));
+
+        if (isDismissed) {
+            wrapper.style.display = "none";
+            return;
+        }
+
+        // Show the bar after 3 seconds
+        setTimeout(() => {
+            wrapper.setAttribute("data-state", "visible");
+            // Wait for animation to complete, then update header position
+            setTimeout(() => {
+                updateHeaderPosition(true);
+            }, 50);
+        }, 3000);
+
+        // Close button handler
+        if (closeBtn) {
+            closeBtn.addEventListener("click", () => {
+                wrapper.setAttribute("data-state", "closing");
+                updateHeaderPosition(false);
+
+                // Set cookie for 7 days
+                const date = new Date();
+                date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000);
+                document.cookie =
+                    "announcement-dismissed=true; expires=" +
+                    date.toUTCString() +
+                    "; path=/";
+
+                // Remove from DOM after animation completes
+                setTimeout(() => {
+                    wrapper.style.display = "none";
+                }, 400);
+            });
+        }
+    }
+
+    // Initialize on page load and after view transitions
+    initAnnouncementBar();
+    document.addEventListener("astro:page-load", initAnnouncementBar);
+</script>

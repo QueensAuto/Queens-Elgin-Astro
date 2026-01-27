@@ -1,6 +1,7 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
 import CtaButton from "./CtaButton.astro";
+import AnnouncementBar from "./AnnouncementBar.astro";
 import type { BrandConfig } from "../brands";
 
 const { brand, inverse = false } = Astro.props as {
@@ -13,161 +14,171 @@ const firstName = nameParts[0];
 const secondName = nameParts.length > 1 ? nameParts[1] : "";
 ---
 
+<AnnouncementBar
+  class="fixed top-0 left-0 right-0 z-[60] w-full pointer-events-auto"
+/>
+
 <div
   id="header-wrapper-services"
-  class="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-4 pointer-events-none transition-transform duration-300"
+  class="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none transition-all duration-300"
 >
-  <header
-    id="main-nav-services"
-    class={`pointer-events-auto relative tracking-tight flex items-center justify-between w-full transition-all duration-500
+  <div class="pt-4 px-4 w-full flex justify-center">
+    <header
+      id="main-nav-services"
+      class={`pointer-events-auto relative tracking-tight flex items-center justify-between w-full transition-all duration-500
     /* Mobile/Universal Pill Styles */
     px-6 py-3 bg-black/60 backdrop-blur-lg rounded-full shadow-lg border border-white/10
     /* Desktop Sizing */
     md:px-6 md:py-3 md:max-w-6xl
     text-white 
     transition-colors duration-300`}
-  >
-    <!-- Logo -->
-    <a
-      href={`/`}
-      class="group flex items-center gap-2 mr-auto md:mr-8 shrink-0"
     >
-      {/* Force White Logo for Dark Header */}
-      {
-        brand.logoPathWhite ? (
-          <img
-            src={brand.logoPathWhite}
-            alt={brand.name}
-            class="h-8 w-auto object-contain block"
-          />
-        ) : (
-          <span class="text-xl font-bold tracking-tighter uppercase text-white group-hover:text-queens-secondary transition-colors duration-300">
-            {firstName}{" "}
-            <span class="text-queens-secondary group-hover:text-white transition-colors duration-300">
-              {secondName}
-            </span>
-          </span>
-        )
-      }
-    </a>
-
-    <!-- Desktop Navigation -->
-    <nav class="hidden md:flex items-center gap-1">
+      <!-- Logo -->
       <a
         href={`/`}
-        data-astro-prefetch="hover"
-        class="text-sm font-medium text-white/90 hover:text-white px-4 py-2 transition-all"
-        >Home</a
+        class="group flex items-center gap-2 mr-auto md:mr-8 shrink-0"
       >
-      <a
-        href={`/services`}
-        data-astro-prefetch="hover"
-        class="text-sm font-medium text-white/90 hover:text-white px-4 py-2 transition-all"
-        >Services</a
-      >
-      <a
-        href={`/buy-new-tires`}
-        data-astro-reload
-        class="text-sm font-medium text-white/90 hover:text-white px-4 py-2 transition-all"
-        >New Tires</a
-      >
-      <a
-        href={`/deals`}
-        data-astro-prefetch="hover"
-        class="text-sm font-medium text-white/90 hover:text-white px-4 py-2 transition-all"
-        >Deals</a
-      >
-      <a
-        href={`/about`}
-        data-astro-prefetch="hover"
-        class="text-sm font-medium text-white/90 hover:text-white px-4 py-2 transition-all"
-        >About</a
-      >
-      <a
-        href={`/contact`}
-        data-astro-prefetch="hover"
-        class="text-sm font-medium text-white/90 hover:text-white px-4 py-2 transition-all"
-        >Contact</a
-      >
-    </nav>
+        {/* Force White Logo for Dark Header */}
+        {
+          brand.logoPathWhite ? (
+            <img
+              src={brand.logoPathWhite}
+              alt={brand.name}
+              class="h-8 w-auto object-contain block"
+            />
+          ) : (
+            <span class="text-xl font-bold tracking-tighter uppercase text-white group-hover:text-queens-secondary transition-colors duration-300">
+              {firstName}{" "}
+              <span class="text-queens-secondary group-hover:text-white transition-colors duration-300">
+                {secondName}
+              </span>
+            </span>
+          )
+        }
+      </a>
 
-    <!-- Right Side Actions -->
-    <div class="flex items-center gap-3 ml-auto md:ml-0 pl-0 md:pl-0">
-      <ThemeToggle inverse={true} />
-
-      <div class="hidden lg:block">
-        <CtaButton href="/buy-new-tires" text="Buy New Tires" reload={true} />
-      </div>
-
-      <!-- Mobile Menu Button -->
-      <button
-        id="mobile-menu-button-services"
-        class="md:hidden p-2 rounded-full text-white hover:bg-white/10 transition-colors"
-        aria-label="Open Menu"
-      >
-        <!-- Premium Grid Icon -->
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          class="w-5 h-5"
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-1">
+        <a
+          href={`/`}
+          data-astro-prefetch="hover"
+          class="text-sm font-medium text-white/90 hover:text-white px-4 py-2 transition-all"
+          >Home</a
         >
-          <circle cx="5" cy="5" r="1.5" stroke="currentColor" stroke-width="1.5"
-          ></circle>
-          <circle
-            cx="12"
-            cy="5"
-            r="1.5"
-            stroke="currentColor"
-            stroke-width="1.5"></circle>
-          <circle
-            cx="19"
-            cy="5"
-            r="1.5"
-            stroke="currentColor"
-            stroke-width="1.5"></circle>
-          <circle
-            cx="5"
-            cy="12"
-            r="1.5"
-            stroke="currentColor"
-            stroke-width="1.5"></circle>
-          <circle
-            cx="12"
-            cy="12"
-            r="1.5"
-            stroke="currentColor"
-            stroke-width="1.5"></circle>
-          <circle
-            cx="19"
-            cy="12"
-            r="1.5"
-            stroke="currentColor"
-            stroke-width="1.5"></circle>
-          <circle
-            cx="5"
-            cy="19"
-            r="1.5"
-            stroke="currentColor"
-            stroke-width="1.5"></circle>
-          <circle
-            cx="12"
-            cy="19"
-            r="1.5"
-            stroke="currentColor"
-            stroke-width="1.5"></circle>
-          <circle
-            cx="19"
-            cy="19"
-            r="1.5"
-            stroke="currentColor"
-            stroke-width="1.5"></circle>
-        </svg>
-      </button>
-    </div>
-  </header>
+        <a
+          href={`/services`}
+          data-astro-prefetch="hover"
+          class="text-sm font-medium text-white/90 hover:text-white px-4 py-2 transition-all"
+          >Services</a
+        >
+        <a
+          href={`/buy-new-tires`}
+          data-astro-reload
+          class="text-sm font-medium text-white/90 hover:text-white px-4 py-2 transition-all"
+          >New Tires</a
+        >
+        <a
+          href={`/deals`}
+          data-astro-prefetch="hover"
+          class="text-sm font-medium text-white/90 hover:text-white px-4 py-2 transition-all"
+          >Deals</a
+        >
+        <a
+          href={`/about`}
+          data-astro-prefetch="hover"
+          class="text-sm font-medium text-white/90 hover:text-white px-4 py-2 transition-all"
+          >About</a
+        >
+        <a
+          href={`/contact`}
+          data-astro-prefetch="hover"
+          class="text-sm font-medium text-white/90 hover:text-white px-4 py-2 transition-all"
+          >Contact</a
+        >
+      </nav>
+
+      <!-- Right Side Actions -->
+      <div class="flex items-center gap-3 ml-auto md:ml-0 pl-0 md:pl-0">
+        <ThemeToggle inverse={true} />
+
+        <div class="hidden lg:block">
+          <CtaButton href="/buy-new-tires" text="Buy New Tires" reload={true} />
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button
+          id="mobile-menu-button-services"
+          class="md:hidden p-2 rounded-full text-white hover:bg-white/10 transition-colors"
+          aria-label="Open Menu"
+        >
+          <!-- Premium Grid Icon -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            class="w-5 h-5"
+          >
+            <circle
+              cx="5"
+              cy="5"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="12"
+              cy="5"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="19"
+              cy="5"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="5"
+              cy="12"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="12"
+              cy="12"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="19"
+              cy="12"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="5"
+              cy="19"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="12"
+              cy="19"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+            <circle
+              cx="19"
+              cy="19"
+              r="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"></circle>
+          </svg>
+        </button>
+      </div>
+    </header>
+  </div>
 </div>
 
 <!-- Mobile Menu Overlay -->
