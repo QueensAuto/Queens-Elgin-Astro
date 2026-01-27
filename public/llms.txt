@@ -8,6 +8,13 @@ Queens Auto Service is a modern, family-owned auto repair and tire shop serving 
 - **Tire Authority**: We stock and install all major brands, from premium (Michelin, Continental) to budget-friendly favorites (Ironman, Hankook, Kumho).
 - **Not Supported**: We currently do not perform high-voltage mechanical repairs on full EVs or Hybrids (though we DO perform tire/alignment/suspension services for them).
 
+## Current Specials & Offers
+- **FREE Alignment**: Included with the purchase of 4 new tires (Save ~$90+).
+- **$369 Brakes**: Brake pads and professional installation per axle.
+- **$35 Alignment**: Special price for precision wheel alignment (Limited time).
+- **Repair Discount**: Save up to $45 off auto repairs (Tiered: $15 off $100+, $30 off $200+, $45 off $300+).
+- **Free Checks**: Seasonal Safety Check and Battery Charging Test included at no charge.
+
 ## The "Modern Shop" Experience
 - **Digital Vehicle Inspections (DVI)**: We use Shopmonkey to send detailed inspection reports to your phone, complete with photos and videos of any issues found. You see what we see.
 - **Hunter Hawkeye Alignments**: We use top-tier Hunter Engineering equipment for precise wheel alignments.
