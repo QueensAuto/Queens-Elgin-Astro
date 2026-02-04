@@ -15,7 +15,7 @@ const {
 >
     <div
         id="AnnouncementBar"
-        class="relative w-full bg-amber-50 border-b border-yellow-200/50 overflow-hidden"
+        class="relative w-full !bg-amber-50 border-b border-yellow-200/50 overflow-hidden"
     >
         <div class="w-full px-4 py-1.5 sm:px-6 lg:px-8 relative">
             <div
@@ -23,7 +23,7 @@ const {
             >
                 <div class="flex items-center gap-2">
                     <p
-                        class="text-sm font-medium text-yellow-900 tracking-wide"
+                        class="text-sm font-medium !text-yellow-900 tracking-wide"
                     >
                         <span class="hidden sm:inline">{message}</span>
                         <span class="inline sm:hidden">{mobileMessage}</span>
@@ -33,7 +33,7 @@ const {
                 <a
                     href={href}
                     data-astro-reload
-                    class="group inline-flex items-center gap-1.5 text-sm font-bold text-yellow-900 hover:text-queens-secondary transition-colors duration-200"
+                    class="group inline-flex items-center gap-1.5 text-sm font-bold !text-yellow-900 hover:!text-queens-secondary transition-colors duration-200"
                 >
                     <span class="hidden sm:inline">
                         {ctaText}
@@ -59,7 +59,7 @@ const {
                 id="AnnouncementBarClose"
                 type="button"
                 aria-label="Close announcement"
-                class="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-yellow-800/60 hover:text-yellow-900 hover:bg-yellow-200/50 transition-colors duration-200"
+                class="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full !text-yellow-800/60 hover:!text-yellow-900 hover:!bg-yellow-200/50 transition-colors duration-200"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
