@@ -429,20 +429,24 @@ const description =
                 const carModel = params.get("carModel");
                 const symptom = params.get("symptom") || "Auto Repair Service";
 
-                // --- GA4 Conversion Event ---
+                // --- GTM Conversion Event ---
                 const transactionId = `txn_${new Date().getTime()}`;
-                gtag("event", "purchase", {
-                    transaction_id: transactionId,
-                    value: 100.0,
-                    currency: "USD",
-                    items: [
-                        {
-                            item_name: symptom,
-                            item_id: "REPAIR_SERVICE_LEAD",
-                            price: 100.0,
-                            quantity: 1,
-                        },
-                    ],
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    event: "purchase",
+                    ecommerce: {
+                        transaction_id: transactionId,
+                        value: 100.0,
+                        currency: "USD",
+                        items: [
+                            {
+                                item_name: symptom,
+                                item_id: "REPAIR_SERVICE_LEAD",
+                                price: "100.00",
+                                quantity: "1",
+                            },
+                        ],
+                    },
                     user_data: {
                         email: params.get("email"),
                         phone_number: params.get("phone"),
