@@ -1742,11 +1742,8 @@ const {
 
             const formattedPhone = `+1${(data["mobile-number"] || "").replace(/\D/g, "")}`;
 
-            // GTM Data Layer Push for Lead Generation
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({
-                event: "generate_lead",
-                generate_lead: true,
+            // GA4 Event for Lead Generation
+            gtag("event", "generate_lead", {
                 user_data: {
                     email: data["email"],
                     phone_number: formattedPhone,
