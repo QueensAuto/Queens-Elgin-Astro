@@ -46,21 +46,25 @@ const localBusinessSchema = {
         width: "512",
         height: "512",
     },
-    image: `https://${brand.domain}/images/shop/Queens-Auto-Services-Elgin-a-view-from-outside.webp`,
+    image:
+        image ||
+        (brand.shopImage
+            ? `https://${brand.domain}${brand.shopImage}`
+            : `https://${brand.domain}/images/shop/Queens-Auto-Services-Elgin-a-view-from-outside.webp`),
     telephone: brand.phone,
     email: brand.email,
     address: {
         "@type": "PostalAddress",
-        streetAddress: "1303 Dundee Ave",
-        addressLocality: "Elgin",
-        addressRegion: "IL",
-        postalCode: "60120",
+        streetAddress: brand.streetAddress || "1303 Dundee Ave",
+        addressLocality: brand.addressLocality || "Elgin",
+        addressRegion: brand.addressRegion || "IL",
+        postalCode: brand.postalCode || "60120",
         addressCountry: "US",
     },
     geo: {
         "@type": "GeoCoordinates",
-        latitude: 42.0537,
-        longitude: -88.2638,
+        latitude: brand.latitude || 42.0615014,
+        longitude: brand.longitude || -88.2652443,
     },
     hasMap: brand.googleMapsUrl,
     openingHoursSpecification: [
@@ -84,8 +88,8 @@ const localBusinessSchema = {
     priceRange: "$$",
     aggregateRating: {
         "@type": "AggregateRating",
-        ratingValue: "4.9",
-        reviewCount: "128",
+        ratingValue: brand.ratingValue || "4.5",
+        reviewCount: brand.reviewCount || "489",
     },
 };
 
@@ -116,11 +120,23 @@ if (serviceData) {
         provider: {
             "@id": `https://${brand.domain}/#organization`,
         },
-        areaServed: {
-            "@type": "City",
-            name: "Elgin",
-            sameAs: "https://en.wikipedia.org/wiki/Elgin,_Illinois",
-        },
+        areaServed: [
+            {
+                "@type": "City",
+                name: "Elgin",
+                sameAs: "https://en.wikipedia.org/wiki/Elgin,_Illinois",
+            },
+            {
+                "@type": "City",
+                name: "South Elgin",
+                sameAs: "https://en.wikipedia.org/wiki/South_Elgin,_Illinois",
+            },
+            {
+                "@type": "City",
+                name: "Hoffman Estates",
+                sameAs: "https://en.wikipedia.org/wiki/Hoffman_Estates,_Illinois",
+            },
+        ],
         description: serviceData.pitch || description,
         offers: {
             "@type": "Offer",
@@ -170,6 +186,29 @@ if (reviewData && reviewData.length > 0) {
         },
     }));
 }
+
+// 6. Breadcrumb Schema
+const pathSegments = Astro.url.pathname.split("/").filter(Boolean);
+const breadcrumbList = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+        {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: `https://${brand.domain}`,
+        },
+        ...pathSegments.map((segment, index) => ({
+            "@type": "ListItem",
+            position: index + 2,
+            name:
+                segment.charAt(0).toUpperCase() +
+                segment.slice(1).replace(/-/g, " "),
+            item: `https://${brand.domain}/${pathSegments.slice(0, index + 1).join("/")}`,
+        })),
+    ],
+};
 ---
 
 {/* Inject Global Schemas on Every Page */}
@@ -182,6 +221,11 @@ if (reviewData && reviewData.length > 0) {
     is:inline
     type="application/ld+json"
     set:html={JSON.stringify(websiteSchema)}
+/>
+<script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(breadcrumbList)}
 />
 
 {/* Conditional Schemas */}

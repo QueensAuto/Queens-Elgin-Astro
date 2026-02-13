@@ -13,4 +13,13 @@ export type BrandConfig = {
     googleMapsUrl?: string;
     gaId?: string;
     metaPixelId?: string;
+    latitude?: number;
+    longitude?: number;
+    streetAddress?: string;
+    addressLocality?: string;
+    addressRegion?: string;
+    postalCode?: string;
+    ratingValue?: string;
+    reviewCount?: string;
+    shopImage?: string;
 };

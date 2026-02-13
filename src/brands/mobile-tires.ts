@@ -13,4 +13,13 @@ export const mobileTiresBrand: BrandConfig = {
     address: "1303 Dundee Ave, Elgin, IL 60120",
     cityLabel: "Professional Auto Service – Elgin, IL",
     googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=1303+Dundee+Ave+Elgin+IL+60120",
+    latitude: 42.0615014,
+    longitude: -88.2652443,
+    streetAddress: "1303 Dundee Ave",
+    addressLocality: "Elgin",
+    addressRegion: "IL",
+    postalCode: "60120",
+    ratingValue: "4.5",
+    reviewCount: "489",
+    shopImage: "/images/shop/Queens-Auto-Services-Elgin-a-view-from-outside.webp",
 };
