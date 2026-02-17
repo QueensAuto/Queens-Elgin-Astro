@@ -43,7 +43,7 @@ const parsedContent = service.fullContent
     : null;
 const parsedCloser = service.closer ? marked.parse(service.closer) : null;
 
-const serviceFaqs = [
+const genericFaqs = [
     {
         question: "Do I need an appointment, or can I just walk in?",
         answer: "Appointments are recommended, especially for mechanical work and diagnostics, to help us get you in faster. However, we do accept walk-ins whenever our schedule allows.",
@@ -66,7 +66,7 @@ const serviceFaqs = [
     },
     {
         question: "How do I know if I really need the recommended repair?",
-        answer: "We believe in education, not pressure. We’ll show you what we found, explain the risks of waiting, and let you decide. If a repair can wait, we’ll tell you.",
+        answer: "We believe in education, not pressure. We'll show you what we found, explain the risks of waiting, and let you decide. If a repair can wait, we'll tell you.",
     },
     {
         question: "Is labor taxable?",
@@ -77,6 +77,10 @@ const serviceFaqs = [
         answer: "You get dealership-level expertise and equipment, but with honest communication, fair pricing, and zero high-pressure sales tactics.",
     },
 ];
+
+// Use service-specific FAQs from services.json if available, otherwise fall back to generic
+const serviceFaqs =
+    service.faqs && service.faqs.length > 0 ? service.faqs : genericFaqs;
 ---
 
 <BaseLayout
