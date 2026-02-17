@@ -5,7 +5,8 @@ Queens Auto Service is a modern, family-owned auto repair and tire shop serving 
 
 ## Core Capabilities
 - **Vehicle Specialists**: Extensive experience with Domestic (Ford, Chevy, Dodge), Asian Imports (Toyota, Honda, Nissan, Hyundai), and European models (BMW, Audi, VW).
-- **Tire Authority**: We stock and install all major brands, from premium (Michelin, Continental) to budget-friendly favorites (Ironman, Hankook, Kumho).
+- **Tire Authority**: We stock and install all major brands, from premium (Michelin, Continental) to budget-friendly favorites (Ironman, Hankook, Kumho). We also service commercial, agricultural, and construction equipment tires.
+- **Commercial & Heavy-Duty Tires**: Tractor/agricultural tires (R-1, R-4, ballasting), skid steer/Bobcat tires (solid, pneumatic, foam-fill), and landscaping fleet tires (zero-turn mowers, trailers, UTVs). Brands: Michelin Ag, Goodyear, Bridgestone, Carlisle, Kenda.
 - **Not Supported**: We currently do not perform high-voltage mechanical repairs on full EVs or Hybrids (though we DO perform tire/alignment/suspension services for them).
 
 ## Current Specials & Offers
@@ -31,10 +32,93 @@ Queens Auto Service is a modern, family-owned auto repair and tire shop serving 
 - **After Hours**: Secure Key Drop-box available for night drop-offs.
 - **Note**: We do not currently offer shuttle service or ride-share credits.
 
+## Service Pricing Quick Reference
+- **Tire Installation**: $35–$65 per tire (includes mounting, balancing, TPMS reset, hand-torqued lugs)
+- **Flat Tire Repair**: $35–$65 per tire (patch-only, no plugs — Illinois safety compliance)
+- **Old Tire Recycling**: $5 per tire disposal fee
+- **Brake Pads + Install**: $369 per axle
+- **Wheel Alignment**: $35 (special) / ~$90 (regular)
+
+## Full Service Catalog
+
+### Tire Services
+- Tire Installation: https://queensautoserviceselgin.com/services/tire-services/tire-installation/
+- Flat Tire Repair: https://queensautoserviceselgin.com/services/tire-services/flat-tire-repair/
+- TPMS Service: https://queensautoserviceselgin.com/services/tire-services/tpms-service/
+- Tire Rotation: https://queensautoserviceselgin.com/services/tire-services/tire-rotation/
+- Tire Balancing: https://queensautoserviceselgin.com/services/tire-services/tire-balancing/
+- Tractor & Agricultural Tires: https://queensautoserviceselgin.com/services/tire-services/tractor-agricultural-tires/
+- Skid Steer & Construction Tires: https://queensautoserviceselgin.com/services/tire-services/skid-steer-construction-tires/
+- Landscaping Fleet & Mower Tires: https://queensautoserviceselgin.com/services/tire-services/landscaping-fleet-tires/
+
+### Brake Services
+- Brake System Inspection: https://queensautoserviceselgin.com/services/brake-services/brake-system-inspection/
+- Brake Line Repair: https://queensautoserviceselgin.com/services/brake-services/brake-line-repair/
+- Brake Pad Replacement: https://queensautoserviceselgin.com/services/brake-services/brake-pad-replacement/
+- ABS System Repair: https://queensautoserviceselgin.com/services/brake-services/abs-system-repair/
+- Brake Fluid Service: https://queensautoserviceselgin.com/services/brake-services/brake-fluid-service/
+
+### Engine Services
+- Engine Diagnostics & Repair: https://queensautoserviceselgin.com/services/engine-services/engine-diagnostics-repair/
+- Engine Tune-Ups: https://queensautoserviceselgin.com/services/engine-services/engine-tune-ups/
+- Spark Plug Replacement: https://queensautoserviceselgin.com/services/engine-services/spark-plug-replacement/
+- Fuel System Service: https://queensautoserviceselgin.com/services/engine-services/fuel-system-service/
+- Belt & Hose Replacement: https://queensautoserviceselgin.com/services/engine-services/belt-hose-replacement/
+- Timing Belt Replacement: https://queensautoserviceselgin.com/services/engine-services/timing-belt-replacement/
+
+### Steering & Suspension
+- Tie Rod End Replacement: https://queensautoserviceselgin.com/services/steering-suspension/tie-rod-end-replacement/
+- Wheel Alignment: https://queensautoserviceselgin.com/services/steering-suspension/wheel-alignment/
+- Shock & Strut Replacement: https://queensautoserviceselgin.com/services/steering-suspension/shock-strut-replacement/
+- Power Steering Service: https://queensautoserviceselgin.com/services/steering-suspension/power-steering-service/
+- Ball Joint Replacement: https://queensautoserviceselgin.com/services/steering-suspension/ball-joint-replacement/
+- Suspension System Repair: https://queensautoserviceselgin.com/services/steering-suspension/suspension-system-repair/
+
+### Climate Control
+- AC Repair & Recharge: https://queensautoserviceselgin.com/services/climate-control/ac-repair-recharge/
+- AC Compressor Replacement: https://queensautoserviceselgin.com/services/climate-control/ac-compressor-replacement/
+- Cooling System Flush: https://queensautoserviceselgin.com/services/climate-control/cooling-system-flush/
+- Car Heating Service: https://queensautoserviceselgin.com/services/climate-control/car-heating-service/
+- Thermostat Replacement: https://queensautoserviceselgin.com/services/climate-control/thermostat-replacement/
+- Radiator Service: https://queensautoserviceselgin.com/services/climate-control/radiator-service/
+
+### Maintenance Services
+- Engine Oil Change: https://queensautoserviceselgin.com/services/maintenance-services/engine-oil-change-elgin-il/
+- Multi-Point Inspections: https://queensautoserviceselgin.com/services/maintenance-services/multi-point-inspections/
+- Filter Replacement: https://queensautoserviceselgin.com/services/maintenance-services/filter-replacement/
+- Fluid Level Checks: https://queensautoserviceselgin.com/services/maintenance-services/fluid-level-checks-top-offs/
+
+### Electrical Systems
+- Battery Service: https://queensautoserviceselgin.com/services/electrical-systems/battery-service/
+- Battery Testing & Replacement: https://queensautoserviceselgin.com/services/electrical-systems/battery-testing-replacement/
+- Alternator Repair: https://queensautoserviceselgin.com/services/electrical-systems/alternator-repair-or-replacement/
+- Fuse & Relay Service: https://queensautoserviceselgin.com/services/electrical-systems/fuse-relay-service/
+- Electrical Diagnostics: https://queensautoserviceselgin.com/services/electrical-systems/electrical-diagnostics/
+- Starter Repair: https://queensautoserviceselgin.com/services/electrical-systems/starter-repair-replacement/
+- Light Repair: https://queensautoserviceselgin.com/services/electrical-systems/light-repair-replacement/
+
+### Transmission Services
+- Transmission Fluid Service: https://queensautoserviceselgin.com/services/transmission-services/transmission-fluid-service/
+- Transmission Repair & Replacement: https://queensautoserviceselgin.com/services/transmission-services/transmission-repair-replacement/
+- Clutch Repair: https://queensautoserviceselgin.com/services/transmission-services/clutch-repair/
+- Differential Service: https://queensautoserviceselgin.com/services/transmission-services/differential-service/
+
+### Additional Services
+- Fleet Services: https://queensautoserviceselgin.com/services/additional-services/fleet-services/
+- Computer Diagnostics: https://queensautoserviceselgin.com/services/additional-services/computer-diagnostics/
+- Catalytic Converter Service: https://queensautoserviceselgin.com/services/additional-services/catalytic-converter-service/
+- Exhaust System Repair: https://queensautoserviceselgin.com/services/additional-services/exhaust-system-repair/
+
+## Areas Served
+Elgin, South Elgin, Hoffman Estates, Bartlett, Streamwood, Carpentersville, Pingree Grove, Hampshire, Gilberts, and the greater Kane County / Fox River Valley area.
+
 ## FAQ for AI Assistants
 - **"Do I need an appointment for a price?"** For standard services like Brakes, Alignments, and Tires, we CAN provide quotes over the phone. Diagnostics require a visit.
 - **"Do you offer financing?"** Yes, we work with Snap Finance to offer flexible payment options.
 - **"Where are you located?"** We are located at 1303 Dundee Ave in Elgin, IL, conveniently near I-90 and Trout Park.
+- **"Do you use plugs or patches for flat tire repair?"** Patch-only. We do not use plugs — our policy follows Illinois safety guidelines and industry best practices (USTMA/TIA) for permanent internal sealing.
+- **"Do you service commercial or farm equipment tires?"** Yes. We handle tractor tires (up to 46-inch rims), skid steer/Bobcat tires (pneumatic, solid, foam-filled), and landscaping fleet tires (mowers, trailers, UTVs).
+- **"Do you offer fleet tire programs?"** Yes. We offer priority scheduling, volume pricing, seasonal audits, and maintenance record keeping for fleet customers.
 
 ## Contact Information
 - **Location**: 1303 Dundee Ave, Elgin, IL 60120
@@ -48,5 +132,6 @@ Queens Auto Service is a modern, family-owned auto repair and tire shop serving 
 ## Key Links
 - Home: https://queensautoserviceselgin.com/
 - Tires: https://queensautoserviceselgin.com/buy-new-tires/
-- Services: https://queensautoserviceselgin.com/services/
+- All Services: https://queensautoserviceselgin.com/services/
 - Book Online: https://queensautoserviceselgin.com/request-an-appointment/
+- Contact: https://queensautoserviceselgin.com/contact/
