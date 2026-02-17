@@ -15,10 +15,24 @@
             var sections = document.querySelectorAll("[data-reveal]");
             var viewportHeight = window.innerHeight;
 
+            // Progressive enhancement: Set initial hidden states via JS
+            sections.forEach(function (section) {
+                if (section.dataset.revealed === "true") return;
+
+                var children = section.querySelectorAll("[data-reveal-item]");
+                children.forEach(function (child) {
+                    child.style.opacity = "0";
+                    child.style.transform = "translateY(40px)";
+                });
+            });
+
             // Animate sections already in view (hero area)
             sections.forEach(function (section) {
+                if (section.dataset.revealed === "true") return;
+
                 var rect = section.getBoundingClientRect();
                 if (rect.top < viewportHeight * 0.9) {
+                    section.dataset.revealed = "true";
                     // Section is in initial viewport - animate with delay
                     setTimeout(function () {
                         section.classList.add("reveal-visible");
@@ -26,12 +40,13 @@
                         var children =
                             section.querySelectorAll("[data-reveal-item]");
                         children.forEach(function (child, index) {
-                            // 250ms stagger for relaxed, elegant reveal
                             setTimeout(function () {
+                                child.style.opacity = "1";
+                                child.style.transform = "translateY(0)";
                                 child.classList.add("reveal-item-animate");
                             }, index * 250);
                         });
-                    }, 200); // Initial delay before first animation
+                    }, 200);
                 }
             });
 
@@ -41,18 +56,18 @@
                     entries.forEach(function (entry) {
                         if (
                             entry.isIntersecting &&
-                            !entry.target.classList.contains("reveal-visible")
+                            entry.target.dataset.revealed !== "true"
                         ) {
                             var section = entry.target;
+                            section.dataset.revealed = "true";
                             section.classList.add("reveal-visible");
 
-                            // Animate children with generous stagger
-                            var children = section.querySelectorAll(
-                                "[data-reveal-item]:not(.reveal-item-animate)",
-                            );
+                            var children =
+                                section.querySelectorAll("[data-reveal-item]");
                             children.forEach(function (child, index) {
-                                // 250ms stagger for relaxed, elegant reveal
                                 setTimeout(function () {
+                                    child.style.opacity = "1";
+                                    child.style.transform = "translateY(0)";
                                     child.classList.add("reveal-item-animate");
                                 }, index * 250);
                             });
@@ -63,13 +78,13 @@
                 },
                 {
                     threshold: 0.1,
-                    rootMargin: "0px 0px -100px 0px",
+                    rootMargin: "0px 0px -50px 0px", // Reduced from -100px for reliability
                 },
             );
 
-            // Observe all reveal sections
+            // Observe all reveal sections that haven't been revealed yet
             sections.forEach(function (section) {
-                if (!section.classList.contains("reveal-visible")) {
+                if (section.dataset.revealed !== "true") {
                     observer.observe(section);
                 }
             });
@@ -78,23 +93,15 @@
         // Run on initial page load
         if (document.readyState === "loading") {
             document.addEventListener("DOMContentLoaded", function () {
-                requestAnimationFrame(function () {
-                    requestAnimationFrame(init);
-                });
+                init();
             });
         } else {
-            requestAnimationFrame(function () {
-                requestAnimationFrame(init);
-            });
+            init();
         }
 
-        // CRITICAL: Also run after Astro View Transitions navigation
-        // This event fires after client-side page swaps
+        // Run after Astro View Transitions navigation
         document.addEventListener("astro:page-load", function () {
-            requestAnimationFrame(function () {
-                requestAnimationFrame(init);
-            });
+            init();
         });
     })();
 </script>
-

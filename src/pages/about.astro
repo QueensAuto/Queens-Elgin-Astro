@@ -44,21 +44,23 @@ import CtaButtonSecondary from "../components/CtaButtonSecondary.astro";
                 <div
                     class="relative aspect-video rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-white/10"
                 >
-                    <script src="https://fast.wistia.com/player.js" async
-                    ></script>
-                    <script
-                        src="https://fast.wistia.com/embed/yfibgnnqeg.js"
-                        async
-                        type="module"></script>
-                    <style>
-                        wistia-player[media-id="yfibgnnqeg"]:not(:defined) {
-                            background: center / contain no-repeat
-                                url("https://fast.wistia.com/embed/medias/yfibgnnqeg/swatch");
-                            display: block;
-                            filter: blur(5px);
-                            padding-top: 56.25%;
-                        }
-                    </style>
+                    <Fragment slot="head">
+                        <script src="https://fast.wistia.com/player.js" async
+                        ></script>
+                        <script
+                            src="https://fast.wistia.com/embed/yfibgnnqeg.js"
+                            async
+                            type="module"></script>
+                        <style>
+                            wistia-player[media-id="yfibgnnqeg"]:not(:defined) {
+                                background: center / contain no-repeat
+                                    url("https://fast.wistia.com/embed/medias/yfibgnnqeg/swatch");
+                                display: block;
+                                filter: blur(5px);
+                                padding-top: 56.25%;
+                            }
+                        </style>
+                    </Fragment>
                     <wistia-player
                         media-id="yfibgnnqeg"
                         aspect="1.7777777777777777"
@@ -491,9 +493,6 @@ import CtaButtonSecondary from "../components/CtaButtonSecondary.astro";
         });
     }
 
-    // Run on page load
-    initCounters();
-
-    // Re-run on view transitions if using Astro transitions
-    document.addEventListener("astro:after-swap", initCounters);
+    // Run on initial load and View Transitions
+    document.addEventListener("astro:page-load", initCounters);
 </script>

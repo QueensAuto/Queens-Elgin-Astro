@@ -1196,8 +1196,7 @@ details.group>div:where(.dark, .dark *) {
 
 /* SmoothReveal Global Selectors */
 [data-reveal-item] {
-    opacity: 1;
-    transform: translateY(40px);
+    /* Initial state handled by SmoothReveal JS for progressive enhancement */
 }
 
 [data-reveal-item].reveal-item-animate {
