@@ -252,9 +252,13 @@ import CtaButton from "../components/CtaButton.astro";
     gsap.registerPlugin(ScrollTrigger);
 
     function initAnimations() {
-      // Hero content - animate in on page load
+      // Progressive enhancement: GSAP sets the hidden state, then animates in.
+      // If GSAP fails, elements remain visible (their CSS default).
+
+      // Hero content - set hidden, then animate in
       const heroItems = document.querySelectorAll(".hero-anim");
       if (heroItems.length) {
+        gsap.set(heroItems, { opacity: 0, y: 30 });
         gsap.to(heroItems, {
           opacity: 1,
           y: 0,
@@ -268,6 +272,7 @@ import CtaButton from "../components/CtaButton.astro";
       // Video reveal from top (like homepage hero)
       const videoReveal = document.querySelector(".video-reveal");
       if (videoReveal) {
+        gsap.set(videoReveal, { clipPath: "inset(0 0 100% 0)" });
         gsap.to(videoReveal, {
           clipPath: "inset(0 0 0% 0)",
           duration: 1.2,
@@ -276,51 +281,63 @@ import CtaButton from "../components/CtaButton.astro";
         });
       }
 
-      // Promo banner - animate on scroll
-      ScrollTrigger.create({
-        trigger: ".promo-anim",
-        start: "top 90%",
-        once: true,
-        onEnter: () => {
-          gsap.to(".promo-anim", {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            ease: "power2.out",
-          });
-        },
-      });
+      // Promo banner - set hidden, animate on scroll
+      const promoEl = document.querySelector(".promo-anim");
+      if (promoEl) {
+        gsap.set(promoEl, { opacity: 0, y: 20 });
+        ScrollTrigger.create({
+          trigger: ".promo-anim",
+          start: "top 90%",
+          once: true,
+          onEnter: () => {
+            gsap.to(".promo-anim", {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: "power2.out",
+            });
+          },
+        });
+      }
 
-      // Tire search section
-      ScrollTrigger.create({
-        trigger: ".search-anim",
-        start: "top 85%",
-        once: true,
-        onEnter: () => {
-          gsap.to(".search-anim", {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            ease: "power2.out",
-          });
-        },
-      });
+      // Tire search section - set hidden, animate on scroll
+      const searchEl = document.querySelector(".search-anim");
+      if (searchEl) {
+        gsap.set(searchEl, { opacity: 0, y: 30 });
+        ScrollTrigger.create({
+          trigger: ".search-anim",
+          start: "top 85%",
+          once: true,
+          onEnter: () => {
+            gsap.to(".search-anim", {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: "power2.out",
+            });
+          },
+        });
+      }
 
-      // Process cards - staggered scroll animation
-      ScrollTrigger.batch(".card-anim", {
-        start: "top 88%",
-        once: true,
-        onEnter: (batch) => {
-          gsap.to(batch, {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.6,
-            stagger: 0.12,
-            ease: "back.out(1.4)",
-          });
-        },
-      });
+      // Process cards - set hidden, staggered scroll animation
+      const cardItems = document.querySelectorAll(".card-anim");
+      if (cardItems.length) {
+        gsap.set(cardItems, { opacity: 0, y: 40, scale: 0.95 });
+        ScrollTrigger.batch(".card-anim", {
+          start: "top 88%",
+          once: true,
+          onEnter: (batch) => {
+            gsap.to(batch, {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.6,
+              stagger: 0.12,
+              ease: "back.out(1.4)",
+            });
+          },
+        });
+      }
     }
 
     document.addEventListener("astro:page-load", initAnimations);
@@ -405,28 +422,5 @@ import CtaButton from "../components/CtaButton.astro";
     line-height: 1.6;
   }
 
-  /* Animation initial states - hidden until GSAP animates them in */
-  .hero-anim {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  .video-reveal {
-    clip-path: inset(0 0 100% 0);
-  }
-
-  .promo-anim {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  .search-anim {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  .card-anim {
-    opacity: 0;
-    transform: translateY(40px) scale(0.95);
-  }
+  /* No CSS-based hidden states — GSAP handles initial state via JS (progressive enhancement) */
 </style>
