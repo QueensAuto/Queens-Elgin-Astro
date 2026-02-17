@@ -4,6 +4,7 @@
         "slug": "tire-services",
         "title": "Tire Services",
         "description": "Complete tire care including sales, installation, and repair.",
+        "localDescription": "Looking for a tire shop in Elgin? Queens Auto Service provides complete tire care — from new tire installation and Hunter-precision balancing to flat repairs and TPMS diagnostics — right here at 1303 Dundee Ave.",
         "services": [
             {
                 "slug": "tire-installation",
@@ -52,6 +53,7 @@
         "slug": "brake-services",
         "title": "Brake Services",
         "description": "Professional brake inspections, pad replacements, and fluid services.",
+        "localDescription": "Need a brake shop in Elgin? From pad replacements and rotor resurfacing to ABS diagnostics and brake fluid flushes, Queens Auto Service delivers precision stopping power for Fox River Valley drivers.",
         "services": [
             {
                 "slug": "brake-system-inspection",
@@ -100,6 +102,7 @@
         "slug": "engine-services",
         "title": "Engine Services",
         "description": "Full engine diagnostics, tune-ups, and repair services.",
+        "localDescription": "Check engine light on in Elgin? Our dealer-level engine diagnostics, tune-ups, and repair services find the root cause — not just the code. Queens Auto Service is your neighborhood mechanic on Dundee Ave.",
         "services": [
             {
                 "slug": "engine-diagnostics-repair",
@@ -156,6 +159,7 @@
         "slug": "steering-suspension",
         "title": "Steering & Suspension",
         "description": "Comprehensive steering and suspension repairs for a smooth ride.",
+        "localDescription": "Elgin's pothole-battered roads demand precision steering and suspension work. Queens Auto Service restores your ride quality with expert wheel alignments, shock and strut replacements, and ball joint service.",
         "services": [
             {
                 "slug": "tie-rod-end-replacement",
@@ -212,6 +216,7 @@
         "slug": "climate-control",
         "title": "Climate Control",
         "description": "Heating and A/C services for your comfort.",
+        "localDescription": "Stay comfortable through every Fox River Valley season. Queens Auto Service provides expert A/C repair, heater core service, cooling system flushes, and thermostat replacements in Elgin, IL.",
         "services": [
             {
                 "slug": "ac-repair-recharge",
@@ -268,6 +273,7 @@
         "slug": "maintenance-services",
         "title": "Maintenance Services",
         "description": "Routine maintenance to keep your vehicle running its best.",
+        "localDescription": "Keep your car running its best with routine maintenance at Queens Auto Service in Elgin. Oil changes, multi-point inspections, filter replacements, and fluid services — done right, every time.",
         "services": [
             {
                 "slug": "engine-oil-change-elgin-il",
@@ -308,6 +314,7 @@
         "slug": "electrical-systems",
         "title": "Electrical Systems",
         "description": "Diagnosis and repair of vehicle electrical components.",
+        "localDescription": "Electrical problems got you stranded in Elgin? From dead batteries and failing alternators to complex computerized diagnostics, Queens Auto Service traces and repairs the 'ghosts in the machine.'",
         "services": [
             {
                 "slug": "battery-service",
@@ -372,6 +379,7 @@
         "slug": "transmission-services",
         "title": "Transmission Services",
         "description": "Expert transmission fluid, repair, and replacement services.",
+        "localDescription": "Transmission slipping or shifting rough? Queens Auto Service in Elgin provides expert transmission fluid exchanges, diagnostics, and full rebuild or replacement services to keep your drivetrain reliable.",
         "services": [
             {
                 "slug": "transmission-fluid-service",

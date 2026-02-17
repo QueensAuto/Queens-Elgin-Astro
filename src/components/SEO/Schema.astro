@@ -2,8 +2,17 @@
 /**
  * Schema.astro
  * Centralized JSON-LD Schema Generator for Queens Auto Service
+ *
+ * Strategy (Caleb Ulku):
+ * - LocalBusiness (with nested Services): HOMEPAGE ONLY
+ * - Organization: EVERY page (lightweight E-E-A-T signal)
+ * - Service: SERVICE pages only
+ * - FAQPage: Pages with FAQs only
+ * - BreadcrumbList: EVERY page
+ * - WebSite: EVERY page
  */
 import type { BrandConfig } from "../../brands/types";
+import servicesData from "../../data/services.json";
 
 interface Props {
     brand: BrandConfig;
@@ -31,75 +40,291 @@ const {
 } = Astro.props;
 
 const canonicalUrl = url || `https://${brand.domain}${Astro.url.pathname}`;
-const siteName = brand.name;
+const schemaName = brand.schemaName || brand.name;
+const currentPath = Astro.url.pathname;
+const isHomepage = currentPath === "/" || currentPath === "";
 
-// 1. Base Organization / LocalBusiness Schema
-const localBusinessSchema = {
-    "@context": "https://schema.org",
-    "@type": "AutoRepair",
-    "@id": `https://${brand.domain}/#organization`,
-    name: brand.name,
-    url: `https://${brand.domain}`,
-    logo: {
-        "@type": "ImageObject",
-        url: `https://${brand.domain}${brand.logoPath}`,
-        width: "512",
-        height: "512",
-    },
-    image:
-        image ||
-        (brand.shopImage
-            ? `https://${brand.domain}${brand.shopImage}`
-            : `https://${brand.domain}/images/shop/Queens-Auto-Services-Elgin-a-view-from-outside.webp`),
-    telephone: brand.phone,
-    email: brand.email,
-    address: {
-        "@type": "PostalAddress",
-        streetAddress: brand.streetAddress || "1303 Dundee Ave",
-        addressLocality: brand.addressLocality || "Elgin",
-        addressRegion: brand.addressRegion || "IL",
-        postalCode: brand.postalCode || "60120",
-        addressCountry: "US",
-    },
-    geo: {
-        "@type": "GeoCoordinates",
-        latitude: brand.latitude || 42.0615014,
-        longitude: brand.longitude || -88.2652443,
-    },
-    hasMap: brand.googleMapsUrl,
-    openingHoursSpecification: [
-        {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-            opens: "07:30",
-            closes: "18:00",
-        },
-        {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: "Saturday",
-            opens: "07:30",
-            closes: "16:00",
-        },
-    ],
-    sameAs: [
-        "https://www.facebook.com/queensautoservice/",
-        "https://www.instagram.com/queensautoservice/",
-    ],
-    priceRange: "$$",
-    aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: brand.ratingValue || "4.5",
-        reviewCount: brand.reviewCount || "489",
-    },
-};
+// ───────────────────────────────────────────────────────
+// 1. LocalBusiness Schema — HOMEPAGE ONLY (with nested services)
+//    Per Caleb: "Place this on exactly ONE URL"
+// ───────────────────────────────────────────────────────
+const localBusinessSchema = isHomepage
+    ? {
+          "@context": "https://schema.org",
+          "@type": "AutoRepair",
+          "@id": `https://${brand.domain}/#organization`,
+          name: schemaName,
+          url: `https://${brand.domain}`,
+          logo: {
+              "@type": "ImageObject",
+              url: `https://${brand.domain}${brand.logoPath}`,
+              width: "512",
+              height: "512",
+          },
+          image:
+              image ||
+              (brand.shopImage
+                  ? `https://${brand.domain}${brand.shopImage}`
+                  : `https://${brand.domain}/images/shop/Queens-Auto-Services-Elgin-a-view-from-outside.webp`),
+          telephone: brand.phone,
+          email: brand.email,
+          address: {
+              "@type": "PostalAddress",
+              streetAddress: brand.streetAddress || "1303 Dundee Ave",
+              addressLocality: brand.addressLocality || "Elgin",
+              addressRegion: brand.addressRegion || "IL",
+              postalCode: brand.postalCode || "60120",
+              addressCountry: "US",
+          },
+          geo: {
+              "@type": "GeoCoordinates",
+              latitude: brand.latitude || 42.0615014,
+              longitude: brand.longitude || -88.2652443,
+          },
+          hasMap: brand.googleMapsUrl,
+          openingHoursSpecification: [
+              {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: [
+                      "Monday",
+                      "Tuesday",
+                      "Wednesday",
+                      "Thursday",
+                      "Friday",
+                  ],
+                  opens: "07:30",
+                  closes: "18:00",
+              },
+              {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: "Saturday",
+                  opens: "07:30",
+                  closes: "16:00",
+              },
+          ],
+          sameAs: [
+              "https://www.facebook.com/queensautoservice/",
+              "https://www.instagram.com/queensautoservice/",
+          ],
+          priceRange: "$$",
+          aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: brand.ratingValue || "4.5",
+              reviewCount: brand.reviewCount || "147",
+          },
 
-// 2. WebSite Schema (Search Box)
+          // ── Caleb's "Nested Schema" Tactic ──
+          // All 9 GBP categories as nested services
+          hasOfferCatalog: {
+              "@type": "OfferCatalog",
+              name: "Auto Repair Services in Elgin, IL",
+              itemListElement: [
+                  {
+                      "@type": "OfferCatalog",
+                      name: "Auto Repair Shop",
+                      itemListElement: servicesData
+                          .find((c) => c.slug === "engine-services")
+                          ?.services.map((s) => ({
+                              "@type": "Offer",
+                              itemOffered: {
+                                  "@type": "Service",
+                                  name: s.title,
+                                  url: `https://${brand.domain}/services/engine-services/${s.slug}/`,
+                              },
+                          })),
+                  },
+                  {
+                      "@type": "OfferCatalog",
+                      name: "Brake Shop",
+                      itemListElement: servicesData
+                          .find((c) => c.slug === "brake-services")
+                          ?.services.map((s) => ({
+                              "@type": "Offer",
+                              itemOffered: {
+                                  "@type": "Service",
+                                  name: s.title,
+                                  url: `https://${brand.domain}/services/brake-services/${s.slug}/`,
+                              },
+                          })),
+                  },
+                  {
+                      "@type": "OfferCatalog",
+                      name: "Tire Shop",
+                      itemListElement: servicesData
+                          .find((c) => c.slug === "tire-services")
+                          ?.services.map((s) => ({
+                              "@type": "Offer",
+                              itemOffered: {
+                                  "@type": "Service",
+                                  name: s.title,
+                                  url: `https://${brand.domain}/services/tire-services/${s.slug}/`,
+                              },
+                          })),
+                  },
+                  {
+                      "@type": "OfferCatalog",
+                      name: "Oil Change Service",
+                      itemListElement: servicesData
+                          .find((c) => c.slug === "maintenance-services")
+                          ?.services.map((s) => ({
+                              "@type": "Offer",
+                              itemOffered: {
+                                  "@type": "Service",
+                                  name: s.title,
+                                  url: `https://${brand.domain}/services/maintenance-services/${s.slug}/`,
+                              },
+                          })),
+                  },
+                  {
+                      "@type": "OfferCatalog",
+                      name: "Auto Air Conditioning Service",
+                      itemListElement: servicesData
+                          .find((c) => c.slug === "climate-control")
+                          ?.services.map((s) => ({
+                              "@type": "Offer",
+                              itemOffered: {
+                                  "@type": "Service",
+                                  name: s.title,
+                                  url: `https://${brand.domain}/services/climate-control/${s.slug}/`,
+                              },
+                          })),
+                  },
+                  {
+                      "@type": "OfferCatalog",
+                      name: "Transmission Shop",
+                      itemListElement: servicesData
+                          .find((c) => c.slug === "transmission-services")
+                          ?.services.map((s) => ({
+                              "@type": "Offer",
+                              itemOffered: {
+                                  "@type": "Service",
+                                  name: s.title,
+                                  url: `https://${brand.domain}/services/transmission-services/${s.slug}/`,
+                              },
+                          })),
+                  },
+                  {
+                      "@type": "OfferCatalog",
+                      name: "Wheel Alignment Service",
+                      itemListElement: [
+                          {
+                              "@type": "Offer",
+                              itemOffered: {
+                                  "@type": "Service",
+                                  name: "Wheel Alignment",
+                                  url: `https://${brand.domain}/services/steering-suspension/wheel-alignment/`,
+                              },
+                          },
+                      ],
+                  },
+                  {
+                      "@type": "OfferCatalog",
+                      name: "Electrical Systems",
+                      itemListElement: servicesData
+                          .find((c) => c.slug === "electrical-systems")
+                          ?.services.map((s) => ({
+                              "@type": "Offer",
+                              itemOffered: {
+                                  "@type": "Service",
+                                  name: s.title,
+                                  url: `https://${brand.domain}/services/electrical-systems/${s.slug}/`,
+                              },
+                          })),
+                  },
+                  {
+                      "@type": "OfferCatalog",
+                      name: "Mechanic",
+                      itemListElement: servicesData
+                          .find((c) => c.slug === "steering-suspension")
+                          ?.services.map((s) => ({
+                              "@type": "Offer",
+                              itemOffered: {
+                                  "@type": "Service",
+                                  name: s.title,
+                                  url: `https://${brand.domain}/services/steering-suspension/${s.slug}/`,
+                              },
+                          })),
+                  },
+              ],
+          },
+
+          // Area served — all nearby cities
+          areaServed: [
+              {
+                  "@type": "City",
+                  name: "Elgin",
+                  sameAs: "https://en.wikipedia.org/wiki/Elgin,_Illinois",
+              },
+              {
+                  "@type": "City",
+                  name: "South Elgin",
+                  sameAs: "https://en.wikipedia.org/wiki/South_Elgin,_Illinois",
+              },
+              {
+                  "@type": "City",
+                  name: "Hoffman Estates",
+                  sameAs: "https://en.wikipedia.org/wiki/Hoffman_Estates,_Illinois",
+              },
+              {
+                  "@type": "City",
+                  name: "Bartlett",
+                  sameAs: "https://en.wikipedia.org/wiki/Bartlett,_Illinois",
+              },
+              {
+                  "@type": "City",
+                  name: "Streamwood",
+                  sameAs: "https://en.wikipedia.org/wiki/Streamwood,_Illinois",
+              },
+              {
+                  "@type": "City",
+                  name: "Hanover Park",
+                  sameAs: "https://en.wikipedia.org/wiki/Hanover_Park,_Illinois",
+              },
+              {
+                  "@type": "City",
+                  name: "Schaumburg",
+                  sameAs: "https://en.wikipedia.org/wiki/Schaumburg,_Illinois",
+              },
+          ],
+      }
+    : null;
+
+// ───────────────────────────────────────────────────────
+// 2. Organization Schema — EVERY page (lightweight E-E-A-T)
+//    Per Caleb: "Organization should appear on almost every URL"
+// ───────────────────────────────────────────────────────
+const organizationSchema = !isHomepage
+    ? {
+          "@context": "https://schema.org",
+          "@type": "AutoRepair",
+          "@id": `https://${brand.domain}/#organization`,
+          name: schemaName,
+          url: `https://${brand.domain}`,
+          logo: {
+              "@type": "ImageObject",
+              url: `https://${brand.domain}${brand.logoPath}`,
+          },
+          telephone: brand.phone,
+          address: {
+              "@type": "PostalAddress",
+              streetAddress: brand.streetAddress || "1303 Dundee Ave",
+              addressLocality: brand.addressLocality || "Elgin",
+              addressRegion: brand.addressRegion || "IL",
+              postalCode: brand.postalCode || "60120",
+              addressCountry: "US",
+          },
+      }
+    : null;
+
+// ───────────────────────────────────────────────────────
+// 3. WebSite Schema — EVERY page
+// ───────────────────────────────────────────────────────
 const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": `https://${brand.domain}/#website`,
     url: `https://${brand.domain}`,
-    name: siteName,
+    name: schemaName,
     publisher: {
         "@id": `https://${brand.domain}/#organization`,
     },
@@ -110,7 +335,9 @@ const websiteSchema = {
     },
 };
 
-// 3. Service Schema (For individual service pages)
+// ───────────────────────────────────────────────────────
+// 4. Service Schema — SERVICE pages only
+// ───────────────────────────────────────────────────────
 let serviceSchema = null;
 if (serviceData) {
     serviceSchema = {
@@ -136,6 +363,16 @@ if (serviceData) {
                 name: "Hoffman Estates",
                 sameAs: "https://en.wikipedia.org/wiki/Hoffman_Estates,_Illinois",
             },
+            {
+                "@type": "City",
+                name: "Bartlett",
+                sameAs: "https://en.wikipedia.org/wiki/Bartlett,_Illinois",
+            },
+            {
+                "@type": "City",
+                name: "Streamwood",
+                sameAs: "https://en.wikipedia.org/wiki/Streamwood,_Illinois",
+            },
         ],
         description: serviceData.pitch || description,
         offers: {
@@ -146,7 +383,9 @@ if (serviceData) {
     };
 }
 
-// 4. FAQ Schema
+// ───────────────────────────────────────────────────────
+// 5. FAQ Schema — Pages with FAQs only
+// ───────────────────────────────────────────────────────
 let faqSchema = null;
 if (faqData) {
     faqSchema = {
@@ -162,7 +401,10 @@ if (faqData) {
         })),
     };
 }
-// 5. Review Schema
+
+// ───────────────────────────────────────────────────────
+// 6. Review Schema
+// ───────────────────────────────────────────────────────
 let reviewSchema = null;
 if (reviewData && reviewData.length > 0) {
     reviewSchema = reviewData.map((review: any) => ({
@@ -187,7 +429,9 @@ if (reviewData && reviewData.length > 0) {
     }));
 }
 
-// 6. Breadcrumb Schema
+// ───────────────────────────────────────────────────────
+// 7. Breadcrumb Schema — EVERY page
+// ───────────────────────────────────────────────────────
 const pathSegments = Astro.url.pathname.split("/").filter(Boolean);
 const breadcrumbList = {
     "@context": "https://schema.org",
@@ -211,12 +455,29 @@ const breadcrumbList = {
 };
 ---
 
-{/* Inject Global Schemas on Every Page */}
-<script
-    is:inline
-    type="application/ld+json"
-    set:html={JSON.stringify(localBusinessSchema)}
-/>
+{/* ── HOMEPAGE: Full LocalBusiness with nested services ── */}
+{
+    localBusinessSchema && (
+        <script
+            is:inline
+            type="application/ld+json"
+            set:html={JSON.stringify(localBusinessSchema)}
+        />
+    )
+}
+
+{/* ── NON-HOMEPAGE: Lightweight Organization reference ── */}
+{
+    organizationSchema && (
+        <script
+            is:inline
+            type="application/ld+json"
+            set:html={JSON.stringify(organizationSchema)}
+        />
+    )
+}
+
+{/* ── GLOBAL: WebSite + Breadcrumbs on every page ── */}
 <script
     is:inline
     type="application/ld+json"
@@ -228,7 +489,7 @@ const breadcrumbList = {
     set:html={JSON.stringify(breadcrumbList)}
 />
 
-{/* Conditional Schemas */}
+{/* ── CONDITIONAL: Service, FAQ, Review schemas ── */}
 {
     serviceSchema && (
         <script

@@ -1,6 +1,7 @@
 export type BrandConfig = {
     id: string;
     name: string;
+    schemaName?: string; // Exact GBP name for schema markup (must match character-for-character)
     domain?: string;
     logoPath: string;
     logoPathWhite?: string;

@@ -33,8 +33,10 @@ export async function getStaticPaths() {
 }
 
 const { category, service } = Astro.props as { category: any; service: any };
-const title = `${service.title} | Queens Auto Service`;
-const description = `Professional ${service.title} services in Elgin, IL. Quality care and expert technicians for all your ${category.title.toLowerCase()} needs.`;
+const title = `${service.title} in Elgin, IL | Queens Auto Service`;
+const description =
+    service.pitch ||
+    `Professional ${service.title} in Elgin, IL. Expert ${category.title.toLowerCase()} at Queens Auto Service — honest pricing, dealership-level care.`;
 
 const parsedContent = service.fullContent
     ? marked.parse(service.fullContent)
@@ -125,11 +127,14 @@ const serviceFaqs = [
                                     >{category.title}</a
                                 >
                             </nav>
-                            <h3
+                            <h1
                                 class="text-4xl md:text-5xl font-bold text-white tracking-tight drop-shadow-md animate-fade-up delay-100"
                             >
                                 {service.shortTitle || service.title}
-                            </h3>
+                                <span class="text-queens-secondary"
+                                    >in Elgin, IL</span
+                                >
+                            </h1>
                         </div>
 
                         <!-- Description Section (Right aligned on desktop) -->

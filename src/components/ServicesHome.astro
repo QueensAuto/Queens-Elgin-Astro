@@ -68,9 +68,13 @@ const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
               ></path>
             </svg>
           </div>
-          <h3 class="text-2xl font-bold text-white mb-3">
-            Complete Auto Repair
-          </h3>
+          <a href="/services/engine-services/" class="block">
+            <h3
+              class="text-2xl font-bold text-white mb-3 hover:text-queens-secondary transition-colors"
+            >
+              Complete Auto Repair
+            </h3>
+          </a>
           <p class="text-gray-400 mb-6 max-w-md">
             From routine maintenance to major repairs, our state-of-the-art
             facility and experienced technicians can handle any make or model.
@@ -124,9 +128,13 @@ const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
             ></path>
           </svg>
         </div>
-        <h3 class="text-xl font-bold text-queens-primary dark:text-white mb-2">
-          Brake Service
-        </h3>
+        <a href="/services/brake-services/" class="block">
+          <h3
+            class="text-xl font-bold text-queens-primary dark:text-white mb-2 hover:text-queens-secondary transition-colors"
+          >
+            Brake Service
+          </h3>
+        </a>
         <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
           Pads, rotors, calipers, and brake fluid service. We inspect your
           entire braking system and ensure your safety on the road.
@@ -156,9 +164,13 @@ const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
             ></path>
           </svg>
         </div>
-        <h3 class="text-xl font-bold text-queens-primary dark:text-white mb-2">
-          Oil Changes
-        </h3>
+        <a href="/services/maintenance-services/" class="block">
+          <h3
+            class="text-xl font-bold text-queens-primary dark:text-white mb-2 hover:text-queens-secondary transition-colors"
+          >
+            Oil Changes
+          </h3>
+        </a>
         <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
           Conventional, synthetic blend, or full synthetic. Quick service with a
           multi-point inspection included on every visit.
@@ -193,11 +205,13 @@ const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
               ></path>
             </svg>
           </div>
-          <h3
-            class="text-2xl font-bold text-queens-primary dark:text-white mb-3"
-          >
-            Full Tire Shop
-          </h3>
+          <a href="/services/tire-services/" class="block">
+            <h3
+              class="text-2xl font-bold text-queens-primary dark:text-white mb-3 hover:text-queens-secondary transition-colors"
+            >
+              Full Tire Shop
+            </h3>
+          </a>
           <p class="text-gray-500 dark:text-gray-400">
             We carry all major brands: Michelin, Goodyear, Continental, and
             more. Professional mounting, balancing, and TPMS service included.
@@ -205,7 +219,10 @@ const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
           </p>
         </div>
         <div class="flex-shrink-0">
-          <CtaButtonSecondary href="/services" text="View All Services" />
+          <CtaButtonSecondary
+            href="/services/tire-services/"
+            text="View Tire Services"
+          />
         </div>
       </div>
     </div>

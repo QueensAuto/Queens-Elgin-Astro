@@ -6,9 +6,9 @@ import SmoothReveal from "../../components/SmoothReveal.astro";
 import ImageReveal from "../../components/ui/ImageReveal.astro";
 import FlowFieldCTA from "../../components/FlowFieldCTA.astro";
 
-const title = "One-Stop Shop for Auto Repair | Queens Mobile Tires";
+const title = "Auto Repair Services in Elgin, IL | Queens Auto Service";
 const description =
-    "From routine oil changes to complex engine diagnostics, our team offers comprehensive solutions to keep your vehicle running smoothly.";
+    "Full-service auto repair in Elgin, IL. Brakes, tires, engine diagnostics, A/C, electrical, and more. Queens Auto Service — Elgin's trusted shop since day one.";
 ---
 
 <BaseLayout brand={mobileTiresBrand} title={title}>
@@ -35,20 +35,20 @@ const description =
 
                     <!-- Premium Heading -->
                     <h1 class="display-hero-page text-queens-primary dark:text-white mb-8">
-                        One-Stop Shop <br />
-                        <span class="text-queens-secondary">Expert Auto Repair</span>
+                        Auto Repair <br />
+                        <span class="text-queens-secondary">Services in Elgin</span>
                     </h1>
 
                     <p
                         class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed"
                     >
                         From routine oil changes to complex engine diagnostics,
-                        our team offers comprehensive solutions to keep your
+                        our Elgin team offers comprehensive solutions to keep your
                         vehicle running smoothly.
                     </p>
                     <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
                         We're dedicated to providing honest, reliable service
-                        tailored to your vehicle's needs, ensuring you drive
+                        right here on Dundee Ave, ensuring you drive
                         away with confidence and peace of mind.
                     </p>
                 </div>
@@ -78,7 +78,14 @@ const description =
                         <div
                             class="service-card-item rich-text glow-beam-hover flex flex-col rounded-3xl p-8 shadow-xl dark:shadow-black/20 backdrop-blur-sm transition-all duration-300 hover:shadow-2xl hover:scale-[1.02]"
                         >
-                            <h2 class="text-gray-900 dark:text-white">{category.title}</h2>
+                            <a href={`/services/${category.slug}/`} class="group">
+                                <h2 class="text-gray-900 dark:text-white group-hover:text-queens-secondary transition-colors">{category.title}</h2>
+                            </a>
+                            
+                            {/* Local description blurb */}
+                            {category.localDescription && (
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 mb-4 leading-relaxed">{category.localDescription}</p>
+                            )}
                             
                             <!-- Glowing Beam Effect (uses global .glow-beam-sm class) -->
                             <div class="relative w-full h-5 mb-4">
@@ -97,6 +104,17 @@ const description =
                                     </li>
                                 ))}
                             </ul>
+                            
+                            {/* Category page link */}
+                            <a
+                                href={`/services/${category.slug}/`}
+                                class="inline-flex items-center gap-2 mt-6 text-queens-secondary font-bold text-xs uppercase tracking-[0.15em] hover:gap-3 transition-all"
+                            >
+                                View All {category.title}
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </a>
                         </div>
                     ))
                 }

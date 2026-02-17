@@ -3,6 +3,7 @@ import type { BrandConfig } from "./types";
 export const mobileTiresBrand: BrandConfig = {
     id: "mobile-tires",
     name: "Queens Auto Service",
+    schemaName: "Queens Auto Services Elgin",
     domain: "queensautoserviceselgin.com",
     logoPath: "/images/logos/site logos/New-Logo.webp",
     logoPathWhite: "/images/logos/site logos/Logo-White.webp",
@@ -20,6 +21,6 @@ export const mobileTiresBrand: BrandConfig = {
     addressRegion: "IL",
     postalCode: "60120",
     ratingValue: "4.5",
-    reviewCount: "489",
+    reviewCount: "147",
     shopImage: "/images/shop/Queens-Auto-Services-Elgin-a-view-from-outside.webp",
 };
