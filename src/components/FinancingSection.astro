@@ -321,16 +321,8 @@ const snapLink =
         z-index: 1;
     }
 
-    /* Entry Animations Initial State */
-    .financing-badge,
-    .financing-title,
-    .financing-description,
-    .cta-container,
-    .feature-card,
-    .mascot-reveal,
-    .logo-reveal {
-        opacity: 0;
-    }
+    /* Entry animations initial state handled by gsap.fromTo() in JS
+       for progressive enhancement (visible by default if JS fails) */
 </style>
 
 <script>

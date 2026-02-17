@@ -22,24 +22,6 @@ const {
 // Combine custom classes
 const wrapperClass =
     `image-reveal-wrapper group relative overflow-hidden block ${aspectRatio} ${classStr} ${className}`.trim();
-
-// Calculate initial clip-path based on direction
-let initialClipPath = "inset(0 100% 0 0)"; // Default: right (reveals left to right)
-
-switch (direction) {
-    case "left":
-        initialClipPath = "inset(0 0 0 100%)";
-        break;
-    case "right":
-        initialClipPath = "inset(0 100% 0 0)";
-        break;
-    case "top":
-        initialClipPath = "inset(100% 0 0 0)";
-        break;
-    case "bottom":
-        initialClipPath = "inset(0 0 100% 0)";
-        break;
-}
 ---
 
 <div class={wrapperClass} data-image-reveal data-reveal-direction={direction}>
@@ -48,90 +30,87 @@ switch (direction) {
         alt={alt}
         loading={loading}
         class="reveal-image block w-full h-full object-cover image-reveal-transition"
-        style={`clip-path: ${initialClipPath};`}
     />
 </div>
 
 <script>
-    // Intersection Observer for clip-path reveal
+    function getHiddenClipPath(direction: string): string {
+        switch (direction) {
+            case "left":
+                return "inset(0 0 0 100%)";
+            case "right":
+                return "inset(0 100% 0 0)";
+            case "top":
+                return "inset(100% 0 0 0)";
+            case "bottom":
+                return "inset(0 0 100% 0)";
+            default:
+                return "inset(0 100% 0 0)";
+        }
+    }
+
     const setupRevealObserver = () => {
-        const observerOptions = {
-            root: null,
-            rootMargin: "-100px 0px", // Must scroll 100px into viewport before triggering
-            threshold: 0.1,
-        };
+        const wrappers = document.querySelectorAll("[data-image-reveal]");
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    const wrapper = entry.target as HTMLElement;
-                    const img = wrapper.querySelector(
-                        ".reveal-image",
-                    ) as HTMLElement;
-                    const direction =
-                        wrapper.dataset.revealDirection || "right";
-
-                    if (img) {
-                        // Set clip-path to fully visible based on direction
-                        // inset(top right bottom left)
-                        switch (direction) {
-                            case "left":
-                                // Reveals from right to left
-                                img.style.clipPath = "inset(0 0 0 0)";
-                                break;
-                            case "right":
-                                // Reveals from left to right (default)
-                                img.style.clipPath = "inset(0 0 0 0)";
-                                break;
-                            case "top":
-                                // Reveals from bottom to top
-                                img.style.clipPath = "inset(0 0 0 0)";
-                                break;
-                            case "bottom":
-                                // Reveals from top to bottom
-                                img.style.clipPath = "inset(0 0 0 0)";
-                                break;
-                            default:
-                                img.style.clipPath = "inset(0 0 0 0)";
-                        }
-                    }
-
-                    observer.unobserve(wrapper);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll("[data-image-reveal]").forEach((el) => {
-            // Set initial clip-path based on direction
+        // Progressive enhancement: JS sets the initial hidden state.
+        // If JS fails, images are fully visible (no inline clip-path).
+        wrappers.forEach((el) => {
             const wrapper = el as HTMLElement;
             const img = wrapper.querySelector(".reveal-image") as HTMLElement;
             const direction = wrapper.dataset.revealDirection || "right";
 
-            if (img) {
-                // inset(top right bottom left)
-                switch (direction) {
-                    case "left":
-                        // Start clipped on left, reveal to left
-                        img.style.clipPath = "inset(0 0 0 100%)";
-                        break;
-                    case "right":
-                        // Start clipped on right, reveal to right
-                        img.style.clipPath = "inset(0 100% 0 0)";
-                        break;
-                    case "top":
-                        // Start clipped on top, reveal upward
-                        img.style.clipPath = "inset(100% 0 0 0)";
-                        break;
-                    case "bottom":
-                        // Start clipped on bottom, reveal downward
-                        img.style.clipPath = "inset(0 0 100% 0)";
-                        break;
-                    default:
-                        img.style.clipPath = "inset(0 100% 0 0)";
+            if (img && !wrapper.dataset.revealReady) {
+                // Mark as initialized so we don't re-hide on subsequent navigations
+                wrapper.dataset.revealReady = "true";
+
+                const rect = wrapper.getBoundingClientRect();
+                const isInViewport =
+                    rect.top < window.innerHeight && rect.bottom > 0;
+
+                if (isInViewport) {
+                    // Element is already visible in viewport (e.g., hero on navigation).
+                    // Set hidden clip-path, then immediately transition to visible.
+                    img.style.clipPath = getHiddenClipPath(direction);
+                    // Force reflow so the transition animates
+                    void img.offsetWidth;
+                    img.style.clipPath = "inset(0 0 0 0)";
+                } else {
+                    // Element is below the fold — hide it and let IntersectionObserver trigger
+                    img.style.clipPath = getHiddenClipPath(direction);
                 }
             }
+        });
 
-            observer.observe(el);
+        // Observer for off-screen elements
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const wrapper = entry.target as HTMLElement;
+                        const img = wrapper.querySelector(
+                            ".reveal-image",
+                        ) as HTMLElement;
+                        if (img) {
+                            img.style.clipPath = "inset(0 0 0 0)";
+                        }
+                        observer.unobserve(wrapper);
+                    }
+                });
+            },
+            {
+                root: null,
+                rootMargin: "0px 0px -50px 0px",
+                threshold: 0.1,
+            },
+        );
+
+        // Only observe elements that weren't immediately revealed
+        wrappers.forEach((el) => {
+            const wrapper = el as HTMLElement;
+            const img = wrapper.querySelector(".reveal-image") as HTMLElement;
+            if (img && img.style.clipPath !== "inset(0 0 0 0)") {
+                observer.observe(wrapper);
+            }
         });
     };
 

@@ -170,7 +170,6 @@ const avatars = [
             preload="auto"
             poster="/images/shop/Queens-Auto-Banner-001.webp"
             class="w-full h-full object-cover scale-[1.02] group-hover:scale-110 transition-transform duration-[2s] ease-out hero-video-reveal"
-            style="clip-path: inset(0 0 100% 0);"
           >
             <source src="/video/Queens-Elgin-Hero-2025.mp4" type="video/mp4" />
           </video>
@@ -312,17 +311,8 @@ const avatars = [
 </section>
 
 <style>
-  /* Only these elements should have delayed entrance animations */
-  .hero-eyebrow,
-  .hero-notification-card {
-    opacity: 0;
-  }
-
-  /* Video overlays start hidden until video reveals */
-  .hero-video-gradient,
-  .hero-video-ring {
-    opacity: 0;
-  }
+  /* Video overlays start hidden but are set to visible by JS.
+     No CSS opacity:0 — progressive enhancement ensures content is visible if JS fails. */
 
   @keyframes blob {
     0% {
@@ -359,8 +349,25 @@ const avatars = [
   gsap.registerPlugin(ScrollTrigger);
 
   function initHeroAnimations() {
-    // --- Eyebrow (Badge) Fade In with 2s delay ---
+    // Progressive enhancement: set initial hidden states via JS.
+    // If GSAP doesn't load, all content remains visible.
     const eyebrow = document.querySelector(".hero-eyebrow");
+    const heroVideo = document.querySelector(
+      ".hero-video-reveal",
+    ) as HTMLElement;
+    const heroGradient = document.querySelector(".hero-video-gradient");
+    const heroRing = document.querySelector(".hero-video-ring");
+    const notificationCard = document.querySelector(".hero-notification-card");
+    const heroContainer = document.querySelector(".hero-video-container");
+
+    // Set initial hidden states
+    if (eyebrow) gsap.set(eyebrow, { opacity: 0 });
+    if (heroGradient) gsap.set(heroGradient, { opacity: 0 });
+    if (heroRing) gsap.set(heroRing, { opacity: 0 });
+    if (notificationCard) gsap.set(notificationCard, { opacity: 0 });
+    if (heroVideo) gsap.set(heroVideo, { clipPath: "inset(0 0 100% 0)" });
+
+    // --- Eyebrow (Badge) Fade In with 2s delay ---
     if (eyebrow) {
       gsap.to(eyebrow, {
         opacity: 1,
@@ -395,12 +402,6 @@ const avatars = [
     }
 
     // --- Hero Video Reveal (Roll Down Effect) ---
-    const heroVideo = document.querySelector(".hero-video-reveal");
-    const heroGradient = document.querySelector(".hero-video-gradient");
-    const heroContainer = document.querySelector(".hero-video-container");
-    const heroRing = document.querySelector(".hero-video-ring");
-    const notificationCard = document.querySelector(".hero-notification-card");
-
     const isMobile = window.innerWidth < 1024;
 
     if (heroVideo) {

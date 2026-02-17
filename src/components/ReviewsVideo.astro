@@ -78,7 +78,7 @@ const visibleCount = 2; // Number of cards visible at a time
                         muted
                         playsinline
                         poster="https://storage.googleapis.com/queens-videos/queenstestimonials.png"
-                        style="background-image:url('https://storage.googleapis.com/queens-videos/queenstestimonials.png'); background-size: cover; background-position: center; clip-path: inset(0 0 100% 0);"
+                        style="background-image:url('https://storage.googleapis.com/queens-videos/queenstestimonials.png'); background-size: cover; background-position: center;"
                         class="w-full h-full object-cover rv-video-reveal transition-transform duration-700 group-hover:scale-105"
                     >
                         <source
@@ -534,6 +534,8 @@ const visibleCount = 2; // Number of cards visible at a time
             const videoCardTrigger = section.querySelector(".rv-video-card");
 
             if (reviewVideo && videoCardTrigger) {
+                // Progressive enhancement: set hidden state via JS
+                gsap.set(reviewVideo, { clipPath: "inset(0 0 100% 0)" });
                 gsap.to(reviewVideo, {
                     clipPath: "inset(0 0 0% 0)",
                     duration: 1.5,
