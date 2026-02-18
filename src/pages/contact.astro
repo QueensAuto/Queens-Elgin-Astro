@@ -392,6 +392,39 @@ const faqs = [
             </div>
         </div>
     </section>
+
+    <!-- GBP Map Embed — Entity Verification Signal -->
+    <section class="contact-map-section">
+        <div class="site-canvas">
+            <div class="contact-map-header">
+                <span class="contact-map-eyebrow">Find Us</span>
+                <h2 class="contact-map-heading">We're on Dundee Ave, Elgin</h2>
+                <p class="contact-map-sub">1303 Dundee Ave, Elgin, IL 60120</p>
+            </div>
+        </div>
+
+        <div class="contact-map-frame">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2962.146239472928!2d-88.265253!3d42.06148470000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880f05f4cac515ff%3A0xe840d24382731048!2sQueens%20Auto%20Services%20Elgin!5e0!3m2!1sen!2sus!4v1771430348472!5m2!1sen!2sus"
+                width="100%"
+                height="100%"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Queens Auto Services Elgin location on Google Maps"
+                aria-label="Google Map showing Queens Auto Services at 1303 Dundee Ave, Elgin, IL"
+            ></iframe>
+        </div>
+
+        <div class="site-canvas contact-map-footer">
+            <CtaButton
+                href="https://maps.app.goo.gl/piDCuk2RaWeGzLY76"
+                text="Get Directions"
+                target="_blank"
+            />
+        </div>
+    </section>
 </BaseLayout>
 
 <style>
@@ -445,5 +478,59 @@ const faqs = [
     }
     .still-questions-card {
         box-shadow: 0 25px 50px -12px rgba(11, 17, 33, 0.25);
+    }
+
+    /* Map section */
+    .contact-map-section {
+        padding: 4rem 0 0;
+    }
+
+    .contact-map-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .contact-map-eyebrow {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #0a79c8;
+        margin-bottom: 0.75rem;
+    }
+
+    .contact-map-heading {
+        font-size: clamp(1.5rem, 2.5vw, 2rem);
+        font-weight: 800;
+        color: #0b1121;
+        margin-bottom: 0.5rem;
+    }
+
+    :global(.dark) .contact-map-heading {
+        color: #fff;
+    }
+
+    .contact-map-sub {
+        font-size: 0.95rem;
+        color: #6b7280;
+    }
+
+    .contact-map-frame {
+        width: 100%;
+        height: 450px;
+        margin-top: 1.5rem;
+    }
+
+    .contact-map-frame iframe {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    .contact-map-footer {
+        display: flex;
+        justify-content: center;
+        padding: 2rem 0 4rem;
     }
 </style>
