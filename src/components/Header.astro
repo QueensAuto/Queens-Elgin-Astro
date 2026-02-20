@@ -16,7 +16,7 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
 
 <div
   id="header-wrapper"
-  class="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none transition-all duration-300"
+  class="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none"
 >
   <AnnouncementBar class="relative z-[60] w-full pointer-events-auto" />
   <div class="pt-4 px-4 w-full flex justify-center">
@@ -347,7 +347,7 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
       let lastScrollY = window.scrollY;
       let isHidden = false;
 
-      ScrollTrigger.create({
+      const headerST = ScrollTrigger.create({
         start: "top top",
         end: 999999,
         onUpdate: (self) => {
@@ -463,9 +463,16 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
         });
       });
 
-      document.addEventListener("astro:before-swap", () => closeMobileMenu(), {
-        once: true,
-      });
+      document.addEventListener(
+        "astro:before-swap",
+        () => {
+          closeMobileMenu();
+          if (headerST) headerST.kill();
+        },
+        {
+          once: true,
+        },
+      );
     }
 
     // Use ONLY astro:page-load for consistent cross-page behavior

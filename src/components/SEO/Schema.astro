@@ -55,16 +55,11 @@ const localBusinessSchema = isHomepage
           "@id": `https://${brand.domain}/#organization`,
           name: schemaName,
           url: `https://${brand.domain}`,
-          logo: {
-              "@type": "ImageObject",
-              url: `https://${brand.domain}${brand.logoPath}`,
-              width: "512",
-              height: "512",
-          },
+          logo: `https://${brand.domain}${encodeURI(brand.logoPath)}`,
           image:
               image ||
               (brand.shopImage
-                  ? `https://${brand.domain}${brand.shopImage}`
+                  ? `https://${brand.domain}${encodeURI(brand.shopImage)}`
                   : `https://${brand.domain}/images/shop/Queens-Auto-Services-Elgin-a-view-from-outside.webp`),
           telephone: brand.phone,
           email: brand.email,
@@ -300,10 +295,7 @@ const organizationSchema = !isHomepage
           "@id": `https://${brand.domain}/#organization`,
           name: schemaName,
           url: `https://${brand.domain}`,
-          logo: {
-              "@type": "ImageObject",
-              url: `https://${brand.domain}${brand.logoPath}`,
-          },
+          logo: `https://${brand.domain}${encodeURI(brand.logoPath)}`,
           telephone: brand.phone,
           address: {
               "@type": "PostalAddress",
