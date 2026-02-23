@@ -33,7 +33,8 @@ export async function getStaticPaths() {
 }
 
 const { category, service } = Astro.props as { category: any; service: any };
-const title = `${service.title} in Elgin, IL | Queens Auto Service`;
+const title =
+    service.metaTitle || `${service.title} in Elgin, IL | Queens Auto Service`;
 const description =
     service.pitch ||
     `Professional ${service.title} in Elgin, IL. Expert ${category.title.toLowerCase()} at Queens Auto Service — honest pricing, dealership-level care.`;
