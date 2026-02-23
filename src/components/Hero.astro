@@ -348,161 +348,188 @@ const avatars = [
 
   gsap.registerPlugin(ScrollTrigger);
 
+  let heroCtx: gsap.Context | null = null;
+
   function initHeroAnimations() {
-    // Progressive enhancement: set initial hidden states via JS.
-    // If GSAP doesn't load, all content remains visible.
-    const eyebrow = document.querySelector(".hero-eyebrow");
-    const heroVideo = document.querySelector(
-      ".hero-video-reveal",
-    ) as HTMLElement;
-    const heroGradient = document.querySelector(".hero-video-gradient");
-    const heroRing = document.querySelector(".hero-video-ring");
-    const notificationCard = document.querySelector(".hero-notification-card");
-    const heroContainer = document.querySelector(".hero-video-container");
-
-    // Set initial hidden states
-    if (eyebrow) gsap.set(eyebrow, { opacity: 0 });
-    if (heroGradient) gsap.set(heroGradient, { opacity: 0 });
-    if (heroRing) gsap.set(heroRing, { opacity: 0 });
-    if (notificationCard) gsap.set(notificationCard, { opacity: 0 });
-    if (heroVideo) gsap.set(heroVideo, { clipPath: "inset(0 0 100% 0)" });
-
-    // --- Eyebrow (Badge) Fade In with 2s delay ---
-    if (eyebrow) {
-      gsap.to(eyebrow, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power2.out",
-        delay: 2.0,
-      });
+    // Clean up previous animations (crucial for View Transitions back-nav)
+    if (heroCtx) {
+      heroCtx.revert();
+      heroCtx = null;
     }
 
-    // Headline and social items now appear immediately (no animation delay)
+    const heroSection = document
+      .querySelector(".hero-video-container")
+      ?.closest("section");
+    if (!heroSection) return;
 
-    // --- Counter Animation ---
-    const counter = document.getElementById("hero-counter");
-    if (counter) {
-      const target = parseInt(counter.getAttribute("data-target") || "0");
-      const animation = { value: 0 };
+    // Create scoped context — gsap.context() tracks all GSAP calls inside,
+    // so .revert() properly clears inline styles on navigation
+    heroCtx = gsap.context(() => {
+      // Progressive enhancement: set initial hidden states via JS.
+      // If GSAP doesn't load, all content remains visible.
+      const eyebrow = document.querySelector(".hero-eyebrow");
+      const heroVideo = document.querySelector(
+        ".hero-video-reveal",
+      ) as HTMLElement;
+      const heroGradient = document.querySelector(".hero-video-gradient");
+      const heroRing = document.querySelector(".hero-video-ring");
+      const notificationCard = document.querySelector(
+        ".hero-notification-card",
+      );
+      const heroContainer = document.querySelector(".hero-video-container");
 
-      gsap.to(animation, {
-        value: target,
-        duration: 2.5,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: counter,
-          start: "top 90%",
-          once: true,
-        },
-        onUpdate: () => {
-          counter.textContent = Math.floor(animation.value).toLocaleString();
-        },
-      });
-    }
+      // Set initial hidden states
+      if (eyebrow) gsap.set(eyebrow, { opacity: 0 });
+      if (heroGradient) gsap.set(heroGradient, { opacity: 0 });
+      if (heroRing) gsap.set(heroRing, { opacity: 0 });
+      if (notificationCard) gsap.set(notificationCard, { opacity: 0 });
+      if (heroVideo) gsap.set(heroVideo, { clipPath: "inset(0 0 100% 0)" });
 
-    // --- Hero Video Reveal (Roll Down Effect) ---
-    const isMobile = window.innerWidth < 1024;
-
-    if (heroVideo) {
-      if (isMobile) {
-        // Mobile: Use ScrollTrigger since video is below fold
-        gsap.to(heroVideo, {
-          clipPath: "inset(0 0 0% 0)",
-          duration: 1.2,
+      // --- Eyebrow (Badge) Fade In with 2s delay ---
+      if (eyebrow) {
+        gsap.to(eyebrow, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
           ease: "power2.out",
+          delay: 2.0,
+        });
+      }
+
+      // Headline and social items now appear immediately (no animation delay)
+
+      // --- Counter Animation ---
+      const counter = document.getElementById("hero-counter");
+      if (counter) {
+        const target = parseInt(counter.getAttribute("data-target") || "0");
+        const animation = { value: 0 };
+
+        gsap.to(animation, {
+          value: target,
+          duration: 2.5,
+          ease: "power4.out",
           scrollTrigger: {
-            trigger: heroVideo,
-            start: "top 60%",
+            trigger: counter,
+            start: "top 90%",
             once: true,
           },
+          onUpdate: () => {
+            counter.textContent = Math.floor(animation.value).toLocaleString();
+          },
         });
+      }
 
-        // Fade in overlays after video reveal on mobile
-        const mobileOverlays = [
-          heroGradient,
-          heroRing,
-          notificationCard,
-        ].filter(Boolean);
-        mobileOverlays.forEach((el) => {
-          gsap.to(el, {
-            opacity: el === heroGradient ? 0.8 : 1,
-            duration: 0.6,
+      // --- Hero Video Reveal (Roll Down Effect) ---
+      const isMobile = window.innerWidth < 1024;
+
+      if (heroVideo) {
+        if (isMobile) {
+          // Mobile: Use ScrollTrigger since video is below fold
+          gsap.to(heroVideo, {
+            clipPath: "inset(0 0 0% 0)",
+            duration: 1.2,
             ease: "power2.out",
             scrollTrigger: {
               trigger: heroVideo,
-              start: "top 50%",
+              start: "top 60%",
               once: true,
             },
           });
-        });
 
-        // Shadow on mobile
-        if (heroContainer) {
-          gsap.to(heroContainer, {
-            boxShadow: "0 32px 64px -16px rgba(0,0,0,0.3)",
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: heroVideo,
-              start: "top 50%",
-              once: true,
-            },
+          // Fade in overlays after video reveal on mobile
+          const mobileOverlays = [
+            heroGradient,
+            heroRing,
+            notificationCard,
+          ].filter(Boolean);
+          mobileOverlays.forEach((el) => {
+            gsap.to(el, {
+              opacity: el === heroGradient ? 0.8 : 1,
+              duration: 0.6,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: heroVideo,
+                start: "top 50%",
+                once: true,
+              },
+            });
           });
-        }
-      } else {
-        // Desktop: Quick video reveal
-        gsap.to(heroVideo, {
-          clipPath: "inset(0 0 0% 0)",
-          duration: 1.0,
-          ease: "power2.out",
-          delay: 0.3,
-        });
 
-        // Fade in the gradient overlay shortly after video starts
-        if (heroGradient) {
-          gsap.to(heroGradient, {
-            opacity: 0.8,
-            duration: 0.6,
+          // Shadow on mobile
+          if (heroContainer) {
+            gsap.to(heroContainer, {
+              boxShadow: "0 32px 64px -16px rgba(0,0,0,0.3)",
+              duration: 0.8,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: heroVideo,
+                start: "top 50%",
+                once: true,
+              },
+            });
+          }
+        } else {
+          // Desktop: Quick video reveal
+          gsap.to(heroVideo, {
+            clipPath: "inset(0 0 0% 0)",
+            duration: 1.0,
             ease: "power2.out",
-            delay: 0.8,
+            delay: 0.3,
           });
-        }
 
-        // Add shadow to container
-        if (heroContainer) {
-          gsap.to(heroContainer, {
-            boxShadow: "0 32px 64px -16px rgba(0,0,0,0.3)",
-            duration: 0.8,
-            ease: "power2.out",
-            delay: 0.8,
-          });
-        }
+          // Fade in the gradient overlay shortly after video starts
+          if (heroGradient) {
+            gsap.to(heroGradient, {
+              opacity: 0.8,
+              duration: 0.6,
+              ease: "power2.out",
+              delay: 0.8,
+            });
+          }
 
-        // Fade in the ring overlay
-        if (heroRing) {
-          gsap.to(heroRing, {
-            opacity: 1,
-            duration: 0.6,
-            ease: "power2.out",
-            delay: 0.8,
-          });
-        }
+          // Add shadow to container
+          if (heroContainer) {
+            gsap.to(heroContainer, {
+              boxShadow: "0 32px 64px -16px rgba(0,0,0,0.3)",
+              duration: 0.8,
+              ease: "power2.out",
+              delay: 0.8,
+            });
+          }
 
-        // Fade in the notification card with 2 second delay (intentionally delayed)
-        if (notificationCard) {
-          gsap.to(notificationCard, {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            delay: 2.0,
-          });
+          // Fade in the ring overlay
+          if (heroRing) {
+            gsap.to(heroRing, {
+              opacity: 1,
+              duration: 0.6,
+              ease: "power2.out",
+              delay: 0.8,
+            });
+          }
+
+          // Fade in the notification card with 2 second delay (intentionally delayed)
+          if (notificationCard) {
+            gsap.to(notificationCard, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power2.out",
+              delay: 2.0,
+            });
+          }
         }
       }
-    }
+    }, heroSection);
   }
 
   // Use ONLY astro:page-load as it handles both initial load and transitions correctly
   document.addEventListener("astro:page-load", initHeroAnimations);
+
+  // Cleanup before page swap (Astro View Transitions)
+  document.addEventListener("astro:before-swap", () => {
+    if (heroCtx) {
+      heroCtx.revert();
+      heroCtx = null;
+    }
+  });
 </script>

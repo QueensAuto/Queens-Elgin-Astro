@@ -394,8 +394,12 @@ const visibleCount = 2; // Number of cards visible at a time
 
 <script>
     import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
 
     let anim: gsap.core.Tween | null = null;
+    let reviewsEntryCtx: gsap.Context | null = null;
 
     function initCarousel() {
         if (anim) {
@@ -457,13 +461,17 @@ const visibleCount = 2; // Number of cards visible at a time
 
     // Separate function for entry animations
     function initReviewsEntryAnimations() {
+        // Clean up previous entry animations (crucial for View Transitions back-nav)
+        if (reviewsEntryCtx) {
+            reviewsEntryCtx.revert();
+            reviewsEntryCtx = null;
+        }
+
         const section = document.querySelector(".rv-section");
         if (!section) return;
 
-        // Import ScrollTrigger if not registered
-        import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
-            gsap.registerPlugin(ScrollTrigger);
-
+        // Create scoped context — .revert() clears all inline styles on navigation
+        reviewsEntryCtx = gsap.context(() => {
             // Header elements
             const badge = section.querySelector(".inline-flex");
             const title = section.querySelector(".rv-title");
@@ -547,7 +555,7 @@ const visibleCount = 2; // Number of cards visible at a time
                     },
                 });
             }
-        });
+        }, section);
     }
 
     document.addEventListener("astro:page-load", () => {
@@ -565,6 +573,10 @@ const visibleCount = 2; // Number of cards visible at a time
         if (anim) {
             anim.kill();
             anim = null;
+        }
+        if (reviewsEntryCtx) {
+            reviewsEntryCtx.revert();
+            reviewsEntryCtx = null;
         }
     });
 
