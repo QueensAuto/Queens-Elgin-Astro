@@ -176,6 +176,13 @@ const {
                     duration: 1.2,
                 });
             }
+
+            // Push the entire page down
+            gsap.to(document.body, {
+                paddingTop: naturalHeight,
+                ease: "power4.out",
+                duration: 1.2,
+            });
         }
 
         // Function to animate CLOSE
@@ -199,6 +206,13 @@ const {
                     duration: 0.6,
                 });
             }
+
+            // Pull the page back up
+            gsap.to(document.body, {
+                paddingTop: 0,
+                ease: "power3.inOut",
+                duration: 0.6,
+            });
         }
 
         // Delay start by 3 seconds
