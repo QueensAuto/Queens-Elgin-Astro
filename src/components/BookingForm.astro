@@ -1148,6 +1148,10 @@ const {
     document.addEventListener("astro:page-load", function initBookingForm() {
         // --- Form Props Extraction ---
         const formWrapper = document.getElementById("book-appointment-form");
+        if (!formWrapper) return;
+        const form = document.getElementById("booking-form");
+        if (!form) return;
+
         const WEBHOOK_URL = formWrapper.dataset.webhook;
         const PROMO_CODE = formWrapper.dataset.promo;
         const THANK_YOU_URL = formWrapper.dataset.thankyou;
@@ -1205,8 +1209,7 @@ const {
             },
         };
 
-        const form = document.getElementById("booking-form");
-        if (!form) return;
+
 
         // --- URL Parameter & Tracking Population ---
         const urlParams = new URLSearchParams(window.location.search);
@@ -1438,10 +1441,12 @@ const {
         step1Fields.forEach((id) => {
             const el = document.getElementById(id);
             if (el) {
-                el.addEventListener("input", () => {
+                const handler = () => {
                     validateField(el);
                     checkStep1Completion();
-                });
+                };
+                el.addEventListener("input", handler);
+                el.addEventListener("change", handler);
             }
         });
 
@@ -1726,9 +1731,12 @@ const {
             });
 
         const yearSelect = document.getElementById("vehicle-year");
-        const currentYear = new Date().getFullYear() + 1;
-        for (let year = currentYear; year >= 1980; year--) {
-            yearSelect?.appendChild(new Option(year, year.toString()));
+        if (yearSelect) {
+            yearSelect.innerHTML = '<option value="" disabled selected>Select Year</option>';
+            const currentYear = new Date().getFullYear() + 1;
+            for (let year = currentYear; year >= 1980; year--) {
+                yearSelect.appendChild(new Option(year, year.toString()));
+            }
         }
 
         form?.addEventListener("submit", async (e) => {
