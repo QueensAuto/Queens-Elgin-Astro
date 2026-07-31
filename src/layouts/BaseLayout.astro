@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 
 import "../styles/fonts.css";
 import "../styles/global.css";
@@ -135,7 +135,7 @@ const isServiceSubPage =
       faqData={faqData}
       reviewData={reviewData}
     />
-    <ViewTransitions />
+    <ClientRouter />
     <script is:inline define:vars={{ forceDarkTheme }}>
       const applyTheme = () => {
         if (forceDarkTheme) {
