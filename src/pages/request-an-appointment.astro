@@ -1,21 +1,73 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { mobileTiresBrand } from "../brands";
-import BookingForm from "../components/BookingForm.astro";
 
-const title = "Request an Appointment | Queens Auto Service";
+const title = "Schedule Your Service | Queens Auto Services";
 const description =
-    "Schedule your auto repair or tire service with Queens Auto Service in Elgin, IL.";
+    "Book your auto repair or tire service online with Queens Auto Services in Elgin, IL. Fast, reliable service with certified technicians.";
 ---
 
-<BaseLayout brand={mobileTiresBrand} title={title} description={description}>
-    <div class="pt-36 pb-12">
-        <BookingForm
-            webhookUrl="https://n8n.queensautoservices.com/webhook/6e74632a-1fc8-4ff8-9465-ae6ed1c0c4ae"
-            promoCode="standard_booking_page"
-            step1TitlePrefix=""
-            step1TitleHighlight="Secure Your Spot"
-            step1Description="Step 1 of 2 — Your contact and vehicle details."
-        />
-    </div>
+<BaseLayout
+    brand={mobileTiresBrand}
+    title={title}
+    description={description}
+>
+    <section class="pt-32 pb-16 md:pt-44 md:pb-24">
+        <div class="site-canvas">
+            <div class="max-w-2xl mx-auto text-center">
+                <h1 class="display-hero-page text-queens-primary dark:text-white mb-6">
+                    Your car deserves<br />
+                    <span class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
+                        >5-star service.</span
+                    >
+                </h1>
+                <p class="text-lg text-gray-600 dark:text-gray-400 mb-10 max-w-md mx-auto leading-relaxed">
+                    Skip the wait. Book your appointment online in seconds and
+                    get back on the road faster.
+                    Transparent pricing, real-time availability, and a
+                    satisfaction guarantee.
+                </p>
+
+                <div class="form-card bg-white dark:bg-white/5 rounded-2xl p-8 md:p-10 shadow-xl border border-gray-100 dark:border-white/10">
+                    <h2 class="text-xl font-bold text-queens-primary dark:text-white mb-6">
+                        Schedule an Appointment
+                    </h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+                        Select your service, pick a time that works for you, and
+                        confirm — all in under 2 minutes.
+                    </p>
+
+                    <button
+                        type="button"
+                        onclick="javascript:sm_w_scheduler_open();"
+                        class="cta-button w-full inline-flex items-center justify-center px-8 py-4 text-xl font-bold text-white rounded-full transition-all"
+                    >
+                        Schedule Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style is:inline>
+        .cta-button {
+            background: linear-gradient(to right, #22d3ee, #3b82f6 60%);
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(34, 197, 222, 0.3);
+        }
+    </style>
+
+    <script
+        is:inline
+        src="https://app.shopmonkey.cloud/scripts/scheduler.js?lid=63b4a48aad02080026523231&e=stable"
+        type="text/javascript"
+        id="sm_w_scheduler"
+        defer
+    ></script>
 </BaseLayout>
