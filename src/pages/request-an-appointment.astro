@@ -39,7 +39,7 @@ const description =
 
                     <button
                         type="button"
-                        onclick="javascript:sm_w_scheduler_open();"
+                        id="scheduler-button"
                         class="cta-button w-full inline-flex items-center justify-center px-8 py-4 text-xl font-bold text-white rounded-full transition-all"
                     >
                         Schedule Now
@@ -63,11 +63,44 @@ const description =
         }
     </style>
 
-    <script
-        is:inline
-        src="https://app.shopmonkey.cloud/scripts/scheduler.js?lid=63b4a48aad02080026523231&e=stable"
-        type="text/javascript"
-        id="sm_w_scheduler"
-        defer
-    ></script>
+    <script is:inline>
+        function loadShopMonkeyScheduler() {
+            if (document.getElementById("sm_w_scheduler")) return;
+            var s = document.createElement("script");
+            s.src = "https://app.shopmonkey.cloud/scripts/scheduler.js?lid=63b4a48aad02080026523231&e=stable";
+            s.type = "text/javascript";
+            s.id = "sm_w_scheduler";
+            document.head.appendChild(s);
+        }
+
+        function openScheduler() {
+            if (typeof sm_w_scheduler_open === "function") {
+                sm_w_scheduler_open();
+            } else {
+                loadShopMonkeyScheduler();
+                var attempts = 0;
+                var maxAttempts = 25;
+                var handle = setInterval(function () {
+                    if (typeof sm_w_scheduler_open === "function") {
+                        clearInterval(handle);
+                        sm_w_scheduler_open();
+                    } else if (attempts >= maxAttempts) {
+                        clearInterval(handle);
+                    }
+                    attempts++;
+                }, 200);
+            }
+        }
+
+        if (document.readyState !== "loading") {
+            loadShopMonkeyScheduler();
+        }
+        document.addEventListener("astro:page-load", loadShopMonkeyScheduler);
+        document.addEventListener("astro:page-load", function () {
+            var btn = document.getElementById("scheduler-button");
+            if (btn) btn.onclick = openScheduler;
+        });
+        var _initialBtn = document.getElementById("scheduler-button");
+        if (_initialBtn) _initialBtn.onclick = openScheduler;
+    </script>
 </BaseLayout>
