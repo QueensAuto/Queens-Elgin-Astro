@@ -462,8 +462,10 @@ CTA Section */
     gsap.registerPlugin(ScrollTrigger);
 
     let ctx: any; // Using any to avoid type issues if GSAP types aren't perfectly inferred
+    let runId = 0; // Guards against overlapping inits (immediate + page-load)
 
     async function initScrollPromo() {
+        const myRun = ++runId;
         const container = document.getElementById("scroll-promo");
 
         // If we navigated to a page without this component, clean up and exit
@@ -472,11 +474,14 @@ CTA Section */
             return;
         }
 
-        // Clean up any existing context for this component
-        if (ctx) ctx.revert();
-
         // Wait for next frame to ensure DOM layout is settled
         await new Promise(requestAnimationFrame);
+
+        // A newer init superseded this one — bail before touching GSAP state
+        if (myRun !== runId) return;
+
+        // Clean up any existing context for this component
+        if (ctx) ctx.revert();
 
         const video = container.querySelector(
             ".promo-video",
@@ -728,6 +733,13 @@ CTA Section */
 
     // Initialize on page load (covers initial load and view transitions)
     document.addEventListener("astro:page-load", initScrollPromo);
+
+    // Fallback: Cloudflare Rocket Loader (active on the live site) defers this
+    // module past DOMContentLoaded, so astro:page-load may have already fired.
+    // In that case init immediately — initScrollPromo is idempotent.
+    if (document.readyState !== "loading") {
+        initScrollPromo();
+    }
 
     // Cleanup on component unmount/page swap
     document.addEventListener("astro:before-swap", () => {
