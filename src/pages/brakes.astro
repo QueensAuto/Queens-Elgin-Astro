@@ -178,19 +178,26 @@ const faqs = [
     <div class="lp-wrap bk-hero-wrap pb-14 md:pb-20">
       <div class="bk-hero-grid">
       <div class="bk-intro">
-        <span class="lp-pill">Professional Brake Service · Elgin, IL</span>
+        <p class="bk-symptom">
+          <!-- a brake "recording": smooth running, then the grind -->
+          <svg class="bk-symptom-wave" viewBox="0 0 60 20" aria-hidden="true" focusable="false">
+            <path class="bk-wave-calm" pathLength="1" d="M1 10 C4 5.5 7 5.5 10 10 S16 14.5 19 10 S25 5.5 28 10" />
+            <path class="bk-wave-grind" pathLength="1" d="M28 10 L30.2 4 L32.2 16 L34.6 2.5 L36.6 17.5 L39 3.5 L41 16.5 L43.4 5 L45.4 15 L47.8 6.5 L49.8 13.5 L52.2 8 L54.2 12 L56.6 9.2 L59 10" />
+          </svg>
+          <span>Squealing or grinding brakes?</span>
+        </p>
         <h1 class="lp-h1 mt-6">
-          <span class="lp-grad">Stop Safer Today:</span> $369 Complete Brake Service
+          New Brake Pads &amp; Rotors in Elgin — <span class="lp-grad">$369 Per Axle</span>
         </h1>
         <p class="bk-sub text-lg md:text-xl text-slate-300">
-          Your brakes are your family's last line of defense. Get professional
-          service with quality parts, expert installation and a 24-month
-          warranty — all for $369 per axle. Plus $173 in bonuses to keep you
-          protected on the road.
+          Quality pads and rotors installed by our Elgin techs and backed by a
+          24-month / 24,000-mile warranty — so you know the price before we
+          start, and you won't pay for the same brakes twice.
         </p>
         <div class="bk-quick-offer">
           <p>$369 per axle · pads &amp; rotors · $173 in bonuses</p>
-          <a href="#book" class="lp-btn">Claim My $369 Brakes →</a>
+          <a href="#book" class="lp-btn">Book My $369 Brakes →</a>
+          <p class="bk-reassure">No&nbsp;payment&nbsp;online · Book&nbsp;in&nbsp;under&nbsp;a&nbsp;minute · Price&nbsp;confirmed&nbsp;before&nbsp;work&nbsp;starts</p>
         </div>
       </div>
 
@@ -242,13 +249,14 @@ const faqs = [
           </ul>
 
           <div class="bk-hero-actions flex flex-col sm:flex-row gap-3">
-            <a href="#book" class="lp-btn">Claim My $369 Brakes →</a>
+            <a href="#book" class="lp-btn">Book My $369 Brakes →</a>
             <a href={`tel:${phoneDigits}`} class="lp-btn lp-btn-ghost">Call {brand.phone}</a>
           </div>
+          <p class="bk-reassure">No&nbsp;payment&nbsp;online · Book&nbsp;in&nbsp;under&nbsp;a&nbsp;minute · Price&nbsp;confirmed&nbsp;before&nbsp;work&nbsp;starts</p>
 
           <p class="mt-6 flex items-center gap-2 text-sm text-slate-400">
             <span class="lp-stars tracking-wide" aria-hidden="true">★★★★★</span>
-            <span><strong class="text-white">{brand.ratingValue}</strong> on Google from {brand.reviewCount}+ Elgin-area drivers</span>
+            <span><strong class="text-white">{brand.ratingValue}</strong> on Google from {brand.reviewCount} reviews · Serving Elgin since 2007</span>
           </p>
 
           <details class="bk-restrictions mt-4 text-xs text-slate-400">
@@ -816,15 +824,53 @@ const faqs = [
   }
 
   /* ---------- pieces ---------- */
-  .lp-pill {
-    display: inline-block;
-    padding: 0.45rem 1rem;
-    border-radius: 9999px;
-    font-size: 0.875rem;
+  /* Hero eyebrow: the symptom, led by a little sound trace that turns from a
+     smooth running wave into the grind (red = the caliper's red, brightened). */
+  .bk-symptom {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 0;
+    font-size: 1.0625rem;
     font-weight: 600;
-    color: #9dc9e9;
-    background: rgba(10, 121, 200, 0.12);
-    border: 1px solid rgba(108, 175, 222, 0.3);
+    line-height: 1.3;
+    color: #e2e8f0;
+  }
+  .bk-symptom-wave {
+    flex: none;
+    width: 3.5em;
+    height: 1.2em;
+    overflow: visible;
+  }
+  .bk-symptom-wave path {
+    fill: none;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .bk-wave-calm {
+    stroke: #7d8ba1;
+  }
+  .bk-wave-grind {
+    stroke: #f0524a;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    /* drawn once on load: steady running, then the grind kicks in */
+    .bk-symptom-wave path {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: bk-trace 0.6s cubic-bezier(0.33, 0, 0.2, 1) 0.25s forwards;
+    }
+    .bk-symptom-wave .bk-wave-grind {
+      animation-duration: 0.45s;
+      animation-timing-function: linear;
+      animation-delay: 0.85s;
+    }
+  }
+  @keyframes bk-trace {
+    to {
+      stroke-dashoffset: 0;
+    }
   }
   .lp-card {
     padding: 1.75rem;
@@ -990,6 +1036,18 @@ const faqs = [
   }
   .bk-quick-offer .lp-btn {
     margin-top: 10px;
+  }
+  /* reassurance microcopy right under the primary CTA */
+  .bk-reassure {
+    margin-top: 10px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.45;
+    color: #94a3b8;
+    text-wrap: balance;
+  }
+  .bk-intro .bk-sub {
+    text-wrap: pretty; /* no one-word last line */
   }
   .bk-bonuses {
     display: grid;
