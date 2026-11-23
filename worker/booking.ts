@@ -1,7 +1,8 @@
 import { createVoiceToken, type VoiceEnv } from "./voice.ts";
 
 /**
- * POST /api/booking — the /brakes booking form.
+ * POST /api/booking — the landing-page booking forms (/brakes, /wheel-alignment,
+ * /auto-repair-discount). The form's `service` picks the offer wording.
  * Emails the shop (lead) and the customer (confirmation) through Resend.
  * Modelled on the K&A Remodeling worker; same env names.
  */
@@ -33,9 +34,28 @@ const SHOP = {
   phone: "(224) 635-3000",
   tel: "tel:+12246353000",
   address: "1303 Dundee Ave, Elgin, IL 60120",
-  hours: "Mon–Fri 8 AM – 6 PM, Sat 8 AM – 4 PM",
+  hours: "Mon–Fri 7:30 AM – 6 PM, Sat 7:30 AM – 4 PM",
   site: "https://queensautoserviceselgin.com",
 };
+
+/**
+ * What each landing page is selling, keyed by the form's lower-cased `service`.
+ * lead: owner-email wording ("New brake booking"); noun: customer wording
+ * ("your brake service request"); voice: what the voice message says they asked for.
+ */
+const OFFERS: Record<string, { label: string; lead: string; noun: string; voice: string }> = {
+  brakes: { label: "Brake pads & rotors — $369 per axle", lead: "brake", noun: "brake service", voice: "new brakes" },
+  "wheel alignment": { label: "Wheel alignment — $35 off (front-end or four-wheel)", lead: "wheel alignment", noun: "wheel alignment", voice: "a wheel alignment" },
+  "auto repair": {
+    label: "Auto repair — up to $45 off ($15 off $100+, $30 off $200+, $45 off $300+)",
+    lead: "auto repair",
+    noun: "auto repair",
+    voice: "auto repair",
+  },
+};
+function offerFor(service: string) {
+  return OFFERS[service.toLowerCase()] ?? { label: service || "Service appointment", lead: "service", noun: "service", voice: "service" };
+}
 
 const NAVY = "#0b1121";
 const BLUE = "#0a79c8";
@@ -175,6 +195,7 @@ export async function handleBooking(request: Request, env: BookingEnv): Promise<
   const make = clean(raw.vehicle_make, 60);
   const model = clean(raw.vehicle_model, 80);
   const service = clean(raw.service, 80) || "Brakes";
+  const offer = offerFor(service);
   const comments = cleanMultiline(raw.comments, 1000);
   const date = clean(raw.date, 10);
   const time = clean(raw.time, 20);
@@ -205,13 +226,13 @@ export async function handleBooking(request: Request, env: BookingEnv): Promise<
 
   // ---------------------------------------------------------------- shop
   const ownerText = [
-    `New brake booking — ${vehicle}`,
+    `New ${offer.lead} booking — ${vehicle}`,
     "",
     `Name: ${fullName}`,
     `Phone: ${formattedPhone}`,
     `Email: ${email}`,
     `Vehicle: ${vehicle}`,
-    `Service: ${service} ($369 per axle special)`,
+    `Service: ${offer.label}`,
     `Requested: ${when}`,
     comments ? `Notes: ${comments}` : "",
     pageUrl ? `Page: ${pageUrl}` : "",
@@ -220,14 +241,14 @@ export async function handleBooking(request: Request, env: BookingEnv): Promise<
     .join("\n");
 
   const ownerBody = `
-    <h1 style="margin:0 0 6px; font-size:22px; line-height:1.25;">New brake booking</h1>
+    <h1 style="margin:0 0 6px; font-size:22px; line-height:1.25;">New ${escapeHtml(offer.lead)} booking</h1>
     <p style="margin:0 0 22px; font-size:15px; color:#475569;"><strong style="color:#0f172a;">${escapeHtml(vehicle)}</strong> · ${escapeHtml(when)}</p>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e9ef; border-radius:8px; border-collapse:separate; overflow:hidden; margin-bottom:20px;">
       ${row("Name", `<strong>${escapeHtml(fullName)}</strong>`)}
       ${row("Phone", `<a href="${customerTel}" style="color:${BLUE}; font-weight:600; text-decoration:none;">${escapeHtml(formattedPhone)}</a>`)}
       ${row("Email", `<a href="mailto:${escapeHtml(email)}" style="color:#0f172a;">${escapeHtml(email)}</a>`)}
       ${row("Vehicle", escapeHtml(vehicle))}
-      ${row("Service", `${escapeHtml(service)} — $369 per axle special`)}
+      ${row("Service", escapeHtml(offer.label))}
       ${row("Requested", `<strong>${escapeHtml(when)}</strong>`, true)}
     </table>
     ${
@@ -247,7 +268,7 @@ export async function handleBooking(request: Request, env: BookingEnv): Promise<
     from: fromEmail,
     to: [ownerEmail],
     reply_to: email,
-    subject: `New brake booking: ${fullName} — ${vehicle}, ${when}`,
+    subject: `New ${offer.lead} booking: ${fullName} — ${vehicle}, ${when}`,
     html: emailShell(
       "New booking",
       ownerBody,
@@ -265,11 +286,11 @@ export async function handleBooking(request: Request, env: BookingEnv): Promise<
   const customerText = [
     `Hi ${firstName},`,
     "",
-    `Thanks for booking with ${SHOP.name}. We received your brake service request for ${when}, and we'll be in touch to confirm your appointment.`,
+    `Thanks for booking with ${SHOP.name}. We received your ${offer.noun} request for ${when}, and we'll be in touch to confirm your appointment.`,
     "",
     "Your request:",
     `- Vehicle: ${vehicle}`,
-    `- Service: Brake pads & rotors — $369 per axle`,
+    `- Service: ${offer.label}`,
     `- Requested time: ${when}`,
     comments ? `- Your notes: ${comments}` : "",
     "",
@@ -284,11 +305,11 @@ export async function handleBooking(request: Request, env: BookingEnv): Promise<
   const customerBody = `
     <h1 style="margin:0 0 10px; font-size:22px; line-height:1.25;">Thanks, ${escapeHtml(firstName)} — we got your booking.</h1>
     <p style="margin:0 0 22px; font-size:15px; line-height:1.6; color:#334155;">
-      We received your brake service request for <strong>${escapeHtml(when)}</strong>. We'll be in touch to confirm your appointment.
+      We received your ${escapeHtml(offer.noun)} request for <strong>${escapeHtml(when)}</strong>. We'll be in touch to confirm your appointment.
     </p>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e9ef; border-radius:8px; border-collapse:separate; overflow:hidden; margin-bottom:22px;">
       ${row("Vehicle", escapeHtml(vehicle))}
-      ${row("Service", "Brake pads &amp; rotors — $369 per axle")}
+      ${row("Service", escapeHtml(offer.label))}
       ${row("Requested", `<strong>${escapeHtml(when)}</strong>`, !comments)}
       ${comments ? row("Your notes", escapeHtml(comments).replace(/\n/g, "<br/>"), true) : ""}
     </table>
@@ -303,13 +324,13 @@ export async function handleBooking(request: Request, env: BookingEnv): Promise<
   const customerResult = await sendResendEmail(apiKey, {
     from: fromEmail,
     to: [email],
-    subject: `Your brake service request — ${SHOP.name}`,
+    subject: `Your ${offer.noun} request — ${SHOP.name}`,
     html: emailShell("Request received", customerBody, `${SHOP.name} · ${SHOP.address} · <a href="${SHOP.site}" style="color:#64748b;">queensautoserviceselgin.com</a>`),
     text: customerText,
   });
   if (!customerResult.ok) console.warn("Resend customer confirmation failed:", customerResult.error);
 
   // ticket for the personalised voice message (empty when voice isn't configured)
-  const voiceToken = await createVoiceToken(env, { first: firstName, vehicle }).catch(() => "");
+  const voiceToken = await createVoiceToken(env, { first: firstName, vehicle, what: offer.voice }).catch(() => "");
   return json(voiceToken ? { ok: true, id: ownerResult.id, voiceToken } : { ok: true, id: ownerResult.id });
 }

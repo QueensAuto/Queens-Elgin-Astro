@@ -111,7 +111,8 @@ const year = new Date().getFullYear();
     <!-- Minimal header: logo + call + primary CTA -->
     <header class="lp-header">
       <div class="lp-wrap flex items-center justify-between gap-4 py-4">
-        <a href="/brakes" aria-label={brand.name} class="shrink-0">
+        <!-- logo keeps ad traffic on the landing page it arrived on -->
+        <a href={Astro.url.pathname} aria-label={brand.name} class="shrink-0">
           <img
             src={brand.logoPathWhite}
             alt={brand.name}
@@ -178,7 +179,7 @@ const year = new Date().getFullYear();
             >
           </p>
           <p class="text-sm text-slate-500">
-            Mon–Fri 8:00 am – 6:00 pm &nbsp;|&nbsp; Sat 8:00 am – 4:00 pm
+            Mon–Fri 7:30 am – 6:00 pm &nbsp;|&nbsp; Sat 7:30 am – 4:00 pm
           </p>
         </address>
         <p class="mt-8 pt-6 border-t border-white/10 text-sm text-slate-500">

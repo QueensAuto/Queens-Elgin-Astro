@@ -21,14 +21,14 @@ const deals = [
         trackingClass: "brake-banner-link"
     },
     {
-        title: "$35 Alignment",
+        title: "$35 OFF Alignment",
         subtitle: "Wheel Alignment",
         description:
-            "Keep your car tracking straight and your tires wearing evenly. A precision alignment for only $35 helps improve safety, handling, and tire life. Limited time special.",
+            "Keep your car tracking straight and your tires wearing evenly. Save $35 on a precision alignment, front-end or four-wheel, to improve safety, handling, and tire life. Limited time special.",
         details:
             "Most vehicles. Additional adjustments or parts may be extra. Some restrictions may apply. Limited time only.",
         cta: "Book Appointment",
-        link: "https://wheel-alignment.queensautoserviceselgin.com/",
+        link: "/wheel-alignment",
         bannerName: "Specials Alignment Deal",
         trackingClass: "alignment-banner-link"
     },
@@ -40,7 +40,7 @@ const deals = [
         details:
             "Excludes tires and batteries. One coupon per visit. Some restrictions may apply. Limited time only.",
         cta: "Book Appointment",
-        link: "https://offer.queensautoserviceselgin.com/",
+        link: "/auto-repair-discount",
         bannerName: "Specials Auto Repair Deal",
         trackingClass: "auto-repair-banner-link"
     },
@@ -63,7 +63,7 @@ const deals = [
             "Before long drives or seasonal changes, we'll look over fluids, belts, wipers, and lights to catch small issues early.",
         details: "No wrench, no charge—just peace of mind. Limited time only.",
         cta: "Book Appointment",
-        link: "https://offer.queensautoserviceselgin.com/",
+        link: "/auto-repair-discount",
         bannerName: "Specials Seasonal Safety Check",
         trackingClass: "auto-repair-banner-link"
     },
@@ -75,7 +75,7 @@ const deals = [
         details:
             "Further diagnostics or replacements may carry additional charges. Limited time only.",
         cta: "Book Appointment",
-        link: "https://offer.queensautoserviceselgin.com/",
+        link: "/auto-repair-discount",
         bannerName: "Specials Battery Test Deal",
         trackingClass: "auto-repair-banner-link"
     },
@@ -126,7 +126,7 @@ const deals = [
                                 <div class={`border-t pt-6 mt-auto ${ (index + 1) % 2 === 0 ? 'border-white/10' : 'border-gray-200 dark:border-gray-700' }`}>
                                     <a
                                         href={deal.link}
-                                        data-astro-reload={deal.link && (deal.link.includes('buy-new-tires') || deal.link === '/brakes') ? "" : undefined}
+                                        data-astro-reload={deal.link && (deal.link.includes('buy-new-tires') || ['/brakes', '/wheel-alignment', '/auto-repair-discount'].includes(deal.link)) ? "" : undefined}
                                         data-banner-name={deal.bannerName}
                                         class={`inline-block w-full rounded-full px-6 py-4 text-center text-sm font-bold shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${deal.trackingClass} ${
                                             (index + 1) % 2 === 0 

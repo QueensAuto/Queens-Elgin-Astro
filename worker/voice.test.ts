@@ -97,3 +97,13 @@ test("names and vehicles are trimmed to speakable text", async () => {
   assert.ok(!/[<>\n]/.test(text), "unsafe characters spoken");
   assert.ok(text.length < 260, `script too long (${text.length})`);
 });
+
+test("the script names the requested service", () => {
+  assert.match(voiceScript("Jordan", "2019 Toyota Camry", "a wheel alignment"), /request for a wheel alignment on your 2019 Toyota Camry/);
+});
+
+test("the ticket carries the service phrase into the spoken script", async () => {
+  const token = await createVoiceToken(ENV, { first: "Jordan", vehicle: "2019 Toyota Camry", what: "a wheel alignment" });
+  await handleVoice(post({ token }), ENV);
+  assert.match(calls[0].body.text, /request for a wheel alignment on your 2019 Toyota Camry/);
+});

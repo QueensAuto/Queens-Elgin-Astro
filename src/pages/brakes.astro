@@ -1,12 +1,12 @@
 ---
 import LandingLayout from "../layouts/LandingLayout.astro";
 import BookingForm from "../components/BookingForm.astro";
-import reviews from "../data/reviews.json";
+import reviews from "../data/landing-reviews/brakes.json";
 import { mobileTiresBrand as brand } from "../brands";
 
 const title = "$369 Brake Service in Elgin, IL | Queens Auto Service";
 const description =
-  "Professional brake pad and rotor service in Elgin, IL for $369 per axle with a 24-month / 24,000-mile warranty. Free inspection, upfront pricing. Book online in under a minute.";
+  "Brake pads and rotors in Elgin, IL for $369 per axle, with $173 in bonuses and a 24-month / 24,000-mile warranty. Price confirmed before work starts. Book online in under a minute.";
 
 const phoneDigits = brand.phone.replace(/\D/g, "");
 
@@ -19,23 +19,23 @@ const bonuses = [
 
 const promises = [
   {
-    title: "Upfront Pricing",
-    body: "The price we quote is the price you pay. No surprises, no hidden fees, and no upselling. Just honest work at a fair price.",
+    title: "Price Confirmed First",
+    body: "You'll know the price before any work starts. Taxes and shop supplies are extra, and anything unexpected gets its own quote.",
     icon: "M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z",
   },
   {
-    title: "Quality Parts",
-    body: "We use only high-quality brake pads and rotors that meet or exceed manufacturer specifications for safety and longevity.",
+    title: "Pads & Rotors, One Axle",
+    body: "Standard brake pads and new rotors on both wheels of one axle (the front pair or the rear pair), installed, on most cars and light trucks.",
     icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
   },
   {
-    title: "Expert Technicians",
-    body: "Our experienced technicians are brake system specialists, so your service is done right the first time, every time.",
-    icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
+    title: "$173 in Bonuses",
+    body: "A free tire rotation, safety inspection, and brake fluid check and top-off come with the job, plus 50% off an oil change.",
+    icon: "M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7",
   },
   {
     title: "24/24 Warranty",
-    body: "Drive with confidence knowing your brake service is covered by our 24-month / 24,000-mile nationwide warranty.",
+    body: "Your new pads and rotors are covered for 24 months or 24,000 miles, the same warranty we put on most repairs.",
     icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
   },
 ];
@@ -45,68 +45,68 @@ const warningIcon = "M10.3 4L2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 4a
 const signs = [
   {
     icon: "M11 5 6 9H3v6h3l5 4V5Zm4 4a4 4 0 0 1 0 6m3-9a8 8 0 0 1 0 12",
-    title: "Squealing or grinding noise",
-    body: "A high-pitched squeal comes from a metal wear indicator on the pad telling you it's time for a replacement.",
-  },
-  {
-    icon: "M7 3h6a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm3 8v7l5 3h4M8 6h4M8 8h4",
-    title: "Soft or spongy pedal",
-    body: "If your brake pedal goes further to the floor than usual, it could mean low fluid or worn pads.",
-  },
-  {
-    icon: "m3 16 13-13a1 1 0 0 1 1.4 0L21 6.6a1 1 0 0 1 0 1.4L8 21a1 1 0 0 1-1.4 0L3 17.4a1 1 0 0 1 0-1.4Zm10-10 2 2m-5 1 2 2m-5 1 2 2",
-    title: "Longer stopping distance",
-    body: "If your car is taking longer to stop, your brakes are losing their effectiveness.",
+    title: "A high squeal every time you stop",
+    body: "Most pads have a small metal tab that squeals once the pad wears thin. A squeal that fades after a few stops on a wet morning is often just surface rust. One that sticks around is the tab.",
   },
   {
     icon: warningIcon,
-    title: "Dashboard warning light",
-    body: "Many modern vehicles have a sensor that lights up when pads are low.",
+    title: "Grinding or scraping",
+    body: "That's usually metal on metal: the pad is worn through and its steel backing is cutting into the rotor. Don't wait on this one.",
+  },
+  {
+    icon: "M7 3h6a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm3 8v7l5 3h4M8 6h4M8 8h4",
+    title: "A pedal that feels soft or sinks lower",
+    body: "If the pedal goes closer to the floor than it used to, it can mean low brake fluid, air in the lines or worn pads.",
+  },
+  {
+    icon: "m3 16 13-13a1 1 0 0 1 1.4 0L21 6.6a1 1 0 0 1 0 1.4L8 21a1 1 0 0 1-1.4 0L3 17.4a1 1 0 0 1 0-1.4Zm10-10 2 2m-5 1 2 2m-5 1 2 2",
+    title: "Shaking, pulling or longer stops",
+    body: "A pulsing pedal or a steering wheel that shakes when you brake often points to worn rotors. Needing more room to stop is a sign too.",
   },
 ];
 
 const features = [
   {
-    title: "Comprehensive Vehicle Inspection",
-    body: "Before we begin, we inspect your whole braking system — rotors, calipers, hoses and sensors — to catch underlying issues that could affect performance or safety.",
+    title: "1. Book in under a minute",
+    body: "Your contact and vehicle details, then a time that suits you. There's nothing to pay online.",
   },
   {
-    title: "State-of-the-Art Technology",
-    body: "High-precision diagnostic tools check pad thickness, rotor condition and hydraulic function, so repairs meet factory specifications.",
+    title: "2. Bring it to Dundee Ave",
+    body: "We're at 1303 Dundee Ave, open Mon–Fri 7:30 AM–6 PM and Sat 7:30 AM–4 PM.",
   },
   {
-    title: "Your Safety Is Our Top Priority",
-    body: "A brake repair isn't complete without the bigger picture. We inspect critical components like ABS sensors and brake lines so your car stops safely every time.",
+    title: "3. See the price before any work",
+    body: "Your price is confirmed before work starts. If something beyond pads and rotors turns up, it's quoted separately.",
   },
   {
-    title: "Final Road Test",
-    body: "We finish with a complimentary road test to confirm smooth braking, even pedal feel and proper response in real-world conditions.",
+    title: "4. Leave covered, with your bonuses",
+    body: "Your tire rotation, safety inspection and brake fluid check and top-off are free, and the brakes carry a 24-month / 24,000-mile warranty.",
   },
 ];
 
 const checklist = [
-  "State-of-the-art equipment",
-  "Free brake inspection included",
-  "<strong>2-Year / 24,000-Mile Warranty on brake repairs</strong>",
+  "<strong>$369 per axle</strong> on most cars and light trucks",
+  "Price confirmed before any work starts",
+  "Taxes and shop supplies listed separately",
+  "Anything unexpected gets its own quote",
   "Financing available through Snap",
-  "Valid on most vehicles",
 ];
 
 const pains = [
   {
-    icon: "M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-5 0a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM12 3v2m0 14v2M3 12h2m14 0h2",
-    title: "Tires & Rotors Wear Faster",
-    body: "Worn or warped rotors cause uneven braking and excess tire wear — you could lose $400–$800 in replacements and repairs.",
+    icon: warningIcon,
+    title: "Stopping gets less predictable",
+    body: "Once the pad material is gone, steel is pressing on the rotor. It stops worse, and the noise only gets louder.",
   },
   {
-    icon: warningIcon,
-    title: "Brakes That Squeal = Less Control",
-    body: "A squealing or grinding noise means your pads are worn. Ignore it and you risk losing stopping power in an emergency.",
+    icon: "M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-5 0a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM12 3v2m0 14v2M3 12h2m14 0h2",
+    title: "The damage can spread past the rotor",
+    body: "Drive on it long enough and the heat and metal can take out more than pads and rotors, like the calipers.",
   },
   {
     icon: "M14 4v16m4-12h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4h-6M3 8h4m-5 4h4m-3 4h4",
-    title: "You'll Pay More Later",
-    body: "Delaying brake service can damage rotors, calipers and ABS sensors — turning a $369-per-axle brake service into a $1,000+ repair.",
+    title: "And that part isn't in the $369",
+    body: "The flat price covers standard pads and rotors. Extra parts and labor are quoted separately, so catching it early keeps the bill closer to $369 per axle.",
   },
 ];
 
@@ -125,49 +125,39 @@ const cities = [
 
 const faqs = [
   {
-    question: "How do I know if I need new brake pads?",
+    question: "What does $369 per axle cover?",
     answer:
-      "If you hear squealing or grinding, your pads are down to the metal wear indicator — which means you likely have only a week or two before rotor damage starts. That can turn a $369-per-axle brake service into an $800+ repair. We'll inspect them free and tell you exactly where you stand — no pressure, just honest answers.",
+      "Standard brake pads and new rotors on both wheels of one axle, either the front pair or the rear pair, on most cars and light trucks. Front and rear together is two axles. Taxes and shop supplies are extra, and any extra parts or labor for problems found along the way are quoted separately. Your price is confirmed before any work starts.",
   },
   {
-    question: "How long do brake repairs take?",
+    question: "Does my car qualify for the $369 brake price?",
     answer:
-      "Most brake jobs are done in under 90 minutes. If we're replacing rotors or doing anything more in-depth, we'll tell you and give you a realistic time estimate upfront. You can even book a free inspection today — it takes less than a minute.",
+      `Most cars and light trucks do. Luxury and performance models, heavy-duty trucks, and vehicles that need ceramic or specialized parts don't, and the offer can't be combined with other discounts. Not sure about yours? Call ${brand.phone} before you book.`,
   },
   {
-    question: "How much does a brake repair cost?",
+    question: "What are the free bonuses?",
     answer:
-      "Our brake service is $369 per axle for most vehicles. Cost may vary slightly depending on parts or vehicle type, but we always give you upfront pricing. If you need a little flexibility, we also offer financing through Snap Financing.",
+      "With the brake service you get a free tire rotation ($29 value), a free vehicle safety inspection ($79 value), a free brake fluid check and top-off ($35 value), and 50% off an oil change ($30 value). That's $173 in extras.",
   },
   {
-    question: "Do you offer a warranty on brake repairs?",
+    question: "How do I know if I need new brake pads and rotors?",
     answer:
-      "Yes — brake repairs are backed by a 24-month / 24,000-mile warranty. For other mechanical services, the same strong warranty applies. We stand behind every repair we do.",
+      `Listen first. A squeal that won't go away usually means the pads' wear tab is touching the rotor. Grinding usually means the pad is worn through. A soft or sinking pedal, shaking when you brake, or a brake warning light are worth checking too. If you're not sure, call ${brand.phone} and tell us what you're hearing.`,
   },
   {
-    question: "Can I drive with worn brakes?",
+    question: "Can I keep driving on grinding brakes?",
     answer:
-      "Technically yes. Safely? Not really. Worn brakes mean reduced stopping power — and that's dangerous. The longer you wait, the more damage you risk to rotors, sensors and even tires. Let's fix it before it costs more — or worse.",
+      "You can, but not for long. Grinding usually means metal on metal, which makes stopping less reliable and can damage parts beyond the pads and rotors, and those extra parts aren't in the $369 price. Book soon, and leave extra room to stop until then.",
   },
   {
-    question: "What vehicles do you service?",
+    question: "Is there a warranty on brake service?",
     answer:
-      "We work on most cars, SUVs and light trucks — foreign or domestic. Not sure if we can help? Just ask. Chances are, we've worked on one just like yours.",
+      "Yes. Your brake pads and rotors are covered by a 24-month / 24,000-mile warranty, the same coverage we put on most repairs.",
   },
   {
-    question: "What if I'm not sure it's my brakes?",
+    question: "Do I have to pay when I book? Can I pay over time?",
     answer:
-      "No problem. Come by for a free check. Whether it's your pads, rotors, suspension or something else entirely, we'll diagnose it and walk you through next steps — pressure-free.",
-  },
-  {
-    question: "Do I need to replace all 4 brakes at once?",
-    answer:
-      "Not always. If the rear brakes are still in good shape, we'll leave them alone. We only recommend replacing what's necessary — nothing more, nothing less.",
-  },
-  {
-    question: "Why is my car making a grinding noise when I stop?",
-    answer:
-      "That usually means your brake pads are completely worn and metal is grinding against your rotors, which can lead to expensive damage fast. Best to get it checked right away.",
+      "No payment is taken online. Booking takes under a minute, and your price is confirmed before any work starts. If you'd like to spread out the cost, financing is available through Snap.",
   },
 ];
 ---
@@ -282,11 +272,10 @@ const faqs = [
   <section class="lp-section">
     <div class="lp-wrap">
       <div class="lp-head reveal">
-        <h2 class="lp-h2">Our Iron-Clad Brake Service Guarantee</h2>
+        <h2 class="lp-h2">What's in the $369 Brake Service</h2>
         <p>
-          We stand behind our work with a promise of quality, transparency and
-          peace of mind. Every brake service is backed by these four
-          commitments.
+          One price per axle for brake pads and rotors, four extras on top, and
+          no guessing what you'll owe. Here's exactly what you're paying for.
         </p>
       </div>
       <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -325,10 +314,10 @@ const faqs = [
   <section class="lp-section" id="reviews">
     <div class="lp-wrap">
       <div class="lp-head reveal">
-        <h2 class="lp-h2">Trusted by <span class="lp-grad">Elgin Drivers</span></h2>
+        <h2 class="lp-h2">What <span class="lp-grad">Elgin Drivers</span> Say</h2>
         <p>
-          Elgin-area drivers count on Queens Auto for fast, affordable and
-          reliable service. Here's what they say on Google.
+          {brand.ratingValue} stars from {brand.reviewCount} Google reviews.
+          A few of them, in their own words.
         </p>
       </div>
       <div class="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -342,8 +331,8 @@ const faqs = [
                 “{r.text}”
               </blockquote>
               <figcaption class="mt-5 pt-4 border-t border-white/10 text-sm">
-                <span class="text-white font-semibold">{r.name}</span>
-                <span class="text-slate-500"> · {r.source}</span>
+                <span class="text-white font-semibold">{r.name === "Google reviewer" ? "Google review" : r.name}</span>
+                <span class="text-slate-500"> · {r.date}</span>
               </figcaption>
             </figure>
           ))
@@ -356,15 +345,15 @@ const faqs = [
   <section class="lp-section">
     <div class="lp-wrap">
       <div class="lp-head reveal">
-        <h2 class="lp-h2">When to Replace Your Brake Pads</h2>
+        <h2 class="lp-h2">Signs Your Brake Pads and Rotors Are Worn</h2>
         <p>
-          Know the warning signs of worn brake pads to avoid costly repairs and
-          stay safe on the road.
+          Brakes rarely quit without warning. You'll usually hear it first,
+          then feel it in the pedal.
         </p>
       </div>
       <div class="mt-12 grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
         <div>
-          <h3 class="lp-h3 mb-5">Watch for these signs</h3>
+          <h3 class="lp-h3 mb-5">What you might be noticing</h3>
           <ul class="space-y-5">
             {
               signs.map((s) => (
@@ -381,10 +370,10 @@ const faqs = [
             }
           </ul>
           <div class="mt-8">
-            <h3 class="lp-h3">Don't wait — act now</h3>
+            <h3 class="lp-h3">Sound familiar?</h3>
             <p class="mt-2 text-slate-300">
-              Delaying replacement risks damaging your expensive rotors and
-              creating a safety hazard.
+              Book a time online. The $369 covers pads and rotors on the axle
+              that needs them, and you'll see the price before any work starts.
             </p>
             <a href="#book" class="lp-btn mt-5">Book $369 Brake Service →</a>
           </div>
@@ -416,12 +405,13 @@ const faqs = [
           />
         </div>
         <div>
-          <h2 class="lp-h2">Expert Brake Repair, Done with Precision.</h2>
+          <h2 class="lp-h2">Brake Service in Elgin Without the Surprise Bill</h2>
           <p class="mt-4 text-lg text-slate-300">
-            At our Elgin shop we don't just fix brakes — we restore confidence.
-            With years of hands-on experience and advanced diagnostics, we make
-            sure your braking system performs safely and reliably. Here's
-            what's included:
+            The worry with any brake job is the counter: you came in for one
+            price and leave with another. Here's how pricing works on this one.
+            Luxury and performance models, heavy-duty trucks, and ceramic or
+            specialized parts aren't part of the $369, so
+            call {brand.phone} if you're not sure about your car.
           </p>
           <ul class="mt-6 space-y-3 text-white">
             {
@@ -453,9 +443,9 @@ const faqs = [
     <div class="lp-wrap">
       <div class="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
         <div>
-          <h2 class="lp-h2">What Happens When You Ignore That Grinding Noise?</h2>
+          <h2 class="lp-h2">What Happens If You Keep Driving on Grinding Brakes?</h2>
           <p class="mt-4 text-lg text-slate-300">
-            Here's why Elgin drivers fix their brakes before they fail.
+            A squeal is a warning. Grinding means the warning period is over.
           </p>
           <div class="mt-8 space-y-6">
             {
@@ -476,9 +466,8 @@ const faqs = [
             <svg class="lp-line-icon inline-block align-text-bottom mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M7 11V7a5 5 0 0 1 10 0v4m-11 0h12a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2Zm6 4v2" />
             </svg>
-            Backed by the ProVantage Nationwide Warranty — 24 months or
-            24,000 miles of protection at 30,000+ repair shops across the U.S.
-            and Canada
+            Fix it now and your new pads and rotors are covered for 24 months
+            or 24,000 miles.
           </p>
         </div>
         <div class="lp-photo">
@@ -500,17 +489,17 @@ const faqs = [
       <div class="lp-card reveal">
         <p class="lp-stat">{brand.ratingValue}<span class="lp-stars">★</span></p>
         <h3 class="text-white font-semibold mt-1">Google Rating</h3>
-        <p class="text-sm text-slate-400">From {brand.reviewCount}+ reviews</p>
+        <p class="text-sm text-slate-400">From {brand.reviewCount} reviews</p>
       </div>
       <div class="lp-card reveal">
         <p class="lp-stat">2007</p>
         <h3 class="text-white font-semibold mt-1">Serving Elgin Since</h3>
-        <p class="text-sm text-slate-400">Family-owned &amp; local</p>
+        <p class="text-sm text-slate-400">At 1303 Dundee Ave</p>
       </div>
       <div class="lp-card reveal">
         <p class="lp-stat">24/24</p>
         <h3 class="text-white font-semibold mt-1">Month / Mile Warranty</h3>
-        <p class="text-sm text-slate-400">Peace of mind guaranteed</p>
+        <p class="text-sm text-slate-400">On most repairs, brakes included</p>
       </div>
     </div>
   </section>
@@ -519,17 +508,17 @@ const faqs = [
   <section class="lp-section">
     <div class="lp-wrap grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
       <div>
-        <h2 class="lp-h2">Elgin's Trusted Neighborhood Auto Repair Shop</h2>
+        <h2 class="lp-h2">An Elgin Repair Shop Since 2007</h2>
         <p class="mt-4 text-slate-300 text-lg">
-          Queens Auto Service is proud to serve Elgin with reliable, honest car
-          care. We treat every customer like a neighbor and every vehicle like
-          our own. Whether you're here for brake work, routine maintenance or
-          an unexpected repair, we've got your back with fair prices and real
-          solutions.
+          Queens Auto Service has been fixing cars at 1303 Dundee Ave since
+          2007. You don't have to take our word for the rest:
+          {brand.reviewCount} drivers have reviewed us on Google, and
+          we're at {brand.ratingValue} stars. Brakes, tires, oil changes and everyday repairs all happen
+          under one roof.
         </p>
         <ul class="mt-6 space-y-3 text-white">
-          <li class="flex gap-3"><span class="lp-check" aria-hidden="true">✓</span>Honest &amp; transparent pricing</li>
-          <li class="flex gap-3"><span class="lp-check" aria-hidden="true">✓</span>Experienced, professional technicians</li>
+          <li class="flex gap-3"><span class="lp-check" aria-hidden="true">✓</span>Price confirmed before work starts</li>
+          <li class="flex gap-3"><span class="lp-check" aria-hidden="true">✓</span>Open Monday to Saturday from 7:30 AM</li>
           <li class="flex gap-3"><span class="lp-check" aria-hidden="true">✓</span>24-month / 24,000-mile warranty on most repairs</li>
         </ul>
       </div>
@@ -572,11 +561,11 @@ const faqs = [
   <section class="lp-section">
     <div class="lp-wrap">
       <div class="lp-band reveal">
-        <h2 class="lp-h2">Bad brakes draining your wallet? Get them fixed this week.</h2>
+        <h2 class="lp-h2">Tired of hearing it every time you stop?</h2>
         <p class="mt-4 text-lg text-slate-200 max-w-2xl mx-auto">
-          That squealing noise wrecking your peace of mind? We use
-          industry-leading tech to diagnose and fix the problem with
-          precision. Book online and get back to driving safe and worry-free.
+          $369 per axle for pads and rotors, $173 in bonuses, and the price
+          confirmed before work starts. Booking takes under a minute, and
+          there's nothing to pay online.
         </p>
         <a href="#book" class="lp-btn mt-8">Book $369 Brake Service →</a>
       </div>
@@ -587,7 +576,7 @@ const faqs = [
   <section class="lp-section">
     <div class="lp-wrap grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
       <div>
-        <h2 class="lp-h2">Proudly Serving Elgin &amp; the Surrounding Communities</h2>
+        <h2 class="lp-h2">Brake Service for Elgin &amp; Nearby Towns</h2>
         <div class="w-20 h-1 bg-[#0a79c8] mt-4 mb-6 rounded"></div>
         <ul class="grid grid-cols-2 gap-x-6 gap-y-3 text-slate-300">
           {
@@ -600,7 +589,7 @@ const faqs = [
         </ul>
         <p class="mt-6 text-slate-400">
           {brand.address}<br />
-          Mon–Fri 8:00 am – 6:00 pm · Sat 8:00 am – 4:00 pm
+          Mon–Fri 7:30 am – 6:00 pm · Sat 7:30 am – 4:00 pm
         </p>
         <a href={brand.googleMapsUrl} target="_blank" rel="noreferrer" class="lp-btn lp-btn-ghost mt-5">Get Directions</a>
       </div>
@@ -622,8 +611,8 @@ const faqs = [
   <section class="lp-section" id="faq">
     <div class="lp-wrap">
       <div class="lp-head">
-        <h2 class="lp-h2">Brake Repair FAQ</h2>
-        <p>Everything you need to know about our brake services — answered clearly and simply.</p>
+        <h2 class="lp-h2">Brake Pads &amp; Rotors in Elgin: Your Questions</h2>
+        <p>Straight answers before you book.</p>
       </div>
       <div class="mt-10 max-w-3xl mx-auto divide-y divide-white/10 border-y border-white/10">
         {
@@ -639,8 +628,8 @@ const faqs = [
         }
       </div>
       <div class="mt-10 text-center">
-        <p class="text-slate-300">Still have questions? Call during business hours.</p>
-        <a href={`tel:${phoneDigits}`} class="lp-btn mt-4">Contact Us → {brand.phone}</a>
+        <p class="text-slate-300">Still not sure? Call Mon–Fri 7:30 AM–6 PM or Sat 7:30 AM–4 PM.</p>
+        <a href={`tel:${phoneDigits}`} class="lp-btn mt-4">Call {brand.phone}</a>
       </div>
     </div>
   </section>

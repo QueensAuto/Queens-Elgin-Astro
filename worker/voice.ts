@@ -16,6 +16,8 @@ export interface VoiceEnv {
 interface VoiceTicket {
   first: string;
   vehicle: string;
+  /** what they asked for, e.g. "new brakes" (from the Worker's own offer list) */
+  what?: string;
   exp: number;
 }
 
@@ -50,20 +52,21 @@ function speakable(value: string, max: number): string {
     .trim();
 }
 
-export function voiceScript(first: string, vehicle: string): string {
-  return `Hi ${first}, thank you! We got your request for new brakes on your ${vehicle}. The whole team here at Queens is excited, and we can't wait to see you at the shop!`;
+export function voiceScript(first: string, vehicle: string, what = "new brakes"): string {
+  return `Hi ${first}, thank you! We got your request for ${what} on your ${vehicle}. The whole team here at Queens is excited, and we can't wait to see you at the shop!`;
 }
 
 /** Signed ticket for one booking's message. Returns "" when voice isn't configured. */
 export async function createVoiceToken(
   env: VoiceEnv,
-  data: { first: string; vehicle: string },
+  data: { first: string; vehicle: string; what?: string },
   ttlMs = TICKET_TTL_MS,
 ): Promise<string> {
   if (!env.ELEVENLABS_API_KEY || !env.BOOKING_SIGNING_KEY) return "";
   const ticket: VoiceTicket = {
     first: speakable(data.first, 30),
     vehicle: speakable(data.vehicle, 60),
+    what: speakable(data.what || "new brakes", 40),
     exp: Date.now() + ttlMs,
   };
   const payload = b64url(enc.encode(JSON.stringify(ticket)));
@@ -111,7 +114,7 @@ export async function handleVoice(request: Request, env: VoiceEnv): Promise<Resp
   const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(voiceId)}/stream?output_format=mp3_44100_64`, {
     method: "POST",
     headers: { "xi-api-key": env.ELEVENLABS_API_KEY, "Content-Type": "application/json", Accept: "audio/mpeg" },
-    body: JSON.stringify({ text: voiceScript(ticket.first, ticket.vehicle), model_id: MODEL_ID }),
+    body: JSON.stringify({ text: voiceScript(ticket.first, ticket.vehicle, ticket.what || "new brakes"), model_id: MODEL_ID }),
   }).catch(() => null);
 
   if (!res || !res.ok || !res.body) {

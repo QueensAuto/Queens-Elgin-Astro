@@ -1,0 +1,937 @@
+---
+import LandingLayout from "../layouts/LandingLayout.astro";
+import BookingForm from "../components/BookingForm.astro";
+import reviews from "../data/landing-reviews/alignment.json";
+import { mobileTiresBrand as brand } from "../brands";
+
+const title = "Elgin Wheel Alignment — $35 Off | Queens Auto Service";
+const description =
+  "Get $35 off your wheel alignment at Queens Auto Service in Elgin. The same discount applies to front-end and four-wheel alignment. Request a time online.";
+const phoneDigits = brand.phone.replace(/\D/g, "");
+const bookingLabel = "Request a Time & Save $35";
+const bookingNote = "Two steps to request a time. No payment online.";
+const finePrint =
+  "Offer available for most vehicles for a limited time. Additional adjustments or parts may cost extra. Some restrictions may apply.";
+
+const offerHighlights = [
+  "$35 comes off your final alignment price",
+  "Same discount for front-end or four-wheel",
+  "Available for most vehicles",
+];
+
+const promises = [
+  {
+    title: "Same Savings Either Way",
+    body: "Need a front-end or a four-wheel alignment? Take $35 off the final alignment price either way.",
+    icon: "M3 7V3h4l13 13-4 4L3 7Zm3-1h.01",
+  },
+  {
+    title: "Know the Price First",
+    body: "You’ll get your price before work starts. Extra adjustments or parts may cost more.",
+    icon: "M7 3h7l4 4v14H7zM14 3v5h4M10 12h5m-5 4h5",
+  },
+  {
+    title: "Request a Time Online",
+    body: "Enter your contact and vehicle details, then choose the day and time that work for you.",
+    icon: "M4 6h16v14H4zM8 3v5m8-5v5M4 10h16m-11 5 2 2 4-4",
+  },
+  {
+    title: "Visit the Dundee Ave Shop",
+    body: "Coming in for your alignment? You’ll find Queens Auto Service at 1303 Dundee Ave in Elgin.",
+    icon: "M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Zm-5 0a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z",
+  },
+];
+
+const signs = [
+  {
+    title: "You keep nudging the wheel",
+    body: "Even on a straight, flat road, the car drifts left or right unless you correct it.",
+    icon: "M5 21V3m14 18V3M10 19c0-6 1-10 5-13m-4 0h4v4",
+  },
+  {
+    title: "Your steering wheel looks crooked",
+    body: "You’re driving straight and the steering wheel still looks turned.",
+    icon: "M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM3.5 10.5l6 1.5m5 0 6-1.5M12 14v7m2.5-9a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z",
+  },
+  {
+    title: "One edge of a tire is wearing faster",
+    body: "Look at both edges of the tread. One side may look worn down while the rest still has tread left.",
+    icon: "M8 3h8a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3Zm0 4 3 2m2-2 3 2m-8 3 3 2m2-2 3 2m-8 3 3 2m2-2 3 2",
+  },
+  {
+    title: "It started after a pothole or curb hit",
+    body: "Mention the hit when you call, especially if the car started pulling or the wheel went off-center afterward.",
+    icon: "M8 5v14m8-14v14M5 8v8m14-8v8M12 3v18",
+  },
+];
+
+const benefits = [
+  {
+    title: "Get more miles from your tires",
+    body: "When a wheel sits at the wrong angle, one edge of the tread can wear out early. Correcting that angle helps spread the wear more evenly.",
+    icon: "M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-5 0a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM12 3v2m0 14v2M3 12h2m14 0h2",
+  },
+  {
+    title: "Make fewer steering corrections",
+    body: "If the alignment is causing the pull, correcting it can help the car track straighter.",
+    icon: "M5 21 9 3m10 18L15 3m-3 1v2m0 4v3m0 4v3",
+  },
+];
+
+const shopHours = [
+  "Mon–Fri, 7:30 AM–6 PM",
+  "Sat, 7:30 AM–4 PM",
+];
+
+const faqs = [
+  {
+    question: "What will I pay for a wheel alignment?",
+    answer:
+      "You’ll get the price before work starts. The offer takes $35 off the final alignment price for most vehicles, and extra adjustments or parts may cost more.",
+  },
+  {
+    question: "Do I still get $35 off if I need a four-wheel alignment?",
+    answer:
+      "Yes. The same $35 comes off the final price of a front-end or four-wheel alignment.",
+  },
+  {
+    question: "How do I know if I actually need an alignment?",
+    answer:
+      "A pull on a flat road, a crooked steering wheel, or tread worn on one edge are reasons to ask about an alignment. Those signs alone don’t tell you the cause. Mention what you’re noticing when you call.",
+  },
+  {
+    question: "Should I get the alignment checked after hitting a pothole?",
+    answer:
+      "It’s worth asking if the car pulls or the steering wheel sits crooked after a pothole or curb hit. An impact can affect alignment or damage a tire or suspension part.",
+  },
+  {
+    question: "Will an alignment undo uneven tire wear?",
+    answer:
+      "Tread that’s already worn stays worn. If misalignment caused the wear, correcting it can help the remaining tread wear more evenly.",
+  },
+  {
+    question: "What if the shop recommends extra work?",
+    answer:
+      "Ask why the work is recommended and how it affects your total before you decide. Extra adjustments or parts may cost more, and your price will be confirmed before any work starts.",
+  },
+  {
+    question: "How do I get the $35 discount?",
+    answer:
+      `Request a time through the two-step form on this page. There’s no payment online. For questions about whether the offer applies to your vehicle, call ${brand.phone}.`,
+  },
+];
+---
+
+<LandingLayout title={title} description={description} brand={brand} faqData={faqs} reviewData={reviews}>
+  <div id="wheel-alignment-landing">
+    <section class="lp-hero">
+        <div class="lp-wrap alignment-hero-wrap pb-14 md:pb-16">
+        <div class="alignment-hero-grid">
+          <div class="alignment-intro">
+            <p class="alignment-symptom">
+              <svg viewBox="0 0 42 20" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M2 4h38M2 16h38" stroke="#7d8ba1" stroke-dasharray="4 4" />
+                <path d="M2 10h14c8 0 12-2 18-8m-6 0h6v6" stroke="#22d3ee" />
+              </svg>
+              Drifting on a straight road?
+            </p>
+            <h1 class="lp-h1 mt-6"><span class="lp-grad">$35 Off</span> Wheel Alignment in Elgin</h1>
+            <p class="alignment-sub text-lg md:text-xl text-slate-300">
+              Crooked steering wheel or tread wearing on one edge? An alignment
+              can help you get more miles out of your tires.
+            </p>
+            <div class="alignment-quick-offer">
+              <p>Front-end or four-wheel · {brand.ratingValue}★ on Google</p>
+              <div class="alignment-quick-actions flex flex-wrap justify-center gap-3">
+                <a href="#book" class="lp-btn">{bookingLabel}</a>
+                <a href={`tel:${phoneDigits}`} class="lp-btn lp-btn-ghost">Call {brand.phone}</a>
+              </div>
+              <p class="alignment-reassure">{bookingNote}</p>
+            </div>
+          </div>
+
+          <div class="lp-photo alignment-hero-photo">
+            <img
+              src="/images/services/Wheel-Alignment-003.webp"
+              alt="Red car on an alignment rack with a target attached to the front wheel"
+              width="920"
+              height="517"
+              fetchpriority="high"
+            />
+          </div>
+
+          <div class="alignment-offer">
+            <ul class="alignment-highlights">
+              {offerHighlights.map((item) => (
+                <li class="flex items-start gap-3 text-white font-semibold">
+                  <span class="lp-check" aria-hidden="true">✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="alignment-desktop-actions">
+              <div class="flex flex-wrap gap-3">
+                <a href="#book" class="lp-btn">{bookingLabel}</a>
+                <a href={`tel:${phoneDigits}`} class="lp-btn lp-btn-ghost">Call {brand.phone}</a>
+              </div>
+              <p class="alignment-reassure">{bookingNote}</p>
+            </div>
+            <p class="alignment-rating mt-5 flex items-center gap-2 text-sm text-slate-400">
+              <span class="lp-stars tracking-wide" aria-hidden="true">★★★★★</span>
+              <span>Queens Auto Service · <strong class="text-white">{brand.ratingValue} on Google</strong> from {brand.reviewCount} reviews</span>
+            </p>
+            <details class="alignment-restrictions mt-3 text-xs text-slate-400">
+              <summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                Most vehicles. Limited time. <span class="underline text-white font-semibold">See terms</span>
+              </summary>
+              <p class="mt-2 max-w-md leading-relaxed">{finePrint}</p>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-section">
+      <div class="lp-wrap">
+        <div class="lp-head reveal">
+          <h2 class="lp-h2">How Does the $35 Discount Work?</h2>
+          <p>Here’s what the discount covers and what to expect when you request a time.</p>
+        </div>
+        <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {promises.map((item) => (
+            <div class="lp-card text-center reveal">
+              <div class="lp-icon mx-auto">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d={item.icon} />
+                </svg>
+              </div>
+              <h3 class="lp-h3 mt-5">{item.title}</h3>
+              <p class="mt-2 text-sm text-slate-400 leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="book" class="lp-section lp-book">
+      <div class="lp-wrap">
+        <BookingForm
+          fullDark
+          presetService="Wheel Alignment"
+          promoCode="alignment_35"
+          step1TitleHighlight="Secure Your Spot"
+          step1Description="Step 1 of 2 — Your contact and vehicle details."
+          step3Description="Step 2 of 2 — Pick your preferred time."
+        />
+      </div>
+    </section>
+
+    <section class="lp-section" id="reviews">
+      <div class="lp-wrap">
+        <div class="lp-head reveal">
+          <h2 class="lp-h2">What <span class="lp-grad">Customers Say</span></h2>
+          <p>Queens Auto Service has a {brand.ratingValue} out of 5 rating from {brand.reviewCount} Google reviews.</p>
+        </div>
+        <div class="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {reviews.map((review) => (
+            <figure class="lp-card reveal flex flex-col">
+              <div class="lp-stars" aria-label={`${review.stars} out of 5 stars`}>{"★".repeat(review.stars)}</div>
+              <blockquote class="mt-3 text-slate-200 leading-relaxed grow">“{review.text}”</blockquote>
+              <figcaption class="mt-5 pt-4 border-t border-white/10 text-sm">
+                <span class="text-white font-semibold">{review.name === "Google reviewer" ? "Google review" : review.name}</span>
+                <span class="text-slate-400"> · {review.date}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-section">
+      <div class="lp-wrap">
+        <div class="lp-head reveal">
+          <h2 class="lp-h2">Do You Need a Wheel Alignment?</h2>
+          <p>If any of these sound familiar, an alignment could be part of the fix.</p>
+        </div>
+        <div class="mt-12 grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div>
+            <ul class="space-y-5">
+              {signs.map((sign) => (
+                <li class="flex gap-4 reveal">
+                  <svg class="lp-line-icon mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d={sign.icon} />
+                  </svg>
+                  <div>
+                    <h3 class="font-semibold text-white">{sign.title}</h3>
+                    <p class="text-slate-400 mt-0.5">{sign.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <a href="#book" class="lp-btn mt-8">{bookingLabel}</a>
+          </div>
+          <div class="lp-photo alignment-detail-photo">
+            <img
+              src="/images/services/Wheel-Alignment-Elgin-002.webp"
+              alt="Close-up of a wheel with an alignment target attached"
+              loading="lazy"
+              width="1080"
+              height="1080"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-section">
+      <div class="lp-wrap grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div class="lp-photo">
+          <img
+            src="/images/services/Wheel-Alignment-LP-004.webp"
+            alt="Silver car on an alignment rack beside shelves of tires"
+            loading="lazy"
+            width="1536"
+            height="1024"
+          />
+        </div>
+        <div>
+          <h2 class="lp-h2">What Does an Alignment Actually Change?</h2>
+          <p class="mt-4 text-lg text-slate-300">
+            It measures how your wheels point and tilt, then adjusts those
+            angles to match your vehicle’s specs. A front-end alignment focuses
+            on the front wheels. A four-wheel alignment accounts for all four.
+          </p>
+          <p class="mt-4 text-slate-400">
+            Unsure which one your car needs? You get $35 off either type. If you
+            have questions about your vehicle, call <a class="underline text-white" href={`tel:${phoneDigits}`}>{brand.phone}</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-section">
+      <div class="lp-wrap grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div>
+          <h2 class="lp-h2">Tires Cost Enough Without Replacing Them Early</h2>
+          <ul class="mt-8 space-y-6">
+            {benefits.map((benefit) => (
+              <li class="flex gap-4 reveal">
+                <svg class="lp-line-icon mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d={benefit.icon} />
+                </svg>
+                <div>
+                  <h3 class="text-xl font-medium text-white">{benefit.title}</h3>
+                  <p class="text-slate-400 mt-1">{benefit.body}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="lp-photo">
+          <img
+            src="/images/services/Wheel-Alignment-LP-006.webp"
+            alt="Silver SUV raised on a rack in the shop"
+            loading="lazy"
+            width="1536"
+            height="1024"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-section !py-6" aria-label="Queens Auto Service at a glance">
+      <div class="lp-wrap grid sm:grid-cols-3 gap-5 text-center">
+        <div class="lp-card reveal">
+          <p class="lp-stat">{brand.ratingValue}<span class="lp-stars" aria-hidden="true">★</span></p>
+          <p class="text-white font-semibold mt-1">Out of 5 on Google</p>
+          <p class="text-sm text-slate-400">{brand.reviewCount} customer reviews</p>
+        </div>
+        <div class="lp-card reveal">
+          <p class="lp-stat">2007</p>
+          <p class="text-white font-semibold mt-1">Serving Elgin Since</p>
+          <p class="text-sm text-slate-400">Queens Auto Service on Dundee Ave</p>
+        </div>
+        <div class="lp-card reveal">
+          <p class="lp-stat">24</p>
+          <p class="text-white font-semibold mt-1">Months / 24,000 Miles</p>
+          <p class="text-sm text-slate-400">Warranty on most repairs</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-section">
+      <div class="lp-wrap grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div>
+          <h2 class="lp-h2">Coming to the Dundee Ave Shop?</h2>
+          <p class="mt-4 text-lg text-slate-300">
+            Look for the Queens Auto Service sign at 1303 Dundee Ave in Elgin.
+          </p>
+          <a href={brand.googleMapsUrl} target="_blank" rel="noreferrer" class="lp-btn lp-btn-ghost mt-5">Map the Drive</a>
+        </div>
+        <div class="alignment-mosaic">
+          <figure class="alignment-mosaic-shop">
+            <img
+              src="/images/shop/Queens-Auto-Services-Front-Shot.webp"
+              alt="Queens Auto Service storefront on Dundee Avenue"
+              loading="lazy"
+              width="1360"
+              height="856"
+            />
+            <figcaption class="alignment-mosaic-tag">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z" /></svg>
+              1303 Dundee Ave, Elgin
+            </figcaption>
+          </figure>
+          <img
+            class="alignment-mosaic-interior"
+            src="/images/services/Queens-Shop-car-rpair.webp"
+              alt="Car on a rack in a Queens Auto Service bay"
+            loading="lazy"
+            width="800"
+            height="592"
+          />
+          <img
+            class="alignment-mosaic-interior"
+            src="/images/services/Queens-Auto-Auto-Repair-004.webp"
+              alt="Tires stacked along the wall inside Queens Auto Service"
+            loading="lazy"
+            width="1536"
+            height="1024"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-section">
+      <div class="lp-wrap">
+        <div class="lp-band reveal">
+          <h2 class="lp-h2">Take $35 Off Your Wheel Alignment</h2>
+          <p class="mt-4 text-lg text-slate-200 max-w-2xl mx-auto">
+            Request a time at the Dundee Ave shop. There’s no payment online,
+            and you’ll know your price before work starts.
+          </p>
+          <a href="#book" class="lp-btn mt-8">{bookingLabel}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-section">
+      <div class="lp-wrap grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div>
+          <h2 class="lp-h2">Plan Your Visit to Our Elgin Shop</h2>
+          <div class="w-20 h-1 bg-[#0a79c8] mt-4 mb-6 rounded"></div>
+          <ul class="grid grid-cols-2 gap-x-6 gap-y-3 text-slate-300">
+            {shopHours.map((hours) => (
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 shrink-0 rounded-full bg-[#6cafde]" aria-hidden="true"></span>{hours}
+              </li>
+            ))}
+          </ul>
+          <p class="mt-6 text-slate-400">
+            {brand.name}<br />
+            {brand.address}
+          </p>
+          <a href={brand.googleMapsUrl} target="_blank" rel="noreferrer" class="lp-btn lp-btn-ghost mt-5">Get Directions to Queens Auto</a>
+        </div>
+        <div class="lp-photo">
+          <a href={brand.googleMapsUrl} target="_blank" rel="noreferrer" aria-label="Find Queens Auto Service on Google Maps">
+            <img
+              src="/images/shop/Queens-Auto-Services-Elgin-Front-View-Shop-001.webp"
+              alt="Street-facing entrance to Queens Auto Service in Elgin"
+              loading="lazy"
+              width="1200"
+              height="814"
+            />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="lp-section" id="faq">
+      <div class="lp-wrap">
+        <div class="lp-head">
+          <h2 class="lp-h2">Before You Book a Wheel Alignment</h2>
+        </div>
+        <div class="mt-10 max-w-3xl mx-auto divide-y divide-white/10 border-y border-white/10">
+          {faqs.map((faq) => (
+            <details class="lp-faq group">
+              <summary class="flex justify-between items-center gap-4 py-5 cursor-pointer text-lg md:text-xl font-semibold text-white list-none">
+                <span>{faq.question}</span>
+                <svg class="faq-chevron w-5 h-5 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              </summary>
+              <p class="pb-5 text-slate-300 leading-relaxed">{faq.answer}</p>
+            </details>
+          ))}
+        </div>
+        <div class="mt-10 text-center">
+          <p class="text-slate-300">Want to ask whether the offer applies to your vehicle?</p>
+          <a href={`tel:${phoneDigits}`} class="lp-btn mt-4">Call {brand.phone}</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="lp-sticky is-hidden" inert>
+      <a href={`tel:${phoneDigits}`} class="lp-sticky-call" aria-label={`Call ${brand.phone}`}>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+      </a>
+      <a href="#book" class="lp-btn lp-btn-sm grow">{bookingLabel}</a>
+    </div>
+  </div>
+</LandingLayout>
+
+<script>
+  let stickyObserver: IntersectionObserver | undefined;
+  let revealObserver: IntersectionObserver | undefined;
+
+  document.addEventListener("astro:page-load", () => {
+    const landing = document.getElementById("wheel-alignment-landing");
+    if (!landing || !("IntersectionObserver" in window)) return;
+
+    const sticky = landing.querySelector<HTMLElement>(".lp-sticky");
+    if (sticky) {
+      const visible = new Set<Element>();
+      stickyObserver = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.add(entry.target);
+          else visible.delete(entry.target);
+        }
+        const hidden = visible.size > 0;
+        sticky.classList.toggle("is-hidden", hidden);
+        sticky.inert = hidden;
+      });
+      landing.querySelectorAll('#book, .alignment-quick-actions a[href="#book"]').forEach((target) => {
+        stickyObserver?.observe(target);
+      });
+    }
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    revealObserver = new IntersectionObserver((entries, observer) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add("is-revealed");
+        observer.unobserve(entry.target);
+      }
+    });
+    landing.querySelectorAll(".reveal").forEach((target) => revealObserver?.observe(target));
+  });
+
+  document.addEventListener("astro:before-swap", () => {
+    stickyObserver?.disconnect();
+    revealObserver?.disconnect();
+  });
+</script>
+
+<style>
+  :global(html:has(#wheel-alignment-landing)) {
+    scroll-padding-top: 5rem;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html:has(#wheel-alignment-landing)) {
+      scroll-behavior: smooth;
+    }
+  }
+
+  .lp-h1,
+  .lp-h2,
+  .lp-h3,
+  .lp-stat {
+    font-family: var(--font-display);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+  .lp-h1 {
+    font-size: clamp(2.5rem, 9vw, 3.75rem);
+    font-weight: 800;
+    line-height: 1;
+    text-wrap: balance;
+  }
+  .lp-h2 {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.05;
+  }
+  .lp-h3 {
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+  .lp-stat {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #6cafde;
+  }
+  .lp-grad {
+    background: linear-gradient(to right, #22d3ee, #3b82f6);
+    background-clip: text;
+    color: transparent;
+  }
+  .lp-head {
+    text-align: center;
+    max-width: 48rem;
+    margin-inline: auto;
+  }
+  .lp-head p {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    color: #cbd5e1;
+  }
+
+  .lp-section {
+    padding-block: 4rem;
+  }
+  @media (min-width: 768px) {
+    .lp-section {
+      padding-block: 5.5rem;
+    }
+  }
+  .lp-hero {
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(10, 121, 200, 0.28), transparent 70%),
+      #0b1121;
+  }
+  .lp-book {
+    background: linear-gradient(180deg, transparent, rgba(10, 121, 200, 0.08), transparent);
+  }
+  .alignment-hero-wrap {
+    padding-top: 28px;
+  }
+  .alignment-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .alignment-intro {
+    text-align: center;
+  }
+  .alignment-symptom {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #e2e8f0;
+  }
+  .alignment-symptom svg {
+    flex: none;
+    width: 2.625rem;
+    height: 1.25rem;
+  }
+  .alignment-sub {
+    max-width: 40rem;
+    margin: 16px auto 0;
+    text-wrap: pretty;
+  }
+  .alignment-quick-offer {
+    margin-top: 16px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #e2e8f0;
+  }
+  .alignment-quick-offer > p:first-child,
+  .alignment-rating {
+    margin-bottom: 0;
+  }
+  .alignment-quick-actions {
+    margin-top: 10px;
+  }
+  .alignment-reassure {
+    margin-top: 10px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.45;
+    color: #94a3b8;
+    text-wrap: balance;
+  }
+  .alignment-desktop-actions,
+  .alignment-highlights {
+    display: none;
+  }
+  .alignment-restrictions {
+    background: transparent !important;
+    border: 0 !important;
+  }
+  .alignment-restrictions summary {
+    width: fit-content;
+  }
+  .alignment-hero-photo {
+    aspect-ratio: 3 / 2;
+    max-height: 300px;
+    border-radius: 1.5rem;
+  }
+  .alignment-hero-photo img {
+    height: 100%;
+    object-fit: cover;
+    object-position: 49% center;
+  }
+  @media (max-width: 480px) {
+    .alignment-hero-grid {
+      gap: 16px;
+    }
+    .alignment-intro .lp-h1 {
+      margin-top: 16px;
+    }
+    .alignment-sub {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    .alignment-quick-actions {
+      display: grid;
+      gap: 8px;
+      max-width: 21rem;
+      margin-inline: auto;
+    }
+    .alignment-quick-actions .lp-btn {
+      padding-block: 0.75rem;
+    }
+  }
+  @media (768px <= width < 1024px) {
+    .alignment-hero-photo {
+      max-height: 400px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .alignment-hero-wrap {
+      padding-top: 24px;
+    }
+    .alignment-hero-grid {
+      grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
+      grid-template-rows: max-content 1fr;
+      grid-template-areas:
+        "intro photo"
+        "offer photo";
+      column-gap: 32px;
+      row-gap: 16px;
+      align-items: start;
+    }
+    .alignment-intro {
+      grid-area: intro;
+      text-align: left;
+    }
+    .alignment-intro .lp-h1 {
+      margin-top: 16px;
+      font-size: clamp(3rem, 4.5vw, 4rem);
+    }
+    .alignment-sub {
+      margin-left: 0;
+      font-size: 1.125rem;
+    }
+    .alignment-quick-offer {
+      display: none;
+    }
+    .alignment-offer {
+      grid-area: offer;
+    }
+    .alignment-highlights {
+      display: grid;
+      gap: 8px;
+      font-size: 1.0625rem;
+    }
+    .alignment-desktop-actions {
+      display: block;
+      margin-top: 18px;
+    }
+    .alignment-desktop-actions .lp-btn {
+      padding: 14px 20px;
+      white-space: nowrap;
+    }
+    .alignment-hero-photo {
+      grid-area: photo;
+      position: sticky;
+      top: 5.5rem;
+      aspect-ratio: 4 / 3;
+      max-height: 640px;
+    }
+  }
+
+  .lp-card {
+    padding: 1.75rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .lp-card:hover {
+    border-color: rgba(10, 121, 200, 0.7);
+  }
+  .lp-icon {
+    display: grid;
+    place-items: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1rem;
+    color: #6cafde;
+    background: rgba(10, 121, 200, 0.14);
+  }
+  .lp-line-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    color: #6cafde;
+  }
+  .lp-photo {
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.25rem;
+    box-shadow: 0 30px 60px -25px rgba(0, 0, 0, 0.7);
+  }
+  .lp-photo img {
+    display: block;
+    width: 100%;
+  }
+  .alignment-detail-photo img {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+  .alignment-mosaic {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .alignment-mosaic-shop {
+    position: relative;
+    grid-column: 1 / -1;
+    margin: 0;
+    aspect-ratio: 16 / 10;
+  }
+  .alignment-mosaic img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 24px 50px -28px rgba(0, 0, 0, 0.8);
+  }
+  .alignment-mosaic-shop img {
+    height: 100%;
+  }
+  .alignment-mosaic-interior {
+    aspect-ratio: 5 / 4;
+  }
+  .alignment-mosaic-tag {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px 6px 9px;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(11, 17, 33, 0.78);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .alignment-mosaic-tag svg {
+    width: 14px;
+    height: 14px;
+    fill: #22d3ee;
+  }
+  .lp-stars {
+    color: #facc15;
+  }
+  .lp-check {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.15rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #04131f;
+    background: #22d3ee;
+  }
+  .lp-band {
+    text-align: center;
+    padding: 3.5rem 1.5rem;
+    border-radius: 1.5rem;
+    background: radial-gradient(ellipse at top, #163052, #0f192d 75%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .lp-faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .lp-faq summary:hover {
+    color: #6cafde;
+  }
+  .lp-faq[open] summary {
+    padding-bottom: 0.75rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .faq-chevron {
+      transition: none;
+    }
+  }
+
+  .lp-sticky {
+    display: none;
+  }
+  @media (max-width: 767px) {
+    .lp-sticky {
+      position: fixed;
+      left: 0.75rem;
+      right: 0.75rem;
+      bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem;
+      border-radius: 9999px;
+      background: rgba(11, 17, 33, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    }
+    .lp-sticky.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .lp-sticky-call {
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 9999px;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    :global(#main-content:has(#wheel-alignment-landing) + #lp-footer) {
+      padding-bottom: 4.5rem;
+    }
+  }
+  @media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+    .lp-sticky {
+      transition: opacity 200ms cubic-bezier(0.23, 1, 0.32, 1),
+        transform 200ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .lp-sticky.is-hidden {
+      transform: translateY(calc(100% + 0.75rem + env(safe-area-inset-bottom, 0px)));
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .lp-card {
+      transition: border-color 0.25s ease, transform 0.25s ease;
+    }
+    .lp-card:hover {
+      transform: translateY(-3px);
+    }
+    .reveal.is-revealed {
+      animation: lp-reveal 440ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    @keyframes lp-reveal {
+      from {
+        opacity: 0.8;
+        transform: translateY(12px);
+      }
+    }
+  }
+</style>

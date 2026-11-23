@@ -165,3 +165,25 @@ test("no voice ticket when voice messages aren't configured", async () => {
   const body = (await (await handleBooking(post(VALID), ENV)).json()) as { voiceToken?: string };
   assert.equal(body.voiceToken, undefined);
 });
+
+test("the emails name the deal for the page the booking came from", async () => {
+  await handleBooking(post({ ...VALID, service: "Wheel Alignment" }), ENV);
+  const [owner, customer] = sent;
+  assert.match(owner.subject, /New wheel alignment booking/);
+  assert.match(owner.text, /\$35/);
+  assert.doesNotMatch(owner.text, /\$369/);
+  assert.match(customer.subject, /wheel alignment/i);
+  assert.match(customer.text, /Wheel alignment — \$35/);
+});
+
+test("auto repair bookings describe the tiered discount", async () => {
+  await handleBooking(post({ ...VALID, service: "Auto Repair" }), ENV);
+  assert.match(sent[0].subject, /New auto repair booking/);
+  assert.match(sent[1].text, /up to \$45 off/i);
+});
+
+test("an unknown service falls back to a neutral description", async () => {
+  await handleBooking(post({ ...VALID, service: "Oil Change" }), ENV);
+  assert.match(sent[0].subject, /New service booking/);
+  assert.doesNotMatch(sent[1].text, /\$369|\$35|\$45/);
+});
