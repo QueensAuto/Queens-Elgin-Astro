@@ -483,6 +483,8 @@ const {
         overflow: hidden;
     }
     #form-container-wrapper,
+    #form-step-2,
+    #form-step-3,
     #time-slot-container,
     #booking-error {
         scroll-margin-top: 5.5rem;
@@ -550,6 +552,89 @@ const {
     .booking-success-email strong {
         color: #ffffff;
     }
+    .booking-voice {
+        margin-top: 1.5rem;
+    }
+    .booking-voice-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        min-height: 48px;
+        padding: 0.7rem 1.25rem 0.7rem 0.9rem;
+        border-radius: 9999px;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #ffffff;
+        background: rgba(34, 211, 238, 0.1);
+        border: 1px solid rgba(34, 211, 238, 0.45);
+        cursor: pointer;
+        transition: background-color 0.2s, border-color 0.2s;
+    }
+    .booking-voice-btn:hover:not(:disabled) {
+        background: rgba(34, 211, 238, 0.18);
+    }
+    .booking-voice-btn:focus-visible {
+        outline: 2px solid #22d3ee;
+        outline-offset: 3px;
+    }
+    .booking-voice-btn:disabled {
+        cursor: progress;
+        color: #cbd5e1;
+    }
+    .booking-voice-icon {
+        flex: none;
+        width: 2rem;
+        height: 2rem;
+        padding: 0.45rem;
+        border-radius: 9999px;
+        background: linear-gradient(135deg, #22d3ee, #3b82f6);
+        fill: #ffffff;
+    }
+    .booking-voice-pause,
+    .booking-voice[data-state="playing"] .booking-voice-play {
+        display: none;
+    }
+    .booking-voice[data-state="playing"] .booking-voice-pause {
+        display: inline;
+    }
+    .booking-voice[data-state="loading"] .booking-voice-icon {
+        opacity: 0.5;
+    }
+    .booking-voice-bars {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        height: 1.1rem;
+    }
+    .booking-voice-bars i {
+        width: 3px;
+        height: 30%;
+        border-radius: 2px;
+        background: #22d3ee;
+        opacity: 0.7;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+        .booking-voice[data-state="loading"] .booking-voice-bars i {
+            animation: booking-voice-wait 1.2s ease-in-out infinite;
+        }
+        .booking-voice[data-state="playing"] .booking-voice-bars i {
+            animation: booking-voice-talk 0.9s ease-in-out infinite;
+        }
+        .booking-voice-bars i:nth-child(2) { animation-delay: -0.6s !important; }
+        .booking-voice-bars i:nth-child(3) { animation-delay: -0.3s !important; }
+        .booking-voice-bars i:nth-child(4) { animation-delay: -0.75s !important; }
+        .booking-voice-bars i:nth-child(5) { animation-delay: -0.15s !important; }
+    }
+    .booking-voice[data-state="playing"] .booking-voice-bars i {
+        height: 70%;
+    }
+    @keyframes booking-voice-wait {
+        50% { opacity: 0.25; }
+    }
+    @keyframes booking-voice-talk {
+        0%, 100% { height: 25%; }
+        50% { height: 100%; }
+    }
     .booking-success-when {
         margin: 2rem auto 0;
         max-width: 26rem;
@@ -579,6 +664,7 @@ const {
         color: #94a3b8;
     }
     #booking-success .booking-success-help a {
+        white-space: nowrap;
         color: #ffffff;
         font-weight: 600;
         text-decoration: underline;
@@ -1323,6 +1409,16 @@ const {
                 <p class="booking-success-email">
                     Check <strong data-success-email></strong> for a confirmation email.
                 </p>
+                <div class="booking-voice" data-voice data-state="loading" hidden>
+                    <button type="button" class="booking-voice-btn" data-voice-btn disabled>
+                        <svg class="booking-voice-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path class="booking-voice-play" d="M8 5.5v13l10.5-6.5z" />
+                            <path class="booking-voice-pause" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" />
+                        </svg>
+                        <span data-voice-label>Preparing a message for you…</span>
+                        <span class="booking-voice-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+                    </button>
+                </div>
                 <div class="booking-success-when">
                     <p class="booking-success-label">You asked for</p>
                     <p class="booking-success-time" data-success-when></p>
@@ -1693,7 +1789,10 @@ const {
         };
 
         const smoothScrollToForm = () => {
-            scrollToElement(document.getElementById("form-container-wrapper"), {
+            // Steps 2/3: land on the step itself ("When can you bring it in?") so the
+            // calendar and buttons are in view; step 1: the top of the card.
+            const step = [step2, step3].find((el) => el && !el.classList.contains("hidden"));
+            scrollToElement(step || document.getElementById("form-container-wrapper"), {
                 block: "start",
                 offset: -80,
                 duration: 1.2,
@@ -2023,7 +2122,7 @@ const {
                 if (!response.ok || !result.ok) {
                     throw new Error(result.error || "");
                 }
-                showBookingSuccess(payload);
+                showBookingSuccess(payload, result.voiceToken);
             } catch (error) {
                 // network failures surface as TypeError ("Failed to fetch") — not useful to show
                 const message =
@@ -2082,7 +2181,7 @@ const {
             return time ? `${day} at ${time}` : day;
         }
 
-        function showBookingSuccess(p) {
+        function showBookingSuccess(p, voiceToken) {
             const panel = document.getElementById("booking-success");
             const content = document.getElementById("form-content");
             if (!panel || !content) return;
@@ -2105,6 +2204,48 @@ const {
             }
             panel.focus({ preventScroll: true });
             if (!reduced) fireConfetti(panel);
+            if (voiceToken) loadVoiceMessage(panel, voiceToken, p.first_name);
+        }
+
+        // Personalised voice message (ElevenLabs via the Worker). Fails quietly.
+        async function loadVoiceMessage(panel, token, firstName) {
+            const box = panel.querySelector("[data-voice]");
+            const btn = panel.querySelector("[data-voice-btn]");
+            const label = panel.querySelector("[data-voice-label]");
+            if (!box || !btn || !label) return;
+            const name = firstName || "you";
+            const setState = (state, text) => {
+                box.dataset.state = state;
+                label.textContent = text;
+            };
+            box.hidden = false;
+            btn.disabled = true;
+            setState("loading", "Preparing your message…");
+            try {
+                const res = await fetch(`${ENDPOINT.replace(/\/$/, "")}/voice`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ token }),
+                });
+                if (!res.ok) throw new Error(String(res.status));
+                const blob = await res.blob();
+                if (!blob.size) throw new Error("empty audio");
+                const audio = new Audio(URL.createObjectURL(blob));
+                audio.addEventListener("play", () => setState("playing", "Playing… tap to pause"));
+                audio.addEventListener("pause", () => {
+                    if (!audio.ended) setState("ready", `Resume the message for ${name}`);
+                });
+                audio.addEventListener("ended", () => setState("ready", "Play it again"));
+                btn.addEventListener("click", () => {
+                    if (audio.paused) audio.play().catch(() => {});
+                    else audio.pause();
+                });
+                btn.disabled = false;
+                setState("ready", `Play a message for ${name}`);
+            } catch (err) {
+                console.warn("Voice message unavailable:", err);
+                box.hidden = true;
+            }
         }
 
         function fireConfetti(anchor) {

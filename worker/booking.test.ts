@@ -153,3 +153,15 @@ test("header injection in the name can't add recipients or headers", async () =>
   await handleBooking(post({ ...VALID, first_name: "Maria\r\nBcc: victim@example.com" }), ENV);
   assert.ok(!/[\r\n]/.test(sent[0].subject), "newline in subject");
 });
+
+test("a booking returns a voice ticket when voice messages are configured", async () => {
+  const res = await handleBooking(post(VALID), { ...ENV, ELEVENLABS_API_KEY: "sk_test", BOOKING_SIGNING_KEY: "k" });
+  const body = (await res.json()) as { ok: boolean; voiceToken?: string };
+  assert.equal(body.ok, true);
+  assert.match(body.voiceToken ?? "", /^[\w-]+\.[\w-]+$/);
+});
+
+test("no voice ticket when voice messages aren't configured", async () => {
+  const body = (await (await handleBooking(post(VALID), ENV)).json()) as { voiceToken?: string };
+  assert.equal(body.voiceToken, undefined);
+});

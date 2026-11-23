@@ -533,13 +533,36 @@ const faqs = [
           <li class="flex gap-3"><span class="lp-check" aria-hidden="true">✓</span>24-month / 24,000-mile warranty on most repairs</li>
         </ul>
       </div>
-      <div class="lp-photo">
+      <!-- real shop photos: the storefront, a brake job in progress, the tire wall -->
+      <div class="bk-mosaic">
+        <figure class="bk-mosaic-shop">
+          <img
+            src="/images/shop/Queens-Auto-Services-Front-Shot.webp"
+            alt="Queens Auto Service storefront at 1303 Dundee Ave, Elgin, IL"
+            loading="lazy"
+            width="1360"
+            height="856"
+          />
+          <figcaption class="bk-mosaic-tag">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z" /></svg>
+            1303 Dundee Ave, Elgin
+          </figcaption>
+        </figure>
         <img
-          src={brand.shopImage}
-          alt="Queens Auto Service shop at 1303 Dundee Ave, Elgin, IL"
+          class="bk-mosaic-work"
+          src="/images/services/Queens-Auto-Auto-Repair-002.webp"
+          alt="Two Queens technicians working on a car's wheel hub and brake rotor on a lift"
           loading="lazy"
-          width="1904"
-          height="640"
+          width="1536"
+          height="1024"
+        />
+        <img
+          class="bk-mosaic-tires"
+          src="/images/services/Queens-Auto-Auto-Repair-004.webp"
+          alt="The tire wall inside the Queens Auto Service shop"
+          loading="lazy"
+          width="1536"
+          height="1024"
         />
       </div>
     </div>
@@ -910,6 +933,55 @@ const faqs = [
     display: block;
     width: 100%;
     height: auto;
+  }
+  /* About: storefront across the top, a brake job + the tire wall below */
+  .bk-mosaic {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .bk-mosaic-shop {
+    position: relative;
+    grid-column: 1 / -1;
+    margin: 0;
+    aspect-ratio: 16 / 10;
+  }
+  .bk-mosaic img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 24px 50px -28px rgba(0, 0, 0, 0.8);
+  }
+  .bk-mosaic-work,
+  .bk-mosaic-tires {
+    aspect-ratio: 5 / 4;
+  }
+  .bk-mosaic-work {
+    object-position: 38% 30%; /* keep the hub and rotor in frame */
+  }
+  .bk-mosaic-tag {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px 6px 9px;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: rgba(11, 17, 33, 0.78);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .bk-mosaic-tag svg {
+    width: 14px;
+    height: 14px;
+    fill: #22d3ee;
   }
   .lp-stars {
     color: #facc15 !important;

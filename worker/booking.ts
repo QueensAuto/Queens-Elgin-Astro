@@ -1,9 +1,11 @@
+import { createVoiceToken, type VoiceEnv } from "./voice.ts";
+
 /**
  * POST /api/booking — the /brakes booking form.
  * Emails the shop (lead) and the customer (confirmation) through Resend.
  * Modelled on the K&A Remodeling worker; same env names.
  */
-export interface BookingEnv {
+export interface BookingEnv extends VoiceEnv {
   RESEND_API_KEY?: string;
   BOOKING_OWNER_EMAIL?: string;
   BOOKING_FROM_EMAIL?: string;
@@ -307,5 +309,7 @@ export async function handleBooking(request: Request, env: BookingEnv): Promise<
   });
   if (!customerResult.ok) console.warn("Resend customer confirmation failed:", customerResult.error);
 
-  return json({ ok: true, id: ownerResult.id });
+  // ticket for the personalised voice message (empty when voice isn't configured)
+  const voiceToken = await createVoiceToken(env, { first: firstName, vehicle }).catch(() => "");
+  return json(voiceToken ? { ok: true, id: ownerResult.id, voiceToken } : { ok: true, id: ownerResult.id });
 }

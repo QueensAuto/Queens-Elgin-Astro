@@ -1,4 +1,5 @@
 import { handleBooking, type BookingEnv } from "./booking";
+import { handleVoice } from "./voice";
 
 /**
  * Standalone Worker bound only to queensautoserviceselgin.com/api/booking*
@@ -7,6 +8,9 @@ import { handleBooking, type BookingEnv } from "./booking";
 export default {
   async fetch(request: Request, env: BookingEnv): Promise<Response> {
     const { pathname } = new URL(request.url);
+    if (pathname === "/api/booking/voice") {
+      return handleVoice(request, env);
+    }
     if (pathname === "/api/booking" || pathname === "/api/booking/") {
       return handleBooking(request, env);
     }

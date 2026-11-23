@@ -10,7 +10,9 @@
     { "pattern": "queensautoserviceselgin.com/api/booking*", "zone_name": "queensautoserviceselgin.com" }
   ],
 
-  // BOOKING_OWNER_EMAIL and BOOKING_FROM_EMAIL (variables) and RESEND_API_KEY (secret)
+  // BOOKING_OWNER_EMAIL and BOOKING_FROM_EMAIL (variables) plus the secrets RESEND_API_KEY,
+  // ELEVENLABS_API_KEY and BOOKING_SIGNING_KEY (any long random string; signs the voice-message
+  // ticket). Optional variable ELEVENLABS_VOICE_ID overrides the default voice.
   // are set in the Cloudflare dashboard. keep_vars stops `wrangler deploy` from wiping them.
   // For local testing put them in worker/.dev.vars (git-ignored), e.g.
   //   RESEND_API_KEY=re_...
