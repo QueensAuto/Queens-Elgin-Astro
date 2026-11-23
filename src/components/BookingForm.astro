@@ -11,6 +11,9 @@ interface Props {
     step1Description?: string;
     step2Description?: string;
     step3Description?: string;
+    /** When set, the service step is skipped and this service is submitted. */
+    presetService?: string;
+    step1ButtonText?: string;
 }
 
 const {
@@ -23,6 +26,8 @@ const {
     step1Description = "Step 1 of 3 — Your contact and vehicle details.",
     step2Description = "Step 2 of 3 — What service does your vehicle need?",
     step3Description = "Step 3 of 3 — When can you bring it in?",
+    presetService = "",
+    step1ButtonText = presetService ? "Next → Pick a Time" : "Next → Choose Service",
 } = Astro.props;
 ---
 
@@ -45,12 +50,50 @@ const {
         transform: translateY(-3px);
         box-shadow: 0 10px 20px -5px rgba(34, 197, 222, 0.3);
     }
+    #booking-form .cta-button:disabled {
+        background: #334155;
+        color: #e2e8f0 !important;
+    }
+    .booking-form-heading {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 4.5vw, 3rem);
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+    }
+    #book-appointment-form .progress-steps {
+        margin-top: 1rem !important;
+    }
+    #book-appointment-form .progress-bar {
+        width: var(--booking-progress, 0%) !important;
+    }
+    .dark #book-appointment-form .progress-steps .step {
+        border-color: #7c8ba1 !important;
+    }
+    .dark #book-appointment-form .progress-steps .step span {
+        color: #cbd5e1 !important;
+    }
+    .dark #book-appointment-form .progress-steps .step.active,
+    .dark #book-appointment-form .progress-steps .step.completed {
+        border-color: #7dd3fc !important;
+    }
+    .dark #book-appointment-form .progress-steps .step.active span {
+        color: #bae6fd !important;
+    }
+    .dark #book-appointment-form .progress-steps .step.completed {
+        background-color: #7dd3fc !important;
+    }
+    .dark #book-appointment-form .progress-steps .step.completed span {
+        color: #0f172a !important;
+    }
     .form-step.hidden {
         display: none;
     }
     .calendar-day {
-        width: 2.5rem;
+        width: min(100%, 2.5rem);
         height: 2.5rem;
+        margin-inline: auto;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -72,28 +115,31 @@ const {
         background-color: #334155; /* slate-700 for dark mode */
     }
     .calendar-day.selected {
-        background-color: #0a79c8;
+        background-color: #0369a1;
         color: white;
         font-weight: bold;
     }
-    .calendar-day.today {
-        color: #0a79c8;
-        background-color: rgba(10, 121, 200, 0.1);
+    .calendar-day.today:not(.selected) {
+        color: #075985;
+        box-shadow: inset 0 0 0 2px currentColor;
         font-weight: bold;
     }
-    .dark .calendar-day.today {
-        background-color: rgba(10, 121, 200, 0.2);
+    .dark .calendar-day.today:not(.selected):not(.disabled) {
+        color: #7dd3fc;
+    }
+    .dark .calendar-day.selected {
+        background-color: #7dd3fc;
+        color: #0f172a;
     }
     .calendar-day.disabled {
-        color: #9ca3af; /* gray-400 for light mode */
+        color: #64748b;
         cursor: not-allowed;
     }
     .calendar-day.holiday {
         text-decoration: line-through;
-        opacity: 0.6;
     }
     .dark .calendar-day.disabled {
-        color: #475569; /* slate-600 for dark mode */
+        color: #94a3b8;
     }
     .time-slot {
         color: #374151; /* gray-700 */
@@ -143,11 +189,11 @@ const {
         display: block;
         color: #ef4444;
     }
-    .input-field.is-valid {
+    #booking-form .input-field.is-valid {
         border-color: #22c55e !important;
         padding-right: 2.5rem !important;
     }
-    .input-field.is-invalid {
+    #booking-form .input-field.is-invalid {
         border-color: #ef4444 !important;
         padding-right: 2.5rem !important;
     }
@@ -201,6 +247,9 @@ const {
     .input-wrapper .relative .input-field {
         position: relative;
         z-index: 2;
+    }
+    .input-wrapper .input-field + div {
+        z-index: 3;
     }
 
     /* Create the shimmer beam border */
@@ -258,9 +307,11 @@ const {
 
     /* Hide default focus ring when swoosh is active */
     .input-wrapper .relative:focus-within .input-field {
-        border-color: transparent !important;
         box-shadow: none !important;
         outline: none !important;
+    }
+    .input-wrapper .relative:focus-within .input-field:not(.is-valid, .is-invalid) {
+        border-color: transparent !important;
     }
 
     /* Keep input background solid in dark mode */
@@ -427,13 +478,14 @@ const {
 
 <div
     id="book-appointment-form"
-    class="py-12 px-4"
+    class="px-4"
     data-webhook={webhookUrl}
     data-promo={promoCode}
     data-thankyou={thankYouUrl}
     data-step1desc={step1Description}
     data-step2desc={step2Description}
     data-step3desc={step3Description}
+    data-preset-service={presetService}
 >
     <div id="form-container-wrapper" class="max-w-2xl mx-auto">
         <div
@@ -441,15 +493,16 @@ const {
         >
             <div id="form-content">
                 <div class="text-center">
-                    <h1
-                        class="h1 font-bold tracking-tight text-gray-900 dark:text-white"
+                    <h2
+                        class="booking-form-heading text-gray-900 dark:text-white"
                     >
                         {step1TitlePrefix}
                         <span
                             class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
                             >{step1TitleHighlight}</span
                         >
-                    </h1>
+                    </h2>
+                    <p id="form-instruction" class="mt-3 text-sm text-slate-600 dark:text-slate-300" aria-live="polite">{step1Description}</p>
 
                     <!-- Progress Steps -->
                     <div class="progress-steps">
@@ -458,11 +511,11 @@ const {
                             </div>
                         </div>
                         <div class="steps-container">
-                            <div class="step active" data-step="1">
+                            <div class="step active" data-step="1" aria-current="step">
                                 <span>1</span>
                             </div>
-                            <div class="step" data-step="2"><span>2</span></div>
-                            <div class="step" data-step="3"><span>3</span></div>
+                            {!presetService && (<div class="step" data-step="2"><span>2</span></div>)}
+                            <div class="step" data-step="3"><span>{presetService ? 2 : 3}</span></div>
                         </div>
                     </div>
                 </div>
@@ -784,8 +837,8 @@ const {
                             <button
                                 type="button"
                                 id="next-btn"
-                                class="w-full cta-button inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
-                                >Next &rarr; Choose Service</button
+                                class="w-full cta-button inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white rounded-full disabled:cursor-not-allowed"
+                                >{step1ButtonText}</button
                             >
                             <p
                                 class="mt-6 text-xs text-gray-500 dark:text-slate-400"
@@ -1004,6 +1057,7 @@ const {
                                 type="hidden"
                                 id="symptom"
                                 name="service_type"
+                                value={presetService}
                                 required
                             />
 
@@ -1035,7 +1089,7 @@ const {
                                 <button
                                     type="button"
                                     id="step2-next-btn"
-                                    class="w-full sm:w-auto cta-button inline-flex items-center justify-center px-8 py-4 text-xl font-bold text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                                    class="w-full sm:w-auto cta-button inline-flex items-center justify-center px-8 py-4 text-xl font-bold text-white rounded-full disabled:cursor-not-allowed"
                                     disabled>Next &rarr; Pick a Time</button
                                 >
                             </div>
@@ -1087,7 +1141,7 @@ const {
                                     >
                                     </div>
                                     <div
-                                        class="grid grid-cols-7 gap-2 text-center mt-2"
+                                        class="grid grid-cols-7 gap-1 text-center mt-2"
                                         id="calendar-grid-body"
                                     >
                                     </div>
@@ -1123,7 +1177,7 @@ const {
                                     <button
                                         type="submit"
                                         id="submit-btn"
-                                        class="w-full sm:w-auto cta-button inline-flex items-center justify-center px-8 py-4 text-xl font-bold text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                                        class="w-full sm:w-auto cta-button inline-flex items-center justify-center px-8 py-4 text-xl font-bold text-white rounded-full disabled:cursor-not-allowed"
                                         data-translate-key="submitBtn"
                                         >Book My Service</button
                                     >
@@ -1155,6 +1209,8 @@ const {
         const WEBHOOK_URL = formWrapper.dataset.webhook;
         const PROMO_CODE = formWrapper.dataset.promo;
         const THANK_YOU_URL = formWrapper.dataset.thankyou;
+        // When a preset service is supplied the service step is skipped (2-step flow)
+        const PRESET = formWrapper.dataset.presetService || "";
 
         const translations = {
             en: {
@@ -1284,24 +1340,26 @@ const {
         const totalSteps = stepElements.length;
 
         const updateProgressStepper = (currentStep) => {
+            // In the preset (2-step) flow, form step 3 is the 2nd stepper node
+            if (PRESET && currentStep === 3) currentStep = 2;
             // Update progress bar width
             const progressPercent =
                 ((currentStep - 1) / (totalSteps - 1)) * 100;
 
             if (progressBar) {
-                progressBar.style.width = `${progressPercent}%`;
+                progressBar.style.setProperty("--booking-progress", `${progressPercent}%`);
             }
 
             // Update step circles
             stepElements.forEach((stepEl, index) => {
                 const stepNum = index + 1;
-                stepEl.classList.remove("active", "completed");
-
-                if (stepNum < currentStep) {
-                    stepEl.classList.add("completed");
-                } else if (stepNum === currentStep) {
-                    stepEl.classList.add("active");
-                }
+                const completed = stepNum < currentStep;
+                const active = stepNum === currentStep;
+                stepEl.classList.toggle("completed", completed);
+                stepEl.classList.toggle("active", active);
+                stepEl.querySelector("span").textContent = completed ? "✓" : String(stepNum);
+                if (active) stepEl.setAttribute("aria-current", "step");
+                else stepEl.removeAttribute("aria-current");
             });
         };
 
@@ -1352,7 +1410,7 @@ const {
 
         // Add click handlers to stepper circles
         stepElements.forEach((stepEl, index) => {
-            const stepNum = index + 1;
+            const stepNum = parseInt(stepEl.dataset.step, 10) || index + 1;
             stepEl.addEventListener("click", () => {
                 // Only allow clicking on completed steps (navigate back)
                 if (stepEl.classList.contains("completed")) {
@@ -1509,6 +1567,10 @@ const {
 
         if (nextBtn) {
             nextBtn.addEventListener("click", () => {
+                if (PRESET) {
+                    navigateToStep(3);
+                    return;
+                }
                 step1.classList.add("hidden");
                 step2.classList.remove("hidden");
                 if (formInstruction) {
@@ -1554,6 +1616,10 @@ const {
 
         if (backBtn) {
             backBtn.addEventListener("click", () => {
+                if (PRESET) {
+                    navigateToStep(1);
+                    return;
+                }
                 step3.classList.add("hidden");
                 step2.classList.remove("hidden");
                 if (formInstruction) {
@@ -1713,6 +1779,10 @@ const {
                     hiddenTimeInput.value = "";
                     checkStep3Completion();
                     renderTimeSlots();
+                    if (timeSlotContainer.getBoundingClientRect().bottom > window.innerHeight) {
+                        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+                        timeSlotContainer.scrollIntoView({ behavior: reduced ? "instant" : "smooth", block: "start" });
+                    }
                 }
             });
         }
