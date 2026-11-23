@@ -1,0 +1,22 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "queens-booking",
+  "main": "./index.ts",
+  "compatibility_date": "2026-11-22",
+
+  // Only the booking endpoint runs on this Worker; every other URL on the site
+  // is served exactly as before.
+  "routes": [
+    { "pattern": "queensautoserviceselgin.com/api/booking*", "zone_name": "queensautoserviceselgin.com" }
+  ],
+
+  // BOOKING_OWNER_EMAIL and BOOKING_FROM_EMAIL (variables) and RESEND_API_KEY (secret)
+  // are set in the Cloudflare dashboard. keep_vars stops `wrangler deploy` from wiping them.
+  // For local testing put them in worker/.dev.vars (git-ignored), e.g.
+  //   RESEND_API_KEY=re_...
+  //   BOOKING_OWNER_EMAIL=you@example.com
+  //   BOOKING_FROM_EMAIL=Queens Auto Service <bookings@yourdomain>
+  "keep_vars": true,
+
+  "observability": { "enabled": true }
+}
