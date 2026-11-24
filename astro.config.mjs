@@ -3,6 +3,7 @@ import { setDefaultResultOrder } from 'node:dns';
 import sitemap from '@astrojs/sitemap';
 import agentMarkdown from './src/integrations/agent-markdown/index.mjs';
 import trailingSlash from './src/integrations/trailing-slash/index.mjs';
+import agentSkills from './src/integrations/agent-skills/index.mjs';
 
 setDefaultResultOrder('ipv4first');
 
@@ -14,6 +15,8 @@ export default defineConfig({
   integrations: [
     // Runs first so the markdown twins get the slashed links too.
     trailingSlash(),
+    // Writes /.well-known/agent-skills/index.json from the SKILL.md files.
+    agentSkills(),
     // Writes a markdown twin (index.md) next to every built page for AI
     // agents; functions/_middleware.ts serves it on Accept: text/markdown.
     agentMarkdown({
