@@ -2,6 +2,8 @@ export type BrandConfig = {
     id: string;
     name: string;
     schemaName?: string; // Exact GBP name for schema markup (must match character-for-character)
+    /** Public Cloudflare Turnstile site key for the contact form (secret lives in CF as TURNSTILE_SECRET_KEY). */
+    turnstileSiteKey?: string;
     domain?: string;
     logoPath: string;
     logoPathWhite?: string;

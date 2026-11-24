@@ -206,7 +206,7 @@ const faqs = [
                     >
                         Send us a message
                     </h2>
-                    <form id="contact-form" class="space-y-6">
+                    <form id="contact-form" class="space-y-6" data-turnstile-sitekey={mobileTiresBrand.turnstileSiteKey || ""}>
                         <div class="contact-honeypot" aria-hidden="true">
                             <label for="website">Website</label>
                             <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
@@ -261,6 +261,8 @@ const faqs = [
                                 placeholder="How can we help you?"></textarea>
                         </div>
 
+                        <div id="contact-turnstile" class="flex justify-center empty:hidden"></div>
+
                         <button
                             type="submit"
                             id="contact-submit"
@@ -287,53 +289,111 @@ const faqs = [
                     </form>
 
                     <script is:inline>
-                        const contactForm =
-                            document.getElementById("contact-form");
-                        const contactSubmit =
-                            document.getElementById("contact-submit");
-                        const contactFeedback =
-                            document.getElementById("contact-feedback");
+                        (function () {
+                            var FALLBACK = "We couldn't send your message. Please call (224) 635-3000.";
+                            var tsLoading = null;
 
-                        if (contactForm) {
-                            contactForm.addEventListener("submit", async (e) => {
-                                e.preventDefault();
+                            // Cloudflare Turnstile, loaded only once the visitor starts
+                            // on the form so it never touches page speed.
+                            function loadTurnstile() {
+                                if (window.turnstile) return Promise.resolve(window.turnstile);
+                                if (tsLoading) return tsLoading;
+                                tsLoading = new Promise(function (resolve, reject) {
+                                    window.__queensTsReady = function () { resolve(window.turnstile); };
+                                    var s = document.createElement("script");
+                                    s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=__queensTsReady";
+                                    s.async = true;
+                                    s.onerror = function () { tsLoading = null; reject(new Error("turnstile")); };
+                                    document.head.appendChild(s);
+                                });
+                                return tsLoading;
+                            }
 
-                                // Reset feedback
-                                contactFeedback.classList.add("hidden");
-                                contactFeedback.classList.remove(
-                                    "bg-green-500/10",
-                                    "text-green-600",
-                                    "bg-red-500/10",
-                                    "text-red-600",
-                                    "bg-amber-500/10",
-                                    "text-amber-600",
-                                );
+                            function initContactForm() {
+                                var form = document.getElementById("contact-form");
+                                var submit = document.getElementById("contact-submit");
+                                var feedback = document.getElementById("contact-feedback");
+                                var slot = document.getElementById("contact-turnstile");
+                                if (!form || form.dataset.initialized) return;
+                                form.dataset.initialized = "true";
 
-                                const originalBtnText = contactSubmit.innerHTML;
-                                contactSubmit.disabled = true;
-                                contactSubmit.innerHTML = `<span>Processing...</span>`;
-                                const formData = new FormData(contactForm);
-                                try {
-                                    const response = await fetch("/api/contact", {
-                                        method: "POST",
-                                        headers: { "Content-Type": "application/json" },
-                                        body: JSON.stringify(Object.fromEntries(formData.entries())),
+                                var sitekey = form.dataset.turnstileSitekey || "";
+                                var startedAt = 0;
+                                var widgetId = null;
+
+                                function ensureWidget() {
+                                    if (!sitekey || widgetId !== null) return Promise.resolve();
+                                    return loadTurnstile().then(function (ts) {
+                                        if (widgetId === null && slot && document.body.contains(slot)) {
+                                            widgetId = ts.render(slot, { sitekey: sitekey, action: "contact", appearance: "interaction-only" });
+                                        }
                                     });
-                                    const result = await response.json();
-                                    if (!response.ok || result.ok !== true) throw new Error(result.error || "We couldn't send your message. Please call (224) 635-3000.");
-                                    contactFeedback.textContent = "Thanks — your message has been sent.";
-                                    contactFeedback.classList.add("bg-green-500/10", "text-green-600");
-                                    contactForm.reset();
-                                } catch (error) {
-                                    contactFeedback.textContent = error instanceof Error ? error.message : "We couldn't send your message. Please call (224) 635-3000.";
-                                    contactFeedback.classList.add("bg-red-500/10", "text-red-600");
-                                } finally {
-                                    contactFeedback.classList.remove("hidden");
-                                    contactSubmit.disabled = false;
-                                    contactSubmit.innerHTML = originalBtnText;
                                 }
-                            });
-                        }
+
+                                function tokenOrWait(ms) {
+                                    if (!sitekey) return Promise.resolve("");
+                                    return ensureWidget().then(function () {
+                                        var end = Date.now() + ms;
+                                        return new Promise(function (resolve) {
+                                            (function poll() {
+                                                var t = widgetId !== null ? window.turnstile.getResponse(widgetId) : "";
+                                                if (t || Date.now() > end) return resolve(t || "");
+                                                setTimeout(poll, 250);
+                                            })();
+                                        });
+                                    }).catch(function () { return ""; });
+                                }
+
+                                function start() {
+                                    if (!startedAt) startedAt = Date.now();
+                                    ensureWidget().catch(function () {});
+                                }
+                                form.addEventListener("focusin", start);
+                                form.addEventListener("input", start);
+
+                                function show(text, ok) {
+                                    feedback.textContent = text;
+                                    feedback.classList.remove("hidden", "bg-green-500/10", "text-green-600", "bg-red-500/10", "text-red-600");
+                                    feedback.classList.add(ok ? "bg-green-500/10" : "bg-red-500/10", ok ? "text-green-600" : "text-red-600");
+                                }
+
+                                form.addEventListener("submit", async function (e) {
+                                    e.preventDefault();
+                                    feedback.classList.add("hidden");
+                                    var original = submit.innerHTML;
+                                    submit.disabled = true;
+                                    submit.innerHTML = "<span>Sending...</span>";
+                                    try {
+                                        var data = Object.fromEntries(new FormData(form).entries());
+                                        data.startedAt = startedAt || Date.now();
+                                        var token = await tokenOrWait(10000);
+                                        if (token) data["cf-turnstile-response"] = token;
+                                        var response = await fetch("/api/contact", {
+                                            method: "POST",
+                                            headers: { "Content-Type": "application/json" },
+                                            body: JSON.stringify(data),
+                                        });
+                                        var result = await response.json().catch(function () { return {}; });
+                                        if (response.ok && result.ok === true) {
+                                            show("Thanks — your message has been sent.", true);
+                                            form.reset();
+                                            startedAt = 0;
+                                        } else {
+                                            show(result.error || FALLBACK, false);
+                                        }
+                                    } catch (err) {
+                                        show(FALLBACK, false);
+                                    } finally {
+                                        if (widgetId !== null && window.turnstile) window.turnstile.reset(widgetId);
+                                        submit.disabled = false;
+                                        submit.innerHTML = original;
+                                    }
+                                });
+                            }
+
+                            document.addEventListener("astro:page-load", initContactForm);
+                            initContactForm();
+                        })();
                     </script>
                 </div>
             </div>
