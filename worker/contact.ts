@@ -125,10 +125,14 @@ export async function handleContact(request: Request, env: ContactEnv, now = Dat
 
   const name = clean(raw.name);
   const email = clean(raw.email);
-  const phone = clean(raw.phone).slice(0, 40);
+  const phoneDigits = clean(raw.phone).replace(/\D/g, "").replace(/^1(?=\d{10}$)/, "");
+  const phone = phoneDigits.length === 10
+    ? `(${phoneDigits.slice(0, 3)}) ${phoneDigits.slice(3, 6)}-${phoneDigits.slice(6)}`
+    : "";
   const message = clean(raw.message);
   if (!name || name.length > 100) return json({ ok: false, error: "Please enter your name (100 characters or fewer)." }, 400);
   if (!EMAIL_RE.test(email)) return json({ ok: false, error: "Please enter a valid email address." }, 400);
+  if (!phone) return json({ ok: false, error: "Please enter a 10-digit phone number." }, 400);
   if (message.length < 5 || message.length > 5000) {
     return json({ ok: false, error: "Your message must be between 5 and 5,000 characters." }, 400);
   }
@@ -170,7 +174,7 @@ export async function handleContact(request: Request, env: ContactEnv, now = Dat
   const html = `<h1>New website message</h1>
 <p><strong>Name:</strong> ${escapeHtml(name)}</p>
 <p><strong>Email:</strong> <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></p>
-${phone ? `<p><strong>Phone:</strong> ${escapeHtml(phone)}</p>` : ""}
+<p><strong>Phone:</strong> <a href="tel:+1${phoneDigits}">${escapeHtml(phone)}</a></p>
 <p><strong>Message:</strong></p><p>${escapeHtml(message).replace(/\n/g, "<br/>")}</p>`;
   try {
     const response = await fetch("https://api.resend.com/emails", {
@@ -182,7 +186,7 @@ ${phone ? `<p><strong>Phone:</strong> ${escapeHtml(phone)}</p>` : ""}
         reply_to: email,
         subject: `New website message: ${name.replace(/[\r\n\t]+/g, " ")}`,
         html,
-        text: `New website message\n\nName: ${name}\nEmail: ${email}${phone ? `\nPhone: ${phone}` : ""}\n\nMessage:\n${message}`,
+        text: `New website message\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`,
       }),
     });
     if (!response.ok) {

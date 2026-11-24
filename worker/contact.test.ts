@@ -85,6 +85,22 @@ test("contact validates name, email and message", async () => {
   assert.equal(sent.length, 0);
 });
 
+test("phone is required and must be a 10-digit number", async () => {
+  for (const phone of [undefined, "", "555-0142", "12345678901234", "call me"]) {
+    const result = await read(await send({ ...VALID, phone }));
+    assert.equal(result.status, 400, String(phone));
+    assert.match(result.body.error!, /phone/i);
+  }
+  assert.equal(sent.length, 0);
+});
+
+test("phone is formatted and linked in the email (a leading 1 is accepted)", async () => {
+  assert.equal((await send({ ...VALID, phone: "+1 847.555.0142" })).status, 200);
+  const mail = resendCalls()[0].body as Record<string, unknown>;
+  assert.match(String(mail.html), /<a href="tel:\+18475550142">\(847\) 555-0142<\/a>/);
+  assert.match(String(mail.text), /Phone: \(847\) 555-0142/);
+});
+
 test("time trap: missing, too fast and stale submissions are refused", async () => {
   const missing = await read(await send({ ...VALID, startedAt: undefined }));
   assert.equal(missing.status, 400);
