@@ -1538,6 +1538,15 @@ const {
             "12-31", // New Year's Eve
             "01-01", // New Year's Day
         ];
+        // Moving holidays the shop is closed: Thanksgiving is the
+        // 4th Thursday of November, which always falls on Nov 22-28.
+        function isClosedHoliday(date) {
+            const mm = String(date.getMonth() + 1).padStart(2, "0");
+            const dd = String(date.getDate()).padStart(2, "0");
+            if (HOLIDAYS.includes(`${mm}-${dd}`)) return true;
+            const d = date.getDate();
+            return date.getMonth() === 10 && date.getDay() === 4 && d >= 22 && d <= 28;
+        }
 
         const translations = {
             en: {
@@ -2026,16 +2035,12 @@ const {
             const firstDayOfMonth = new Date(year, month, 1).getDay();
             for (let i = 0; i < firstDayOfMonth; i++)
                 calendarGridBody.innerHTML += `<div></div>`;
-
-            const holidays = HOLIDAYS;
-
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             for (let i = 1; i <= daysInMonth; i++) {
                 const dayDate = new Date(year, month, i);
                 let classes = "calendar-day";
                 const formattedDate = `${year}-${String(month + 1).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
-                const monthDay = `${String(month + 1).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
-                const isHoliday = holidays.includes(monthDay);
+                const isHoliday = isClosedHoliday(dayDate);
 
                 if (dayDate < today || dayDate.getDay() === 0 || isHoliday) {
                     classes += " disabled";
@@ -2268,7 +2273,7 @@ const {
                         const day = new Date(+m[1], +m[2] - 1, +m[3]);
                         if (day.getMonth() !== +m[2] - 1) return fail("date is not a real calendar day.");
                         if (day.getDay() === 0) return fail("The shop is closed on Sundays. Pick Monday-Saturday.");
-                        if (HOLIDAYS.includes(`${m[2]}-${m[3]}`)) return fail("The shop is closed that day (holiday).");
+                        if (isClosedHoliday(day)) return fail("The shop is closed that day (holiday).");
                         const slots = day.getDay() === 6 ? SLOTS_SATURDAY : SLOTS_WEEKDAY;
                         if (!slots.includes(i.time)) {
                             return fail(`time must be one of: ${slots.join(", ")}.`);
