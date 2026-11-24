@@ -3,7 +3,7 @@ import type { BrandConfig } from "./types";
 export const mobileTiresBrand: BrandConfig = {
     id: "mobile-tires",
     name: "Queens Auto Service",
-    schemaName: "Queens Auto Service",
+    schemaName: "Queens Auto Services Elgin",
     domain: "queensautoserviceselgin.com",
     logoPath: "/images/logos/site logos/New-Logo.webp",
     logoPathWhite: "/images/logos/site logos/Logo-White.webp",
