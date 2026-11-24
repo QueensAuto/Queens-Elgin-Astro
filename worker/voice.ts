@@ -6,6 +6,8 @@
  *   2. The page POSTs that ticket to /api/booking/voice; the audio streams back.
  * The script is always built here from the ticket, so the endpoint can't be used
  * as a free text-to-speech service.
+ * Runs as a Pages Function via functions/api/booking/voice.ts, with variables
+ * and secrets set in the Cloudflare Pages project settings.
  */
 export interface VoiceEnv {
   ELEVENLABS_API_KEY?: string;
@@ -16,7 +18,7 @@ export interface VoiceEnv {
 interface VoiceTicket {
   first: string;
   vehicle: string;
-  /** what they asked for, e.g. "new brakes" (from the Worker's own offer list) */
+  /** what they asked for, e.g. "new brakes" (from the booking handler's offer list) */
   what?: string;
   exp: number;
 }

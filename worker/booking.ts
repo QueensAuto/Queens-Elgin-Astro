@@ -5,7 +5,8 @@ import { generateCoupon } from "./coupon.ts";
  * POST /api/booking — the landing-page booking forms (/brakes, /wheel-alignment,
  * /auto-repair-discount). The form's `service` picks the offer wording.
  * Emails the shop (lead) and the customer (confirmation) through Resend.
- * Modelled on the K&A Remodeling worker; same env names.
+ * Runs as a Pages Function via functions/api/booking.ts, with environment
+ * variables and secrets set in the Cloudflare Pages project settings.
  */
 export interface BookingEnv extends VoiceEnv {
   RESEND_API_KEY?: string;

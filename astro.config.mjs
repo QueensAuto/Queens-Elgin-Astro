@@ -28,8 +28,8 @@ export default defineConfig({
       host: '127.0.0.1',
       */
       proxy: {
-        // /brakes booking Worker in local dev (`npm run worker:dev`, port 8799).
-        // In production the Worker owns this route on Cloudflare.
+        // Booking Pages Functions in local dev (`npm run worker:dev`, port 8799).
+        // Cloudflare Pages serves these routes in production.
         '/api/booking': {
           target: 'http://127.0.0.1:8799',
           changeOrigin: true
