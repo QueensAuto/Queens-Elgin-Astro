@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from "astro:transitions";
+import MarkdownAlternate from "../integrations/agent-markdown/MarkdownAlternate.astro";
 
 import "../styles/fonts.css";
 import "../styles/global.css";
@@ -164,6 +165,7 @@ const isServiceSubPage =
       reviewData={reviewData}
     />
     <ClientRouter />
+    <MarkdownAlternate />
     <script is:inline define:vars={{ forceDarkTheme }}>
       const applyTheme = () => {
         if (forceDarkTheme) {

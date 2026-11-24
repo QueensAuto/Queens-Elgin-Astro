@@ -6,6 +6,7 @@
  * initialises on `astro:page-load`) identical to BaseLayout.
  */
 import { ClientRouter } from "astro:transitions";
+import MarkdownAlternate from "../integrations/agent-markdown/MarkdownAlternate.astro";
 import "../styles/fonts.css";
 import "../styles/global.css";
 import Schema from "../components/SEO/Schema.astro";
@@ -123,6 +124,7 @@ const year = new Date().getFullYear();
       reviewData={reviewData}
     />
     <ClientRouter />
+    <MarkdownAlternate />
     <slot name="head" />
   </head>
   <body
@@ -189,7 +191,7 @@ const year = new Date().getFullYear();
           height="255"
           loading="lazy"
         />
-        <address class="not-italic text-slate-400 space-y-2">
+        <address class="not-italic text-slate-400 space-y-2" data-md-include>
           <p>
             <a
               href={brand.googleMapsUrl}

@@ -1,0 +1,13 @@
+---
+// Put <MarkdownAlternate /> inside <head> in your base layout.
+// It tells agents where this page's markdown twin lives.
+import { markdownPathFor } from './convert.mjs';
+
+interface Props {
+  /** Match `build.format` in astro.config. Default "directory". */
+  format?: 'directory' | 'file';
+}
+const { format = 'directory' } = Astro.props;
+const href = markdownPathFor(Astro.url.pathname, format);
+---
+<link rel="alternate" type="text/markdown" href={href} />

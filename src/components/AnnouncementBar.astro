@@ -38,7 +38,11 @@ const {
                     <span class="hidden sm:inline">
                         {ctaText}
                     </span>
+                    <!-- On phones only the arrow shows; keep the link named
+                         for screen readers and AI agents. -->
+                    <span class="sr-only sm:hidden">{ctaText}</span>
                     <svg
+                        aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-4 w-4 transform group-hover:translate-x-0.5 transition-transform animate-[pulse-arrow_1.5s_ease-in-out_infinite]"
                         viewBox="0 0 24 24"

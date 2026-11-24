@@ -1520,6 +1520,25 @@ const {
         // When a preset service is supplied the service step is skipped (2-step flow)
         const PRESET = formWrapper.dataset.presetService || "";
 
+        // Bookable times and closed days, shared by the calendar UI and the
+        // WebMCP agent tool below so they can never disagree.
+        const SLOTS_WEEKDAY = [
+            "08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM", "10:00 AM",
+            "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM",
+            "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM",
+        ];
+        const SLOTS_SATURDAY = [
+            "08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM", "10:00 AM",
+            "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM",
+            "01:00 PM", "01:30 PM",
+        ];
+        const HOLIDAYS = [
+            "12-24", // Christmas Eve
+            "12-25", // Christmas Day
+            "12-31", // New Year's Eve
+            "01-01", // New Year's Day
+        ];
+
         const translations = {
             en: {
                 step1Title: "Book",
@@ -2008,12 +2027,7 @@ const {
             for (let i = 0; i < firstDayOfMonth; i++)
                 calendarGridBody.innerHTML += `<div></div>`;
 
-            const holidays = [
-                "12-24", // Christmas Eve
-                "12-25", // Christmas Day
-                "12-31", // New Year's Eve
-                "01-01", // New Year's Day
-            ];
+            const holidays = HOLIDAYS;
 
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             for (let i = 1; i <= daysInMonth; i++) {
@@ -2044,37 +2058,7 @@ const {
             const now = new Date();
             const dayOfWeek = selectedDate.getDay();
             let availableTimes =
-                dayOfWeek === 6
-                    ? [
-                          "08:00 AM",
-                          "08:30 AM",
-                          "09:00 AM",
-                          "09:30 AM",
-                          "10:00 AM",
-                          "10:30 AM",
-                          "11:00 AM",
-                          "11:30 AM",
-                          "12:00 PM",
-                          "12:30 PM",
-                          "01:00 PM",
-                          "01:30 PM",
-                      ]
-                    : [
-                          "08:00 AM",
-                          "08:30 AM",
-                          "09:00 AM",
-                          "09:30 AM",
-                          "10:00 AM",
-                          "10:30 AM",
-                          "11:00 AM",
-                          "11:30 AM",
-                          "12:00 PM",
-                          "12:30 PM",
-                          "02:00 PM",
-                          "02:30 PM",
-                          "03:00 PM",
-                          "03:30 PM",
-                      ];
+                dayOfWeek === 6 ? SLOTS_SATURDAY : SLOTS_WEEKDAY;
 
             let slotsAdded = 0;
             availableTimes.forEach((time) => {
@@ -2158,6 +2142,20 @@ const {
 
         let submitting = false;
         const submitLabel = submitBtn ? submitBtn.innerHTML : "";
+        // Posts a booking to the Worker; shared by the form and the WebMCP tool.
+        async function sendBooking(payload) {
+            const response = await fetch(ENDPOINT, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok || !result.ok) {
+                throw new Error(result.error || "");
+            }
+            return result;
+        }
+
         form?.addEventListener("submit", async (e) => {
             e.preventDefault();
             if (submitting) return;
@@ -2186,15 +2184,7 @@ const {
             };
 
             try {
-                const response = await fetch(ENDPOINT, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload),
-                });
-                const result = await response.json().catch(() => ({}));
-                if (!response.ok || !result.ok) {
-                    throw new Error(result.error || "");
-                }
+                const result = await sendBooking(payload);
                 showBookingSuccess(payload, result.voiceToken, result.coupon);
             } catch (error) {
                 // network failures surface as TypeError ("Failed to fetch") — not useful to show
@@ -2211,6 +2201,130 @@ const {
                 submitting = false;
             }
         });
+
+        // --- WebMCP: let an AI agent request this booking for a customer ---
+        // Registers one tool with a clean schema (no honeypot or tracking
+        // fields). It applies the same rules as the calendar above and sends
+        // through sendBooking(), so the shop gets the same email and the
+        // visitor sees the same confirmation. Browsers without WebMCP skip it.
+        const AGENT_TOOL = "request_appointment";
+        const modelContext = navigator.modelContext;
+        if (modelContext && typeof modelContext.registerTool === "function") {
+            const serviceName = PRESET || "Auto service";
+            const slotDate = (day, slot) => {
+                const [, h, m, period] = slot.match(/(\d+):(\d+)\s(AM|PM)/);
+                let hours = parseInt(h, 10) % 12;
+                if (period === "PM") hours += 12;
+                const d = new Date(day);
+                d.setHours(hours, parseInt(m, 10), 0, 0);
+                return d;
+            };
+            const fail = (text) => ({
+                content: [{ type: "text", text }],
+                isError: true,
+            });
+            try {
+                modelContext.unregisterTool?.(AGENT_TOOL);
+            } catch {}
+            try {
+                modelContext.registerTool({
+                    name: AGENT_TOOL,
+                    description:
+                        `Request a ${serviceName} appointment at Queens Auto Service, ` +
+                        `1303 Dundee Ave, Elgin, IL 60120, for the customer. ` +
+                        `Bookable Mon-Fri 8:00 AM-3:30 PM and Sat 8:00 AM-1:30 PM in 30-minute slots ` +
+                        `(closed Sundays and Dec 24, Dec 25, Dec 31, Jan 1). ` +
+                        `The shop receives the request and confirms with the customer; ` +
+                        `the reply includes the customer's savings code. Only call this ` +
+                        `with details the customer has given you.`,
+                    inputSchema: {
+                        type: "object",
+                        properties: {
+                            first_name: { type: "string", description: "Customer's first name." },
+                            last_name: { type: "string", description: "Customer's last name." },
+                            email: { type: "string", description: "Customer's email address; the confirmation goes here." },
+                            phone: { type: "string", description: "Customer's 10-digit US mobile number." },
+                            vehicle_year: { type: "string", description: "Vehicle model year, 4 digits, e.g. 2018." },
+                            vehicle_make: { type: "string", description: "Vehicle make, e.g. Toyota." },
+                            vehicle_model: { type: "string", description: "Vehicle model, e.g. Camry." },
+                            date: { type: "string", description: "Requested day, YYYY-MM-DD (shop's local time, America/Chicago)." },
+                            time: {
+                                type: "string",
+                                description: "Requested time slot. Saturdays only offer 08:00 AM-01:30 PM.",
+                                enum: [...new Set([...SLOTS_WEEKDAY, ...SLOTS_SATURDAY])],
+                            },
+                            comments: { type: "string", description: "Optional: symptoms or notes for the shop." },
+                        },
+                        required: [
+                            "first_name", "email", "phone", "vehicle_year",
+                            "vehicle_make", "vehicle_model", "date", "time",
+                        ],
+                    },
+                    annotations: { readOnlyHint: false },
+                    async execute(input) {
+                        const i = input || {};
+                        const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(i.date || ""));
+                        if (!m) return fail("date must be YYYY-MM-DD.");
+                        const day = new Date(+m[1], +m[2] - 1, +m[3]);
+                        if (day.getMonth() !== +m[2] - 1) return fail("date is not a real calendar day.");
+                        if (day.getDay() === 0) return fail("The shop is closed on Sundays. Pick Monday-Saturday.");
+                        if (HOLIDAYS.includes(`${m[2]}-${m[3]}`)) return fail("The shop is closed that day (holiday).");
+                        const slots = day.getDay() === 6 ? SLOTS_SATURDAY : SLOTS_WEEKDAY;
+                        if (!slots.includes(i.time)) {
+                            return fail(`time must be one of: ${slots.join(", ")}.`);
+                        }
+                        if (slotDate(day, i.time) <= new Date()) {
+                            return fail("That time has already passed. Pick a later slot.");
+                        }
+                        const payload = {
+                            first_name: String(i.first_name || "").trim(),
+                            last_name: String(i.last_name || "").trim(),
+                            email: String(i.email || "").trim(),
+                            phone: String(i.phone || "").trim(),
+                            vehicle_year: String(i.vehicle_year || "").trim(),
+                            vehicle_make: String(i.vehicle_make || "").trim(),
+                            vehicle_model: String(i.vehicle_model || "").trim(),
+                            service: serviceName,
+                            comments: String(i.comments || "").trim(),
+                            date: `${m[1]}-${m[2]}-${m[3]}`,
+                            time: i.time,
+                            page_url: window.location.href.split("#")[0],
+                            website: "",
+                        };
+                        try {
+                            const result = await sendBooking(payload);
+                            showBookingSuccess(payload, result.voiceToken, result.coupon);
+                            return {
+                                content: [{
+                                    type: "text",
+                                    text:
+                                        `Request sent to Queens Auto Service for ${serviceName} on ` +
+                                        `${payload.date} at ${payload.time}. The shop will confirm with ` +
+                                        `the customer by phone or email.` +
+                                        (result.coupon ? ` Savings code: ${result.coupon}.` : ""),
+                                }],
+                            };
+                        } catch (err) {
+                            return fail(
+                                (err instanceof Error && err.message) ||
+                                    `The booking could not be sent. Call the shop at ${SHOP_PHONE}.`,
+                            );
+                        }
+                    },
+                });
+                document.addEventListener(
+                    "astro:before-swap",
+                    () => {
+                        try {
+                            modelContext.unregisterTool?.(AGENT_TOOL);
+                        } catch {}
+                    },
+                    { once: true },
+                );
+            } catch (err) {
+                console.warn("WebMCP tool registration failed", err);
+            }
+        }
 
         function hideBookingError() {
             const el = document.getElementById("booking-error");
