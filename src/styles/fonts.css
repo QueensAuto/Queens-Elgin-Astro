@@ -3,13 +3,14 @@
    Optimized for performance - WOFF2 only, unused fonts removed
    ======================================== */
 
-/* Critical Display Font - Big Shoulders Display (Variable) */
+/* Critical Display Font - Big Shoulders Display (Variable)
+   Subset to Latin-1 + common punctuation, weights 400-900 (see git log). */
 @font-face {
   font-family: 'Big Shoulders Display';
   font-style: normal;
-  font-weight: 100 900;
+  font-weight: 400 900;
   font-display: swap;
-  src: url('/fonts/BigShoulders-VariableFont.woff2') format('woff2-variations');
+  src: url('/fonts/BigShoulders-Display-subset.woff2') format('woff2-variations');
 }
 
 /* Body Font - Instrument Sans (WOFF2) */
@@ -45,11 +46,12 @@
   src: url('/fonts/InstrumentSans-Bold.woff2') format('woff2');
 }
 
-/* Serif Font - Source Serif 4 (Italic Variable for accents) */
+/* Serif Font - Source Serif 4 (Italic Variable for accents)
+   Subset to Latin-1 + common punctuation, weights 400-700. */
 @font-face {
   font-family: 'Source Serif 4';
   font-style: italic;
-  font-weight: 100 900;
+  font-weight: 400 700;
   font-display: swap;
-  src: url('/fonts/SourceSerif4-Italic-VariableFont_opsz,wght.woff2') format('woff2-variations');
+  src: url('/fonts/SourceSerif4-Italic-subset.woff2') format('woff2-variations');
 }

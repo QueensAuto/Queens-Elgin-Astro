@@ -21,6 +21,11 @@ export default defineConfig({
   devToolbar: {
     enabled: false
   },
+  build: {
+    // Inline page CSS into the HTML so the first paint doesn't wait on
+    // separate render-blocking stylesheet requests.
+    inlineStylesheets: 'always'
+  },
   vite: {
     plugins: [tailwindcss()],
     server: {

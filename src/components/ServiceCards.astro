@@ -3,7 +3,7 @@ const services = [
   {
     title: "Price Per Axle",
     subtitle: "$369 BRAKE SPECIAL",
-    image: "/images/services/Changing brakes.webp",
+    image: "/images/services/brakes-card.webp",
     alt: "Professional Brake System Service",
     accent: "text-queens-secondary",
     link: "/brakes",
@@ -14,7 +14,7 @@ const services = [
   {
     title: "Limited Time Offer",
     subtitle: "$35 OFF ALIGNMENT",
-    image: "/images/services/Wheel-Alignment-Elgin-001.webp",
+    image: "/images/services/wheel-alignment-card.webp",
     alt: "Wheel Alignment Special Offer",
     accent: "text-queens-secondary",
     link: "/wheel-alignment",
@@ -25,7 +25,7 @@ const services = [
   {
     title: "General Repair",
     subtitle: "UP TO $45 OFF SERVICES",
-    image: "/images/services/Queens-Auto-Services-Auto-Repair-Slider-007.webp",
+    image: "/images/services/auto-repair-card.webp",
     alt: "General Repair Discount",
     accent: "text-queens-secondary",
     link: "/auto-repair-discount",
@@ -61,7 +61,7 @@ const services = [
           data-banner-name={service.bannerName}
         >
           <!-- Background Image -->
-          <img 
+          <img loading="lazy" decoding="async" 
             src={service.image} 
             alt={service.alt}
             class="special-card__image absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"

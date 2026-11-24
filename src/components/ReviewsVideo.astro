@@ -32,11 +32,13 @@ const visibleCount = 2; // Number of cards visible at a time
         class="absolute inset-0 overflow-hidden pointer-events-none opacity-20 dark:opacity-40"
     >
         <div
-            class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-queens-secondary/10 rounded-full blur-[120px]"
+            class="absolute rounded-full"
+            style="top:calc(-10% - 120px);left:calc(-10% - 120px);width:calc(40% + 240px);height:calc(40% + 240px);background:radial-gradient(closest-side,rgb(10 121 200 / 0.1) 0%,rgb(10 121 200 / 0.1) 35%,transparent 100%)"
         >
         </div>
         <div
-            class="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-queens-primary/10 rounded-full blur-[120px]"
+            class="absolute rounded-full"
+            style="bottom:calc(-10% - 120px);right:calc(-10% - 120px);width:calc(40% + 240px);height:calc(40% + 240px);background:radial-gradient(closest-side,rgb(11 17 33 / 0.1) 0%,rgb(11 17 33 / 0.1) 35%,transparent 100%)"
         >
         </div>
     </div>
@@ -77,12 +79,13 @@ const visibleCount = 2; // Number of cards visible at a time
                         loop
                         muted
                         playsinline
-                        poster="https://storage.googleapis.com/queens-videos/queenstestimonials.png"
-                        style="background-image:url('https://storage.googleapis.com/queens-videos/queenstestimonials.png'); background-size: cover; background-position: center;"
+                        preload="none"
+                        data-lazy-video
+                        data-poster="/images/shop/testimonial-poster.webp"
                         class="w-full h-full object-cover rv-video-reveal transition-transform duration-700 group-hover:scale-105"
                     >
                         <source
-                            src="https://storage.googleapis.com/queens-videos/queenstestimonial.mp4"
+                            data-src="/video/testimonial.mp4"
                             type="video/mp4"
                         />
                         Your browser does not support the video tag.
@@ -202,7 +205,7 @@ const visibleCount = 2; // Number of cards visible at a time
                                         <div class="flex items-center gap-4 border-t border-gray-100 dark:border-white/5 pt-6">
                                             {review.image ? (
                                                 <div class="relative">
-                                                    <img
+                                                    <img loading="lazy" decoding="async"
                                                         src={review.image}
                                                         alt={review.name}
                                                         class="w-12 h-12 rounded-full object-cover shadow-lg border-2 border-white dark:border-gray-800"

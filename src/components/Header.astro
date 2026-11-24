@@ -40,6 +40,7 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
             <>
               {/* Standard Logo - Shown in Light Mode */}
               <img
+                loading="lazy"
                 src={brand.logoPath}
                 alt={brand.name}
                 class={`h-8 w-auto object-contain block ${brand.logoPathWhite ? "dark:hidden" : ""}`}
@@ -47,6 +48,7 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
               {/* White/Dark Mode Logo - Shown in Dark Mode */}
               {brand.logoPathWhite && (
                 <img
+                  loading="lazy"
                   src={brand.logoPathWhite}
                   alt={brand.name}
                   class="h-8 w-auto object-contain hidden dark:block"
@@ -224,6 +226,7 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
                 <>
                   {/* Standard Logo - Shown in Light Mode */}
                   <img
+                    loading="lazy"
                     src={brand.logoPath}
                     alt={brand.name}
                     class={`h-8 w-auto object-contain block ${brand.logoPathWhite ? "dark:hidden" : ""}`}
@@ -231,6 +234,7 @@ const secondName = nameParts.length > 1 ? nameParts[1] : "";
                   {/* White/Dark Mode Logo - Shown in Dark Mode */}
                   {brand.logoPathWhite && (
                     <img
+                      loading="lazy"
                       src={brand.logoPathWhite}
                       alt={brand.name}
                       class="h-8 w-auto object-contain hidden dark:block"

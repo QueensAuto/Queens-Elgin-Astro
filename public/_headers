@@ -1,0 +1,19 @@
+# Cloudflare Pages response headers.
+# Astro's /_astro/ files have content hashes in their names, so they can be
+# cached forever. Everything else under these folders keeps a stable name,
+# so cache for 30 days and let the browser revalidate after that.
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/images/*
+  Cache-Control: public, max-age=2592000
+
+/video/*
+  Cache-Control: public, max-age=2592000
+
+/favicon.*
+  Cache-Control: public, max-age=2592000

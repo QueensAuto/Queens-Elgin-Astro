@@ -13,7 +13,7 @@ const { brand } = Astro.props as { brand: BrandConfig };
         <a href="/" class="footer-logo">
           {
             brand.logoPathWhite ? (
-              <img
+              <img loading="lazy" decoding="async"
                 src={brand.logoPathWhite}
                 alt={brand.name}
                 class="footer-logo-img"

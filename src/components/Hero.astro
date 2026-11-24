@@ -17,20 +17,14 @@ const avatars = [
 <section
   class="relative bg-page transition-colors duration-500 pt-32 pb-20 sm:pt-44 sm:pb-32 overflow-hidden"
 >
-  <!-- Modern Animated Background Blobs -->
+  <!-- Modern Animated Background Blobs
+       Soft glows drawn with radial gradients instead of filter: blur() — same
+       look, but no expensive GPU blur pass before the first paint. Each box is
+       the original circle grown by the old blur radius on every side. -->
   <div class="absolute inset-0 pointer-events-none overflow-hidden">
-    <div
-      class="absolute top-[-10%] -right-[10%] w-[600px] h-[600px] bg-queens-secondary/10 dark:bg-queens-secondary/5 rounded-full blur-[120px] animate-blob"
-    >
-    </div>
-    <div
-      class="absolute bottom-[0%] -left-[10%] w-[500px] h-[500px] bg-queens-primary/5 dark:bg-white/5 rounded-full blur-[100px] animate-blob animation-delay-2000"
-    >
-    </div>
-    <div
-      class="absolute top-[20%] left-[20%] w-[300px] h-[300px] bg-queens-secondary/5 rounded-full blur-[80px] animate-blob animation-delay-4000"
-    >
-    </div>
+    <div class="hero-blob hero-blob-1 animate-blob"></div>
+    <div class="hero-blob hero-blob-2 animate-blob animation-delay-2000"></div>
+    <div class="hero-blob hero-blob-3 animate-blob animation-delay-4000"></div>
   </div>
 
   <div class="site-canvas relative z-10">
@@ -130,9 +124,11 @@ const avatars = [
             <div class="flex -space-x-3.5">
               {
                 avatars.map((url, i) => (
-                  <img
+                  <img loading="lazy" decoding="async"
                     class="w-11 h-11 rounded-full border-2 border-white dark:border-gray-950 object-cover shadow-md transition-all hover:scale-110 hover:z-10 hover:ring-4 hover:ring-queens-secondary/20"
                     src={url}
+                    width="44"
+                    height="44"
                     alt={`Happy Customer ${i + 1}`}
                   />
                 ))
@@ -167,11 +163,12 @@ const avatars = [
             loop
             muted
             playsinline
-            preload="auto"
-            poster="/images/shop/Queens-Auto-Banner-001.webp"
+            preload="none"
+            data-lazy-video
+            data-poster="/images/shop/Queens-Auto-Banner-001.webp"
             class="w-full h-full object-cover scale-[1.02] group-hover:scale-110 transition-transform duration-[2s] ease-out hero-video-reveal"
           >
-            <source src="/video/Queens-Elgin-Hero-2025.mp4" type="video/mp4" />
+            <source data-src="/video/hero-2025.mp4" type="video/mp4" />
           </video>
 
           <!-- Premium Notification Card - Tire Promotion -->
@@ -300,9 +297,9 @@ const avatars = [
           >
         </div>
 
-        <!-- Decorative UI Element -->
+        <!-- Decorative UI Element (radial glow, was a blur-3xl circle) -->
         <div
-          class="absolute -top-10 -left-10 w-40 h-40 bg-queens-secondary/10 rounded-full blur-3xl group-hover:bg-queens-secondary/20 transition-colors duration-700"
+          class="hero-glow absolute -top-[6.5rem] -left-[6.5rem] w-[18rem] h-[18rem] pointer-events-none transition-opacity duration-700 opacity-50 group-hover:opacity-100"
         >
         </div>
       </div>
@@ -313,6 +310,57 @@ const avatars = [
 <style>
   /* Video overlays start hidden but are set to visible by JS.
      No CSS opacity:0 — progressive enhancement ensures content is visible if JS fails. */
+
+  .hero-blob {
+    position: absolute;
+    border-radius: 9999px;
+    background: radial-gradient(
+      closest-side,
+      var(--blob-color) 0%,
+      var(--blob-color) 45%,
+      transparent 100%
+    );
+  }
+  /* 600px circle + 120px blur */
+  .hero-blob-1 {
+    --blob-color: rgb(10 121 200 / 0.1);
+    top: calc(-10% - 120px);
+    right: calc(-10% - 120px);
+    width: 840px;
+    height: 840px;
+  }
+  /* 500px circle + 100px blur */
+  .hero-blob-2 {
+    --blob-color: rgb(11 17 33 / 0.05);
+    bottom: -100px;
+    left: calc(-10% - 100px);
+    width: 700px;
+    height: 700px;
+  }
+  /* 300px circle + 80px blur */
+  .hero-blob-3 {
+    --blob-color: rgb(10 121 200 / 0.05);
+    top: calc(20% - 80px);
+    left: calc(20% - 80px);
+    width: 460px;
+    height: 460px;
+  }
+  :global(.dark) .hero-blob-1 {
+    --blob-color: rgb(10 121 200 / 0.05);
+  }
+  :global(.dark) .hero-blob-2 {
+    --blob-color: rgb(255 255 255 / 0.05);
+  }
+
+  .hero-glow {
+    border-radius: 9999px;
+    background: radial-gradient(
+      closest-side,
+      rgb(10 121 200 / 0.2) 0%,
+      rgb(10 121 200 / 0.2) 30%,
+      transparent 100%
+    );
+  }
 
   @keyframes blob {
     0% {
@@ -329,8 +377,12 @@ const avatars = [
     }
   }
 
-  .animate-blob {
-    animation: blob 7s infinite alternate;
+  /* The blobs are huge blurred layers; animating them forces a repaint every
+     frame, which is expensive on phones. Animate on large screens only. */
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    .animate-blob {
+      animation: blob 7s infinite alternate;
+    }
   }
 
   .animation-delay-2000 {

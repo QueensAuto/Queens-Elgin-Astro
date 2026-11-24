@@ -44,18 +44,40 @@ const isServiceSubPage =
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/png" href="/favicon.png" />
 
-    <!-- Google Tag Manager -->
+    <!-- Google Tag Manager (deferred)
+         The dataLayer and gtm.start timestamp are set right away so no events
+         are lost; the GTM script itself (and GA4, Ads, Meta, Clarity, which it
+         loads) is fetched on the visitor's first tap / wheel / keypress, or
+         GTM_DELAY_MS after the load event, whichever comes first, so it
+         doesn't compete with the first paint. -->
     <script is:inline>
-      (function (w, d, s, l, i) {
+      (function (w, d, l, i) {
         w[l] = w[l] || [];
         w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != "dataLayer" ? "&l=" + l : "";
-        j.async = true;
-        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-W56FDLTF");
+        var loaded = false;
+        var GTM_DELAY_MS = 4000;
+        // Real input only: "scroll" also fires on programmatic scrolls.
+        var events = ["pointerdown", "keydown", "touchstart", "wheel"];
+        function loadGTM() {
+          if (loaded) return;
+          loaded = true;
+          events.forEach(function (e) {
+            w.removeEventListener(e, loadGTM);
+          });
+          var j = d.createElement("script");
+          j.async = true;
+          j.src = "https://www.googletagmanager.com/gtm.js?id=" + i;
+          d.head.appendChild(j);
+        }
+        events.forEach(function (e) {
+          w.addEventListener(e, loadGTM, { once: true, passive: true });
+        });
+        function afterLoad() {
+          setTimeout(loadGTM, GTM_DELAY_MS);
+        }
+        if (d.readyState === "complete") afterLoad();
+        else w.addEventListener("load", afterLoad, { once: true });
+      })(window, document, "dataLayer", "GTM-W56FDLTF");
     </script>
     <!-- End Google Tag Manager -->
 
@@ -109,7 +131,7 @@ const isServiceSubPage =
     <!-- Critical Font Preloads - Load these before CSS parsing -->
     <link
       rel="preload"
-      href="/fonts/BigShoulders-VariableFont.woff2"
+      href="/fonts/BigShoulders-Display-subset.woff2"
       as="font"
       type="font/woff2"
       crossorigin
@@ -121,10 +143,6 @@ const isServiceSubPage =
       type="font/woff2"
       crossorigin
     />
-
-    <!-- Preconnect to external video host for Hero video -->
-    <link rel="dns-prefetch" href="https://storage.googleapis.com" />
-    <link rel="preconnect" href="https://storage.googleapis.com" crossorigin />
 
     <title>{title}</title>
     <Schema
@@ -207,6 +225,104 @@ const isServiceSubPage =
     <Footer brand={brand} />
     <SmoothScroll />
     <MobilePhoneBubble brand={brand} />
+
+    <!-- Lazy videos: <video data-lazy-video data-poster> with <source data-src>.
+         The poster image is attached once the video is near the viewport, and
+         the MP4 itself only after the page has finished loading AND the video
+         is near the viewport, so neither competes with the first paint. -->
+    <script is:inline>
+      (function () {
+        var pageLoaded = document.readyState === "complete";
+        var io = null;
+        var posterIo = null;
+
+        function setPoster(video) {
+          var p = video.getAttribute("data-poster");
+          if (p) {
+            video.removeAttribute("data-poster");
+            video.poster = p;
+          }
+        }
+
+        function initLazyPosters() {
+          var videos = document.querySelectorAll("video[data-poster]");
+          if (!videos.length) return;
+          if (!("IntersectionObserver" in window)) {
+            videos.forEach(setPoster);
+            return;
+          }
+          if (posterIo) posterIo.disconnect();
+          posterIo = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                  posterIo.unobserve(entry.target);
+                  setPoster(entry.target);
+                }
+              });
+            },
+            { rootMargin: "300px 0px" },
+          );
+          videos.forEach(function (v) {
+            posterIo.observe(v);
+          });
+        }
+
+        function loadVideo(video) {
+          if (video.hasAttribute("data-lazy-loaded")) return;
+          video.setAttribute("data-lazy-loaded", "");
+          setPoster(video);
+          video.querySelectorAll("source[data-src]").forEach(function (s) {
+            s.src = s.getAttribute("data-src");
+          });
+          video.load();
+          if (video.muted) video.play().catch(function () {});
+        }
+
+        function initLazyVideos() {
+          if (!pageLoaded) return;
+          var videos = document.querySelectorAll(
+            "video[data-lazy-video]:not([data-lazy-loaded])",
+          );
+          if (!videos.length) return;
+          if (!("IntersectionObserver" in window)) {
+            videos.forEach(loadVideo);
+            return;
+          }
+          if (io) io.disconnect();
+          io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                  io.unobserve(entry.target);
+                  loadVideo(entry.target);
+                }
+              });
+            },
+            { rootMargin: "400px 0px" },
+          );
+          videos.forEach(function (v) {
+            io.observe(v);
+          });
+        }
+
+        if (!pageLoaded) {
+          window.addEventListener(
+            "load",
+            function () {
+              pageLoaded = true;
+              initLazyVideos();
+            },
+            { once: true },
+          );
+        }
+        initLazyPosters();
+        document.addEventListener("astro:page-load", function () {
+          initLazyPosters();
+          initLazyVideos();
+        });
+      })();
+    </script>
 
     <!-- Global video autoplay fallback for Edge/browser compatibility -->
     <script is:inline>

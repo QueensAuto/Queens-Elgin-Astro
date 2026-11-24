@@ -36,18 +36,36 @@ const year = new Date().getFullYear();
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/png" href="/favicon.png" />
 
-    <!-- Google Tag Manager -->
+    <!-- Google Tag Manager (deferred; same loader as BaseLayout)
+         dataLayer exists right away so events queue; gtm.js loads on the first
+         tap / wheel / keypress, or GTM_DELAY_MS after the load event. -->
     <script is:inline>
-      (function (w, d, s, l, i) {
+      (function (w, d, l, i) {
         w[l] = w[l] || [];
         w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != "dataLayer" ? "&l=" + l : "";
-        j.async = true;
-        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-W56FDLTF");
+        var GTM_DELAY_MS = 4000;
+        var loaded = false;
+        var events = ["pointerdown", "keydown", "touchstart", "wheel"];
+        function loadGTM() {
+          if (loaded) return;
+          loaded = true;
+          events.forEach(function (e) {
+            w.removeEventListener(e, loadGTM);
+          });
+          var j = d.createElement("script");
+          j.async = true;
+          j.src = "https://www.googletagmanager.com/gtm.js?id=" + i;
+          d.head.appendChild(j);
+        }
+        events.forEach(function (e) {
+          w.addEventListener(e, loadGTM, { once: true, passive: true });
+        });
+        function afterLoad() {
+          setTimeout(loadGTM, GTM_DELAY_MS);
+        }
+        if (d.readyState === "complete") afterLoad();
+        else w.addEventListener("load", afterLoad, { once: true });
+      })(window, document, "dataLayer", "GTM-W56FDLTF");
     </script>
 
     <!-- GTM virtual pageview + phone-click tracking (works with ClientRouter) -->
@@ -73,7 +91,7 @@ const year = new Date().getFullYear();
 
     <link
       rel="preload"
-      href="/fonts/BigShoulders-VariableFont.woff2"
+      href="/fonts/BigShoulders-Display-subset.woff2"
       as="font"
       type="font/woff2"
       crossorigin
