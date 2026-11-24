@@ -204,3 +204,20 @@ test("an owner list with no valid address counts as not configured", async () =>
   assert.equal(res.status, 503);
   assert.equal(sent.length, 0);
 });
+
+test("each booking gets a coupon code, shown in both emails and returned to the page", async () => {
+  const res = await handleBooking(post(VALID), ENV);
+  const body = (await res.json()) as { ok: boolean; coupon?: string };
+  assert.match(body.coupon ?? "", /^[A-Z2-9]{6}$/);
+  const [owner, customer] = sent;
+  assert.ok(owner.text.includes(body.coupon!), "coupon in the shop's lead email");
+  assert.ok(owner.html.includes(body.coupon!));
+  assert.ok(customer.text.includes(body.coupon!), "coupon in the customer's confirmation");
+  assert.ok(customer.html.includes(body.coupon!));
+});
+
+test("two bookings get different coupon codes", async () => {
+  const a = (await (await handleBooking(post(VALID), ENV)).json()) as { coupon: string };
+  const b = (await (await handleBooking(post(VALID), ENV)).json()) as { coupon: string };
+  assert.notEqual(a.coupon, b.coupon);
+});

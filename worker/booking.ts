@@ -1,4 +1,5 @@
 import { createVoiceToken, type VoiceEnv } from "./voice.ts";
+import { generateCoupon } from "./coupon.ts";
 
 /**
  * POST /api/booking — the landing-page booking forms (/brakes, /wheel-alignment,
@@ -72,6 +73,11 @@ function parseRecipients(value: string | undefined): string[] {
     out.push(addr);
   }
   return out;
+}
+
+/** The coupon code, spaced and monospaced so it reads clearly at the counter. */
+function couponHtml(code: string): string {
+  return `<strong style="font-family:Consolas, Menlo, monospace; font-size:16px; letter-spacing:3px; color:#0f172a;">${escapeHtml(code)}</strong>`;
 }
 
 const NAVY = "#0b1121";
@@ -240,6 +246,7 @@ export async function handleBooking(request: Request, env: BookingEnv): Promise<
   const customerTel = `tel:+1${phoneDigits}`;
   const vehicle = `${year} ${make} ${model}`;
   const when = `${friendlyDate} at ${time}`;
+  const coupon = generateCoupon();
 
   // ---------------------------------------------------------------- shop
   const ownerText = [
@@ -251,6 +258,7 @@ export async function handleBooking(request: Request, env: BookingEnv): Promise<
     `Vehicle: ${vehicle}`,
     `Service: ${offer.label}`,
     `Requested: ${when}`,
+    `Coupon: ${coupon}`,
     comments ? `Notes: ${comments}` : "",
     pageUrl ? `Page: ${pageUrl}` : "",
   ]
@@ -266,7 +274,8 @@ export async function handleBooking(request: Request, env: BookingEnv): Promise<
       ${row("Email", `<a href="mailto:${escapeHtml(email)}" style="color:#0f172a;">${escapeHtml(email)}</a>`)}
       ${row("Vehicle", escapeHtml(vehicle))}
       ${row("Service", escapeHtml(offer.label))}
-      ${row("Requested", `<strong>${escapeHtml(when)}</strong>`, true)}
+      ${row("Requested", `<strong>${escapeHtml(when)}</strong>`)}
+      ${row("Coupon", couponHtml(coupon), true)}
     </table>
     ${
       comments
@@ -309,6 +318,7 @@ export async function handleBooking(request: Request, env: BookingEnv): Promise<
     `- Vehicle: ${vehicle}`,
     `- Service: ${offer.label}`,
     `- Requested time: ${when}`,
+    `- Your coupon code: ${coupon} (mention it when you arrive)`,
     comments ? `- Your notes: ${comments}` : "",
     "",
     `Need to change something? Call us at ${SHOP.phone} (${SHOP.hours}).`,
@@ -327,7 +337,8 @@ export async function handleBooking(request: Request, env: BookingEnv): Promise<
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e9ef; border-radius:8px; border-collapse:separate; overflow:hidden; margin-bottom:22px;">
       ${row("Vehicle", escapeHtml(vehicle))}
       ${row("Service", escapeHtml(offer.label))}
-      ${row("Requested", `<strong>${escapeHtml(when)}</strong>`, !comments)}
+      ${row("Requested", `<strong>${escapeHtml(when)}</strong>`)}
+      ${row("Your coupon", `${couponHtml(coupon)}<br/><span style="font-size:12px; color:#64748b;">Mention it when you arrive.</span>`, !comments)}
       ${comments ? row("Your notes", escapeHtml(comments).replace(/\n/g, "<br/>"), true) : ""}
     </table>
     <p style="margin:0 0 16px; font-size:14px; line-height:1.6; color:#334155;">
@@ -349,5 +360,5 @@ export async function handleBooking(request: Request, env: BookingEnv): Promise<
 
   // ticket for the personalised voice message (empty when voice isn't configured)
   const voiceToken = await createVoiceToken(env, { first: firstName, vehicle, what: offer.voice }).catch(() => "");
-  return json(voiceToken ? { ok: true, id: ownerResult.id, voiceToken } : { ok: true, id: ownerResult.id });
+  return json(voiceToken ? { ok: true, id: ownerResult.id, coupon, voiceToken } : { ok: true, id: ownerResult.id, coupon });
 }

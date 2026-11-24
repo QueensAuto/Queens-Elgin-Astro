@@ -552,6 +552,53 @@ const {
     .booking-success-email strong {
         color: #ffffff;
     }
+    .booking-coupon {
+        margin: 1.5rem auto 0;
+        max-width: 22rem;
+        padding: 1rem 1.25rem 1.1rem;
+        border-radius: 1rem;
+        border: 1.5px dashed rgba(34, 211, 238, 0.55);
+        background: rgba(34, 211, 238, 0.06);
+    }
+    .booking-coupon-label {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: #94a3b8;
+    }
+    .booking-coupon-row {
+        margin-top: 0.35rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+    }
+    .booking-coupon-code {
+        font-family: ui-monospace, Consolas, Menlo, monospace;
+        font-size: 1.75rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        color: #ffffff;
+    }
+    .booking-coupon-copy {
+        min-height: 36px;
+        padding: 0.35rem 0.85rem;
+        border-radius: 9999px;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        cursor: pointer;
+    }
+    .booking-coupon-copy:focus-visible {
+        outline: 2px solid #22d3ee;
+        outline-offset: 2px;
+    }
+    .booking-coupon-note {
+        margin-top: 0.4rem;
+        font-size: 0.8125rem;
+        color: #94a3b8;
+    }
     .booking-voice {
         margin-top: 1.5rem;
     }
@@ -1427,6 +1474,14 @@ const {
                 <p class="booking-success-email">
                     Check <strong data-success-email></strong> for a confirmation email.
                 </p>
+                <div class="booking-coupon" data-coupon hidden>
+                    <p class="booking-coupon-label">Your coupon code</p>
+                    <div class="booking-coupon-row">
+                        <span class="booking-coupon-code" data-coupon-code></span>
+                        <button type="button" class="booking-coupon-copy" data-coupon-copy>Copy</button>
+                    </div>
+                    <p class="booking-coupon-note">Mention it when you arrive. It's in your confirmation email too.</p>
+                </div>
                 <div class="booking-voice" data-voice data-state="loading" hidden>
                     <button type="button" class="booking-voice-btn" data-voice-btn disabled>
                         <svg class="booking-voice-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -2140,7 +2195,7 @@ const {
                 if (!response.ok || !result.ok) {
                     throw new Error(result.error || "");
                 }
-                showBookingSuccess(payload, result.voiceToken);
+                showBookingSuccess(payload, result.voiceToken, result.coupon);
             } catch (error) {
                 // network failures surface as TypeError ("Failed to fetch") — not useful to show
                 const message =
@@ -2199,7 +2254,7 @@ const {
             return time ? `${day} at ${time}` : day;
         }
 
-        function showBookingSuccess(p, voiceToken) {
+        function showBookingSuccess(p, voiceToken, coupon) {
             const panel = document.getElementById("booking-success");
             const content = document.getElementById("form-content");
             if (!panel || !content) return;
@@ -2211,6 +2266,21 @@ const {
             set("[data-success-email]", p.email);
             set("[data-success-when]", friendlyWhen(p.date, p.time));
             set("[data-success-vehicle]", [p.vehicle_year, p.vehicle_make, p.vehicle_model].filter(Boolean).join(" "));
+            const couponBox = panel.querySelector("[data-coupon]");
+            if (couponBox && coupon) {
+                set("[data-coupon-code]", coupon);
+                couponBox.hidden = false;
+                const copyBtn = panel.querySelector("[data-coupon-copy]");
+                copyBtn?.addEventListener("click", async () => {
+                    try {
+                        await navigator.clipboard.writeText(coupon);
+                        copyBtn.textContent = "Copied";
+                    } catch {
+                        copyBtn.textContent = "Select & copy";
+                    }
+                    setTimeout(() => (copyBtn.textContent = "Copy"), 2000);
+                });
+            }
             content.hidden = true;
             panel.hidden = false;
             const reduced = prefersReducedMotion();
