@@ -1356,4 +1356,19 @@ const faqs = [
       }
     }
   }
+
+  /* Desktop: the hero fills the first screen below the header and its content sits
+     vertically centred, with equal breathing room above and below. */
+  @media (min-width: 1024px) {
+    .lp-hero {
+      display: flex;
+      align-items: center;
+      min-height: calc(100svh - 82px); /* 82px = landing header height */
+    }
+    .lp-hero > .lp-wrap {
+      width: 100%;
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+  }
 </style>
