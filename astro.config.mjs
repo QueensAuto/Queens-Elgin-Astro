@@ -24,7 +24,8 @@ export default defineConfig({
         !page.includes('/customer-details') &&
         !page.includes('/schedule-') &&
         !page.includes('/thank-you') &&
-        !page.includes('/404')
+        !page.includes('/404') &&
+        !page.includes('/used-tires')
     })
   ],
   devToolbar: {

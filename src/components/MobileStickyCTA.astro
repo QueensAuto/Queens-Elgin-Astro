@@ -13,10 +13,10 @@ import { mobileTiresBrand } from "../brands";
 
 const { brand = mobileTiresBrand } = Astro.props as { brand?: BrandConfig };
 
-// Check if we're on the buy-new-tires or tire-installation page (exclude)
+// Check if we're on the buy-new-tires page (exclude)
 const currentPath = Astro.url.pathname;
 // We need to check for brand-prefixed exclusion too
-const isExcludedPage = currentPath.includes('/buy-new-tires') || currentPath.includes('/tire-installation');
+const isExcludedPage = currentPath.includes('/buy-new-tires');
 ---
 
 {!isExcludedPage && (

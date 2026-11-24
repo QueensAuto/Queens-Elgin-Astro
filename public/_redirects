@@ -1,0 +1,12 @@
+# Retired "mobile tires" booking funnel (Dec 2025). It sent bookings to an
+# n8n webhook that was never verified; real bookings now go through
+# /request-an-appointment/ and the landing-page forms. Each path is also
+# excluded in _routes.json so the Pages Function never handles it.
+/tire-installation        /services/tire-services/tire-installation/   301
+/tire-installation/       /services/tire-services/tire-installation/   301
+/schedule-datetime        /request-an-appointment/                     301
+/schedule-datetime/       /request-an-appointment/                     301
+/customer-details         /request-an-appointment/                     301
+/customer-details/        /request-an-appointment/                     301
+/schedule-confirmation    /request-an-appointment/                     301
+/schedule-confirmation/   /request-an-appointment/                     301

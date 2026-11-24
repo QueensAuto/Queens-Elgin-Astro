@@ -1,7 +1,9 @@
 {
   "version": 1,
   "description": "Run Pages Functions for pages (markdown negotiation in functions/_middleware.ts) and /api/*; serve static assets directly.",
-  "include": ["/*"],
+  "include": [
+    "/*"
+  ],
   "exclude": [
     "/_astro/*",
     "/images/*",
@@ -14,6 +16,14 @@
     "/robots.txt",
     "/llms.txt",
     "/sitemap-index.xml",
-    "/sitemap-0.xml"
+    "/sitemap-0.xml",
+    "/tire-installation",
+    "/tire-installation/",
+    "/schedule-datetime",
+    "/schedule-datetime/",
+    "/customer-details",
+    "/customer-details/",
+    "/schedule-confirmation",
+    "/schedule-confirmation/"
   ]
 }
