@@ -52,9 +52,19 @@ const year = new Date().getFullYear();
           events.forEach(function (e) {
             w.removeEventListener(e, loadGTM);
           });
+          // Served first-party through the Cloudflare Google tag gateway at
+          // /oydo/ (better ad measurement); fall back to Google if it fails.
+          w.google_tags_first_party = w.google_tags_first_party || [];
+          w.google_tags_first_party.push(i);
           var j = d.createElement("script");
           j.async = true;
-          j.src = "https://www.googletagmanager.com/gtm.js?id=" + i;
+          j.src = "/oydo/";
+          j.onerror = function () {
+            var f = d.createElement("script");
+            f.async = true;
+            f.src = "https://www.googletagmanager.com/gtm.js?id=" + i;
+            d.head.appendChild(f);
+          };
           d.head.appendChild(j);
         }
         events.forEach(function (e) {
