@@ -1,0 +1,1279 @@
+---
+import LandingLayout from "../layouts/LandingLayout.astro";
+import BookingForm from "../components/BookingForm.astro";
+import reviews from "../data/landing-reviews/repair.json";
+import { mobileTiresBrand as brand } from "../brands";
+
+const title = "Auto Repair in Elgin, IL — Save Up to $45 | Queens Auto";
+const description =
+  "Need auto repair in Elgin? Take $15 off $100+, $30 off $200+, or $45 off $300+ on repairs, maintenance, and diagnostics. Book online—no payment up front.";
+
+const phoneDigits = brand.phone.replace(/\D/g, "");
+
+const tiers = [
+  { spend: "$100–$199", save: "$15 OFF", highlight: false },
+  { spend: "$200–$299", save: "$30 OFF", highlight: false },
+  { spend: "$300+", save: "$45 OFF", highlight: true },
+];
+
+const promises = [
+  {
+    title: "Bigger Bill, Bigger Savings",
+    body: "Spend $100–$199 for $15 off, $200–$299 for $30 off, or $300+ for $45 off your final bill on repairs, maintenance, or diagnostics.",
+    icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+  },
+  {
+    title: "Price Confirmed First",
+    body: "Nothing starts until you hear the price and give the green light. No surprise charges added to your bill without your OK.",
+    icon: "M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z",
+  },
+  {
+    title: "Book in Under a Minute",
+    body: "No payment online. Pick your day and time below, and tell us what your car is doing in the optional notes box on step 2.",
+    icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
+  },
+  {
+    title: "24/24 Repair Warranty",
+    body: "Most repairs at our Dundee Ave shop carry a 24-month / 24,000-mile warranty—ask about coverage when your price is reviewed.",
+    icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+  },
+];
+
+const warningIcon = "M10.3 4L2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 4a2 2 0 0 0-3.4 0ZM12 9v4m0 4h.01";
+
+const signs = [
+  {
+    icon: warningIcon,
+    title: "Check engine light that won't go off",
+    body: "Steady or flashing, a warning light means something needs a closer look—and diagnostics qualify for the same $15–$45 tiers.",
+  },
+  {
+    icon: "M11 5 6 9H3v6h3l5 4V5Zm4 4a4 4 0 0 1 0 6m3-9a8 8 0 0 1 0 12",
+    title: "A squeal, clunk, or hum that just started",
+    body: "New sounds when you brake, turn, or speed up are easier to pin down before worn parts start affecting what's next to them.",
+  },
+  {
+    icon: "M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z",
+    title: "Spots on the driveway or a burning smell",
+    body: "Drips under a parked car or a sweet, oily, or sharp smell under the hood are signs to get a look before a fluid runs low.",
+  },
+  {
+    icon: "M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0Z",
+    title: "Overheating, rough idle, or slow starts",
+    body: "A climbing temperature gauge or sluggish cranking is worth checking while you can still drive in on your own schedule.",
+  },
+];
+
+const checklist = [
+  "<strong>Spend $100–$199 → $15 off</strong> your final bill",
+  "<strong>Spend $200–$299 → $30 off</strong> your final bill",
+  "<strong>Spend $300+ → $45 off</strong> your final bill",
+  "Applies to auto repairs, maintenance, and diagnostics",
+  "Price confirmed before any work starts · No payment online",
+  "Excludes tires and batteries · One coupon per visit · Limited time",
+];
+
+const features = [
+  {
+    title: "Repairs ($300+ → $45 Off)",
+    body: "Putting off a repair because of the bill? Any qualifying repair of $300 or more knocks $45 straight off your total, backed by a 24-month / 24,000-mile warranty on most repairs.",
+  },
+  {
+    title: "Diagnostics & Warning Lights",
+    body: "Not sure what's behind a check engine light or strange noise yet? Diagnostic visits count toward the $100, $200, and $300 tiers just like repairs.",
+  },
+  {
+    title: "Routine Maintenance ($100+ → $15–$30 Off)",
+    body: "Coming in for scheduled maintenance? Hit $100–$199 and take $15 off your final bill, or reach $200–$299 to take $30 off.",
+  },
+  {
+    title: "What's Excluded & Coupon Rules",
+    body: "Tires and batteries are excluded from this offer. One coupon per visit—it can't be stacked with other offers. It's a discount on your final bill, not a fixed price.",
+  },
+];
+
+const pains = [
+  {
+    icon: "M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z",
+    title: "A slow leak rarely stays cheap",
+    body: "Driving low on fluids adds heat and wear to surrounding parts—turning a smaller repair into a bigger bill later.",
+  },
+  {
+    icon: warningIcon,
+    title: "One worn part pulls on the rest",
+    body: "A misfire, vibration, or ignored warning light puts extra strain on neighboring components every mile you put it off.",
+  },
+  {
+    icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
+    title: "Book on your schedule and take up to $45 off",
+    body: "Pick a time that fits your week instead of waiting for a breakdown—and take $15, $30, or $45 off while this offer is running.",
+  },
+];
+
+const cities = [
+  "Elgin, IL",
+  "South Elgin, IL",
+  "Carpentersville, IL",
+  "East Dundee, IL",
+  "West Dundee, IL",
+  "Gilberts, IL",
+  "Algonquin, IL",
+  "Huntley, IL",
+  "Hoffman Estates, IL",
+  "Barrington, IL",
+];
+
+const faqs = [
+  {
+    question: "How do the $15, $30, and $45 discount tiers work?",
+    answer:
+      "Your discount comes off your final bill based on your qualifying visit total: spend $100–$199 for $15 off, $200–$299 for $30 off, or $300 or more for $45 off. It's a discount on your final bill, not a fixed price.",
+  },
+  {
+    question: "Does this apply to diagnostics and maintenance, or only repairs?",
+    answer:
+      "It applies to all three—auto repairs, routine maintenance, and diagnostics at our Elgin shop.",
+  },
+  {
+    question: "What's excluded, and can I combine this with another coupon?",
+    answer:
+      "It's an online-exclusive offer, so book through this page to claim it. Tires and batteries are excluded from this promotion. Only one coupon is allowed per visit, so it can't be combined with other offers. Some restrictions may apply, and the offer is for a limited time only.",
+  },
+  {
+    question: "How do I know the price before you start working on my car?",
+    answer:
+      "The price is confirmed with you before any work starts. You don't pay anything online when booking—reserving your slot takes under a minute, and you can describe what's going on with your car in the optional box on the time step.",
+  },
+  {
+    question: "Are repairs covered by a warranty?",
+    answer:
+      "Yes—most repairs at Queens Auto Service include a 24-month / 24,000-mile warranty. Ask our team about warranty coverage for your specific repair when we confirm your price.",
+  },
+  {
+    question: "Where are you located and what are your hours?",
+    answer:
+      "We're at 1303 Dundee Ave, Elgin, IL 60120, open Monday–Friday 7:30 AM–6:00 PM and Saturday 7:30 AM–4:00 PM. Have a question before booking? Call (224) 635-3000.",
+  },
+];
+---
+
+<LandingLayout title={title} description={description} brand={brand} faqData={faqs} reviewData={reviews}>
+  <!-- ============ HERO ============ -->
+  <section class="lp-hero">
+    <div class="lp-wrap ar-hero-wrap pb-14 md:pb-20">
+      <div class="ar-hero-grid">
+        <div class="ar-intro">
+          <p class="ar-symptom">
+            <!-- diagnostic pulse + check-engine indicator mark -->
+            <svg class="ar-symptom-mark" viewBox="0 0 64 22" aria-hidden="true" focusable="false">
+              <path
+                class="ar-pulse-line"
+                pathLength="1"
+                d="M1 12 H15 L19 5 L23 18 L27 9 L31 12 H41"
+              />
+              <g class="ar-engine-icon">
+                <path
+                  pathLength="1"
+                  d="M46 8 h8 l2 2 h3 v6 h-3 l-2 2 h-8 l-2-2 v-6 z M49 6 v2 M53 6 v2 M43 11 v4"
+                />
+              </g>
+            </svg>
+            <span>Warning light, leak, or new noise?</span>
+          </p>
+
+          <h1 class="lp-h1 mt-4">
+            Need Auto Repair in Elgin? <span class="lp-grad">Save Up to $45</span>
+          </h1>
+
+          <p class="ar-sub text-lg text-slate-300">
+            Whether it's a check engine light, a new noise, or a repair you've
+            been putting off, take $15 to $45 off your final bill at our Dundee
+            Ave shop — price confirmed before any work starts.
+          </p>
+
+          <!-- Mobile / tablet quick-offer block (hidden >=1024px) -->
+          <div class="ar-quick-offer">
+            <div class="ar-quick-tiers" role="list" aria-label="Discount tiers">
+              {
+                tiers.map((t) => (
+                  <div class={`ar-quick-tier ${t.highlight ? "is-top" : ""}`} role="listitem">
+                    <span class="ar-quick-spend">Spend {t.spend}</span>
+                    <strong class="ar-quick-save">{t.save}</strong>
+                  </div>
+                ))
+              }
+            </div>
+            <p class="ar-quick-scope">Repairs, maintenance &amp; diagnostics · Excl. tires &amp; batteries</p>
+            <a href="#book" class="lp-btn">Book &amp; Save Up to $45 →</a>
+            <p class="ar-reassure">
+              <strong style="color:#22d3ee;font-weight:700">Online&nbsp;exclusive</strong> · No&nbsp;payment&nbsp;online · Book&nbsp;in&nbsp;under&nbsp;a&nbsp;minute · Price&nbsp;confirmed&nbsp;first
+            </p>
+          </div>
+        </div>
+
+        <!-- Hero visual: real Elgin shop engine bay & diagnostic photo -->
+        <div class="ar-stage">
+          <img
+            class="ar-stage-img"
+            src="/images/services/Queens-Auto-repair-1024x670.webp"
+            alt="Technician working under the hood of an SUV in a Queens Auto Service bay in Elgin"
+            width="1024"
+            height="670"
+            fetchpriority="high"
+          />
+          <div class="ar-stage-badge">
+            <span class="ar-stage-dot" aria-hidden="true"></span>
+            <span>1303 Dundee Ave · Elgin since 2007</span>
+          </div>
+        </div>
+
+        <!-- Full offer tiers + CTA block (visible in left col on desktop, below image on mobile) -->
+        <div class="ar-offer">
+          <div class="ar-tiers" role="list" aria-label="Auto repair discount tiers">
+            {
+              tiers.map((t) => (
+                <div class={`ar-tier ${t.highlight ? "is-top" : ""}`} role="listitem">
+                  <span class="ar-tier-spend">Spend {t.spend}</span>
+                  <span class="ar-tier-save">{t.save}</span>
+                </div>
+              ))
+            }
+          </div>
+          <p class="ar-tier-note">
+            Discount comes off your <strong class="text-white">final bill</strong> on repairs, maintenance, and diagnostics — not a fixed price.
+          </p>
+
+          <div class="ar-hero-actions flex flex-col sm:flex-row gap-3">
+            <a href="#book" class="lp-btn">Book &amp; Save Up to $45 →</a>
+            <a href={`tel:${phoneDigits}`} class="lp-btn lp-btn-ghost">Call {brand.phone}</a>
+          </div>
+          <p class="ar-reassure">
+            <strong style="color:#22d3ee;font-weight:700">Online&nbsp;exclusive</strong> · No&nbsp;payment&nbsp;online · Book&nbsp;in&nbsp;under&nbsp;a&nbsp;minute · Price&nbsp;confirmed&nbsp;before&nbsp;work&nbsp;starts
+          </p>
+
+          <p class="mt-5 flex items-center gap-2 text-sm text-slate-400">
+            <span class="lp-stars tracking-wide" aria-hidden="true">★★★★★</span>
+            <span>
+              <strong class="text-white">{brand.ratingValue}</strong> on Google from {brand.reviewCount} reviews · 24-mo / 24k-mi warranty on most repairs
+            </span>
+          </p>
+
+          <details class="ar-restrictions mt-3 text-xs text-slate-400">
+            <summary class="cursor-pointer inline">
+              Excludes tires &amp; batteries. <span class="underline text-white font-semibold">See offer terms</span>
+            </summary>
+            <p class="mt-2 max-w-md leading-relaxed">
+              Online-exclusive offer: book through this page to claim it.
+              Discount applies to your final bill: $15 off $100–$199,
+              $30 off $200–$299, or $45 off $300+ on repairs, maintenance, and
+              diagnostics. Excludes tires and batteries. One coupon per visit.
+              Some restrictions may apply. Limited time only.
+            </p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROMISE ============ -->
+  <section class="lp-section">
+    <div class="lp-wrap">
+      <div class="lp-head reveal">
+        <h2 class="lp-h2">How Your <span class="lp-grad">Up to $45 Off</span> Visit Works</h2>
+        <p>
+          Bigger bills hurt less when your discount scales with the job — and
+          nothing starts until you approve the price.
+        </p>
+      </div>
+      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {
+          promises.map((p) => (
+            <div class="lp-card text-center reveal">
+              <div class="lp-icon mx-auto">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d={p.icon} />
+                </svg>
+              </div>
+              <h3 class="lp-h3 mt-5">{p.title}</h3>
+              <p class="mt-2 text-sm text-slate-400 leading-relaxed">{p.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BOOKING FORM ============ -->
+  <section id="book" class="lp-section lp-book">
+    <div class="lp-wrap">
+      <BookingForm
+        fullDark
+        presetService="Auto Repair"
+        promoCode="auto_repair_45"
+        step1TitleHighlight="Secure Your Spot"
+        step1Description="Step 1 of 2 — Your contact and vehicle details."
+        step3Description="Step 2 of 2 — Pick your preferred time."
+      />
+    </div>
+  </section>
+
+  <!-- ============ REVIEWS ============ -->
+  <section class="lp-section" id="reviews">
+    <div class="lp-wrap">
+      <div class="lp-head reveal">
+        <h2 class="lp-h2">Rated <span class="lp-grad">4.7★ on Google</span> by Elgin Drivers</h2>
+        <p>
+          With {brand.reviewCount} Google reviews since 2007, here's a sample of
+          what local drivers wrote after visiting our Dundee Ave shop.
+        </p>
+      </div>
+      <div class="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {
+          reviews.map((r) => (
+            <figure class="lp-card reveal flex flex-col">
+              <div class="lp-stars" aria-label={`${r.stars} out of 5 stars`}>
+                {"★".repeat(r.stars)}
+              </div>
+              <blockquote class="mt-3 text-slate-200 leading-relaxed grow">
+                “{r.text}”
+              </blockquote>
+              <figcaption class="mt-5 pt-4 border-t border-white/10 text-sm">
+                <span class="text-white font-semibold">{r.name === "Google reviewer" ? "Google review" : r.name}</span>
+                <span class="text-slate-500"> · {r.date}</span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WARNING SIGNS ============ -->
+  <section class="lp-section">
+    <div class="lp-wrap">
+      <div class="lp-head reveal">
+        <h2 class="lp-h2">Light On, New Noise, or Putting Off a Fix?</h2>
+        <p>
+          If something feels off with your car, your Up to $45 Off discount
+          covers diagnostics too — not just the repair after.
+        </p>
+      </div>
+      <div class="mt-12 grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div>
+          <h3 class="lp-h3 mb-5">What brings Elgin drivers into the bay</h3>
+          <ul class="space-y-5">
+            {
+              signs.map((s) => (
+                <li class="flex gap-4 reveal">
+                  <svg class="lp-line-icon mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d={s.icon} />
+                  </svg>
+                  <div>
+                    <strong class="text-white">{s.title}</strong>
+                    <p class="text-slate-400 mt-0.5">{s.body}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+          <div class="mt-8">
+            <h3 class="lp-h3">Know the price before any work starts</h3>
+            <p class="mt-2 text-slate-300">
+              Tell us what's going on with your car in the optional box on the
+              time step. At the shop, the price is confirmed with your $15, $30,
+              or $45 discount before any work begins.
+            </p>
+            <a href="#book" class="lp-btn mt-5">Book &amp; Save Up to $45 →</a>
+          </div>
+        </div>
+        <div class="lp-photo">
+          <img
+            src="/images/services/Queens-Auto-Sevrices-Mechanical-Work-001.webp"
+            alt="Open engine bay during mechanical service inside Queens Auto Service in Elgin"
+            loading="lazy"
+            width="920"
+            height="517"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHAT IT COVERS ============ -->
+  <section class="lp-section">
+    <div class="lp-wrap">
+      <div class="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div class="lp-photo">
+          <img
+            src="/images/services/Auto-Repair-001.webp"
+            alt="Technician working on an engine assembly with a ratchet wrench at Queens Auto Service"
+            loading="lazy"
+            width="800"
+            height="800"
+          />
+        </div>
+        <div>
+          <h2 class="lp-h2">Does Your Repair Qualify? What's Covered &amp; Excluded</h2>
+          <p class="mt-4 text-lg text-slate-300">
+            This is a discount off your final bill, not a fixed price. As the
+            bill goes up, the discount grows with it — so a $300 repair
+            automatically drops by $45.
+          </p>
+          <ul class="mt-6 space-y-3 text-white">
+            {
+              checklist.map((c) => (
+                <li class="flex gap-3">
+                  <span class="lp-check" aria-hidden="true">✓</span>
+                  <span set:html={c} />
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+      <div class="mt-12 grid sm:grid-cols-2 gap-5">
+        {
+          features.map((f) => (
+            <div class="lp-card reveal">
+              <h3 class="lp-h3">{f.title}</h3>
+              <p class="mt-2 text-slate-400 leading-relaxed">{f.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY FIXING EARLY MATTERS ============ -->
+  <section class="lp-section">
+    <div class="lp-wrap">
+      <div class="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div>
+          <h2 class="lp-h2">Why Waiting on a Repair Usually Costs More</h2>
+          <p class="mt-4 text-lg text-slate-300">
+            It's easy to put off a trip to the shop when you're worried about
+            the cost. Taking up to $45 off now helps you handle it before one
+            issue turns into two.
+          </p>
+          <div class="mt-8 space-y-6">
+            {
+              pains.map((p) => (
+                <div class="flex gap-4 reveal">
+                  <svg class="lp-line-icon mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d={p.icon} />
+                  </svg>
+                  <div>
+                    <p class="text-xl font-medium text-white">{p.title}</p>
+                    <p class="text-slate-400 mt-1">{p.body}</p>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+          <p class="mt-10 p-4 rounded-xl border border-[#0a79c8]/50 bg-[#0a79c8]/10 text-white text-center font-medium">
+            <svg class="lp-line-icon inline-block align-text-bottom mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 11V7a5 5 0 0 1 10 0v4m-11 0h12a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2Zm6 4v2" />
+            </svg>
+            24-month / 24,000-mile warranty on most repairs — from our Elgin
+            shop serving drivers since 2007.
+          </p>
+        </div>
+        <div class="lp-photo">
+          <img
+            src="/images/services/Mechanic-inspecting-car-underneath.webp"
+            alt="Technician using an inspection light under a vehicle on a shop lift"
+            loading="lazy"
+            width="600"
+            height="422"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TRUST STRIP ============ -->
+  <section class="lp-section !py-6">
+    <div class="lp-wrap grid sm:grid-cols-3 gap-5 text-center">
+      <div class="lp-card reveal">
+        <p class="lp-stat">{brand.ratingValue}<span class="lp-stars">★</span></p>
+        <h3 class="text-white font-semibold mt-1">Google Rating</h3>
+        <p class="text-sm text-slate-400">From {brand.reviewCount} reviews</p>
+      </div>
+      <div class="lp-card reveal">
+        <p class="lp-stat">2007</p>
+        <h3 class="text-white font-semibold mt-1">Serving Elgin Since</h3>
+        <p class="text-sm text-slate-400">1303 Dundee Ave, Elgin</p>
+      </div>
+      <div class="lp-card reveal">
+        <p class="lp-stat">24/24</p>
+        <h3 class="text-white font-semibold mt-1">Month / Mile Warranty</h3>
+        <p class="text-sm text-slate-400">On most repairs</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="lp-section">
+    <div class="lp-wrap grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div>
+        <h2 class="lp-h2">Your Dundee Ave Auto Shop Since 2007</h2>
+        <p class="mt-4 text-slate-300 text-lg">
+          Queens Auto Service has been at 1303 Dundee Ave in Elgin since 2007,
+          handling repairs, maintenance, and diagnostics with a {brand.ratingValue}★
+          rating across {brand.reviewCount} Google reviews. You book online with
+          no payment up front, and the price is confirmed before any work starts.
+        </p>
+        <ul class="mt-6 space-y-3 text-white">
+          <li class="flex gap-3"><span class="lp-check" aria-hidden="true">✓</span>Price confirmed before any repair work starts</li>
+          <li class="flex gap-3"><span class="lp-check" aria-hidden="true">✓</span>24-month / 24,000-mile warranty on most repairs</li>
+          <li class="flex gap-3"><span class="lp-check" aria-hidden="true">✓</span>Open Mon–Fri 7:30 AM–6 PM · Sat 7:30 AM–4 PM</li>
+        </ul>
+      </div>
+      <!-- real shop photos: the storefront, techs in the bay, front counter -->
+      <div class="ar-mosaic">
+        <figure class="ar-mosaic-shop">
+          <img
+            src="/images/shop/Queens-Auto-Services-Front-Shot.webp"
+            alt="Queens Auto Service storefront at 1303 Dundee Ave, Elgin, IL"
+            loading="lazy"
+            width="1360"
+            height="856"
+          />
+          <figcaption class="ar-mosaic-tag">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z" /></svg>
+            1303 Dundee Ave, Elgin
+          </figcaption>
+        </figure>
+        <img
+          class="ar-mosaic-work"
+          src="/images/services/Queens-Auto-Auto-Repair-002.webp"
+          alt="Queens Auto technicians working on a car raised on a lift inside the Elgin shop"
+          loading="lazy"
+          width="1536"
+          height="1024"
+        />
+        <img
+          class="ar-mosaic-office"
+          src="/images/services/Shop-Office.webp"
+          alt="Inside the Queens Auto Service front counter and service bays in Elgin"
+          loading="lazy"
+          width="900"
+          height="405"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA BAND ============ -->
+  <section class="lp-section">
+    <div class="lp-wrap">
+      <div class="lp-band reveal">
+        <h2 class="lp-h2">Ready to Get Your Car Checked? Take Up to $45 Off.</h2>
+        <p class="mt-4 text-lg text-slate-200 max-w-2xl mx-auto">
+          Spend $100–$199 for $15 off, $200–$299 for $30 off, or $300+ for $45
+          off repairs, maintenance, and diagnostics. No payment online — books in
+          under a minute.
+        </p>
+        <a href="#book" class="lp-btn mt-8">Book &amp; Save Up to $45 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICE AREA ============ -->
+  <section class="lp-section">
+    <div class="lp-wrap grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div>
+        <h2 class="lp-h2">Serving Elgin &amp; Nearby Fox Valley Towns</h2>
+        <div class="w-20 h-1 bg-[#0a79c8] mt-4 mb-6 rounded"></div>
+        <ul class="grid grid-cols-2 gap-x-6 gap-y-3 text-slate-300">
+          {
+            cities.map((c) => (
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#6cafde]"></span>{c}
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-6 text-slate-400">
+          {brand.address}<br />
+          Mon–Fri 7:30 AM – 6:00 PM · Sat 7:30 AM – 4:00 PM
+        </p>
+        <a href={brand.googleMapsUrl} target="_blank" rel="noreferrer" class="lp-btn lp-btn-ghost mt-5">Get Directions to 1303 Dundee Ave</a>
+      </div>
+      <div class="lp-photo">
+        <a href={brand.googleMapsUrl} target="_blank" rel="noreferrer" aria-label="Open Queens Auto Service Elgin in Google Maps">
+          <img
+            src="/images/shop/Queens-Auto-Services-Elgin-Front-View-Shop-001.webp"
+            alt="Front view of Queens Auto Service, 1303 Dundee Ave, Elgin, IL"
+            loading="lazy"
+            width="1200"
+            height="814"
+          />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="lp-section" id="faq">
+    <div class="lp-wrap">
+      <div class="lp-head">
+        <h2 class="lp-h2">Questions About the Up to $45 Off Deal</h2>
+        <p>How the tiers work, what's excluded, and how pricing is confirmed before any work starts.</p>
+      </div>
+      <div class="mt-10 max-w-3xl mx-auto divide-y divide-white/10 border-y border-white/10">
+        {
+          faqs.map((f) => (
+            <details class="lp-faq group">
+              <summary class="flex justify-between items-center gap-4 py-5 cursor-pointer text-lg md:text-xl font-semibold text-white list-none">
+                <span>{f.question}</span>
+                <svg class="w-5 h-5 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              </summary>
+              <p class="pb-5 text-slate-300 leading-relaxed">{f.answer}</p>
+            </details>
+          ))
+        }
+      </div>
+      <div class="mt-10 text-center">
+        <p class="text-slate-300">Prefer to talk it through first? Call Mon–Fri 7:30 AM–6 PM or Sat 7:30 AM–4 PM.</p>
+        <a href={`tel:${phoneDigits}`} class="lp-btn mt-4">Call {brand.phone}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mobile-only sticky bar (hidden >=768px in CSS below) -->
+  <div class="lp-sticky is-hidden" inert>
+    <a href={`tel:${phoneDigits}`} class="lp-sticky-call" aria-label={`Call ${brand.phone}`}>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+    </a>
+    <a href="#book" class="lp-btn lp-btn-sm grow">Book &amp; Save Up to $45</a>
+  </div>
+
+  <script>
+    let stickyObserver: IntersectionObserver | undefined;
+    let revealObserver: IntersectionObserver | undefined;
+
+    function initStickyOffer() {
+      const sticky = document.querySelector<HTMLElement>(".lp-sticky");
+      if (!sticky || !("IntersectionObserver" in window)) return;
+
+      const visible = new Set<Element>();
+      stickyObserver = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.add(entry.target);
+          else visible.delete(entry.target);
+        }
+        const hidden = visible.size > 0;
+        sticky.classList.toggle("is-hidden", hidden);
+        sticky.inert = hidden;
+      });
+      document.querySelectorAll("#book, .ar-quick-offer .lp-btn, .ar-hero-actions").forEach((el) => {
+        stickyObserver?.observe(el);
+      });
+    }
+
+    function initReveals() {
+      const reveals = document.querySelectorAll(".lp-section .reveal");
+      if (!reveals.length || !("IntersectionObserver" in window)) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      revealObserver = new IntersectionObserver((entries, observer) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add("is-revealed");
+          observer.unobserve(entry.target);
+        }
+      });
+      reveals.forEach((el) => revealObserver?.observe(el));
+    }
+
+    document.addEventListener("astro:page-load", () => {
+      initStickyOffer();
+      initReveals();
+    });
+    document.addEventListener("astro:before-swap", () => {
+      stickyObserver?.disconnect();
+      stickyObserver = undefined;
+      revealObserver?.disconnect();
+      revealObserver = undefined;
+    });
+  </script>
+</LandingLayout>
+
+<style is:global>
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* ---------- type ---------- */
+  .lp-h1,
+  .lp-h2,
+  .lp-h3,
+  .lp-stat {
+    font-family: var(--font-display);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+  .lp-h1 {
+    font-size: clamp(2.5rem, 7vw, 4.75rem);
+    font-weight: 800;
+    line-height: 1;
+  }
+  .lp-h2 {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.05;
+  }
+  .lp-h3 {
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+  .lp-stat {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #6cafde;
+  }
+  .lp-grad {
+    background: linear-gradient(to right, #22d3ee, #3b82f6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .lp-head {
+    text-align: center;
+    max-width: 48rem;
+    margin-inline: auto;
+  }
+  .lp-head p {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    color: #cbd5e1;
+  }
+
+  /* ---------- layout ---------- */
+  .lp-section {
+    padding-block: 4rem;
+  }
+  @media (min-width: 768px) {
+    .lp-section {
+      padding-block: 5.5rem;
+    }
+  }
+  .lp-hero {
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(10, 121, 200, 0.28), transparent 70%),
+      #0b1121;
+  }
+  .lp-book {
+    background: linear-gradient(180deg, transparent, rgba(10, 121, 200, 0.08), transparent);
+  }
+
+  /* ---------- eyebrow diagnostic pulse + engine mark ---------- */
+  .ar-symptom {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #e2e8f0;
+  }
+  .ar-symptom-mark {
+    flex: none;
+    width: 3.6em;
+    height: 1.25em;
+    overflow: visible;
+  }
+  .ar-symptom-mark path {
+    fill: none;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .ar-pulse-line {
+    stroke: #6cafde;
+  }
+  .ar-engine-icon path {
+    stroke: #f59e0b;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .ar-symptom-mark path {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: ar-trace 0.65s cubic-bezier(0.33, 0, 0.2, 1) 0.2s forwards;
+    }
+    .ar-engine-icon path {
+      animation-duration: 0.55s;
+      animation-delay: 0.7s;
+    }
+  }
+  @keyframes ar-trace {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* ---------- shared section pieces ---------- */
+  .lp-card {
+    padding: 1.75rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition:
+      border-color 0.25s ease,
+      transform 0.25s ease;
+  }
+  .lp-card:hover {
+    border-color: rgba(10, 121, 200, 0.7);
+    transform: translateY(-3px);
+  }
+  .lp-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1rem;
+    color: #6cafde;
+    background: rgba(10, 121, 200, 0.14);
+  }
+  .lp-line-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    color: #6cafde;
+  }
+  .lp-photo {
+    border-radius: 1.25rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 30px 60px -25px rgba(0, 0, 0, 0.7);
+  }
+  .lp-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* About mosaic: storefront across the top, bay work + front office below */
+  .ar-mosaic {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .ar-mosaic-shop {
+    position: relative;
+    grid-column: 1 / -1;
+    margin: 0;
+    aspect-ratio: 16 / 10;
+  }
+  .ar-mosaic img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 24px 50px -28px rgba(0, 0, 0, 0.8);
+  }
+  .ar-mosaic-work,
+  .ar-mosaic-office {
+    aspect-ratio: 5 / 4;
+  }
+  .ar-mosaic-work {
+    object-position: 40% 35%;
+  }
+  .ar-mosaic-tag {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px 6px 9px;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: rgba(11, 17, 33, 0.78);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .ar-mosaic-tag svg {
+    width: 14px;
+    height: 14px;
+    fill: #22d3ee;
+  }
+
+  .lp-stars {
+    color: #facc15 !important;
+  }
+  .lp-check {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.15rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #04131f;
+    background: #22d3ee;
+  }
+  .lp-band {
+    text-align: center;
+    padding: 3.5rem 1.5rem;
+    border-radius: 1.5rem;
+    background: radial-gradient(ellipse at top, #163052, #0f192d 75%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .lp-faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .lp-faq summary:hover {
+    color: #6cafde;
+  }
+  .lp-faq[open] summary {
+    padding-bottom: 0.75rem;
+  }
+
+  /* ---------- mobile sticky bar ---------- */
+  .lp-sticky {
+    display: none;
+  }
+  @media (max-width: 767px) {
+    .lp-sticky {
+      position: fixed;
+      left: 0.75rem;
+      right: 0.75rem;
+      bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem;
+      border-radius: 9999px;
+      background: rgba(11, 17, 33, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    }
+    .lp-sticky.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .lp-sticky {
+        transition:
+          opacity 200ms cubic-bezier(0.23, 1, 0.32, 1),
+          transform 200ms cubic-bezier(0.23, 1, 0.32, 1);
+      }
+      .lp-sticky.is-hidden {
+        transform: translateY(calc(100% + 0.75rem + env(safe-area-inset-bottom, 0px)));
+      }
+    }
+    .lp-sticky-call {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 9999px;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    #lp-footer {
+      padding-bottom: 4.5rem;
+    }
+  }
+
+  /* ---------- hero layout: copy left, photo stage right on desktop ---------- */
+  .ar-hero-wrap {
+    padding-top: 24px;
+  }
+  .ar-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+  .ar-intro {
+    text-align: center;
+  }
+  .ar-intro .lp-h1 {
+    font-size: clamp(2.4rem, 8.5vw, 3.6rem);
+  }
+  .ar-intro .ar-sub {
+    max-width: 40rem;
+    margin: 14px auto 0;
+    text-wrap: pretty;
+  }
+
+  /* Quick-offer tiers + CTA for mobile/tablet above the fold */
+  .ar-quick-offer {
+    margin-top: 16px;
+  }
+  .ar-quick-tiers {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    max-width: 30rem;
+    margin-inline: auto;
+  }
+  .ar-quick-tier {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 4px;
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .ar-quick-tier.is-top {
+    background: rgba(34, 211, 238, 0.1);
+    border-color: rgba(34, 211, 238, 0.5);
+  }
+  .ar-quick-spend {
+    font-size: clamp(0.6875rem, 2.8vw, 0.78rem);
+    color: #cbd5e1;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .ar-quick-save {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    margin-top: 2px;
+  }
+  .ar-quick-tier.is-top .ar-quick-save {
+    color: #22d3ee;
+  }
+  .ar-quick-scope {
+    margin-top: 8px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #cbd5e1;
+  }
+  .ar-quick-offer .lp-btn {
+    margin-top: 12px;
+  }
+  .ar-reassure {
+    margin-top: 10px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.45;
+    color: #94a3b8;
+    text-wrap: balance;
+  }
+
+  /* Desktop / full offer tiers */
+  .ar-tiers {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .ar-tier {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 12px 10px;
+    border-radius: 0.9rem;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+  }
+  .ar-tier.is-top {
+    background: linear-gradient(180deg, rgba(34, 211, 238, 0.14), rgba(10, 121, 200, 0.1));
+    border-color: rgba(34, 211, 238, 0.55);
+  }
+  .ar-tier-spend {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #cbd5e1;
+  }
+  .ar-tier-save {
+    font-family: var(--font-display);
+    font-size: 1.85rem;
+    font-weight: 800;
+    line-height: 1.05;
+    color: #ffffff;
+    margin-top: 2px;
+  }
+  .ar-tier.is-top .ar-tier-save {
+    color: #22d3ee;
+  }
+  .ar-tier-note {
+    margin-top: 10px;
+    font-size: 0.9375rem;
+    color: #cbd5e1;
+  }
+  .dark .ar-restrictions {
+    background: transparent !important;
+    border: 0 !important;
+  }
+  .ar-hero-actions {
+    margin-top: 18px;
+  }
+  .ar-hero-actions .lp-btn {
+    white-space: nowrap;
+  }
+
+  /* Hero photo stage */
+  .ar-stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1024 / 670;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 30px 60px -25px rgba(0, 0, 0, 0.75);
+    background: radial-gradient(circle at 50% 50%, rgba(10, 121, 200, 0.3), rgba(11, 17, 33, 0.8) 70%);
+  }
+  .ar-stage-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ar-stage-badge {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: rgba(11, 17, 33, 0.82);
+    border: 1px solid rgba(108, 175, 222, 0.35);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+  .ar-stage-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: #22d3ee;
+    box-shadow: 0 0 8px #22d3ee;
+  }
+
+  @media (max-width: 480px) {
+    .ar-hero-grid {
+      gap: 14px;
+    }
+    .ar-intro .lp-h1 {
+      margin-top: 12px;
+    }
+    .ar-intro .ar-sub {
+      font-size: 0.96875rem;
+      line-height: 1.5;
+    }
+    .ar-stage-badge {
+      left: 10px;
+      bottom: 10px;
+      font-size: 0.75rem;
+      padding: 5px 11px;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .ar-offer .ar-tiers,
+    .ar-offer .ar-tier-note {
+      display: none;
+    }
+    .ar-offer .ar-hero-actions {
+      margin-top: 4px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .ar-hero-wrap {
+      padding-top: 22px;
+    }
+    .ar-hero-grid {
+      grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
+      grid-template-rows: max-content 1fr;
+      grid-template-areas:
+        "intro stage"
+        "offer stage";
+      column-gap: 36px;
+      row-gap: 16px;
+      align-items: start;
+    }
+    .ar-intro {
+      grid-area: intro;
+      text-align: left;
+    }
+    .ar-intro .ar-sub {
+      margin-left: 0;
+      font-size: 1.0625rem;
+      line-height: 1.55;
+    }
+    .ar-intro .lp-h1 {
+      margin-top: 12px;
+      font-size: clamp(46px, 4.3vw, 62px);
+    }
+    .ar-quick-offer {
+      display: none;
+    }
+    .ar-offer {
+      grid-area: offer;
+    }
+    .ar-stage {
+      grid-area: stage;
+      align-self: center;
+    }
+    .ar-hero-actions .lp-btn {
+      padding: 14px 20px;
+      font-size: 17px;
+    }
+  }
+
+  /* Content is visible before and after the one-time entrance. */
+  @media (prefers-reduced-motion: no-preference) {
+    .lp-section .reveal.is-revealed {
+      animation: lp-reveal 440ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    @keyframes lp-reveal {
+      from {
+        opacity: 0.8;
+        transform: translateY(12px);
+      }
+    }
+  }
+
+  /* Desktop: the hero fills the first screen below the header and its content sits
+     vertically centred, with equal breathing room above and below. */
+  @media (min-width: 1024px) {
+    .lp-hero {
+      display: flex;
+      align-items: center;
+      min-height: calc(100svh - 82px); /* 82px = landing header height */
+    }
+    .lp-hero > .lp-wrap {
+      width: 100%;
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+  }
+</style>

@@ -20,7 +20,7 @@ export const mobileTiresBrand: BrandConfig = {
     addressLocality: "Elgin",
     addressRegion: "IL",
     postalCode: "60120",
-    ratingValue: "4.5",
-    reviewCount: "147",
+    ratingValue: "4.7",
+    reviewCount: "284",
     shopImage: "/images/shop/Queens-Auto-Services-Elgin-a-view-from-outside.webp",
 };

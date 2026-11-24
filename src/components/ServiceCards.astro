@@ -6,7 +6,8 @@ const services = [
     image: "/images/services/Changing brakes.webp",
     alt: "Professional Brake System Service",
     accent: "text-queens-secondary",
-    link: "https://brakes.queensautoserviceselgin.com/",
+    link: "/brakes",
+    reload: true, // landing page uses its own layout/scripts — do a full page load
     bannerName: "Home Brake Special",
     trackingClass: "brake-banner-link"
   },
@@ -16,17 +17,19 @@ const services = [
     image: "/images/services/Wheel-Alignment-Elgin-001.webp",
     alt: "Wheel Alignment Special Offer",
     accent: "text-queens-secondary",
-    link: "https://wheel-alignment.queensautoserviceselgin.com/",
+    link: "/wheel-alignment",
+    reload: true,
     bannerName: "Home Alignment Special",
     trackingClass: "alignment-banner-link"
   },
   {
     title: "General Repair",
-    subtitle: "$100 OFF SERVICES",
+    subtitle: "UP TO $45 OFF SERVICES",
     image: "/images/services/Queens-Auto-Services-Auto-Repair-Slider-007.webp",
     alt: "General Repair Discount",
     accent: "text-queens-secondary",
-    link: "https://offer.queensautoserviceselgin.com/",
+    link: "/auto-repair-discount",
+    reload: true,
     bannerName: "Home General Repair Special",
     trackingClass: "auto-repair-banner-link"
   }
@@ -53,6 +56,7 @@ const services = [
       {services.map((service) => (
         <a 
           href={service.link}
+          data-astro-reload={service.reload ? "" : undefined}
           class={`special-card group relative aspect-[3/4] rounded-3xl overflow-hidden cursor-pointer block ${service.trackingClass}`}
           data-banner-name={service.bannerName}
         >

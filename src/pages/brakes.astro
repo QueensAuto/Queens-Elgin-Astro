@@ -1,0 +1,1374 @@
+---
+import LandingLayout from "../layouts/LandingLayout.astro";
+import BookingForm from "../components/BookingForm.astro";
+import reviews from "../data/landing-reviews/brakes.json";
+import { mobileTiresBrand as brand } from "../brands";
+
+const title = "$369 Brake Service in Elgin, IL | Queens Auto Service";
+const description =
+  "Brake pads and rotors in Elgin, IL for $369 per axle, with $173 in bonuses and a 24-month / 24,000-mile warranty. Price confirmed before work starts. Book online in under a minute.";
+
+const phoneDigits = brand.phone.replace(/\D/g, "");
+
+const bonuses = [
+  { text: "FREE Tire Rotation", value: "$29 Value" },
+  { text: "FREE Vehicle Safety Inspection", value: "$79 Value" },
+  { text: "FREE Brake Fluid Check & Top-Off", value: "$35 Value" },
+  { text: "50% OFF Oil Change", value: "$30 Value" },
+];
+
+const promises = [
+  {
+    title: "Price Confirmed First",
+    body: "You'll know the price before any work starts. Taxes and shop supplies are extra, and anything unexpected gets its own quote.",
+    icon: "M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z",
+  },
+  {
+    title: "Pads & Rotors, One Axle",
+    body: "Standard brake pads and new rotors on both wheels of one axle (the front pair or the rear pair), installed, on most cars and light trucks.",
+    icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
+  },
+  {
+    title: "$173 in Bonuses",
+    body: "A free tire rotation, safety inspection, and brake fluid check and top-off come with the job, plus 50% off an oil change.",
+    icon: "M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7",
+  },
+  {
+    title: "24/24 Warranty",
+    body: "Your new pads and rotors are covered for 24 months or 24,000 miles, the same warranty we put on most repairs.",
+    icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+  },
+];
+
+const warningIcon = "M10.3 4L2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 4a2 2 0 0 0-3.4 0ZM12 9v4m0 4h.01";
+
+const signs = [
+  {
+    icon: "M11 5 6 9H3v6h3l5 4V5Zm4 4a4 4 0 0 1 0 6m3-9a8 8 0 0 1 0 12",
+    title: "A high squeal every time you stop",
+    body: "Most pads have a small metal tab that squeals once the pad wears thin. A squeal that fades after a few stops on a wet morning is often just surface rust. One that sticks around is the tab.",
+  },
+  {
+    icon: warningIcon,
+    title: "Grinding or scraping",
+    body: "That's usually metal on metal: the pad is worn through and its steel backing is cutting into the rotor. Don't wait on this one.",
+  },
+  {
+    icon: "M7 3h6a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm3 8v7l5 3h4M8 6h4M8 8h4",
+    title: "A pedal that feels soft or sinks lower",
+    body: "If the pedal goes closer to the floor than it used to, it can mean low brake fluid, air in the lines or worn pads.",
+  },
+  {
+    icon: "m3 16 13-13a1 1 0 0 1 1.4 0L21 6.6a1 1 0 0 1 0 1.4L8 21a1 1 0 0 1-1.4 0L3 17.4a1 1 0 0 1 0-1.4Zm10-10 2 2m-5 1 2 2m-5 1 2 2",
+    title: "Shaking, pulling or longer stops",
+    body: "A pulsing pedal or a steering wheel that shakes when you brake often points to worn rotors. Needing more room to stop is a sign too.",
+  },
+];
+
+const features = [
+  {
+    title: "1. Book in under a minute",
+    body: "Your contact and vehicle details, then a time that suits you. There's nothing to pay online.",
+  },
+  {
+    title: "2. Bring it to Dundee Ave",
+    body: "We're at 1303 Dundee Ave, open Mon–Fri 7:30 AM–6 PM and Sat 7:30 AM–4 PM.",
+  },
+  {
+    title: "3. See the price before any work",
+    body: "Your price is confirmed before work starts. If something beyond pads and rotors turns up, it's quoted separately.",
+  },
+  {
+    title: "4. Leave covered, with your bonuses",
+    body: "Your tire rotation, safety inspection and brake fluid check and top-off are free, and the brakes carry a 24-month / 24,000-mile warranty.",
+  },
+];
+
+const checklist = [
+  "<strong>$369 per axle</strong> on most cars and light trucks",
+  "Price confirmed before any work starts",
+  "Taxes and shop supplies listed separately",
+  "Anything unexpected gets its own quote",
+  "Financing available through Snap",
+];
+
+const pains = [
+  {
+    icon: warningIcon,
+    title: "Stopping gets less predictable",
+    body: "Once the pad material is gone, steel is pressing on the rotor. It stops worse, and the noise only gets louder.",
+  },
+  {
+    icon: "M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-5 0a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM12 3v2m0 14v2M3 12h2m14 0h2",
+    title: "The damage can spread past the rotor",
+    body: "Drive on it long enough and the heat and metal can take out more than pads and rotors, like the calipers.",
+  },
+  {
+    icon: "M14 4v16m4-12h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4h-6M3 8h4m-5 4h4m-3 4h4",
+    title: "And that part isn't in the $369",
+    body: "The flat price covers standard pads and rotors. Extra parts and labor are quoted separately, so catching it early keeps the bill closer to $369 per axle.",
+  },
+];
+
+const cities = [
+  "Elgin, IL",
+  "South Elgin, IL",
+  "Carpentersville, IL",
+  "East Dundee, IL",
+  "West Dundee, IL",
+  "Gilberts, IL",
+  "Algonquin, IL",
+  "Huntley, IL",
+  "Hoffman Estates, IL",
+  "Barrington, IL",
+];
+
+const faqs = [
+  {
+    question: "What does $369 per axle cover?",
+    answer:
+      "Standard brake pads and new rotors on both wheels of one axle, either the front pair or the rear pair, on most cars and light trucks. Front and rear together is two axles. Taxes and shop supplies are extra, and any extra parts or labor for problems found along the way are quoted separately. Your price is confirmed before any work starts.",
+  },
+  {
+    question: "Does my car qualify for the $369 brake price?",
+    answer:
+      `Most cars and light trucks do. Luxury and performance models, heavy-duty trucks, and vehicles that need ceramic or specialized parts don't, and the offer can't be combined with other discounts. Not sure about yours? Call ${brand.phone} before you book.`,
+  },
+  {
+    question: "What are the free bonuses?",
+    answer:
+      "With the brake service you get a free tire rotation ($29 value), a free vehicle safety inspection ($79 value), a free brake fluid check and top-off ($35 value), and 50% off an oil change ($30 value). That's $173 in extras.",
+  },
+  {
+    question: "How do I know if I need new brake pads and rotors?",
+    answer:
+      `Listen first. A squeal that won't go away usually means the pads' wear tab is touching the rotor. Grinding usually means the pad is worn through. A soft or sinking pedal, shaking when you brake, or a brake warning light are worth checking too. If you're not sure, call ${brand.phone} and tell us what you're hearing.`,
+  },
+  {
+    question: "Can I keep driving on grinding brakes?",
+    answer:
+      "You can, but not for long. Grinding usually means metal on metal, which makes stopping less reliable and can damage parts beyond the pads and rotors, and those extra parts aren't in the $369 price. Book soon, and leave extra room to stop until then.",
+  },
+  {
+    question: "Is there a warranty on brake service?",
+    answer:
+      "Yes. Your brake pads and rotors are covered by a 24-month / 24,000-mile warranty, the same coverage we put on most repairs.",
+  },
+  {
+    question: "Do I have to pay when I book? Can I pay over time?",
+    answer:
+      "This is an online-exclusive offer, so book through this page to claim it. No payment is taken online. Booking takes under a minute, and your price is confirmed before any work starts. If you'd like to spread out the cost, financing is available through Snap.",
+  },
+];
+---
+
+<LandingLayout title={title} description={description} brand={brand} faqData={faqs} reviewData={reviews}>
+  <!-- ============ HERO ============ -->
+  <section class="lp-hero">
+    <div class="lp-wrap bk-hero-wrap pb-14 md:pb-20">
+      <div class="bk-hero-grid">
+      <div class="bk-intro">
+        <p class="bk-symptom">
+          <!-- a brake "recording": smooth running, then the grind -->
+          <svg class="bk-symptom-wave" viewBox="0 0 60 20" aria-hidden="true" focusable="false">
+            <path class="bk-wave-calm" pathLength="1" d="M1 10 C4 5.5 7 5.5 10 10 S16 14.5 19 10 S25 5.5 28 10" />
+            <path class="bk-wave-grind" pathLength="1" d="M28 10 L30.2 4 L32.2 16 L34.6 2.5 L36.6 17.5 L39 3.5 L41 16.5 L43.4 5 L45.4 15 L47.8 6.5 L49.8 13.5 L52.2 8 L54.2 12 L56.6 9.2 L59 10" />
+          </svg>
+          <span>Squealing or grinding brakes?</span>
+        </p>
+        <h1 class="lp-h1 mt-6">
+          New Brake Pads &amp; Rotors in Elgin — <span class="lp-grad">$369 Per Axle</span>
+        </h1>
+        <p class="bk-sub text-lg md:text-xl text-slate-300">
+          Quality pads and rotors installed by our Elgin techs and backed by a
+          24-month / 24,000-mile warranty — so you know the price before we
+          start, and you won't pay for the same brakes twice.
+        </p>
+        <div class="bk-quick-offer">
+          <p>$369 per axle · pads &amp; rotors · $173 in bonuses</p>
+          <a href="#book" class="lp-btn">Book My $369 Brakes →</a>
+          <p class="bk-reassure"><strong style="color:#22d3ee;font-weight:700">Online&nbsp;exclusive</strong> · No&nbsp;payment&nbsp;online · Book&nbsp;in&nbsp;under&nbsp;a&nbsp;minute · Price&nbsp;confirmed&nbsp;before&nbsp;work&nbsp;starts</p>
+        </div>
+      </div>
+
+        <!-- Interactive 3D brake assembly (progressive enhancement: the photo is the fallback) -->
+        <div class="bk-stage" id="brake-stage" data-ready="false">
+          <img
+            class="bk-poster"
+            src="/images/brakes/Queens-Auto-Brake-Repair-Before-and-After-0001.webp"
+            alt="Worn brake rotor before and new brake rotor after service"
+            width="1080"
+            height="783"
+            fetchpriority="high"
+          />
+          <canvas
+            class="bk-canvas"
+            role="img"
+            aria-label="Interactive 3D model of a disc brake: vented rotor, caliper, pads and hub"
+          ></canvas>
+          <div class="bk-labels" aria-hidden="true">
+            <span class="bk-marker" data-part="rotor"><span class="bk-label">Vented rotor</span></span>
+            <span class="bk-marker" data-part="pads"><span class="bk-label">Brake pads</span></span>
+            <span class="bk-marker" data-part="caliper"><span class="bk-label">Caliper</span></span>
+            <span class="bk-marker" data-part="hub"><span class="bk-label">Hub &amp; studs</span></span>
+          </div>
+          <button type="button" class="bk-toggle" id="brake-explode" aria-pressed="false">
+            <span class="bk-toggle-off">Exploded view</span>
+            <span class="bk-toggle-on">Assemble</span>
+          </button>
+          <p class="bk-hint" aria-hidden="true">Drag to rotate &nbsp;·&nbsp; Press &amp; hold to brake</p>
+        </div>
+
+        <div class="bk-offer">
+          <ul class="bk-bonuses">
+            <li class="flex items-start gap-3 text-white font-semibold">
+              <span class="lp-check" aria-hidden="true">✓</span>
+              $369 Per Axle — Quality Pads &amp; Rotors
+            </li>
+            {
+              bonuses.map((b, i) => (
+                <li class="flex items-start gap-3">
+                  <span class="lp-plus" aria-hidden="true">+</span>
+                  <span>
+                    <strong class="text-white">Bonus {i + 1}:</strong> {b.text}{" "}
+                    <span class="text-slate-400">({b.value})</span>
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+
+          <div class="bk-hero-actions flex flex-col sm:flex-row gap-3">
+            <a href="#book" class="lp-btn">Book My $369 Brakes →</a>
+            <a href={`tel:${phoneDigits}`} class="lp-btn lp-btn-ghost">Call {brand.phone}</a>
+          </div>
+          <p class="bk-reassure"><strong style="color:#22d3ee;font-weight:700">Online&nbsp;exclusive</strong> · No&nbsp;payment&nbsp;online · Book&nbsp;in&nbsp;under&nbsp;a&nbsp;minute · Price&nbsp;confirmed&nbsp;before&nbsp;work&nbsp;starts</p>
+
+          <p class="mt-6 flex items-center gap-2 text-sm text-slate-400">
+            <span class="lp-stars tracking-wide" aria-hidden="true">★★★★★</span>
+            <span><strong class="text-white">{brand.ratingValue}</strong> on Google from {brand.reviewCount} reviews · Serving Elgin since 2007</span>
+          </p>
+
+          <details class="bk-restrictions mt-4 text-xs text-slate-400">
+            <summary class="cursor-pointer inline">
+              Restrictions apply. <span class="underline text-white font-semibold">See details</span>
+            </summary>
+            <p class="mt-2 max-w-md leading-relaxed">
+              Online-exclusive offer: book through this page to claim it.
+              Brake special of $369 applies per axle for most cars and light
+              trucks and includes standard brake pads and rotors. Excludes
+              luxury/performance models, heavy-duty trucks, and vehicles
+              requiring specialized or ceramic parts. Cannot be combined with
+              other discounts. Price excludes taxes, shop supplies, and any
+              additional parts or labor required for unforeseen issues (quoted
+              separately). See store for full details.
+            </p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROMISE ============ -->
+  <section class="lp-section">
+    <div class="lp-wrap">
+      <div class="lp-head reveal">
+        <h2 class="lp-h2">What's in the $369 Brake Service</h2>
+        <p>
+          One price per axle for brake pads and rotors, four extras on top, and
+          no guessing what you'll owe. Here's exactly what you're paying for.
+        </p>
+      </div>
+      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {
+          promises.map((p) => (
+            <div class="lp-card text-center reveal">
+              <div class="lp-icon mx-auto">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d={p.icon} />
+                </svg>
+              </div>
+              <h3 class="lp-h3 mt-5">{p.title}</h3>
+              <p class="mt-2 text-sm text-slate-400 leading-relaxed">{p.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BOOKING FORM ============ -->
+  <section id="book" class="lp-section lp-book">
+    <div class="lp-wrap">
+      <BookingForm
+        fullDark
+        presetService="Brakes"
+        promoCode="brakes_369"
+        step1TitleHighlight="Secure Your Spot"
+        step1Description="Step 1 of 2 — Your contact and vehicle details."
+        step3Description="Step 2 of 2 — Pick your preferred time."
+      />
+    </div>
+  </section>
+
+  <!-- ============ REVIEWS ============ -->
+  <section class="lp-section" id="reviews">
+    <div class="lp-wrap">
+      <div class="lp-head reveal">
+        <h2 class="lp-h2">What <span class="lp-grad">Elgin Drivers</span> Say</h2>
+        <p>
+          {brand.ratingValue} stars from {brand.reviewCount} Google reviews.
+          A few of them, in their own words.
+        </p>
+      </div>
+      <div class="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {
+          reviews.map((r) => (
+            <figure class="lp-card reveal flex flex-col">
+              <div class="lp-stars" aria-label={`${r.stars} out of 5 stars`}>
+                {"★".repeat(r.stars)}
+              </div>
+              <blockquote class="mt-3 text-slate-200 leading-relaxed grow">
+                “{r.text}”
+              </blockquote>
+              <figcaption class="mt-5 pt-4 border-t border-white/10 text-sm">
+                <span class="text-white font-semibold">{r.name === "Google reviewer" ? "Google review" : r.name}</span>
+                <span class="text-slate-500"> · {r.date}</span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHEN TO REPLACE ============ -->
+  <section class="lp-section">
+    <div class="lp-wrap">
+      <div class="lp-head reveal">
+        <h2 class="lp-h2">Signs Your Brake Pads and Rotors Are Worn</h2>
+        <p>
+          Brakes rarely quit without warning. You'll usually hear it first,
+          then feel it in the pedal.
+        </p>
+      </div>
+      <div class="mt-12 grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div>
+          <h3 class="lp-h3 mb-5">What you might be noticing</h3>
+          <ul class="space-y-5">
+            {
+              signs.map((s) => (
+                <li class="flex gap-4 reveal">
+                  <svg class="lp-line-icon mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d={s.icon} />
+                  </svg>
+                  <div>
+                    <strong class="text-white">{s.title}</strong>
+                    <p class="text-slate-400 mt-0.5">{s.body}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+          <div class="mt-8">
+            <h3 class="lp-h3">Sound familiar?</h3>
+            <p class="mt-2 text-slate-300">
+              Book a time online. The $369 covers pads and rotors on the axle
+              that needs them, and you'll see the price before any work starts.
+            </p>
+            <a href="#book" class="lp-btn mt-5">Book $369 Brake Service →</a>
+          </div>
+        </div>
+        <div class="lp-photo">
+          <img
+            src="/images/brakes/Worned-out-brake-pads-vs-New-pads.webp"
+            alt="Worn-out brake pads compared with new brake pads"
+            loading="lazy"
+            width="2528"
+            height="1696"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXPERT SERVICE ============ -->
+  <section class="lp-section">
+    <div class="lp-wrap">
+      <div class="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div class="lp-photo">
+          <img
+            src="/images/brakes/disc-brake-service-mechanic-elgin-il.webp"
+            alt="Queens Auto mechanic servicing a disc brake in Elgin, IL"
+            loading="lazy"
+            width="1024"
+            height="1024"
+          />
+        </div>
+        <div>
+          <h2 class="lp-h2">Brake Service in Elgin Without the Surprise Bill</h2>
+          <p class="mt-4 text-lg text-slate-300">
+            The worry with any brake job is the counter: you came in for one
+            price and leave with another. Here's how pricing works on this one.
+            Luxury and performance models, heavy-duty trucks, and ceramic or
+            specialized parts aren't part of the $369, so
+            call {brand.phone} if you're not sure about your car.
+          </p>
+          <ul class="mt-6 space-y-3 text-white">
+            {
+              checklist.map((c) => (
+                <li class="flex gap-3">
+                  <span class="lp-check" aria-hidden="true">✓</span>
+                  <span set:html={c} />
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+      <div class="mt-12 grid sm:grid-cols-2 gap-5">
+        {
+          features.map((f) => (
+            <div class="lp-card reveal">
+              <h3 class="lp-h3">{f.title}</h3>
+              <p class="mt-2 text-slate-400 leading-relaxed">{f.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY IT MATTERS ============ -->
+  <section class="lp-section">
+    <div class="lp-wrap">
+      <div class="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div>
+          <h2 class="lp-h2">What Happens If You Keep Driving on Grinding Brakes?</h2>
+          <p class="mt-4 text-lg text-slate-300">
+            A squeal is a warning. Grinding means the warning period is over.
+          </p>
+          <div class="mt-8 space-y-6">
+            {
+              pains.map((p) => (
+                <div class="flex gap-4 reveal">
+                  <svg class="lp-line-icon mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d={p.icon} />
+                  </svg>
+                  <div>
+                    <p class="text-xl font-medium text-white">{p.title}</p>
+                    <p class="text-slate-400 mt-1">{p.body}</p>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+          <p class="mt-10 p-4 rounded-xl border border-[#0a79c8]/50 bg-[#0a79c8]/10 text-white text-center font-medium">
+            <svg class="lp-line-icon inline-block align-text-bottom mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 11V7a5 5 0 0 1 10 0v4m-11 0h12a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2Zm6 4v2" />
+            </svg>
+            Fix it now and your new pads and rotors are covered for 24 months
+            or 24,000 miles.
+          </p>
+        </div>
+        <div class="lp-photo">
+          <img
+            src="/images/brakes/damaged-brake-rotor-elgin-mechanic.webp"
+            alt="Damaged, scored brake rotor"
+            loading="lazy"
+            width="1500"
+            height="1500"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TRUST STRIP ============ -->
+  <section class="lp-section !py-6">
+    <div class="lp-wrap grid sm:grid-cols-3 gap-5 text-center">
+      <div class="lp-card reveal">
+        <p class="lp-stat">{brand.ratingValue}<span class="lp-stars">★</span></p>
+        <h3 class="text-white font-semibold mt-1">Google Rating</h3>
+        <p class="text-sm text-slate-400">From {brand.reviewCount} reviews</p>
+      </div>
+      <div class="lp-card reveal">
+        <p class="lp-stat">2007</p>
+        <h3 class="text-white font-semibold mt-1">Serving Elgin Since</h3>
+        <p class="text-sm text-slate-400">At 1303 Dundee Ave</p>
+      </div>
+      <div class="lp-card reveal">
+        <p class="lp-stat">24/24</p>
+        <h3 class="text-white font-semibold mt-1">Month / Mile Warranty</h3>
+        <p class="text-sm text-slate-400">On most repairs, brakes included</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="lp-section">
+    <div class="lp-wrap grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div>
+        <h2 class="lp-h2">An Elgin Repair Shop Since 2007</h2>
+        <p class="mt-4 text-slate-300 text-lg">
+          Queens Auto Service has been fixing cars at 1303 Dundee Ave since
+          2007. You don't have to take our word for the rest:
+          {brand.reviewCount} drivers have reviewed us on Google, and
+          we're at {brand.ratingValue} stars. Brakes, tires, oil changes and everyday repairs all happen
+          under one roof.
+        </p>
+        <ul class="mt-6 space-y-3 text-white">
+          <li class="flex gap-3"><span class="lp-check" aria-hidden="true">✓</span>Price confirmed before work starts</li>
+          <li class="flex gap-3"><span class="lp-check" aria-hidden="true">✓</span>Open Monday to Saturday from 7:30 AM</li>
+          <li class="flex gap-3"><span class="lp-check" aria-hidden="true">✓</span>24-month / 24,000-mile warranty on most repairs</li>
+        </ul>
+      </div>
+      <!-- real shop photos: the storefront, a brake job in progress, the tire wall -->
+      <div class="bk-mosaic">
+        <figure class="bk-mosaic-shop">
+          <img
+            src="/images/shop/Queens-Auto-Services-Front-Shot.webp"
+            alt="Queens Auto Service storefront at 1303 Dundee Ave, Elgin, IL"
+            loading="lazy"
+            width="1360"
+            height="856"
+          />
+          <figcaption class="bk-mosaic-tag">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z" /></svg>
+            1303 Dundee Ave, Elgin
+          </figcaption>
+        </figure>
+        <img
+          class="bk-mosaic-work"
+          src="/images/services/Queens-Auto-Auto-Repair-002.webp"
+          alt="Two Queens technicians working on a car's wheel hub and brake rotor on a lift"
+          loading="lazy"
+          width="1536"
+          height="1024"
+        />
+        <img
+          class="bk-mosaic-tires"
+          src="/images/services/Queens-Auto-Auto-Repair-004.webp"
+          alt="The tire wall inside the Queens Auto Service shop"
+          loading="lazy"
+          width="1536"
+          height="1024"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA BAND ============ -->
+  <section class="lp-section">
+    <div class="lp-wrap">
+      <div class="lp-band reveal">
+        <h2 class="lp-h2">Tired of hearing it every time you stop?</h2>
+        <p class="mt-4 text-lg text-slate-200 max-w-2xl mx-auto">
+          $369 per axle for pads and rotors, $173 in bonuses, and the price
+          confirmed before work starts. Booking takes under a minute, and
+          there's nothing to pay online.
+        </p>
+        <a href="#book" class="lp-btn mt-8">Book $369 Brake Service →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICE AREA ============ -->
+  <section class="lp-section">
+    <div class="lp-wrap grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div>
+        <h2 class="lp-h2">Brake Service for Elgin &amp; Nearby Towns</h2>
+        <div class="w-20 h-1 bg-[#0a79c8] mt-4 mb-6 rounded"></div>
+        <ul class="grid grid-cols-2 gap-x-6 gap-y-3 text-slate-300">
+          {
+            cities.map((c) => (
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#6cafde]"></span>{c}
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-6 text-slate-400">
+          {brand.address}<br />
+          Mon–Fri 7:30 am – 6:00 pm · Sat 7:30 am – 4:00 pm
+        </p>
+        <a href={brand.googleMapsUrl} target="_blank" rel="noreferrer" class="lp-btn lp-btn-ghost mt-5">Get Directions</a>
+      </div>
+      <div class="lp-photo">
+        <a href={brand.googleMapsUrl} target="_blank" rel="noreferrer" aria-label="Open Queens Auto Service Elgin in Google Maps">
+          <img
+            src="/images/shop/Queens-Auto-Services-Elgin-Front-View-Shop-001.webp"
+            alt="Front view of Queens Auto Service, 1303 Dundee Ave, Elgin, IL"
+            loading="lazy"
+            width="1200"
+            height="814"
+          />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="lp-section" id="faq">
+    <div class="lp-wrap">
+      <div class="lp-head">
+        <h2 class="lp-h2">Brake Pads &amp; Rotors in Elgin: Your Questions</h2>
+        <p>Straight answers before you book.</p>
+      </div>
+      <div class="mt-10 max-w-3xl mx-auto divide-y divide-white/10 border-y border-white/10">
+        {
+          faqs.map((f) => (
+            <details class="lp-faq group">
+              <summary class="flex justify-between items-center gap-4 py-5 cursor-pointer text-lg md:text-xl font-semibold text-white list-none">
+                <span>{f.question}</span>
+                <svg class="w-5 h-5 shrink-0 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              </summary>
+              <p class="pb-5 text-slate-300 leading-relaxed">{f.answer}</p>
+            </details>
+          ))
+        }
+      </div>
+      <div class="mt-10 text-center">
+        <p class="text-slate-300">Still not sure? Call Mon–Fri 7:30 AM–6 PM or Sat 7:30 AM–4 PM.</p>
+        <a href={`tel:${phoneDigits}`} class="lp-btn mt-4">Call {brand.phone}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mobile-only sticky bar (hidden >=768px in CSS below) -->
+  <div class="lp-sticky is-hidden" inert>
+    <a href={`tel:${phoneDigits}`} class="lp-sticky-call" aria-label={`Call ${brand.phone}`}>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+    </a>
+    <a href="#book" class="lp-btn lp-btn-sm grow">Claim $369 Brake Offer</a>
+  </div>
+
+  <script>
+    // Lazy-load the 3D scene when the hero stage is near the viewport.
+    let brakeDispose: (() => void) | null = null;
+    let stickyObserver: IntersectionObserver | undefined;
+    let revealObserver: IntersectionObserver | undefined;
+
+    function initBrakeStage() {
+      const stage = document.getElementById("brake-stage");
+      if (!stage || stage.dataset.mounted) return;
+      stage.dataset.mounted = "true";
+
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const toggle = document.getElementById("brake-explode");
+
+      // The display's own frame interval (30 Hz in Low Power Mode / Energy Saver),
+      // sampled while the scene downloads so the quality governor can tell a
+      // capped screen from a slow GPU.
+      const measureRefresh = () =>
+        new Promise<number>((resolve) => {
+          const gaps: number[] = [];
+          let prev = 0;
+          const pick = () => (gaps.length ? gaps.sort((a, b) => a - b)[Math.floor(gaps.length / 4)] : 1000 / 60);
+          const tick = (now: number) => {
+            if (prev) gaps.push(now - prev);
+            prev = now;
+            if (gaps.length < 12) requestAnimationFrame(tick);
+            else resolve(pick());
+          };
+          requestAnimationFrame(tick);
+          setTimeout(() => resolve(pick()), 500);
+        });
+
+      const load = async () => {
+        try {
+          const refresh = measureRefresh();
+          const { mountBrakeScene } = await import("../scripts/brake-scene");
+          const handle = mountBrakeScene(stage, { reducedMotion: reduced, refreshMs: await refresh });
+          if (!handle) return; // no WebGL → poster stays
+          brakeDispose = handle.dispose;
+          toggle?.addEventListener("click", () => {
+            const on = toggle.getAttribute("aria-pressed") !== "true";
+            toggle.setAttribute("aria-pressed", String(on));
+            handle.setExploded(on);
+          });
+        } catch (err) {
+          console.warn("3D brake scene unavailable:", err);
+        }
+      };
+
+      if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            if (entries[0].isIntersecting) {
+              io.disconnect();
+              load();
+            }
+          },
+          { rootMargin: "300px" },
+        );
+        io.observe(stage);
+      } else {
+        load();
+      }
+    }
+
+    function initStickyOffer() {
+      const sticky = document.querySelector<HTMLElement>(".lp-sticky");
+      if (!sticky || !("IntersectionObserver" in window)) return;
+
+      const visible = new Set<Element>();
+      stickyObserver = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.add(entry.target);
+          else visible.delete(entry.target);
+        }
+        const hidden = visible.size > 0;
+        sticky.classList.toggle("is-hidden", hidden);
+        sticky.inert = hidden;
+      });
+      document.querySelectorAll("#book, .bk-quick-offer .lp-btn, .bk-hero-actions").forEach((el) => {
+        stickyObserver?.observe(el);
+      });
+    }
+
+    function initReveals() {
+      const reveals = document.querySelectorAll(".lp-section .reveal");
+      if (!reveals.length || !("IntersectionObserver" in window)) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      revealObserver = new IntersectionObserver((entries, observer) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add("is-revealed");
+          observer.unobserve(entry.target);
+        }
+      });
+      reveals.forEach((el) => revealObserver?.observe(el));
+    }
+
+    document.addEventListener("astro:page-load", () => {
+      initBrakeStage();
+      initStickyOffer();
+      initReveals();
+    });
+    document.addEventListener("astro:before-swap", () => {
+      brakeDispose?.();
+      brakeDispose = null;
+      stickyObserver?.disconnect();
+      stickyObserver = undefined;
+      revealObserver?.disconnect();
+      revealObserver = undefined;
+    });
+  </script>
+</LandingLayout>
+
+<style is:global>
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* ---------- type ---------- */
+  .lp-h1,
+  .lp-h2,
+  .lp-h3,
+  .lp-stat {
+    font-family: var(--font-display);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+  .lp-h1 {
+    font-size: clamp(2.5rem, 7vw, 4.75rem);
+    font-weight: 800;
+    line-height: 1;
+  }
+  .lp-h2 {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.05;
+  }
+  .lp-h3 {
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+  .lp-stat {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #6cafde;
+  }
+  .lp-grad {
+    background: linear-gradient(to right, #22d3ee, #3b82f6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .lp-head {
+    text-align: center;
+    max-width: 48rem;
+    margin-inline: auto;
+  }
+  .lp-head p {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    color: #cbd5e1;
+  }
+
+  /* ---------- layout ---------- */
+  .lp-section {
+    padding-block: 4rem;
+  }
+  @media (min-width: 768px) {
+    .lp-section {
+      padding-block: 5.5rem;
+    }
+  }
+  .lp-hero {
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(10, 121, 200, 0.28), transparent 70%),
+      #0b1121;
+  }
+  .lp-book {
+    background: linear-gradient(180deg, transparent, rgba(10, 121, 200, 0.08), transparent);
+  }
+
+  /* ---------- pieces ---------- */
+  /* Hero eyebrow: the symptom, led by a little sound trace that turns from a
+     smooth running wave into the grind (red = the caliper's red, brightened). */
+  .bk-symptom {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #e2e8f0;
+  }
+  .bk-symptom-wave {
+    flex: none;
+    width: 3.5em;
+    height: 1.2em;
+    overflow: visible;
+  }
+  .bk-symptom-wave path {
+    fill: none;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .bk-wave-calm {
+    stroke: #7d8ba1;
+  }
+  .bk-wave-grind {
+    stroke: #f0524a;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    /* drawn once on load: steady running, then the grind kicks in */
+    .bk-symptom-wave path {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: bk-trace 0.6s cubic-bezier(0.33, 0, 0.2, 1) 0.25s forwards;
+    }
+    .bk-symptom-wave .bk-wave-grind {
+      animation-duration: 0.45s;
+      animation-timing-function: linear;
+      animation-delay: 0.85s;
+    }
+  }
+  @keyframes bk-trace {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  .lp-card {
+    padding: 1.75rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition:
+      border-color 0.25s ease,
+      transform 0.25s ease;
+  }
+  .lp-card:hover {
+    border-color: rgba(10, 121, 200, 0.7);
+    transform: translateY(-3px);
+  }
+  .lp-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1rem;
+    color: #6cafde;
+    background: rgba(10, 121, 200, 0.14);
+  }
+  .lp-line-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    color: #6cafde;
+  }
+  .lp-photo {
+    border-radius: 1.25rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 30px 60px -25px rgba(0, 0, 0, 0.7);
+  }
+  .lp-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  /* About: storefront across the top, a brake job + the tire wall below */
+  .bk-mosaic {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .bk-mosaic-shop {
+    position: relative;
+    grid-column: 1 / -1;
+    margin: 0;
+    aspect-ratio: 16 / 10;
+  }
+  .bk-mosaic img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 24px 50px -28px rgba(0, 0, 0, 0.8);
+  }
+  .bk-mosaic-work,
+  .bk-mosaic-tires {
+    aspect-ratio: 5 / 4;
+  }
+  .bk-mosaic-work {
+    object-position: 38% 30%; /* keep the hub and rotor in frame */
+  }
+  .bk-mosaic-tag {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px 6px 9px;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: rgba(11, 17, 33, 0.78);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .bk-mosaic-tag svg {
+    width: 14px;
+    height: 14px;
+    fill: #22d3ee;
+  }
+  .lp-stars {
+    color: #facc15 !important;
+  }
+  .lp-check,
+  .lp-plus {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.15rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+  .lp-check {
+    color: #04131f;
+    background: #22d3ee;
+  }
+  .lp-plus {
+    color: #6cafde;
+    background: rgba(10, 121, 200, 0.18);
+    font-size: 1rem;
+  }
+  .lp-band {
+    text-align: center;
+    padding: 3.5rem 1.5rem;
+    border-radius: 1.5rem;
+    background: radial-gradient(ellipse at top, #163052, #0f192d 75%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .lp-faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .lp-faq summary:hover {
+    color: #6cafde;
+  }
+  .lp-faq[open] summary {
+    padding-bottom: 0.75rem;
+  }
+
+  .lp-sticky {
+    display: none;
+  }
+  @media (max-width: 767px) {
+    .lp-sticky {
+      position: fixed;
+      left: 0.75rem;
+      right: 0.75rem;
+      bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem;
+      border-radius: 9999px;
+      background: rgba(11, 17, 33, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    }
+    .lp-sticky.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .lp-sticky {
+        transition: opacity 200ms cubic-bezier(0.23, 1, 0.32, 1),
+          transform 200ms cubic-bezier(0.23, 1, 0.32, 1);
+      }
+      .lp-sticky.is-hidden {
+        transform: translateY(calc(100% + 0.75rem + env(safe-area-inset-bottom, 0px)));
+      }
+    }
+    .lp-sticky-call {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 9999px;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+  /* keep the footer clear of the sticky bar on phones */
+  @media (max-width: 767px) {
+    #lp-footer {
+      padding-bottom: 4.5rem;
+    }
+  }
+
+
+
+  /* ---------- hero layout: copy left, 3D right on desktop ---------- */
+  .bk-hero-wrap {
+    padding-top: 28px;
+  }
+  .bk-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .bk-intro {
+    text-align: center;
+  }
+  .bk-intro .bk-sub {
+    max-width: 40rem;
+    margin: 16px auto 0;
+  }
+  .bk-intro .lp-h1 {
+    font-size: clamp(2.5rem, 9vw, 3.75rem);
+  }
+  .bk-quick-offer {
+    margin-top: 16px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #e2e8f0;
+  }
+  .bk-quick-offer .lp-btn {
+    margin-top: 10px;
+  }
+  /* reassurance microcopy right under the primary CTA */
+  .bk-reassure {
+    margin-top: 10px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.45;
+    color: #94a3b8;
+    text-wrap: balance;
+  }
+  .bk-intro .bk-sub {
+    text-wrap: pretty; /* no one-word last line */
+  }
+  .bk-bonuses {
+    display: grid;
+    gap: 12px;
+    font-size: 1.125rem;
+  }
+  .dark .bk-restrictions {
+    background: transparent !important;
+    border: 0 !important;
+  }
+  .bk-hero-actions {
+    margin-top: 24px;
+  }
+  .bk-hero-actions .lp-btn {
+    white-space: nowrap;
+  }
+  @media (max-width: 480px) {
+    .bk-hero-grid {
+      gap: 12px;
+    }
+    .bk-intro .lp-h1 {
+      margin-top: 16px;
+    }
+    .bk-intro .bk-sub {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+  }
+  @media (min-width: 1024px) {
+    .bk-hero-wrap {
+      padding-top: 24px;
+    }
+    .bk-hero-grid {
+      grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
+      grid-template-rows: max-content 1fr;
+      grid-template-areas:
+        "intro stage"
+        "offer stage";
+      column-gap: 32px;
+      row-gap: 16px;
+      align-items: start;
+    }
+    .bk-intro {
+      grid-area: intro;
+      text-align: left;
+    }
+    .bk-intro .bk-sub {
+      margin-left: 0;
+      font-size: 18px;
+    }
+    .bk-intro .lp-h1 {
+      margin-top: 16px;
+      font-size: clamp(48px, 4.5vw, 64px);
+    }
+    .bk-quick-offer {
+      display: none;
+    }
+    .bk-bonuses {
+      gap: 8px;
+      font-size: 17px;
+    }
+    .bk-hero-actions {
+      margin-top: 18px;
+    }
+    .bk-hero-actions .lp-btn {
+      padding: 14px 20px;
+      font-size: 17px;
+    }
+    .bk-offer {
+      grid-area: offer;
+    }
+  }
+  .bk-stage:not([data-ready="true"]) .bk-labels {
+    visibility: hidden;
+  }
+
+  /* ---------- 3D hero stage ---------- */
+  .bk-stage {
+    position: relative;
+    width: 100%;
+    min-height: min(92vw, 440px);
+    aspect-ratio: 1 / 1;
+    max-height: 640px;
+    border-radius: 1.5rem;
+    isolation: isolate;
+    touch-action: pan-y; /* vertical swipes still scroll the page */
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: grab;
+    background:
+      radial-gradient(circle at 50% 52%, rgba(10, 121, 200, 0.38), rgba(10, 121, 200, 0.08) 48%, transparent 72%);
+  }
+  @media (width < 1024px) {
+    .bk-stage {
+      min-height: 0;
+      max-height: 300px;
+    }
+  }
+  @media (768px <= width < 1024px) {
+    .bk-stage {
+      max-height: 400px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .bk-stage {
+      grid-area: stage;
+      align-self: start;
+      position: sticky;
+      top: 5.5rem;
+    }
+  }
+  .bk-stage.is-pressing {
+    cursor: grabbing;
+  }
+  .bk-poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: opacity 0.9s ease;
+    z-index: 0;
+  }
+  .bk-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.9s ease;
+    outline: none;
+  }
+  .bk-stage[data-ready="true"] .bk-canvas {
+    opacity: 1;
+  }
+  .bk-stage[data-ready="true"] .bk-poster {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .bk-labels {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .bk-marker,
+  .bk-label {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .bk-marker {
+    opacity: 0;
+  }
+  .bk-marker::before {
+    content: "";
+    position: absolute;
+    width: 0.5rem;
+    height: 0.5rem;
+    transform: translate(-50%, -50%);
+    border-radius: 9999px;
+    background: #22d3ee;
+    box-shadow: 0 0 10px #22d3ee;
+  }
+  .bk-label {
+    white-space: nowrap;
+    padding: 0.3rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    background: rgba(11, 17, 33, 0.82);
+    border: 1px solid rgba(108, 175, 222, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .bk-toggle {
+    position: absolute;
+    top: 0.9rem;
+    right: 0.9rem;
+    z-index: 3;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(11, 17, 33, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    cursor: pointer;
+    display: none;
+  }
+  .bk-stage[data-ready="true"] .bk-toggle {
+    display: inline-flex;
+  }
+  .bk-toggle:hover {
+    border-color: #6cafde;
+  }
+  .bk-toggle-on {
+    display: none;
+  }
+  .bk-toggle[aria-pressed="true"] .bk-toggle-on {
+    display: inline;
+  }
+  .bk-toggle[aria-pressed="true"] .bk-toggle-off {
+    display: none;
+  }
+  .bk-hint {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.9rem;
+    z-index: 2;
+    text-align: center;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: #94a3b8;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s ease 1.2s;
+  }
+  .bk-stage[data-ready="true"] .bk-hint {
+    opacity: 1;
+  }
+  @media (max-width: 480px) {
+    .bk-label {
+      font-size: 0.7rem;
+    }
+  }
+
+  /* Content is visible before and after the one-time entrance. */
+  @media (prefers-reduced-motion: no-preference) {
+    .lp-section .reveal.is-revealed {
+      animation: lp-reveal 440ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    @keyframes lp-reveal {
+      from {
+        opacity: 0.8;
+        transform: translateY(12px);
+      }
+    }
+  }
+
+  /* Desktop: the hero fills the first screen below the header and its content sits
+     vertically centred, with equal breathing room above and below. */
+  @media (min-width: 1024px) {
+    .lp-hero {
+      display: flex;
+      align-items: center;
+      min-height: calc(100svh - 82px); /* 82px = landing header height */
+    }
+    .lp-hero > .lp-wrap {
+      width: 100%;
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+  }
+</style>
