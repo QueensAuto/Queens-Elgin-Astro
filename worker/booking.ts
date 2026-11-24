@@ -57,6 +57,23 @@ function offerFor(service: string) {
   return OFFERS[service.toLowerCase()] ?? { label: service || "Service appointment", lead: "service", noun: "service", voice: "service" };
 }
 
+/**
+ * BOOKING_OWNER_EMAIL may list several lead recipients, comma-separated
+ * ("a@gmail.com, b@gmail.com"). Invalid entries and duplicates are dropped.
+ */
+function parseRecipients(value: string | undefined): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const raw of (value || "").split(",")) {
+    const addr = raw.trim();
+    const key = addr.toLowerCase();
+    if (!EMAIL_RE.test(addr) || seen.has(key)) continue;
+    seen.add(key);
+    out.push(addr);
+  }
+  return out;
+}
+
 const NAVY = "#0b1121";
 const BLUE = "#0a79c8";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -213,9 +230,9 @@ export async function handleBooking(request: Request, env: BookingEnv): Promise<
   }
 
   const apiKey = env.RESEND_API_KEY;
-  const ownerEmail = env.BOOKING_OWNER_EMAIL;
+  const ownerEmails = parseRecipients(env.BOOKING_OWNER_EMAIL);
   const fromEmail = env.BOOKING_FROM_EMAIL;
-  if (!apiKey || !ownerEmail || !fromEmail) {
+  if (!apiKey || !ownerEmails.length || !fromEmail) {
     return json({ ok: false, error: `Online booking isn't available right now. Please call us at ${SHOP.phone}.` }, 503);
   }
 
@@ -266,7 +283,7 @@ export async function handleBooking(request: Request, env: BookingEnv): Promise<
 
   const ownerResult = await sendResendEmail(apiKey, {
     from: fromEmail,
-    to: [ownerEmail],
+    to: ownerEmails,
     reply_to: email,
     subject: `New ${offer.lead} booking: ${fullName} — ${vehicle}, ${when}`,
     html: emailShell(

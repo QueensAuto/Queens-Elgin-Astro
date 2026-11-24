@@ -187,3 +187,20 @@ test("an unknown service falls back to a neutral description", async () => {
   assert.match(sent[0].subject, /New service booking/);
   assert.doesNotMatch(sent[1].text, /\$369|\$35|\$45/);
 });
+
+test("BOOKING_OWNER_EMAIL can list several comma-separated recipients", async () => {
+  await handleBooking(post(VALID), { ...ENV, BOOKING_OWNER_EMAIL: " a@example.com, b@example.com ,c@example.com," });
+  assert.deepEqual(sent[0].to, ["a@example.com", "b@example.com", "c@example.com"]);
+  assert.deepEqual(sent[1].to, ["maria@example.com"], "customer confirmation still goes only to the customer");
+});
+
+test("invalid or duplicate owner addresses are dropped", async () => {
+  await handleBooking(post(VALID), { ...ENV, BOOKING_OWNER_EMAIL: "a@example.com, not-an-email, A@example.com, b@example.com" });
+  assert.deepEqual(sent[0].to, ["a@example.com", "b@example.com"]);
+});
+
+test("an owner list with no valid address counts as not configured", async () => {
+  const res = await handleBooking(post(VALID), { ...ENV, BOOKING_OWNER_EMAIL: " , nope" });
+  assert.equal(res.status, 503);
+  assert.equal(sent.length, 0);
+});
