@@ -18,7 +18,6 @@ const {
   description = "",
   brand: propBrand,
   faqData,
-  reviewData,
   noindex = false,
   canonical: canonicalOverride,
 } = Astro.props;
@@ -125,7 +124,6 @@ const year = new Date().getFullYear();
       title={title}
       description={description}
       faqData={faqData}
-      reviewData={reviewData}
     />
     <ClientRouter />
     {/* noindex pages get no markdown twin */}
