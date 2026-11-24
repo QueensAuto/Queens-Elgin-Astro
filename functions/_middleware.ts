@@ -55,7 +55,7 @@ export const onRequest = async ({ request, next, env }: Ctx): Promise<Response> 
   }
 
   const res = await next();
-  if (!(res.headers.get('content-type') || '').includes('text/html')) return res;
+  if (!res.ok || !(res.headers.get('content-type') || '').includes('text/html')) return res;
   return withHeaders(res, {
     Vary: 'Accept',
     Link: `<${mdPath}>; rel="alternate"; type="text/markdown", </llms.txt>; rel="describedby"; type="text/markdown"`,

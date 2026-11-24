@@ -124,7 +124,8 @@ const year = new Date().getFullYear();
       reviewData={reviewData}
     />
     <ClientRouter />
-    <MarkdownAlternate />
+    {/* noindex pages get no markdown twin */}
+    {!noindex && <MarkdownAlternate />}
     <slot name="head" />
   </head>
   <body

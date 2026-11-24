@@ -10,7 +10,7 @@ export const mobileTiresBrand: BrandConfig = {
     primaryColor: "#0b1121", // queens-primary from tailwind config
     accentColor: "#0e79c9", // queens-secondary from tailwind config
     phone: "(224) 635-3000",
-    email: "info@queensautoserviceselgin.com",
+    email: "service@queensautoservices.com",
     address: "1303 Dundee Ave, Elgin, IL 60120",
     cityLabel: "Professional Auto Service – Elgin, IL",
     googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=1303+Dundee+Ave+Elgin+IL+60120",

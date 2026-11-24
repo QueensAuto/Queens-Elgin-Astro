@@ -29,6 +29,8 @@ const {
 const brand: BrandConfig = propBrand || mobileTiresBrand;
 
 const currentPath = Astro.url.pathname;
+// Pages excluded from markdown twins (agentMarkdown exclude in astro.config.mjs; 404 always).
+const hasMarkdownTwin = !/^\/(404|customer-details|schedule-|thank-you)/.test(currentPath);
 // Check if we are on a service SUB-PAGE (e.g. /services/brakes)
 // We want to exclude the main archive page (/services) which needs the white header.
 const isServicesArchive =
@@ -165,7 +167,7 @@ const isServiceSubPage =
       reviewData={reviewData}
     />
     <ClientRouter />
-    <MarkdownAlternate />
+    {hasMarkdownTwin && <MarkdownAlternate />}
     <script is:inline define:vars={{ forceDarkTheme }}>
       const applyTheme = () => {
         if (forceDarkTheme) {
