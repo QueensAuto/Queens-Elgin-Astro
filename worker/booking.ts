@@ -63,7 +63,7 @@ function offerFor(service: string) {
  * BOOKING_OWNER_EMAIL may list several lead recipients, comma-separated
  * ("a@gmail.com, b@gmail.com"). Invalid entries and duplicates are dropped.
  */
-function parseRecipients(value: string | undefined): string[] {
+export function parseRecipients(value: string | undefined): string[] {
   const seen = new Set<string>();
   const out: string[] = [];
   for (const raw of (value || "").split(",")) {
@@ -114,7 +114,7 @@ function formatDate(iso: string): string | null {
   return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 }
 
-function json(body: Record<string, unknown>, status = 200): Response {
+export function json(body: Record<string, unknown>, status = 200): Response {
   return new Response(JSON.stringify(body), {
     status,
     headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" },

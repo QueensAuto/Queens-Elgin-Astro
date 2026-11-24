@@ -1,3 +1,5 @@
+import { json, parseRecipients } from "./booking.ts";
+
 /** POST /api/contact — forwards a visitor message to the shop through Resend. */
 export interface ContactEnv {
   RESEND_API_KEY?: string;
@@ -16,20 +18,6 @@ interface ContactPayload {
 const PHONE = "(224) 635-3000";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-function json(body: Record<string, unknown>, status = 200): Response {
-  return new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" } });
-}
-
-function parseRecipients(value?: string): string[] {
-  const seen = new Set<string>();
-  return (value || "").split(",").map((raw) => raw.trim()).filter((addr) => {
-    const key = addr.toLowerCase();
-    if (!EMAIL_RE.test(addr) || seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-}
-
 function escapeHtml(value: string): string {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
@@ -41,7 +29,7 @@ export async function handleContact(request: Request, env: ContactEnv): Promise<
   if (!raw || typeof raw !== "object") return json({ ok: false, error: "Invalid request format." }, 400);
   if (typeof raw.website === "string" && raw.website.trim()) return json({ ok: true });
 
-  const name = typeof raw.name === "string" ? raw.name.trim() : "";
+  const name = typeof raw.name === "string" ? raw.name.replace(/[\r\n\t]+/g, " ").trim() : "";
   const email = typeof raw.email === "string" ? raw.email.trim() : "";
   const phone = typeof raw.phone === "string" ? raw.phone.trim().slice(0, 40) : "";
   const message = typeof raw.message === "string" ? raw.message.trim() : "";

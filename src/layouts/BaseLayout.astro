@@ -14,7 +14,7 @@ import type { BrandConfig } from "../brands";
 import { mobileTiresBrand } from "../brands";
 
 const {
-  title = "Queens Mobile Tires",
+  title = "Queens Auto Service",
   description = "We come to you.",
   brand: propBrand,
   headerInverse = false,
@@ -23,12 +23,16 @@ const {
   reviewData,
   forceDarkTheme = false,
   forceDarkHeader = false,
+  noindex = false,
+  canonical: canonicalOverride,
 } = Astro.props;
 
 // Use provided brand or default to mobile tires brand
 const brand: BrandConfig = propBrand || mobileTiresBrand;
 
 const currentPath = Astro.url.pathname;
+const canonicalPath = currentPath.endsWith("/") ? currentPath : `${currentPath}/`;
+const canonicalUrl = canonicalOverride || `https://queensautoserviceselgin.com${canonicalPath}`;
 // Pages excluded from markdown twins (agentMarkdown exclude in astro.config.mjs; 404 always).
 const hasMarkdownTwin = !/^\/(404|customer-details|schedule-|thank-you)/.test(currentPath);
 // Check if we are on a service SUB-PAGE (e.g. /services/brakes)
@@ -45,6 +49,8 @@ const isServiceSubPage =
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/png" href="/favicon.png" />
 
     <!-- Google Tag Manager (deferred)

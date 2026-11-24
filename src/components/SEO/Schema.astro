@@ -320,11 +320,6 @@ const websiteSchema = {
     publisher: {
         "@id": `https://${brand.domain}/#organization`,
     },
-    potentialAction: {
-        "@type": "SearchAction",
-        target: `https://${brand.domain}/search?q={search_term_string}`,
-        "query-input": "required name=search_term_string",
-    },
 };
 
 // ───────────────────────────────────────────────────────
