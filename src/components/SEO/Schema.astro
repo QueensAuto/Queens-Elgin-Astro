@@ -73,10 +73,11 @@ const localBusinessSchema = isHomepage
           },
           geo: {
               "@type": "GeoCoordinates",
-              latitude: brand.latitude || 42.0615014,
-              longitude: brand.longitude || -88.2652443,
+              latitude: brand.latitude || 42.0614847,
+              longitude: brand.longitude || -88.265253,
           },
-          hasMap: brand.googleMapsUrl,
+          // Google Business Profile listing (cid) for this exact location.
+          hasMap: "https://www.google.com/maps?cid=16735607402701983816",
           openingHoursSpecification: [
               {
                   "@type": "OpeningHoursSpecification",
@@ -100,6 +101,7 @@ const localBusinessSchema = isHomepage
           sameAs: [
               "https://www.facebook.com/queensautoservice/",
               "https://www.instagram.com/queensautoservice/",
+              "https://www.google.com/maps?cid=16735607402701983816",
           ],
           priceRange: "$$",
           aggregateRating: {
