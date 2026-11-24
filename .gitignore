@@ -28,3 +28,6 @@ pnpm-debug.log*
 worker/.wrangler/
 .dev.vars
 worker/.dev.vars
+
+# Local QA artifacts
+.qa/

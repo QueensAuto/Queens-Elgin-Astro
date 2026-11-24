@@ -89,10 +89,10 @@ const faqs = [
                                         Email
                                     </p>
                                     <a
-                                        href="mailto:info@queensautoservices.com"
+                                        href="mailto:service@queensautoservices.com"
                                         class="text-white font-medium hover:text-queens-secondary transition-colors"
                                     >
-                                        info@queensautoservices.com
+                                        service@queensautoservices.com
                                     </a>
                                 </div>
                             </div>
@@ -207,6 +207,10 @@ const faqs = [
                         Send us a message
                     </h2>
                     <form id="contact-form" class="space-y-6">
+                        <div class="contact-honeypot" aria-hidden="true">
+                            <label for="website">Website</label>
+                            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+                        </div>
                         <div>
                             <label
                                 for="name"
@@ -237,7 +241,7 @@ const faqs = [
                                 id="email"
                                 required
                                 class="contact-input"
-                                placeholder="john@example.com"
+                                placeholder="name@email.com"
                             />
                         </div>
 
@@ -291,7 +295,7 @@ const faqs = [
                             document.getElementById("contact-feedback");
 
                         if (contactForm) {
-                            contactForm.addEventListener("submit", (e) => {
+                            contactForm.addEventListener("submit", async (e) => {
                                 e.preventDefault();
 
                                 // Reset feedback
@@ -305,29 +309,29 @@ const faqs = [
                                     "text-amber-600",
                                 );
 
-                                // Loading state
                                 const originalBtnText = contactSubmit.innerHTML;
                                 contactSubmit.disabled = true;
                                 contactSubmit.innerHTML = `<span>Processing...</span>`;
-
-                                // Webhook submission removed due to spam
-                                console.log(
-                                    "Form submission disabled. Please contact via phone or email.",
-                                );
-
-                                // Feedback for UI
-                                setTimeout(() => {
-                                    contactFeedback.textContent =
-                                        "Form submissions are temporarily disabled due to high spam volume. Please call us at (224) 635-3000 or email info@queensautoservices.com";
-                                    contactFeedback.classList.add(
-                                        "bg-amber-500/10",
-                                        "text-amber-600",
-                                    );
-                                    contactFeedback.classList.remove("hidden");
+                                const formData = new FormData(contactForm);
+                                try {
+                                    const response = await fetch("/api/contact", {
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify(Object.fromEntries(formData.entries())),
+                                    });
+                                    const result = await response.json();
+                                    if (!response.ok || result.ok !== true) throw new Error(result.error || "We couldn't send your message. Please call (224) 635-3000.");
+                                    contactFeedback.textContent = "Thanks — your message has been sent.";
+                                    contactFeedback.classList.add("bg-green-500/10", "text-green-600");
                                     contactForm.reset();
+                                } catch (error) {
+                                    contactFeedback.textContent = error instanceof Error ? error.message : "We couldn't send your message. Please call (224) 635-3000.";
+                                    contactFeedback.classList.add("bg-red-500/10", "text-red-600");
+                                } finally {
+                                    contactFeedback.classList.remove("hidden");
                                     contactSubmit.disabled = false;
                                     contactSubmit.innerHTML = originalBtnText;
-                                }, 800);
+                                }
                             });
                         }
                     </script>
@@ -439,6 +443,8 @@ const faqs = [
         color: #0a79c8;
         flex-shrink: 0;
     }
+
+    .contact-honeypot { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
     .contact-input {
         display: block;
