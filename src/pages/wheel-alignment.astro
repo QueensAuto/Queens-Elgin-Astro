@@ -11,7 +11,7 @@ const phoneDigits = brand.phone.replace(/\D/g, "");
 const bookingLabel = "Request a Time & Save $35";
 const bookingNote = "Two steps to request a time. No payment online.";
 const finePrint =
-  "Offer available for most vehicles for a limited time. Additional adjustments or parts may cost extra. Some restrictions may apply.";
+  "Online-exclusive offer: book through this page to claim it. Offer available for most vehicles for a limited time. Additional adjustments or parts may cost extra. Some restrictions may apply.";
 
 const offerHighlights = [
   "$35 comes off your final alignment price",
@@ -117,7 +117,7 @@ const faqs = [
   {
     question: "How do I get the $35 discount?",
     answer:
-      `Request a time through the two-step form on this page. There’s no payment online. For questions about whether the offer applies to your vehicle, call ${brand.phone}.`,
+      `This is an online-exclusive offer, so request a time through the two-step form on this page to claim it. There’s no payment online. For questions about whether the offer applies to your vehicle, call ${brand.phone}.`,
   },
 ];
 ---
@@ -146,7 +146,7 @@ const faqs = [
                 <a href="#book" class="lp-btn">{bookingLabel}</a>
                 <a href={`tel:${phoneDigits}`} class="lp-btn lp-btn-ghost">Call {brand.phone}</a>
               </div>
-              <p class="alignment-reassure">{bookingNote}</p>
+              <p class="alignment-reassure"><Fragment set:html={`<strong style="color:#22d3ee;font-weight:700">Online&nbsp;exclusive</strong> · `} />{bookingNote}</p>
             </div>
           </div>
 
@@ -174,7 +174,7 @@ const faqs = [
                 <a href="#book" class="lp-btn">{bookingLabel}</a>
                 <a href={`tel:${phoneDigits}`} class="lp-btn lp-btn-ghost">Call {brand.phone}</a>
               </div>
-              <p class="alignment-reassure">{bookingNote}</p>
+              <p class="alignment-reassure"><Fragment set:html={`<strong style="color:#22d3ee;font-weight:700">Online&nbsp;exclusive</strong> · `} />{bookingNote}</p>
             </div>
             <p class="alignment-rating mt-5 flex items-center gap-2 text-sm text-slate-400">
               <span class="lp-stars tracking-wide" aria-hidden="true">★★★★★</span>
